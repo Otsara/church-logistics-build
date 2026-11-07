@@ -16,7 +16,7 @@ Decided on Nov 4: build Prepped and SpareWing in parallel, use Lovable for scree
 6. Offline storage and sync.
 7. Demo script, evaluation run and the 5-minute video.
 
-The Nov 7 decision rule still applies. The product without a confirmed reviewer is frozen at step 3 and not polished.
+Both products build in parallel to step 7. The Nov 7 rule sets Prepped as the default submission: it is chosen unless a SpareWing aviation contact confirms the pain. SpareWing is not polished past step 3 until that happens.
 
 ## Shared foundation
 
@@ -45,7 +45,7 @@ The rules table values are starting points. A pharmacist must check them before 
 | --- | --- |
 | Donor | id, name, type (hospital, pharmacy, clinic), state |
 | Lot | id, donor id, generic name, strength, form, quantity, lot number, expiry date (date), storage, controlled (yes/no), cold chain (yes/no), source line |
-| Trip | id, destination country, arrival date, team size, clinician types, expected patients |
+| Trip | id, destination country, arrival date, team size, clinician types, expected patients, import permit obtained (yes/no) |
 | Need | trip id, item category, target quantity, priority (1–3) |
 | Match | lot id, trip id, quantity, days remaining at arrival, status (eligible, blocked, needs review), reason |
 | Rule card | country, import permit required, ministry letter required, restricted classes, notes, source link, verified date, verified by |
@@ -73,7 +73,7 @@ Every list of parts, pilots and lead times is entered by the program. The tool n
 | Base | id, name, road access (yes/no), connectivity note |
 | Aircraft | id, tail number, type, base id, status (flying, grounded, in maintenance), grounded since |
 | Part | id, part number, listed alternate part numbers, description, base id, quantity, serviceable (yes/no) |
-| Pilot | id (names stay out of AI calls), base id, ratings, currency dates, availability windows |
+| Pilot | id, name (stored locally only, never sent to AI), base id, ratings, currency dates, availability windows |
 | Community | id, name, base id, flights per week, flight days |
 | Transfer mode | from base, to base, mode (air, mail, road), entered lead time in days |
 | Disruption | id, type (part or pilot), aircraft or pilot id, start date, expected end |
@@ -112,7 +112,7 @@ Each case becomes an automated test. The numbers below are worked so the expecte
 2. S-2: Given no stock and no alternate, then the result says no candidates were found, to ask a human, and shows any entered order lead time.
 3. S-3: Given a pilot whose entered currency lapsed, then the pilot is excluded with the reason shown.
 4. S-4: Given a pilot with no availability data, then the pilot shows as "unknown", not excluded.
-5. S-5: Given a community with flights on Tuesday and Friday and a five-day grounding starting Monday, then two missed flights are reported.
+5. S-5: Given a community with flights on Tuesday and Friday and a five-day grounding starting Monday (Monday to Friday counts as five days inclusive), then two missed flights are reported.
 6. S-6: Given a transfer mode with no entered lead time, then the ETA shows "unverified".
 7. S-7: Given a part marked not serviceable, then it never appears.
 
