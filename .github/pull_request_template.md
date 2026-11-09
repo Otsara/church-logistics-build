@@ -17,6 +17,7 @@ Open questions this depends on or closes: Q-n / none
 - [ ] Every new or changed test starts its title with the spec IDs it verifies, for example `[P-1]`
 - [ ] `pnpm check` passes, and `pnpm trace:update` was run with `docs/TRACEABILITY.md` committed
 - [ ] Spec changes bump the version and add a revision history row; no ID was renumbered or reused
+- [ ] If the spec changed, the "Build spec" tab of the specs doc on claude.ai was updated to match
 - [ ] A closed question records the decision, the date and who decided
 - [ ] Eligibility, candidate and readiness logic is only in `packages/core`; no AI step decides them
 - [ ] AI steps validate against a schema, retry once, fall back to manual entry, replace names with ids and log the call

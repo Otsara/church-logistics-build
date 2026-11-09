@@ -27,4 +27,7 @@ describe("Prepped acceptance", () => {
   it.todo(
     "[P-8] Given the arrival date moves 30 days later, then eligibility recalculates without calling any AI step",
   );
+  it.todo(
+    '[P-9] Given a lot marked cold chain that would otherwise be eligible (expiring 2028-01-15, trip arriving 2026-12-01), then it is blocked with the reason "cold-chain items are not handled in this build"',
+  );
 });

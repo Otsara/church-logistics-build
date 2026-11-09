@@ -37,6 +37,7 @@ The full build spec is in `docs/BUILD_SPEC.md`. Read it before starting any task
 10. Before finishing, run `pnpm trace:update` and `pnpm check`. Both must pass. Report new warnings and any open question the work depends on.
 11. Never close an open question (Q-n) without a decision from the owner in the conversation. Record the decision, the date and who decided.
 12. Write the toolchain, tests and code fresh for this build. Do not copy configuration, code or templates from earlier projects (Q-19).
+13. Keep the specs doc in step with the repo (owner instruction, 2026-11-09). Whenever `docs/BUILD_SPEC.md` changes, update the "Build spec" tab of the specs doc (https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg) to match it in the same session, version and status included. The repo copy governs; never edit the doc first.
 
 ## Branches
 Work on a branch named for its stream and topic, merge to `main` by pull request only, with the owner's agreement:
@@ -48,7 +49,7 @@ Work on a branch named for its stream and topic, merge to `main` by pull request
 Parallel streams stay inside their own folders. The root `package.json`, `pnpm-lock.yaml`, `docs/BUILD_SPEC.md` and `CLAUDE.md` are shared: change them in small, separate commits, and after a merge regenerate `pnpm-lock.yaml` with `pnpm install` and the matrix with `pnpm trace:update` rather than merging them by hand.
 
 ## Open questions
-`docs/BUILD_SPEC.md` lists open questions Q-1 to Q-19. At the start of each task, check which ones affect it and say so. Do not guess an answer to an open question in code; ask the owner.
+`docs/BUILD_SPEC.md` lists open questions Q-1 to Q-19 (Q-10 is closed). At the start of each task, check which ones affect it and say so. Do not guess an answer to an open question in code; ask the owner.
 
 ## Definition of done
 - All acceptance tests in `docs/BUILD_SPEC.md` pass, and `pnpm check:trace --strict` passes.
