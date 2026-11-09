@@ -1,6 +1,6 @@
 # Build spec for Claude Code
 
-Version: 0.3 · Status: Draft
+Version: 0.4 · Status: Draft
 
 Exported from the "Build spec" tab of the specs doc (https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg). If this file and the doc disagree, this file governs the build. Update it here first.
 
@@ -85,7 +85,7 @@ The rules table values are starting points. A pharmacist must check them before 
 - **PE-1** Days remaining at arrival = expiry date minus trip arrival date.
 - **PE-2** Default minimum is 12 months remaining at arrival, taken from WHO guidance. A rule can lower it for a direct donation, set per item category in `/rules/shelf-life.json`.
 - **PE-3** Controlled substances are always blocked.
-- **PE-4** Cold-chain items are blocked unless the trip is marked able to receive them.
+- **PE-4** Cold-chain items are always blocked in this build, whatever their expiry, so they stay visible with a reason instead of disappearing. Cold-chain donations are expected to be rare, and leaving them out keeps the build simple (Q-10, closed). Earlier wording: "blocked unless the trip is marked able to receive them".
 - **PE-5** A lot with no expiry date is "needs review" and does not count toward readiness.
 
 **Readiness meter:**
@@ -138,6 +138,7 @@ Each case becomes an automated test. The numbers below are worked so the expecte
 - **P-6** (traces to PR-1): Given a target of 200 courses and 150 eligible, then item coverage is 75%.
 - **P-7** (traces to AI-P1): Given two donor lines with the same lot number and generic name, then they merge into one lot with summed quantity.
 - **P-8** (traces to PE-1, AR-3): Given the arrival date moves 30 days later, then eligibility recalculates without calling any AI step.
+- **P-9** (traces to PE-4): Given a lot marked cold chain that would otherwise be eligible (expiring 2028-01-15, trip arriving 2026-12-01), then it is blocked with the reason "cold-chain items are not handled in this build". Added in v0.4.
 
 **SpareWing**
 
@@ -204,7 +205,7 @@ Each question is written as `(open)` until it is answered. To close one, record 
 These gaps block exact tests or leave a rule untestable. Each needs a decision before the stream that owns it can finish.
 
 - **Q-9** (open) **Meaning of "12 months".** Is the minimum counted in calendar months from the arrival date, or as a fixed number of days (for example 365)? Does a lot that reaches exactly the minimum pass? P-1 and P-2 pass either way, but lots near the boundary do not. No acceptance test covers the per-category lowering. Affects PE-2, P-1, P-2. Owner: pharmacist, with Q-2.
-- **Q-10** (open) **Cold-chain capability.** The Trip entity has no field saying whether the trip can receive cold-chain items, so PE-4 has nothing to check, and no acceptance test covers PE-4. Proposal: add "can receive cold chain (yes/no)" to Trip and an acceptance test for PE-4. Affects PE-4.
+- **Q-10** (closed 2026-11-09, decided by the owner) **Cold-chain capability.** The Trip entity had no field saying whether a trip can receive cold-chain items. Decision: trips could choose to carry cold-chain items, but such donations seem unlikely, so for simplicity this build excludes cold-chain items. PE-4 now blocks every cold-chain lot, no Trip field is added, and P-9 tests it. Affects PE-4, P-9.
 - **Q-11** (open) **Merging donor lines.** The merge rule exists only in P-7. Do lines merge when the lot number and generic name match but strength, form, expiry or donor differ? Does the merge run in core (deterministic) or in AI-P1? CLAUDE.md rule 2 points to core. Affects P-7, AI-P1.
 - **Q-12** (open) **Missing documents in the draft.** P-5 expects the document draft to list the missing permit, but drafts come from AI-P2, which tests must not call and which can fail. Proposal: core computes the list of missing documents, and both the AI draft and the blank template include it. Affects P-5, PR-2, AI-P2.
 - **Q-13** (open) **Readiness levels.** Only "Not ready" is named. What are the other levels and the thresholds between them, and which documents count toward document completion? Affects PR-1, PR-2.
@@ -252,3 +253,4 @@ Both products match a supply to a need under constraints and time windows, so a 
 | 0.1 | 2026-11-07 | First export from the specs doc (commit 40092de) | Owner, drafted with Claude |
 | 0.2 | 2026-11-07 | Review questions resolved: build status, permit flag, pilot names, S-5 counting (commit 0e1ba11) | Owner, drafted with Claude |
 | 0.3 | 2026-11-09 | Traceability section; permanent IDs for foundation decisions (F), rules (PE, PR, SC, SI, AR), AI steps (renamed P1 to S3 as AI-P1 to AI-S3, to avoid confusion with acceptance tests P-1 to S-7) and open questions (Q-1 to Q-8); trace links on every acceptance test; gap questions Q-9 to Q-18 and the reminder to close them; Q-19 on the hackathon's rules for prior work, with the link to the rules and submission page; `packages/store` proposed in F-2 for offline storage and sync; revision history. No rule wording changed. | Claude, for owner review |
+| 0.4 | 2026-11-09 | Q-10 closed by the owner: cold-chain items are excluded from this build. PE-4 reworded to block every cold-chain lot; acceptance test P-9 added. | Owner decision, recorded by Claude |
