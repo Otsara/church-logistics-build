@@ -1,0 +1,13 @@
+{
+  "name": "@church-logistics/store",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "Offline-first storage and sync (F-6, F-7). Proposed in BUILD_SPEC v0.3; the storage choice is open (Q-1).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@church-logistics/core": "workspace:*"
+  }
+}

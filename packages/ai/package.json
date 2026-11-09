@@ -1,0 +1,14 @@
+{
+  "name": "@church-logistics/ai",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "One typed function per AI step, schema-validated, one retry, then manual entry (F-8, AR-1 to AR-6).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@church-logistics/core": "workspace:*",
+    "zod": "4.6.7"
+  }
+}
