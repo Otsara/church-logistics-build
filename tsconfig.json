@@ -1,0 +1,25 @@
+{
+  // One type-check for the whole workspace. Settings chosen for docs/TOOLCHAIN.md.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+
+    // Missing data must never silently pass (SC-4, PE-5): make undefined visible everywhere.
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["packages/*/src", "packages/*/tests", "vitest.config.ts"]
+}
