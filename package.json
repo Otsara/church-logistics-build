@@ -1,0 +1,33 @@
+{
+  "name": "church-logistics-build",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "Prepped and SpareWing: ministry logistics apps on one shared core (docs/BUILD_SPEC.md)",
+  "type": "module",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run && node --test \"tools/*.test.mjs\"",
+    "test:coverage": "vitest run --coverage && node --test \"tools/*.test.mjs\"",
+    "check:trace": "node tools/check-trace.mjs",
+    "trace:update": "node tools/check-trace.mjs --update",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm check:trace"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@types/node": "26.6.5",
+    "@vitest/coverage-v8": "4.1.12",
+    "eslint": "9.39.5",
+    "globals": "17.13.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vitest": "4.1.12"
+  }
+}

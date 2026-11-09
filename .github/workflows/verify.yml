@@ -1,0 +1,55 @@
+# Keeps Prepped and SpareWing honest against docs/BUILD_SPEC.md on every pull request.
+name: Verify against the build spec
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      submission_gate:
+        description: "Also run the strict submission gate (fails on placeholders, untested rules and open questions)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install exact locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Formatting
+        run: pnpm format:check
+      - name: Lint, including the spec rules in eslint.config.mjs
+        run: pnpm lint
+      - name: Types
+        run: pnpm typecheck
+      - name: Tests, with 100% coverage of packages/core
+        run: pnpm test:coverage
+      - name: Traceability against docs/BUILD_SPEC.md
+        run: pnpm check:trace
+      - name: Known vulnerabilities in dependencies
+        run: pnpm audit --audit-level high
+
+  submission-gate:
+    if: github.event_name == 'workflow_dispatch' && inputs.submission_gate
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Strict traceability (every acceptance test real, every rule tested, every question closed)
+        run: pnpm check:trace --strict
