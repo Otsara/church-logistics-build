@@ -15,6 +15,7 @@ The full build spec is in `docs/BUILD_SPEC.md`. Read it before starting any task
 - tools/check-trace.mjs: checks the spec against the tests
 - docs/TRACEABILITY.md: generated matrix of spec items, tests and open questions
 - docs/TOOLCHAIN.md: why each tool and setting is here
+- docs/SUBMISSION.md: hackathon submission checklist (H-1 to H-7), ticked with evidence
 
 ## Commands
 - install: `pnpm install`
@@ -49,9 +50,9 @@ Work on a branch named for its stream and topic, merge to `main` by pull request
 Parallel streams stay inside their own folders. The root `package.json`, `pnpm-lock.yaml`, `docs/BUILD_SPEC.md` and `CLAUDE.md` are shared: change them in small, separate commits, and after a merge regenerate `pnpm-lock.yaml` with `pnpm install` and the matrix with `pnpm trace:update` rather than merging them by hand.
 
 ## Open questions
-`docs/BUILD_SPEC.md` lists open questions Q-1 to Q-19 (Q-10 is closed). At the start of each task, check which ones affect it and say so. Do not guess an answer to an open question in code; ask the owner.
+`docs/BUILD_SPEC.md` lists open questions Q-1 to Q-21 (Q-10, Q-19 and Q-20 are closed). At the start of each task, check which ones affect it and say so. Do not guess an answer to an open question in code; ask the owner.
 
 ## Definition of done
-- All acceptance tests in `docs/BUILD_SPEC.md` pass, and `pnpm check:trace --strict` passes.
+- All acceptance tests in `docs/BUILD_SPEC.md` pass, every line of `docs/SUBMISSION.md` is ticked with its evidence, and `pnpm check:trace --strict` passes.
 - The app works with the network off, apart from AI steps.
 - Rules files cite a source link and a verified date.

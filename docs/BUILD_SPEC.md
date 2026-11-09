@@ -1,6 +1,6 @@
 # Build spec for Claude Code
 
-Version: 0.4 · Status: Draft
+Version: 0.5 · Status: Draft
 
 Exported from the "Build spec" tab of the specs doc (https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg). If this file and the doc disagree, this file governs the build. Update it here first.
 
@@ -12,6 +12,7 @@ Every rule, decision, AI step, acceptance test and open question in this file ha
 
 | Prefix | Item | Defined in |
 | --- | --- | --- |
+| `H-n` | Hackathon submission requirement | Hackathon submission requirements |
 | `F-n` | Shared foundation decision | Shared foundation |
 | `PE-n` | Prepped eligibility rule | Prepped |
 | `PR-n` | Prepped readiness rule | Prepped |
@@ -29,7 +30,7 @@ How the IDs are used:
 3. Every acceptance test says what it traces to, for example `(traces to PE-1, PE-2)`.
 4. Every test names the IDs it verifies in square brackets at the start of its title, for example `it('[P-1] Given a lot expiring ...')`.
 5. `pnpm check:trace` fails if an ID is defined twice, a reference or test tag points at an ID that does not exist, an acceptance test has no trace or no test, or `docs/TRACEABILITY.md` is out of date. `pnpm trace:update` regenerates that matrix.
-6. `pnpm check:trace --strict` is the submission gate. It also fails while any acceptance test is a placeholder, any rule or AI contract is untested, or any open question is open.
+6. `pnpm check:trace --strict` is the submission gate. It also fails while any acceptance test is a placeholder, any rule or AI contract is untested, any open question is open, or any submission requirement (H) is not ticked with its evidence in `docs/SUBMISSION.md`.
 7. Every change to this file bumps the version and adds a row to the revision history at the end.
 
 ## Decisions and build order
@@ -45,6 +46,18 @@ Decided on Nov 4: build Prepped and SpareWing in parallel, use Lovable for scree
 7. Demo script, evaluation run and the 5-minute video.
 
 Both products build in parallel to step 7. The Nov 7 rule sets Prepped as the default submission: it is chosen unless a SpareWing aviation contact confirms the pain. SpareWing is not polished past step 3 until that happens.
+
+## Hackathon submission requirements
+
+From the AI for Church Hackathon 2026 rules (https://aiforchurch.com/hackathon#rules), as supplied by the owner on 2026-11-09. Each requirement is ticked, with its evidence, in `docs/SUBMISSION.md`.
+
+- **H-1** **Deadline and build window.** The build window is October 30 to November 27, 2026, 11:59 PM ET, and the submission is complete before it closes; submissions lock automatically. Judges evaluate only work done in the window. This is an entirely new standalone project, and its git history dates every change.
+- **H-2** **Demo video.** 5 minutes or less, hosted on YouTube, Vimeo or Loom.
+- **H-3** **AI made it and AI is in it.** The project is built with AI tools (Claude Code, Lovable) and features AI in what it does. The demo shows the AI steps working, not only their manual fallback, and shows a person reviewing each draft (AR-5).
+- **H-4** **Honest, kind and safe.** The description and demo claim only what the tests show: placeholder rule values are labelled, the lack of a pharmacist or mechanic review is stated (Q-2, Q-6), and nothing is called approved. The project is not harmful, deceptive or manipulative, and reflects care for people and respect for Scripture.
+- **H-5** **Sample data only.** The demo, video, screenshots and live demo use synthetic data only, with no real personal information of church members, congregants, donors or pilots.
+- **H-6** **Submission contents.** Project name, written description, track, demo video link, and a live demo link, which the owner wants (Q-21, Q-18). The repository link is optional (Q-21). Licences and terms of the open-source code and AI tools used are followed.
+- **H-7** **One project, Open Track.** One project in one track, the Open Track. The description and demo address its four criteria: a clear ministry problem and who it serves; original thinking and fresh approaches; responsible and faithful use of AI; a working demo that shows real potential. Prepped fits the track's "missions and global church tools" idea.
 
 ## Shared foundation
 
@@ -214,7 +227,12 @@ These gaps block exact tests or leave a rule untestable. Each needs a decision b
 - **Q-16** (open) **Covering flights.** SI-1 subtracts "flights another aircraft or pilot can cover", but does not say which aircraft and pilots count or at which bases. S-5 has no cover, so it does not test this. Affects SI-1, S-5.
 - **Q-17** (open) **Sync conflicts.** X-1 keeps both versions of a conflict in the audit log, but does not say which version the app shows afterwards. Depends on Q-1. Affects X-1, F-6, F-7.
 - **Q-18** (open) **Two apps, two Lovable projects.** Each app needs its own Lovable project and its own deploy target. Where is each one hosted, and do CI checks cover the generated screens, given that `apps/*/ui` is never edited by hand? Affects F-3.
-- **Q-19** (open) **Hackathon rules on prior work.** The rules are at https://aiforchurch.com/hackathon#rules, which is also where the chosen product is submitted. Confirm what they allow to exist before the build starts: the specs doc and this file, open-source libraries and tools, and AI-assisted code. Until then, the toolchain, CI workflow, PR template and code are written fresh for this build and nothing is carried over from earlier projects (`docs/TOOLCHAIN.md`). Affects F-1, F-3.
+- **Q-19** (closed 2026-11-09, decided by the owner) **Hackathon rules on prior work.** The rules are at https://aiforchurch.com/hackathon#rules, which is also where the chosen product is submitted. Decision, from the rules the owner supplied: open-source code, libraries, APIs and AI coding tools are allowed within their licences and terms; only work done in the build window (October 30 to November 27, 2026) is judged; entirely new standalone projects are preferred. This build is an entirely new project, so the toolchain, tests and code stay written fresh for it (CLAUDE.md rule 12). The submission requirements are H-1 to H-7. Affects F-1, F-3, H-1.
+
+### Hackathon questions (added in v0.5)
+
+- **Q-20** (closed 2026-11-09, decided by the owner) **Track.** The Open Track, for "creative, ambitious projects that serve the church". Recorded in H-7. Affects H-7.
+- **Q-21** (open) **Public repository and live demo link.** Both are optional in the submission. The owner wants a live demo link, which needs a host for the chosen app (Q-18). Still open: where it is hosted, and whether the repository is made public so that judges can open a repository link. Affects H-6, F-3.
 
 ### Reminder: close the open questions
 
@@ -250,7 +268,8 @@ Both products match a supply to a need under constraints and time windows, so a 
 
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
-| 0.1 | 2026-11-07 | First export from the specs doc (commit 40092de) | Owner, drafted with Claude |
-| 0.2 | 2026-11-07 | Review questions resolved: build status, permit flag, pilot names, S-5 counting (commit 0e1ba11) | Owner, drafted with Claude |
+| 0.1 | 2026-11-07 | First export from the specs doc (commit 5b2e871, was 40092de) | Owner, drafted with Claude |
+| 0.2 | 2026-11-07 | Review questions resolved: build status, permit flag, pilot names, S-5 counting (commit 147ad60, was 0e1ba11) | Owner, drafted with Claude |
 | 0.3 | 2026-11-09 | Traceability section; permanent IDs for foundation decisions (F), rules (PE, PR, SC, SI, AR), AI steps (renamed P1 to S3 as AI-P1 to AI-S3, to avoid confusion with acceptance tests P-1 to S-7) and open questions (Q-1 to Q-8); trace links on every acceptance test; gap questions Q-9 to Q-18 and the reminder to close them; Q-19 on the hackathon's rules for prior work, with the link to the rules and submission page; `packages/store` proposed in F-2 for offline storage and sync; revision history. No rule wording changed. | Claude, for owner review |
 | 0.4 | 2026-11-09 | Q-10 closed by the owner: cold-chain items are excluded from this build. PE-4 reworded to block every cold-chain lot; acceptance test P-9 added. | Owner decision, recorded by Claude |
+| 0.5 | 2026-11-09 | Q-19 closed by the owner from the hackathon rules; Q-20 added and closed (Open Track); Q-21 added; hackathon submission requirements H-1 to H-7, ticked in `docs/SUBMISSION.md` and checked by the strict gate. Commit references in this table updated after the 2026-11-09 history rewrite, which replaced the owner's email address in two commits and changed no file. | Owner decisions, recorded by Claude |
