@@ -1,5 +1,5 @@
 /**
- * Seeded synthetic data (F-12, X-5). The same seed always gives the same data.
+ * Seeded synthetic data (ARC-012, TC-005). The same seed always gives the same data.
  * Synthetic data only: no real names, records or secrets (CLAUDE.md rule 4).
  *
  * This file fixes the interface only; the synthetic data stream builds the generator.

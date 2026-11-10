@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "types": ["node"],
 
-    // Missing data must never silently pass (SC-4, PE-5): make undefined visible everywhere.
+    // Missing data must never silently pass (SYS-304, SYS-105): make undefined visible everywhere.
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,

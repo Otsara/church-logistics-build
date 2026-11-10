@@ -1,10 +1,11 @@
 # Prepped and SpareWing
 
-Two ministry logistics apps built in parallel on one shared core, for the AI for Church Hackathon 2026.
+Two decision-support apps for missionary work in pharmacy (Prepped) and flight (SpareWing), built in parallel on one shared core for the AI for Church Hackathon 2026.
 
-- Build spec: `docs/BUILD_SPEC.md` (also in the specs doc: https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg). The repo copy governs the build.
-- Traceability matrix: `docs/TRACEABILITY.md` (generated; shows which acceptance tests are done and which questions are open).
-- Toolchain and commands: `docs/TOOLCHAIN.md`.
-- Agent instructions: `CLAUDE.md`.
+- Controlled documents, the source of truth: start at `docs/DOC-001-master-index.md` and `docs/DOC-000-document-control.md`.
+- Open decisions and release blockers: `docs/DOC-003-open-decisions.md`.
+- Traceability matrix: `docs/DOC-080-traceability-matrix.md` (generated).
+- Agent instructions: `CLAUDE.md`. Toolchain: `docs/TOOLCHAIN.md`.
+- Review copies (uncontrolled): https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg
 
 Quick start: `pnpm install`, then `pnpm check`.

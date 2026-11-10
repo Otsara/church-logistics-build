@@ -4,17 +4,17 @@ import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-// Never output "approved" for a part, pilot, medicine or document (CLAUDE.md rule 6, SC-5).
+// Never output "approved" for a part, pilot, medicine or document (CLAUDE.md rule 6, SYS-305).
 const NO_APPROVED = [
   {
     selector: "Literal[value=/\\bapproved\\b/i]",
     message:
-      'Say "candidate" or "draft"; a person signs off (CLAUDE.md rule 6, SC-5).',
+      'Say "candidate" or "draft"; a person signs off (CLAUDE.md rule 6, SYS-305).',
   },
   {
     selector: "TemplateElement[value.raw=/\\bapproved\\b/i]",
     message:
-      'Say "candidate" or "draft"; a person signs off (CLAUDE.md rule 6, SC-5).',
+      'Say "candidate" or "draft"; a person signs off (CLAUDE.md rule 6, SYS-305).',
   },
 ];
 
@@ -48,7 +48,7 @@ export default tseslint.config(
     rules: { "no-restricted-syntax": ["error", ...NO_APPROVED] },
   },
   {
-    // packages/core: pure rule functions, no network, no AI, no clock (F-2, F-5, AR-3).
+    // packages/core: pure rule functions, no network, no AI, no clock (ARC-002, ARC-005, SYS-003).
     files: ["packages/core/src/**/*.ts"],
     rules: {
       "no-restricted-imports": [
@@ -62,7 +62,7 @@ export default tseslint.config(
                 "@church-logistics/synth",
               ],
               message:
-                "packages/core must not depend on AI, storage or synthetic data (F-2, AR-3).",
+                "packages/core must not depend on AI, storage or synthetic data (ARC-002, SYS-003).",
             },
           ],
         },
@@ -71,11 +71,11 @@ export default tseslint.config(
         "error",
         {
           name: "fetch",
-          message: "packages/core makes no network calls (F-2).",
+          message: "packages/core makes no network calls (ARC-002).",
         },
         {
           name: "XMLHttpRequest",
-          message: "packages/core makes no network calls (F-2).",
+          message: "packages/core makes no network calls (ARC-002).",
         },
       ],
       "no-restricted-syntax": [
@@ -83,13 +83,13 @@ export default tseslint.config(
         ...NO_APPROVED,
         {
           selector: "NewExpression[callee.name='Date']",
-          message: "Use the date-only helpers in dates.ts (F-5).",
+          message: "Use the date-only helpers in dates.ts (ARC-005).",
         },
         {
           selector:
             "CallExpression[callee.object.name='Date'][callee.property.name='now']",
           message:
-            "Rule functions take dates as input; they never read the clock (F-5, P-8).",
+            "Rule functions take dates as input; they never read the clock (ARC-005, TC-108).",
         },
       ],
     },

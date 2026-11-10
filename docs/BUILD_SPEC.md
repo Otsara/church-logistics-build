@@ -1,6 +1,8 @@
 # Build spec for Claude Code
 
-Version: 0.5 · Status: Draft
+Version: 0.5 · Status: Superseded on merge of the controlled document set
+
+> **Superseded.** This build spec is replaced by the controlled document set in `docs/` (start at DOC-001), effective when the pull request that adds it is merged on the owner's confirmation (ADR-001). Every item here was carried over with a new ID; the mapping is in ADR-001 and in each item's `Formerly:` field. This file is kept for history (only this notice was added) and is no longer checked.
 
 Exported from the "Build spec" tab of the specs doc (https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg). If this file and the doc disagree, this file governs the build. Update it here first.
 
