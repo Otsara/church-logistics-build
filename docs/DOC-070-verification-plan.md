@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -160,6 +160,54 @@ Given the arrival date moves 30 days later, then eligibility recalculates withou
 
 Given a lot marked cold chain that would otherwise be eligible (expiring 2028-01-15, trip arriving 2026-12-01), then it is blocked with the reason "cold-chain items are not handled in this build".
 
+### TC-110 Out-of-scope route blocked
+- Product: Prepped
+- Traces to: SYS-109
+
+Given a lot for injection (route: intravenous), needing no cold chain, expiring 2028-01-15, and a trip arriving 2026-12-01, then it is blocked with the reason "outside this build's scope".
+
+### TC-111 Topical and eye preparations in scope
+- Product: Prepped
+- Traces to: SYS-109
+
+Given a skin cream lot and an eye-drop lot, neither needing a cold chain, both expiring 2028-01-15, and a trip arriving 2026-12-01, then both are eligible.
+
+### TC-112 Floor item met by combining donations
+- Product: Prepped
+- Traces to: SYS-112, SYS-113
+
+Given a floor item with a target of 100 and two eligible lots of the same medicine, strength and form, from different donors, of 60 and 50, then the item is covered and both lots are listed against it.
+
+### TC-113 Shortage listed and No go
+- Product: Prepped
+- Traces to: SYS-112, SYS-113
+
+Given a floor item with a target of 100 and 70 eligible, and every other floor item covered, then the indicator shows "No go" and lists that item as 30 short.
+
+### TC-114 Missing required document means No go
+- Product: Prepped
+- Traces to: SYS-112
+
+Given every floor item covered, and a destination rule card that requires an import permit not yet prepared, then the indicator shows "No go" and lists the permit.
+
+### TC-115 Supplements never change the indicator
+- Product: Prepped
+- Traces to: SYS-114, SYS-112
+
+Given every floor item covered and every required document prepared, when the clinician adds a supplement with no eligible stock, then the indicator still shows "Go".
+
+### TC-116 Indicator label always shown
+- Product: Prepped
+- Traces to: SYS-112
+
+Given any Go or No go result, then the indicator shows "Indicator only: deploying the team is the lead clinician's or team leader's decision".
+
+### TC-117 No target means not covered
+- Product: Prepped
+- Traces to: SYS-110
+
+Given a floor item with no target quantity entered, then it is "needs review", counts as not covered, and the indicator shows "No go".
+
 **SpareWing**
 
 ### TC-301 Alternate part found
@@ -216,3 +264,4 @@ Given a part marked not serviceable, then it never appears.
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft. Acceptance tests X-1..X-5, P-1..P-9, S-1..S-7 carried over as TC-001..005, TC-101..109, TC-301..307, wording unchanged (ADR-001). Safety-critical criteria (ADR-006), confirmation run (ADR-005), failure procedure. | Claude, for owner review |
+| 0.2 | 2026-11-10 | New TC-110 to TC-117 for route scope, floor coverage, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |

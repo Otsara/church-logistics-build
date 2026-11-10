@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -113,10 +113,10 @@ The app calls the AI service only through a server function that holds the key a
 
 ### ARC-101 Prepped rules engine
 - Product: Prepped
-- Traces to: SYS-101, SYS-102, SYS-103, SYS-104, SYS-105, SYS-106, SYS-107, SYS-108
+- Traces to: SYS-101, SYS-102, SYS-103, SYS-104, SYS-105, SYS-106, SYS-107, SYS-108, SYS-109, SYS-110, SYS-111, SYS-112, SYS-113, SYS-114
 - Safety-critical: yes
 
-Eligibility, readiness and comparable alternatives, as pure functions in `packages/core/src/prepped/`. No AI, network or clock.
+Eligibility, route scope, floor coverage, the Go or No go indicator, readiness, supplements and comparable alternatives, as pure functions in `packages/core/src/prepped/`. No AI, network or clock.
 
 ### ARC-102 Prepped screens
 - Product: Prepped
@@ -227,3 +227,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft. Foundation decisions F-1..F-12 carried over as ARC-001..012 and AI steps AI-P1..AI-S3 as AIC-101..103, AIC-301..303, wording unchanged (ADR-001). New: ARC-013, ARC-014, ARC-101, ARC-102, ARC-301, ARC-302; safety-critical units marked (ADR-006); ARC-009 updated by ADR-008. | Claude, for owner review |
+| 0.2 | 2026-11-10 | ARC-101 allocated SYS-109 to SYS-114. | Claude, for owner review |

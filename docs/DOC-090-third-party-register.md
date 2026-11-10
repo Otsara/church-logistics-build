@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -103,6 +103,12 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Use: real medicine names and dosage forms for synthetic Prepped data (DAT-101).
 - Safety relevance: indirect. Names and forms only; no clinical decision rests on the directory.
 
+### SOUP-102 WHO Model List of Essential Medicines
+- Version: 24th list (2025)
+- Terms: the printed 2025 lists state CC BY-NC-SA 3.0 IGO (non-commercial, share-alike); the electronic list's licensing page states CC BY 3.0 IGO and is dated 2023. To resolve (OD-034).
+- Use: reference for which medicines make up the floor catalogue (DAT-102). The catalogue itself is recreated from FDA directory data (owner, 2026-11-10).
+- Safety relevance: indirect. The clinician chooses the floor; the list only frames the choice.
+
 ## Costs
 
 Figures as found on 2026-11-10. Third-party summaries are marked; confirm them on the providers' pricing pages before buying. Spending is the owner's decision (OD-028).
@@ -120,3 +126,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft: SOUP-001 to SOUP-014, SOUP-101; costs. | Claude, for owner review |
+| 0.2 | 2026-11-10 | New SOUP-102 WHO Model List of Essential Medicines (reference only; licence to resolve, OD-034). | Claude, for owner review |

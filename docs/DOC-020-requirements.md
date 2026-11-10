@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -71,6 +71,18 @@ The coordinator gets draft paperwork based on the destination's verified require
 - Traces to: IU-101, IU-103
 
 When the proposed collection is short or unsuitable, the clinician can browse comparable medicines that are available in the same class and choose among them (owner, 2026-11-10).
+
+### UN-106 Know whether donations can meet the mission's floor
+- Product: Prepped
+- Traces to: IU-101
+
+The lead clinician and team leader can see whether the donations, combined, meet the mission's minimum floor list and the destination's paperwork, and exactly what is short (owner, 2026-11-10).
+
+### UN-107 Tailor the pharmacy beyond the floor
+- Product: Prepped
+- Traces to: IU-101, IU-103
+
+The lead clinician can add supplemental medicines to suit their preferences (owner, 2026-11-10).
 
 ### UN-301 Find parts that can return an aircraft to service
 - Product: SpareWing
@@ -224,7 +236,7 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 - Safety-critical: yes
 - Formerly: PR-1
 
-Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The 70/30 split is an assumption to adjust after reviewer feedback (OD-004). Readiness levels: TBD (OD-013).
+Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The 70/30 split is an assumption to adjust after reviewer feedback (OD-004). Whether this meter stays as extra detail beside the Go or No go indicator (SYS-112) or is retired: TBD (OD-004).
 
 ### SYS-107 Blocking issues cap readiness
 - Product: Prepped
@@ -240,6 +252,48 @@ Any blocking issue, such as a missing import permit, caps the meter at "Not read
 - Safety-critical: yes
 
 For a need that eligible lots do not cover, Prepped lists other eligible lots in the same therapeutic class for the clinician to consider. Each is labelled "Comparable, not equivalent: clinician review required", shows its class and the source of that class, and is added to the collection only when the clinician chooses it. Prepped never substitutes automatically (owner, 2026-11-10; ADR-003). Class source: TBD (OD-022).
+
+### SYS-109 Route and storage scope
+- Product: Prepped
+- Traces to: UN-102, RC-109
+- Safety-critical: yes
+
+A lot is in scope only if its route is oral, sublingual, rectal, feeding tube, topical (skin) or ophthalmic, and it needs no cold chain (owner, 2026-11-10). Any other lot is blocked with the reason "outside this build's scope". Routes not yet decided (for example inhaled, nasal, otic, vaginal) are treated as outside scope until the owner decides (OD-037).
+
+### SYS-110 Mission floor list set by the lead clinician
+- Product: Prepped
+- Traces to: UN-106, RC-110
+- Safety-critical: yes
+
+The lead clinician chooses each mission's floor list from the essential-medicines catalogue (DAT-102) and enters a target quantity for each item. Prepped never sets a floor item or a target itself (owner, 2026-11-10). A floor item without a target is "needs review" and counts as not covered.
+
+### SYS-111 Estimate from anticipated caseload
+- Product: Prepped
+- Traces to: UN-106, RC-111
+- Safety-critical: yes
+
+From the anticipated caseload the team leader enters, Prepped may offer an estimated quantity for a floor item, labelled as an estimate, for the clinician to accept or change; it is never applied by itself (owner, 2026-11-10). Estimation method and parameters: TBD (OD-038).
+
+### SYS-112 Go or No go indicator
+- Product: Prepped
+- Traces to: UN-103, UN-106, RC-106, RC-112
+- Safety-critical: yes
+
+Prepped shows "Go" only when every floor item's target is covered by eligible stock, combining lots from different donations, and every document the destination's rule card requires is prepared and marked reviewed. Otherwise it shows "No go" and lists each short floor item with the amount short, and each missing document. The indicator always carries the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (owner, 2026-11-10; ADR-009).
+
+### SYS-113 Combining donations and showing shortages
+- Product: Prepped
+- Traces to: UN-106, RC-112
+- Safety-critical: yes
+
+For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Which lots count toward the same floor item: TBD (OD-039).
+
+### SYS-114 Supplemental medicines
+- Product: Prepped
+- Traces to: UN-107, RC-113
+- Safety-critical: yes
+
+The lead clinician may add supplemental medicines beyond the floor list. Supplements follow the same eligibility rules but never count toward a floor item and never change the Go or No go indicator (owner, 2026-11-10).
 
 ## 4. SpareWing requirements
 
@@ -324,3 +378,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft. Requirements carried over from BUILD_SPEC v0.5 (AR-1..6, PE-1..5, PR-1..2, SC-1..6, SI-1) with unchanged wording (ADR-001). New: user needs UN-001..005, UN-101..105, UN-301..305; SYS-007..010, SYS-108, SYS-308 to SYS-310 from the owner's answers of 2026-11-10. | Claude, for owner review |
+| 0.2 | 2026-11-10 | New UN-106, UN-107 and SYS-109 to SYS-114: route and storage scope, floor list set by the lead clinician, caseload estimate, Go or No go indicator, combining donations, supplements (owner, 2026-11-10; ADR-009). SYS-106 marked for keep-or-retire (OD-004). | Claude, for owner review |

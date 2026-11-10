@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -202,6 +202,66 @@ Harm: quantities overstated or understated; readiness wrong. Severity: TBD. Prob
 
 Donor lines are merged by a deterministic rule in core, never by the AI step. The rule itself: TBD (OD-011).
 
+### HAZ-109 A medicine outside the build's scope is packed
+- Product: Prepped
+- Traces to: IU-101
+
+Sequence: an injectable, inhaled or other out-of-scope product, or one needing a cold chain, is packed. Harm: a medicine the team may not be equipped to store or give; potency loss. Severity: TBD. Probability: TBD.
+
+### RC-109 Route and storage scope enforced by code
+- Product: Prepped
+- Traces to: HAZ-109
+
+Only lots with an in-scope route and no cold chain can be eligible; all others are blocked with the reason "outside this build's scope".
+
+### HAZ-110 The floor list or a target quantity is wrong
+- Product: Prepped
+- Traces to: IU-101
+
+Sequence: an essential medicine is left off the floor, or a target is too low for the caseload. Harm: the team runs short of an essential medicine. Severity: TBD. Probability: TBD.
+
+### RC-110 Floor and targets set by the lead clinician
+- Product: Prepped
+- Traces to: HAZ-110
+
+The lead clinician chooses the floor list and every target; Prepped never sets them, and a floor item without a target counts as not covered.
+
+### HAZ-111 A caseload estimate is trusted as sufficient
+- Product: Prepped
+- Traces to: IU-101
+
+Sequence: an estimated quantity is accepted without clinical judgement. Harm: as HAZ-110. Severity: TBD. Probability: TBD.
+
+### RC-111 Estimates labelled and never applied automatically
+- Product: Prepped
+- Traces to: HAZ-111
+
+Estimates are labelled as estimates, applied only when the clinician accepts or changes them, and their method is documented and reviewed (OD-038).
+
+### HAZ-112 "Go" is taken as permission or as proof of sufficiency
+- Product: Prepped
+- Traces to: IU-101, IU-102
+
+Sequence: the team deploys because the indicator says "Go", without the leader's own judgement; or a "No go" is ignored without seeing what is short. Severity: TBD. Probability: TBD.
+
+### RC-112 Go is an indicator with its reasons
+- Product: Prepped
+- Traces to: HAZ-112
+
+The indicator is labelled "Indicator only", always shows the criteria and every shortage or missing document, and the deployment decision stays with the lead clinician or team leader.
+
+### HAZ-113 A supplement is counted toward the floor
+- Product: Prepped
+- Traces to: IU-101
+
+Sequence: a supplemental medicine is counted as covering a floor item it does not replace. Harm: the floor appears met when it is not. Severity: TBD. Probability: TBD.
+
+### RC-113 Supplements kept apart from floor coverage
+- Product: Prepped
+- Traces to: HAZ-113
+
+Supplements never count toward a floor item and never change the indicator.
+
 ## 4. SpareWing hazards and controls
 
 ### HAZ-301 A non-interchangeable part is proposed
@@ -305,3 +365,4 @@ Ranking criteria are set by the program and shown with each proposal; ranking ne
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft: hazards HAZ-001..007, HAZ-101..108, HAZ-301..308 with controls. Severity, probability and acceptability left TBD (OD-024). | Claude, for owner review |
+| 0.2 | 2026-11-10 | New HAZ-109 to HAZ-113 and RC-109 to RC-113 for route scope, floor list, caseload estimate, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |

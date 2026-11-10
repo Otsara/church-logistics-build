@@ -1,7 +1,7 @@
 ---
 id: DOC-010
 title: Intended use, users and regulatory position
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -32,12 +32,14 @@ English only for now (owner, 2026-11-10; OD-030). Users work in places with poor
 ### IU-101 Prepped intended use
 - Product: Prepped
 
-Prepped helps a medical mission team prepare its mission pharmacy from donated medicines. It checks each donated lot against the trip's arrival date and rules, shows which lots are eligible, blocked or need review and why, offers comparable available alternatives within a therapeutic class for a clinician to consider, summarises how ready the trip is, and drafts the import paperwork. A pharmacist or clinician makes every final decision (owner, 2026-11-10).
+Prepped helps a medical mission team prepare its mission pharmacy from donated medicines. The lead clinician chooses the mission's minimum floor list from the essential medicines and sets a target quantity for each. Prepped checks each donated lot against the trip's arrival date and rules, shows which lots are eligible, blocked or need review and why, shows how lots from different donations can be combined to meet the floor and where shortages remain, offers comparable available alternatives within a therapeutic class for a clinician to consider, lets the clinician add supplemental medicines beyond the floor, drafts the import paperwork for the destination, and shows a Go or No go indicator. A pharmacist or clinician makes every final decision, and the decision to deploy the team rests with the lead clinician or team leader alone (owner, 2026-11-10; ADR-009).
+
+In scope for this build: medicines taken by mouth, under the tongue, rectally or by feeding tube, and topical skin and eye preparations, none needing a cold chain (owner, 2026-11-10). Everything else is shown as blocked, "outside this build's scope".
 
 ### IU-102 What Prepped must never do
 - Product: Prepped
 
-Prepped never presents a comparable alternative as equivalent and never swaps one medicine for another by itself (ADR-003). Proposed, awaiting owner confirmation (OD-025): it never calculates a dose, never gives advice about a specific patient, and never marks a packing list final without a pharmacist or clinician.
+Prepped never presents a comparable alternative as equivalent and never swaps one medicine for another by itself (ADR-003). It never decides whether the team deploys: Go and No go are indicators only (owner, 2026-11-10). It never sets a floor list or a target quantity; it may offer an estimate for the clinician to accept or change (SYS-111). Proposed, awaiting owner confirmation (OD-025): it never calculates a dose, never gives advice about a specific patient, and never marks a packing list final without a pharmacist or clinician.
 
 ### IU-103 Prepped users
 - Product: Prepped
@@ -77,3 +79,4 @@ No other regulatory classification, standard clause or clinical claim is made in
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft from the owner's answers of 2026-11-10. | Claude, for owner review |
+| 0.2 | 2026-11-10 | IU-101 and IU-102: minimum floor list, Go or No go indicator, supplements and route scope (owner, 2026-11-10; ADR-009). | Claude, for owner review |
