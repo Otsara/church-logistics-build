@@ -1,9 +1,10 @@
-// Tests for the traceability checker. Run with: node --test tools/
+// Tests for the traceability checker. Run with: node --test "tools/*.test.mjs"
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   buildReport,
   kindOf,
+  parseChecklist,
   parseSpec,
   renderMatrix,
   scanTests,
@@ -166,4 +167,67 @@ test("renderMatrix is deterministic and lists every item", () => {
   assert.match(matrix, /\| PE-2 \| – \| – \| Not traced \|/);
   assert.match(matrix, /\| Q-1 \| Stack \| Open \|/);
   assert.match(matrix, /\| Open questions \| 1 of 2 \|/);
+});
+
+const SPEC_H = [
+  SPEC,
+  "- **H-1** **Deadline.** Submitted on time.",
+  "- **H-2** **Demo video.** 5 minutes or less.",
+].join("\n");
+
+test("kindOf classifies submission requirements", () => {
+  assert.equal(kindOf("H-7"), "submission");
+});
+
+test("parseSpec reads submission requirement titles", () => {
+  const spec = parseSpec(SPEC_H);
+  assert.deepEqual(spec.errors, []);
+  assert.equal(spec.items.get("H-1").title, "Deadline");
+});
+
+test("parseChecklist reads ticked and unticked lines and reports duplicates", () => {
+  const checklist = parseChecklist(
+    [
+      "# Checklist",
+      "- [x] H-1 Submitted on 2026-11-26",
+      "- [ ] H-2 Video",
+      "- [X] H-2 again",
+    ].join("\n"),
+  );
+  assert.equal(checklist.entries.get("H-1").checked, true);
+  assert.equal(checklist.entries.get("H-2").checked, false);
+  assert.match(
+    checklist.errors.join("\n"),
+    /SUBMISSION\.md:4: H-2 is listed twice/,
+  );
+});
+
+test("buildReport: every submission requirement must be in the checklist, and only those", () => {
+  const report = buildReport(
+    parseSpec(SPEC_H),
+    scanTests(testFile("it.todo('[P-1] Given')")),
+    { checklist: parseChecklist("- [ ] H-1 Deadline\n- [ ] H-9 Unknown") },
+  );
+  const text = report.errors.join("\n");
+  assert.match(text, /H-2 is missing from docs\/SUBMISSION\.md/);
+  assert.match(text, /lists H-9, which is not defined/);
+  assert.doesNotMatch(text, /H-1/);
+});
+
+test("buildReport --strict fails on unticked submission requirements only", () => {
+  const report = buildReport(
+    parseSpec(SPEC_H),
+    scanTests(testFile("it.todo('[P-1] Given')")),
+    {
+      strict: true,
+      checklist: parseChecklist("- [x] H-1 Done\n- [ ] H-2 Not yet"),
+    },
+  );
+  const text = report.errors.join("\n");
+  assert.match(text, /H-2 is not ticked/);
+  assert.doesNotMatch(text, /H-1 is not ticked/);
+  const matrix = renderMatrix(report);
+  assert.match(matrix, /\| H-1 \| Deadline \| Done \|/);
+  assert.match(matrix, /\| H-2 \| Demo video \| Not done \|/);
+  assert.match(matrix, /\| Submission requirements done \| 1 of 2 \|/);
 });

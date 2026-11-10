@@ -19,6 +19,7 @@ Open questions this depends on or closes: Q-n / none
 - [ ] Spec changes bump the version and add a revision history row; no ID was renumbered or reused
 - [ ] If the spec changed, the "Build spec" tab of the specs doc on claude.ai was updated to match
 - [ ] A closed question records the decision, the date and who decided
+- [ ] If a submission requirement (H-n) is affected, `docs/SUBMISSION.md` is updated with its evidence
 - [ ] Eligibility, candidate and readiness logic is only in `packages/core`; no AI step decides them
 - [ ] AI steps validate against a schema, retry once, fall back to manual entry, replace names with ids and log the call
 - [ ] Nothing says "approved"; drafts and candidates need a person's sign-off

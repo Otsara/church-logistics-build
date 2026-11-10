@@ -5,13 +5,14 @@
 //   node tools/check-trace.mjs            check; fail on errors or a stale matrix
 //   node tools/check-trace.mjs --update   regenerate docs/TRACEABILITY.md, then check
 //   node tools/check-trace.mjs --strict   submission gate: also fail on placeholders,
-//                                         untested rules and open questions
+//                                         untested rules, open questions and unticked
+//                                         submission requirements (docs/SUBMISSION.md)
 
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ID_SOURCE = String.raw`(?:AI-[PS]\d+|(?:PE|PR|SC|SI|AR|F|P|S|X|Q)-\d+)`;
+const ID_SOURCE = String.raw`(?:AI-[PS]\d+|(?:PE|PR|SC|SI|AR|F|H|P|S|X|Q)-\d+)`;
 const ID_EXACT = new RegExp(`^${ID_SOURCE}$`);
 
 /** The kind of item an ID names, from its prefix. */
@@ -20,6 +21,7 @@ export function kindOf(id) {
   if (["P", "S", "X"].includes(prefix)) return "acceptance";
   if (["PE", "PR", "SC", "SI", "AR", "AI"].includes(prefix)) return "rule";
   if (prefix === "F") return "foundation";
+  if (prefix === "H") return "submission";
   return "question";
 }
 
@@ -99,8 +101,12 @@ export function parseSpec(text) {
         );
       }
       item.status = status?.[1] ?? "unknown";
-      item.title =
-        /\)\s*\*\*(.+?)\*\*/.exec(item.text)?.[1]?.replace(/\.$/, "") ?? "";
+    }
+    if (item.kind === "question" || item.kind === "submission") {
+      const title = new RegExp(
+        String.raw`\*\*${item.id}\*\*\s*(?:\([^)]*\)\s*)?\*\*(.+?)\*\*`,
+      ).exec(item.text);
+      item.title = title?.[1]?.replace(/\.$/, "") ?? "";
     }
   }
   return { version, items, errors };
@@ -151,9 +157,33 @@ export function scanTests(files) {
   return { tests, errors };
 }
 
-/** Joins the spec and the tests into a report. */
-export function buildReport(spec, scanned, { strict = false } = {}) {
+/**
+ * Reads docs/SUBMISSION.md: one line per submission requirement, "- [ ] H-n ..." or "- [x] H-n ...".
+ */
+export function parseChecklist(text) {
+  const errors = [];
+  const entries = new Map();
+  text.split("\n").forEach((line, index) => {
+    const match = /^- \[([ xX])\] (H-\d+)\b/.exec(line);
+    if (match === null) return;
+    const id = match[2];
+    if (entries.has(id)) {
+      errors.push(`docs/SUBMISSION.md:${index + 1}: ${id} is listed twice`);
+      return;
+    }
+    entries.set(id, { checked: match[1] !== " ", line: index + 1 });
+  });
+  return { entries, errors };
+}
+
+/** Joins the spec, the tests and the submission checklist into a report. */
+export function buildReport(
+  spec,
+  scanned,
+  { strict = false, checklist = null } = {},
+) {
   const errors = [...spec.errors, ...scanned.errors];
+  if (checklist !== null) errors.push(...checklist.errors);
   const warnings = [];
   const testsFor = (id) =>
     scanned.tests.filter((test) => test.ids.includes(id));
@@ -222,11 +252,35 @@ export function buildReport(spec, scanned, { strict = false } = {}) {
   const open = questions.filter((q) => q.status === "open");
   if (strict) for (const q of open) errors.push(`${q.id} is still open`);
 
+  const submission = all
+    .filter((item) => item.kind === "submission")
+    .map((item) => {
+      const entry = checklist?.entries.get(item.id);
+      if (entry === undefined) {
+        errors.push(`${item.id} is missing from docs/SUBMISSION.md`);
+      } else if (strict && !entry.checked) {
+        errors.push(`${item.id} is not ticked in docs/SUBMISSION.md`);
+      }
+      return {
+        id: item.id,
+        title: item.title,
+        status: entry?.checked ? "done" : "not_done",
+      };
+    });
+  for (const id of checklist?.entries.keys() ?? []) {
+    if (!spec.items.has(id)) {
+      errors.push(
+        `docs/SUBMISSION.md lists ${id}, which is not defined in the spec`,
+      );
+    }
+  }
+
   return {
     version: spec.version,
     acceptance,
     covered,
     questions,
+    submission,
     errors,
     warnings,
   };
@@ -238,6 +292,8 @@ const STATUS_TEXT = {
   missing: "Missing",
   tested: "Tested",
   untraced: "Not traced",
+  done: "Done",
+  not_done: "Not done",
 };
 
 /** Renders the report as docs/TRACEABILITY.md. Deterministic: no dates or timings. */
@@ -262,6 +318,7 @@ export function renderMatrix(report) {
     `| Rules and AI contracts tested | ${count(rules, "tested")} of ${rules.length} |`,
     `| Rules and AI contracts not traced to any test | ${count(rules, "untraced")} |`,
     `| Open questions | ${open.length} of ${report.questions.length} |`,
+    `| Submission requirements done | ${count(report.submission, "done")} of ${report.submission.length} |`,
     "",
     "## Acceptance tests",
     "",
@@ -292,6 +349,16 @@ export function renderMatrix(report) {
     ...report.questions.map(
       (q) =>
         `| ${q.id} | ${q.title} | ${q.status === "open" ? "Open" : "Closed"} |`,
+    ),
+    "",
+    "## Hackathon submission requirements",
+    "",
+    "Ticked, with evidence, in `docs/SUBMISSION.md`. `pnpm check:trace --strict` fails while any is not done.",
+    "",
+    "| ID | Requirement | Status |",
+    "| --- | --- | --- |",
+    ...report.submission.map(
+      (h) => `| ${h.id} | ${h.title} | ${STATUS_TEXT[h.status]} |`,
     ),
     "",
   ];
@@ -327,7 +394,14 @@ function main(args) {
   const spec = parseSpec(
     readFileSync(join(root, "docs", "BUILD_SPEC.md"), "utf8"),
   );
-  const report = buildReport(spec, scanTests(findTestFiles(root)), { strict });
+  const checklistPath = join(root, "docs", "SUBMISSION.md");
+  const checklist = existsSync(checklistPath)
+    ? parseChecklist(readFileSync(checklistPath, "utf8"))
+    : null;
+  const report = buildReport(spec, scanTests(findTestFiles(root)), {
+    strict,
+    checklist,
+  });
   const matrix = renderMatrix(report);
 
   if (update) {
