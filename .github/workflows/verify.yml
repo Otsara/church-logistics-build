@@ -1,5 +1,5 @@
-# Keeps Prepped and SpareWing honest against docs/BUILD_SPEC.md on every pull request.
-name: Verify against the build spec
+# Keeps Prepped and SpareWing honest against the controlled documents in docs/ on every pull request.
+name: Verify against the controlled documents
 
 on:
   pull_request:
@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the document check compares versions with the base branch
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -35,8 +37,13 @@ jobs:
         run: pnpm typecheck
       - name: Tests, with 100% coverage of packages/core
         run: pnpm test:coverage
-      - name: Traceability against docs/BUILD_SPEC.md
-        run: pnpm check:trace
+      - name: Controlled documents (IDs, trace links, coverage, versions; DOC-000 §8)
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            pnpm docs:check --base "origin/${{ github.base_ref }}"
+          else
+            pnpm docs:check
+          fi
       - name: Known vulnerabilities in dependencies
         run: pnpm audit --audit-level high
 
@@ -51,5 +58,5 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Strict traceability (every acceptance test real, every rule tested, every question closed)
-        run: pnpm check:trace --strict
+      - name: Release gate (no gaps, no placeholders, safety-critical tested, no open release blockers)
+        run: pnpm docs:check --strict
