@@ -1,7 +1,7 @@
 ---
 id: DOC-065
 title: Data management plan
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -50,7 +50,7 @@ Medicine names, dosage forms and routes come from a dated snapshot of the FDA dr
 - Product: Prepped
 - Traces to: UN-106, RC-110
 
-The catalogue the lead clinician picks floor items from is the in-scope part of the WHO Model List of Essential Medicines (routes and storage per SYS-109), recreated from FDA drug directory entries (owner, 2026-11-10). Each entry records the FDA fields it came from and the WHO list edition it corresponds to. Snapshot, subset and licensing: TBD (OD-034).
+The catalogue the lead clinician picks floor items from is the in-scope part of the WHO Model List of Essential Medicines (routes and storage per SYS-109), recreated from FDA drug directory entries (owner, 2026-11-10). Each entry records the FDA fields it came from and the WHO list edition it corresponds to. The owner considers this merge reasonable for the hackathon and beyond (owner, 2026-11-11). WHO items or forms with no FDA entry, snapshot and subset: TBD (OD-034).
 
 ### DAT-301 SpareWing data
 - Product: SpareWing
@@ -71,3 +71,4 @@ Fully synthetic: bases, aircraft, part numbers and alternates, parts stock, pilo
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft from the owner's answers of 2026-11-10 (ADR-005). | Claude, for owner review |
 | 0.2 | 2026-11-10 | New DAT-102 essential-medicines floor catalogue recreated from FDA data (owner, 2026-11-10; ADR-009); DAT-101 covers routes and supplements. | Claude, for owner review |
+| 0.3 | 2026-11-11 | DAT-102: merge of the WHO list and FDA data accepted by the owner (owner, 2026-11-11). | Claude, for owner review |

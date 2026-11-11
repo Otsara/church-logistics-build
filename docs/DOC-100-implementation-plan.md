@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -45,7 +45,17 @@ Exit criteria: `pnpm docs:check` and `pnpm check` pass; the owner's review recor
 ### IT-003 Iteration 3: screens, offline and live demo
 - Dates: November 18 to 23
 
-Both apps' screens from Lovable (ARC-102, ARC-302), sign-off flows (SYS-010), offline store and sync (TC-001), live demo hosting (OD-021).
+Both apps' screens from Lovable (ARC-102, ARC-302), as separate stand-alone projects (owner, 2026-11-11), sign-off flows (SYS-010), offline store and sync (TC-001), live demo hosting (OD-021).
+
+Lovable credit plan for the 100 hackathon credits, approved (owner, 2026-11-11):
+
+| Use | Credits |
+| --- | --- |
+| Prepped screens | 50 |
+| SpareWing screens | 20 |
+| Reserve for integration fixes and the demo | 30 |
+
+A complete screen specification is written first, outside Lovable. Each project gets one plan-mode message to agree the approach, then a few batched build messages. The cost of the first build message is checked and the plan adjusted before more is spent. Lovable builds screens only, never business logic. Max mode is not used. Every message to Lovable is sent only with the owner's go-ahead.
 
 ### IT-004 Iteration 4: release candidate and submission
 - Dates: November 23 to 26
@@ -101,3 +111,4 @@ One project in one track, the Open Track. The description and demo address its f
 | Version | Date | Change | By |
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft: iterations IT-000 to IT-004, review points and check-ins; submission requirements H-1..H-7 carried over as SUB-001..007 (ADR-001). | Claude, for owner review |
+| 0.2 | 2026-11-11 | IT-003: two stand-alone Lovable projects and the approved credit plan (owner, 2026-11-11). | Claude, for owner review |

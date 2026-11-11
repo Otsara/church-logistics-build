@@ -1,7 +1,7 @@
 ---
 id: DOC-010
 title: Intended use, users and regulatory position
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -34,7 +34,7 @@ English only for now (owner, 2026-11-10; OD-030). Users work in places with poor
 
 Prepped helps a medical mission team prepare its mission pharmacy from donated medicines. The lead clinician chooses the mission's minimum floor list from the essential medicines and sets a target quantity for each. Prepped checks each donated lot against the trip's arrival date and rules, shows which lots are eligible, blocked or need review and why, shows how lots from different donations can be combined to meet the floor and where shortages remain, offers comparable available alternatives within a therapeutic class for a clinician to consider, lets the clinician add supplemental medicines beyond the floor, drafts the import paperwork for the destination, and shows a Go or No go indicator. A pharmacist or clinician makes every final decision, and the decision to deploy the team rests with the lead clinician or team leader alone (owner, 2026-11-10; ADR-009).
 
-In scope for this build: medicines taken by mouth, under the tongue, rectally or by feeding tube, and topical skin and eye preparations, none needing a cold chain (owner, 2026-11-10). Everything else is shown as blocked, "outside this build's scope".
+In scope for this build: medicines taken by mouth, under the tongue, rectally or by feeding tube; topical skin and eye preparations (owner, 2026-11-10); and inhaled, nasal, vaginal and ear preparations (owner, 2026-11-11); none needing a cold chain. Injections, infusions and any route not named are shown as blocked, "outside this build's scope". Lots of the same medicine in other formulations or strengths can be offered as exchanges to meet the floor, and expired lots are set aside for discard (owner, 2026-11-11).
 
 ### IU-102 What Prepped must never do
 - Product: Prepped
@@ -80,3 +80,4 @@ No other regulatory classification, standard clause or clinical claim is made in
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft from the owner's answers of 2026-11-10. | Claude, for owner review |
 | 0.2 | 2026-11-10 | IU-101 and IU-102: minimum floor list, Go or No go indicator, supplements and route scope (owner, 2026-11-10; ADR-009). | Claude, for owner review |
+| 0.3 | 2026-11-11 | IU-101: wider route scope, exchanges across formulations and strengths, discard of expired lots (owner, 2026-11-11; ADR-010). | Claude, for owner review |

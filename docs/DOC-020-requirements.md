@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -236,7 +236,7 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 - Safety-critical: yes
 - Formerly: PR-1
 
-Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The 70/30 split is an assumption to adjust after reviewer feedback (OD-004). Whether this meter stays as extra detail beside the Go or No go indicator (SYS-112) or is retired: TBD (OD-004).
+Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority weights: TBD (OD-040).
 
 ### SYS-107 Blocking issues cap readiness
 - Product: Prepped
@@ -258,7 +258,7 @@ For a need that eligible lots do not cover, Prepped lists other eligible lots in
 - Traces to: UN-102, RC-109
 - Safety-critical: yes
 
-A lot is in scope only if its route is oral, sublingual, rectal, feeding tube, topical (skin) or ophthalmic, and it needs no cold chain (owner, 2026-11-10). Any other lot is blocked with the reason "outside this build's scope". Routes not yet decided (for example inhaled, nasal, otic, vaginal) are treated as outside scope until the owner decides (OD-037).
+A lot is in scope only if its route is oral, sublingual, rectal, feeding tube, topical (skin) or ophthalmic (owner, 2026-11-10), or inhaled, nasal, vaginal or otic (owner, 2026-11-11), and it needs no cold chain. Injections, infusions and any route not named are blocked with the reason "outside this build's scope".
 
 ### SYS-110 Mission floor list set by the lead clinician
 - Product: Prepped
@@ -286,7 +286,7 @@ Prepped shows "Go" only when every floor item's target is covered by eligible st
 - Traces to: UN-106, RC-112
 - Safety-critical: yes
 
-For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Which lots count toward the same floor item: TBD (OD-039).
+For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Lots of the same medicine, formulation and strength combine directly; other formulations and strengths are handled as exchanges (SYS-115) (owner, 2026-11-11).
 
 ### SYS-114 Supplemental medicines
 - Product: Prepped
@@ -294,6 +294,27 @@ For each floor item, Prepped shows which eligible lots, from which donations, co
 - Safety-critical: yes
 
 The lead clinician may add supplemental medicines beyond the floor list. Supplements follow the same eligibility rules but never count toward a floor item and never change the Go or No go indicator (owner, 2026-11-10).
+
+### SYS-115 Exchanges of formulation and strength
+- Product: Prepped
+- Traces to: UN-106, RC-114
+- Safety-critical: yes
+
+For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it. How much of the target an accepted exchange covers: TBD (OD-041); Prepped never converts doses by itself.
+
+### SYS-116 Expired lots set aside for discard
+- Product: Prepped
+- Traces to: UN-102, RC-115
+- Safety-critical: yes
+
+Lots whose expiry date has passed on the date of the check are listed separately, marked "Discard: expired", and are never eligible (owner, 2026-11-11). The date of the check is an input; rule code never reads the clock.
+
+### SYS-117 One expiry per lot number
+- Product: Prepped
+- Traces to: UN-101, RC-108
+- Safety-critical: yes
+
+Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number and medicine but different expiry dates are not merged; they are marked "needs review" until a person corrects them.
 
 ## 4. SpareWing requirements
 
@@ -379,3 +400,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft. Requirements carried over from BUILD_SPEC v0.5 (AR-1..6, PE-1..5, PR-1..2, SC-1..6, SI-1) with unchanged wording (ADR-001). New: user needs UN-001..005, UN-101..105, UN-301..305; SYS-007..010, SYS-108, SYS-308 to SYS-310 from the owner's answers of 2026-11-10. | Claude, for owner review |
 | 0.2 | 2026-11-10 | New UN-106, UN-107 and SYS-109 to SYS-114: route and storage scope, floor list set by the lead clinician, caseload estimate, Go or No go indicator, combining donations, supplements (owner, 2026-11-10; ADR-009). SYS-106 marked for keep-or-retire (OD-004). | Claude, for owner review |
+| 0.3 | 2026-11-11 | SYS-106 meter kept (70/30, or 75/25 or 80/20 if the layout favours it); SYS-109 adds inhaled, nasal, vaginal and otic routes; SYS-113 updated; new SYS-115 exchanges, SYS-116 discard of expired lots, SYS-117 one expiry per lot number (owner, 2026-11-11; ADR-010). | Claude, for owner review |

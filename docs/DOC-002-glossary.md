@@ -1,7 +1,7 @@
 ---
 id: DOC-002
 title: Glossary
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -22,7 +22,9 @@ effective_date:
 | Currency (pilot) | The recency and validity of a pilot's ratings and checks, as entered by the program. |
 | Decision support | Software that proposes and explains; a qualified person decides (ADR-002). |
 | Draft | Any generated text or list that is not final until the responsible person marks it reviewed. |
-| Enteral and topical scope | The routes in scope for this build: by mouth, under the tongue, rectal, feeding tube, skin and eye, with no cold chain (owner, 2026-11-10). |
+| Discard list | Lots past their expiry on the date of the check, set aside to be discarded and never packed (owner, 2026-11-11). |
+| Enteral and topical scope | The routes in scope for this build: by mouth, under the tongue, rectal, feeding tube, skin, eye, inhaled, nasal, vaginal and ear, with no cold chain. Injections and infusions are out (owner, 2026-11-10 and 2026-11-11). |
+| Exchange | Another formulation or strength of the same medicine, offered to meet a floor item; it counts only when the clinician accepts it (owner, 2026-11-11). |
 | Eligible (Prepped) | A lot that meets every rule for the trip. Still subject to clinician sign-off. |
 | Floor list | The mission's minimum set of essential medicines and target quantities, chosen by the lead clinician (owner, 2026-11-10). |
 | Flight base director | The person in charge of a mission aviation base, with authority over schedule changes (owner, 2026-11-10). |
@@ -33,7 +35,7 @@ effective_date:
 | Mutation score | The share of deliberately introduced code faults that the tests detect (Stryker). |
 | Needs review (Prepped) | A lot whose data is incomplete, such as no expiry date. Never counted as usable. |
 | Open decision | A question only the owner can answer, listed in DOC-003. |
-| Readiness | How ready a trip is. The Go or No go indicator is the main signal (SYS-112); whether the weighted meter stays beside it is open (OD-004). |
+| Readiness | How ready a trip is: the Go or No go indicator (SYS-112) and, beside it, a graphic meter weighting need coverage and documents 70/30 (SYS-106). |
 | Release blocker | An open decision or failed check that stops the hackathon submission or a release. |
 | Review copy | An uncontrolled copy of a document on claude.ai, stamped with ID, version and commit. |
 | Rule card | A sourced, dated note of a destination country's import requirements. |
@@ -51,3 +53,4 @@ effective_date:
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft. | Claude, for owner review |
 | 0.2 | 2026-11-10 | Added enteral and topical scope, floor list, Go or No go, and supplement. | Claude, for owner review |
+| 0.3 | 2026-11-11 | Added discard list and exchange; updated scope and readiness. | Claude, for owner review |

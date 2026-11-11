@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -88,7 +88,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-013 Supabase (proposed)
 - Version: service
 - Terms: Supabase terms. Free plan, with Edge Function invocations limited per month and projects paused after inactivity; Pro plan billed monthly (third-party summaries, to confirm on supabase.com/pricing).
-- Use: proposed AI gateway (ARC-014) and optional sync (ARC-006). Not used until OD-001 and OD-027 are decided.
+- Use: proposed AI gateway (ARC-014) and optional sync (ARC-006). A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds nothing yet and is not used until OD-001 and OD-027 are decided. Free projects pause after a week without activity, which matters for a live demo during judging.
 - Safety relevance: indirect.
 
 ### SOUP-014 Stryker (planned)
@@ -127,3 +127,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft: SOUP-001 to SOUP-014, SOUP-101; costs. | Claude, for owner review |
 | 0.2 | 2026-11-10 | New SOUP-102 WHO Model List of Essential Medicines (reference only; licence to resolve, OD-034). | Claude, for owner review |
+| 0.3 | 2026-11-11 | SOUP-013: free Supabase project prepped-sparewing created (owner, 2026-11-11). | Claude, for owner review |

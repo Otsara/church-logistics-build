@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -208,6 +208,30 @@ Given any Go or No go result, then the indicator shows "Indicator only: deployin
 
 Given a floor item with no target quantity entered, then it is "needs review", counts as not covered, and the indicator shows "No go".
 
+### TC-118 More routes in scope
+- Product: Prepped
+- Traces to: SYS-109
+
+Given inhaled, nasal, vaginal, ear and eye lots, none needing a cold chain, all expiring 2028-01-15, and a trip arriving 2026-12-01, then all are eligible.
+
+### TC-119 Exchange offered but not counted until accepted
+- Product: Prepped
+- Traces to: SYS-115
+
+Given a floor item for a 500 mg capsule with a target of 100, 40 eligible capsules, and an eligible lot of the same medicine as an oral suspension, then the suspension is offered as an exchange and the item stays 60 short until the clinician accepts the exchange.
+
+### TC-120 Expired lot set aside for discard
+- Product: Prepped
+- Traces to: SYS-116
+
+Given a lot expiring 2026-11-01 and a check made on 2026-11-11, then the lot is listed as "Discard: expired" and is never eligible.
+
+### TC-121 Conflicting expiry for one lot number
+- Product: Prepped
+- Traces to: SYS-117
+
+Given two donor lines with the same lot number and medicine but expiry dates of 2027-06-30 and 2027-09-30, then they are not merged and both are "needs review".
+
 **SpareWing**
 
 ### TC-301 Alternate part found
@@ -265,3 +289,4 @@ Given a part marked not serviceable, then it never appears.
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft. Acceptance tests X-1..X-5, P-1..P-9, S-1..S-7 carried over as TC-001..005, TC-101..109, TC-301..307, wording unchanged (ADR-001). Safety-critical criteria (ADR-006), confirmation run (ADR-005), failure procedure. | Claude, for owner review |
 | 0.2 | 2026-11-10 | New TC-110 to TC-117 for route scope, floor coverage, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |
+| 0.3 | 2026-11-11 | New TC-118 to TC-121 for wider routes, exchanges, discard of expired lots and one expiry per lot number (ADR-010). | Claude, for owner review |
