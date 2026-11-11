@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -232,6 +232,12 @@ Given a lot expiring 2026-11-01 and a check made on 2026-11-11, then the lot is 
 
 Given two donor lines with the same lot number and medicine but expiry dates of 2027-06-30 and 2027-09-30, then they are not merged and both are "needs review".
 
+### TC-122 Accepted exchange counts what the clinician enters
+- Product: Prepped
+- Traces to: SYS-115
+
+Given a floor item with a target of 100 and 40 eligible capsules, when the clinician accepts an oral suspension exchange and enters that it covers 60 of the target, then the item is covered; when the clinician enters 30, the item stays 30 short. Prepped performs no dose conversion in either case.
+
 **SpareWing**
 
 ### TC-301 Alternate part found
@@ -290,3 +296,4 @@ Given a part marked not serviceable, then it never appears.
 | 0.1 | 2026-11-10 | First draft. Acceptance tests X-1..X-5, P-1..P-9, S-1..S-7 carried over as TC-001..005, TC-101..109, TC-301..307, wording unchanged (ADR-001). Safety-critical criteria (ADR-006), confirmation run (ADR-005), failure procedure. | Claude, for owner review |
 | 0.2 | 2026-11-10 | New TC-110 to TC-117 for route scope, floor coverage, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |
 | 0.3 | 2026-11-11 | New TC-118 to TC-121 for wider routes, exchanges, discard of expired lots and one expiry per lot number (ADR-010). | Claude, for owner review |
+| 0.4 | 2026-11-11 | New TC-122: an accepted exchange counts what the clinician enters (ADR-011). | Claude, for owner review |

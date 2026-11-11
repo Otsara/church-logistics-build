@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -272,7 +272,7 @@ Sequence: a different strength or formulation is counted as if it supplied the s
 - Product: Prepped
 - Traces to: HAZ-114
 
-Exchanges are offered, never applied; one counts only after the clinician accepts it and states how much of the target it covers. Prepped never converts doses (OD-041).
+Exchanges are offered, never applied; one counts only after the clinician accepts it and states how much of the target it covers. Prepped never converts doses (ADR-011).
 
 ### RC-115 Expired lots set aside for discard
 - Product: Prepped
@@ -385,3 +385,4 @@ Ranking criteria are set by the program and shown with each proposal; ranking ne
 | 0.1 | 2026-11-10 | First draft: hazards HAZ-001..007, HAZ-101..108, HAZ-301..308 with controls. Severity, probability and acceptability left TBD (OD-024). | Claude, for owner review |
 | 0.2 | 2026-11-10 | New HAZ-109 to HAZ-113 and RC-109 to RC-113 for route scope, floor list, caseload estimate, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |
 | 0.3 | 2026-11-11 | New HAZ-114 and RC-114 for exchanges; RC-115 discard of expired lots (ADR-010). | Claude, for owner review |
+| 0.4 | 2026-11-11 | RC-114 cites ADR-011. | Claude, for owner review |

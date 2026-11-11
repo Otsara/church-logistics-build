@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -300,7 +300,7 @@ The lead clinician may add supplemental medicines beyond the floor list. Supplem
 - Traces to: UN-106, RC-114
 - Safety-critical: yes
 
-For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it. How much of the target an accepted exchange covers: TBD (OD-041); Prepped never converts doses by itself.
+For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it, and then counts exactly the share of the target the clinician enters when accepting it. Prepped never converts doses by itself (owner, 2026-11-11; ADR-011).
 
 ### SYS-116 Expired lots set aside for discard
 - Product: Prepped
@@ -401,3 +401,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.1 | 2026-11-10 | First draft. Requirements carried over from BUILD_SPEC v0.5 (AR-1..6, PE-1..5, PR-1..2, SC-1..6, SI-1) with unchanged wording (ADR-001). New: user needs UN-001..005, UN-101..105, UN-301..305; SYS-007..010, SYS-108, SYS-308 to SYS-310 from the owner's answers of 2026-11-10. | Claude, for owner review |
 | 0.2 | 2026-11-10 | New UN-106, UN-107 and SYS-109 to SYS-114: route and storage scope, floor list set by the lead clinician, caseload estimate, Go or No go indicator, combining donations, supplements (owner, 2026-11-10; ADR-009). SYS-106 marked for keep-or-retire (OD-004). | Claude, for owner review |
 | 0.3 | 2026-11-11 | SYS-106 meter kept (70/30, or 75/25 or 80/20 if the layout favours it); SYS-109 adds inhaled, nasal, vaginal and otic routes; SYS-113 updated; new SYS-115 exchanges, SYS-116 discard of expired lots, SYS-117 one expiry per lot number (owner, 2026-11-11; ADR-010). | Claude, for owner review |
+| 0.4 | 2026-11-11 | SYS-115: an accepted exchange counts the share of the target the clinician enters (owner, 2026-11-11; ADR-011). | Claude, for owner review |
