@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.7
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -159,7 +159,7 @@ Harm: legal consequences for the team, diversion risk, harm to patients. Severit
 - Product: Prepped
 - Traces to: HAZ-103
 
-Lots marked controlled are always blocked, whatever their expiry.
+Lots marked controlled are always blocked, whatever their expiry. The floor-list picker labels controlled medicines as unable to be packed (SYS-118) (owner, 2026-11-12).
 
 ### HAZ-104 A cold-chain item is packed without a cold chain
 - Product: Prepped
@@ -231,7 +231,7 @@ Sequence: an injectable, inhaled or other out-of-scope product, or one needing a
 - Product: Prepped
 - Traces to: HAZ-109
 
-Only lots with an in-scope route and no cold chain can be eligible; all others are blocked with the reason "outside this build's scope".
+Only lots with an in-scope route and no cold chain can be eligible; all others are blocked with the reason "outside this build's scope". Compressed gases and products without a recorded product type are outside scope (owner, 2026-11-12); OD-051, REV-001.
 
 ### HAZ-110 The floor list or a target quantity is wrong
 - Product: Prepped
@@ -408,3 +408,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.5 | 2026-11-12 | §1 scales and acceptability rule (OD-024, owner, 2026-11-12); hazard ratings pending OD-047. New HAZ-008 and RC-008 for sign-in (OD-001). RC-108 merge rule (OD-011); RC-308 ranking order (OD-023). | Claude, for owner review |
 | 0.6 | 2026-11-12 | RC-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
 | 0.7 | 2026-11-12 | §1 severity and probability definitions and the full acceptability rule; every hazard rated (owner, 2026-11-12; OD-047, ADR-019); §1.5 residual risk. | Claude, for owner review |
+| 0.8 | 2026-11-12 | RC-103 picker label (SYS-118); RC-109 gases and missing product type (OD-051, REV-001). | Claude, for owner review |

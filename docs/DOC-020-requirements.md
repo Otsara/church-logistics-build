@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.7
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -258,7 +258,7 @@ For a need that eligible lots do not cover, Prepped lists other eligible lots in
 - Traces to: UN-102, RC-109
 - Safety-critical: yes
 
-A lot is in scope only if its route is oral, sublingual, rectal, topical (skin) or ophthalmic (owner, 2026-11-10), or inhaled, nasal, vaginal or otic (owner, 2026-11-11), and it needs no cold chain. Feeding tube is not a route category: suitability for a feeding tube is the clinician's judgement (owner, 2026-11-12); OD-045. FDA route terms map to these categories through `rules/prepped/route-scope.json`, verified by the owner (owner, 2026-11-12); OD-042. Injections, infusions and any route not named are blocked with the reason "outside this build's scope".
+A lot is in scope only if its route is oral, sublingual, rectal, topical (skin) or ophthalmic (owner, 2026-11-10), or inhaled, nasal, vaginal or otic (owner, 2026-11-11), and it needs no cold chain. Feeding tube is not a route category: suitability for a feeding tube is the clinician's judgement (owner, 2026-11-12); OD-045. FDA route terms map to these categories through `rules/prepped/route-scope.json`, verified by the owner (owner, 2026-11-12); OD-042. Compressed gases are outside scope (OD-051), and so is a product whose FDA product type is not recorded, because a biologic could not be recognised (owner, 2026-11-12); REV-001, ADR-020. Injections, infusions and any route not named are blocked with the reason "outside this build's scope".
 
 ### SYS-110 Mission floor list set by the lead clinician
 - Product: Prepped
@@ -315,6 +315,12 @@ Lots whose expiry date has passed on the date of the check are listed separately
 - Safety-critical: yes
 
 Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number and medicine but different expiry dates are not merged; they are marked "needs review" until a person corrects them.
+
+### SYS-118 Controlled medicines labelled in the floor-list picker
+- Product: Prepped
+- Traces to: UN-106, RC-103
+
+When the lead clinician picks floor items, a controlled medicine in the catalogue is labelled "Controlled: cannot be packed in this build" with its basis (for example "FDA drug directory: DEA schedule CII"), so a floor item is never chosen without knowing it cannot be met (owner, 2026-11-12); REV-001, ADR-020.
 
 ## 4. SpareWing requirements
 
@@ -405,3 +411,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.5 | 2026-11-12 | Owner decisions of 2026-11-12 carried into SYS-007 (OD-017), SYS-102 (OD-009, OD-043), SYS-103 (OD-044), SYS-106 (OD-040), SYS-108 (OD-022), SYS-109 (OD-042, OD-045), SYS-303 (OD-014, OD-015), SYS-307 (OD-016), SYS-308 (OD-023), SYS-310 (OD-026). | Claude, for owner review |
 | 0.6 | 2026-11-12 | SYS-115: tablets and suspension, alone or in portions (owner, 2026-11-12); acceptance pending OD-048. | Claude, for owner review |
 | 0.7 | 2026-11-12 | SYS-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
+| 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
