@@ -1,8 +1,8 @@
 /**
- * Date-only ISO strings (YYYY-MM-DD), compared in UTC (F-5).
+ * Date-only ISO strings (YYYY-MM-DD), compared in UTC (ARC-005).
  *
  * Rule functions take dates as input and never read the clock, so a changed arrival date
- * recalculates without any other dependency (P-8).
+ * recalculates without any other dependency (TC-108).
  */
 
 declare const isoDateBrand: unique symbol;
@@ -20,7 +20,7 @@ function utcMidnight(value: string): number | undefined {
   const year = Number(match[1]);
   const month = Number(match[2]);
   const day = Number(match[3]);
-  const date = new Date(0); // eslint-disable-line no-restricted-syntax -- the one place a Date is built (F-5)
+  const date = new Date(0); // eslint-disable-line no-restricted-syntax -- the one place a Date is built (ARC-005)
   date.setUTCFullYear(year, month - 1, day);
   const isSameDay =
     date.getUTCFullYear() === year &&

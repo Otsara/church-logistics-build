@@ -1,58 +1,56 @@
 # Project: Prepped and SpareWing
 
-Two small web apps for ministry logistics, built for the AI for Church Hackathon 2026.
-Only one is submitted. Both share the core package.
+Two decision-support apps for missionary work in pharmacy (Prepped) and flight (SpareWing), built in parallel for the AI for Church Hackathon 2026. Flight and pharmacy are high-risk endeavours: treat every change as safety work. Only one product is submitted; both share the core.
 
-The full build spec is in `docs/BUILD_SPEC.md`. Read it before starting any task.
+## At the start of every session
 
-## Layout
-- packages/core: pure rule functions, no network, no AI
-- packages/ai: one typed function per AI step, schema-validated
-- packages/synth: seeded synthetic data generator
-- packages/store: offline storage and sync (proposed in spec v0.3; waits on Q-1)
-- apps/prepped, apps/sparewing: screens (UI from Lovable under ui/)
-- rules/: JSON rule files that a pharmacist or mechanic can read (format in `rules/README.md`)
-- tools/check-trace.mjs: checks the spec against the tests
-- docs/TRACEABILITY.md: generated matrix of spec items, tests and open questions
-- docs/TOOLCHAIN.md: why each tool and setting is here
-- docs/SUBMISSION.md: hackathon submission checklist (H-1 to H-7), ticked with evidence
+1. Read `docs/DOC-001-master-index.md` and `docs/DOC-000-document-control.md`. DOC-000 defines IDs, versions, review, approval and change control.
+2. Read `docs/DOC-003-open-decisions.md`. Say which open decisions affect the task, and remind the owner of release blockers.
+3. Read the documents that govern the task before proposing or changing anything. Requirements and decisions in them are binding unless the owner changes them.
+4. Run `pnpm docs:check` and note any errors or gaps that matter to the task.
+
+## While working
+
+- **Update the documents in the same change as the work.** New or changed behaviour: DOC-020. New hazards or controls: DOC-030. Structure or AI steps: DOC-040. Security: DOC-060. Data: DOC-065. Tests: DOC-070. Dependencies, services or data sets: DOC-090 before first use. Plan or submission: DOC-100.
+- **IDs:** every item has a unique `PREFIX-nnn` ID, is defined once as `### PREFIX-nnn Title` with its fields, traces to its parent, and is never renumbered or reused. Use the next free number in your product's range: 001–099 Shared, 100–299 Prepped, 300–499 SpareWing.
+- **Versions:** every document change bumps the version and adds a revision history row. Commit messages name the documents and item IDs, for example `DOC-020 v0.2, DOC-070 v0.2: add SYS-110, TC-110`.
+- **Owner decisions** are recorded as "(owner, YYYY-MM-DD)". A decision that crosses documents or affects safety gets an ADR in `docs/adr/` with context, options and consequences.
+- **Never invent** safety or regulatory classifications, clinical claims, standards clauses or numeric limits. Write `TBD`, add an open decision to DOC-003, and ask the owner.
+- **Never edit generated sections**; run `pnpm docs:update`.
+- **Tests first:** write the failing test from the test case in DOC-070, then the code. Every test title starts with the IDs it verifies, for example `it('[TC-101] Given ...')`.
+- **Safety-critical code** (marked in DOC-020 and DOC-040) needs 100% branch coverage, a Stryker mutation score of at least 80% on changed code and critical paths, and the owner's line-by-line review, recorded in `docs/reviews/` (ADR-006).
+- **Data:** synthetic data only, never real personal or health data. Never read, open or tune against the held-back third (DAT-002); it is used only in the pre-release confirmation run with the owner present.
+- **Code rules:** eligibility, candidate and readiness logic lives in `packages/core` only; AI never decides these. Dates are date-only ISO strings compared in UTC. Every AI call is schema-validated, retried once, then falls back to manual entry; names are replaced by ids first. Never output "approved" for a part, pilot, medicine or document. Never edit `apps/*/ui` by hand. Write all code and configuration fresh for this build.
+- **Failures:** report them with evidence (command, output, commit). Investigate in order: reproduce, then causes, then a remedy plan listing the decisions the owner owes.
+
+## Approval
+
+Nothing is Approved, Verified, merged, tagged, deployed or published without the owner's explicit confirmation in the conversation. Never approve or merge a pull request. Record each review as `docs/reviews/REV-nnn-*.md`.
+
+## Before finishing
+
+Run `pnpm docs:update`, then `pnpm check` (includes `pnpm docs:check`). Both must pass. Report new warnings and coverage gaps, and any open decision the work depends on.
+
+## Review copies and check-ins
+
+- At each review point (a pull request opened, merged or baselined), republish the changed documents as review copies on claude.ai (https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg), each stamped with document ID, version, status and commit. The repository governs; never edit a review copy first.
+- Scheduled check-ins every 4 hours between 08:00 and 23:59 Central time list open release blockers, decisions owed, pull request and CI state, and days to the deadline (DOC-100 §3).
 
 ## Commands
+
 - install: `pnpm install`
 - test: `pnpm test`
 - full check (what CI runs): `pnpm check`
-- traceability: `pnpm check:trace`; regenerate the matrix with `pnpm trace:update`
-- submission gate: `pnpm check:trace --strict`
-- dev: not yet; screens come from Lovable (Q-18)
-
-## Rules for changes
-1. Write the failing test from the acceptance list in `docs/BUILD_SPEC.md` first, then the code.
-2. Eligibility, candidate and readiness logic lives in packages/core only. AI never decides these.
-3. Dates are date-only ISO strings compared in UTC.
-4. Use synthetic data only. Never commit real names, records or secrets.
-5. Every AI call: validate against its schema, one retry, then fall back to manual entry.
-6. Never output "approved" for a part, pilot, medicine or document. Use "candidate" or "draft" and require human sign-off.
-7. Do not edit files under apps/*/ui by hand; regenerate them from Lovable.
-8. Start every test title with the spec IDs it verifies in brackets, for example `it('[P-1] Given ...')`. Never rename, renumber or reuse an ID.
-9. When a change affects `docs/BUILD_SPEC.md`, update it in the same pull request: bump the version and add a revision history row.
-10. Before finishing, run `pnpm trace:update` and `pnpm check`. Both must pass. Report new warnings and any open question the work depends on.
-11. Never close an open question (Q-n) without a decision from the owner in the conversation. Record the decision, the date and who decided.
-12. Write the toolchain, tests and code fresh for this build. Do not copy configuration, code or templates from earlier projects (Q-19).
-13. Keep the specs doc in step with the repo (owner instruction, 2026-11-09). Whenever `docs/BUILD_SPEC.md` changes, update the "Build spec" tab of the specs doc (https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg) to match it in the same session, version and status included. The repo copy governs; never edit the doc first.
+- documents: `pnpm docs:check`; regenerate generated sections with `pnpm docs:update`; release gate `pnpm docs:check --strict`
+- dev: not yet; screens come from Lovable (OD-018)
 
 ## Branches
-Work on a branch named for its stream and topic, merge to `main` by pull request only, with the owner's agreement:
-- `build/...` for the shared foundation
-- `prepped/...` for Prepped rules and screens, for example `prepped/eligibility-rules`
-- `sparewing/...` for SpareWing, for example `sparewing/candidate-rules`
-- `shared/...` for the AI wrapper, synthetic data and offline store, for example `shared/ai-wrapper`
 
-Parallel streams stay inside their own folders. The root `package.json`, `pnpm-lock.yaml`, `docs/BUILD_SPEC.md` and `CLAUDE.md` are shared: change them in small, separate commits, and after a merge regenerate `pnpm-lock.yaml` with `pnpm install` and the matrix with `pnpm trace:update` rather than merging them by hand.
-
-## Open questions
-`docs/BUILD_SPEC.md` lists open questions Q-1 to Q-21 (Q-10, Q-19 and Q-20 are closed). At the start of each task, check which ones affect it and say so. Do not guess an answer to an open question in code; ask the owner.
+Work on a branch named for its stream and topic; merge to `main` by pull request only, with the owner's agreement: `build/...` (foundation), `prepped/...`, `sparewing/...`, `shared/...` (AI wrapper, synthetic data, offline store). Parallel streams stay in their own folders and number ranges. Shared files (`package.json`, `pnpm-lock.yaml`, `CLAUDE.md`, DOC-000 to DOC-003) change in small, separate commits; after a merge, regenerate `pnpm-lock.yaml` with `pnpm install` and generated sections with `pnpm docs:update` rather than merging them by hand.
 
 ## Definition of done
-- All acceptance tests in `docs/BUILD_SPEC.md` pass, every line of `docs/SUBMISSION.md` is ticked with its evidence, and `pnpm check:trace --strict` passes.
+
+- All test cases in DOC-070 pass, every safety-critical unit meets ADR-006, and the owner's reviews are recorded.
+- Every line of `docs/SUBMISSION.md` is ticked with its evidence, and `pnpm docs:check --strict` passes.
 - The app works with the network off, apart from AI steps.
-- Rules files cite a source link and a verified date.
+- Rule files cite a source link and a verified date.

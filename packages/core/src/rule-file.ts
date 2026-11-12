@@ -1,5 +1,5 @@
 /**
- * Rule files in /rules (F-4): JSON that a pharmacist or mechanic can read and correct.
+ * Rule files in /rules (ARC-004): JSON that a pharmacist or mechanic can read and correct.
  * Every file cites a source link. A verified file also records the verified date and who
  * verified it; a placeholder says so, and is not to be relied on (CLAUDE.md, definition of done).
  */

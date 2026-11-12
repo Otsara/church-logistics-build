@@ -1,6 +1,6 @@
 # Rule files
 
-JSON rule files that a pharmacist or mechanic can read and correct (F-4). Core loads them; the AI never decides what they say (AR-3, AR-4).
+JSON rule files that a pharmacist or mechanic can read and correct (ARC-004). Core loads them; the AI never decides what they say (SYS-003, SYS-004).
 
 Put Prepped files in `rules/prepped/` and SpareWing files in `rules/sparewing/`. The file name is the rule file's `id` plus `.json`.
 

@@ -15,9 +15,9 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run && node --test \"tools/*.test.mjs\"",
     "test:coverage": "vitest run --coverage && node --test \"tools/*.test.mjs\"",
-    "check:trace": "node tools/check-trace.mjs",
-    "trace:update": "node tools/check-trace.mjs --update",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm check:trace"
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm docs:check",
+    "docs:check": "node tools/check-docs.mjs",
+    "docs:update": "node tools/check-docs.mjs --update"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

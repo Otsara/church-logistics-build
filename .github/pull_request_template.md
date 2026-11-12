@@ -1,35 +1,33 @@
 ## What changed and why
 
-<!-- One or two sentences. Name the stream: Prepped rules, SpareWing rules, AI wrapper, synthetic data, offline store, screens or foundation. -->
+<!-- One or two sentences. Name the stream: Prepped, SpareWing, AI wrapper, synthetic data, offline store, screens or foundation. -->
 
-## Spec items
+## Documents and items
 
-| ID | Added, changed, verified or retired |
-| --- | --- |
-| | |
+| Document | Version | Items added, changed, verified or retired |
+| --- | --- | --- |
+| DOC-nnn | 0.x -> 0.y | |
 
-Build spec version: unchanged / 0.x -> 0.y
-Open questions this depends on or closes: Q-n / none
+Open decisions this depends on or closes: OD-nnn / none
+ADRs added: ADR-nnn / none
 
 ## Author checks
 
-- [ ] The failing acceptance test was written first, then the code (CLAUDE.md rule 1)
-- [ ] Every new or changed test starts its title with the spec IDs it verifies, for example `[P-1]`
-- [ ] `pnpm check` passes, and `pnpm trace:update` was run with `docs/TRACEABILITY.md` committed
-- [ ] Spec changes bump the version and add a revision history row; no ID was renumbered or reused
-- [ ] If the spec changed, the "Build spec" tab of the specs doc on claude.ai was updated to match
-- [ ] A closed question records the decision, the date and who decided
-- [ ] If a submission requirement (H-n) is affected, `docs/SUBMISSION.md` is updated with its evidence
-- [ ] Eligibility, candidate and readiness logic is only in `packages/core`; no AI step decides them
-- [ ] AI steps validate against a schema, retry once, fall back to manual entry, replace names with ids and log the call
-- [ ] Nothing says "approved"; drafts and candidates need a person's sign-off
-- [ ] Synthetic data only: no real names, records or secrets
-- [ ] Rule files cite a source link, and a verified date or `placeholder` status
-- [ ] Nothing under `apps/*/ui` was edited by hand
+- [ ] The failing test was written first from the test case in DOC-070
+- [ ] Every new or changed test starts its title with the IDs it verifies
+- [ ] Documents updated in this same change; each changed document has a version bump and a revision row
+- [ ] New items have unique `PREFIX-nnn` IDs in the right product range, defined once, with trace links
+- [ ] `pnpm docs:update` and `pnpm check` pass; new warnings and gaps are listed above
+- [ ] Owner decisions recorded as "(owner, YYYY-MM-DD)"; cross-document or safety decisions have an ADR
+- [ ] Nothing invented: classifications, clinical claims, standards clauses and numeric limits are TBD with an open decision
+- [ ] Safety-critical code: 100% branch coverage, mutation score of at least 80%, owner line-by-line review recorded
+- [ ] Synthetic data only; the held-back set untouched
+- [ ] New dependencies, services or data sets registered in DOC-090
+- [ ] Nothing says "approved" for a part, pilot, medicine or document
+- [ ] Review copies republished, stamped with ID, version and commit
 - [ ] AI-assisted: yes / no
 
-## Reviewer checks
+## Owner review
 
-- [ ] The behaviour matches the cited spec items, read in `docs/BUILD_SPEC.md`, not only the tests
-- [ ] The spec, the tests and `docs/TRACEABILITY.md` agree
-- [ ] An AI assistant does not approve this pull request
+- [ ] The changes say what I intend; findings recorded in a review record
+- [ ] An AI assistant does not approve or merge this pull request

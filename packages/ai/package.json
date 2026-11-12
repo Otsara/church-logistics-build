@@ -2,7 +2,7 @@
   "name": "@church-logistics/ai",
   "private": true,
   "license": "UNLICENSED",
-  "description": "One typed function per AI step, schema-validated, one retry, then manual entry (F-8, AR-1 to AR-6).",
+  "description": "One typed function per AI step, schema-validated, one retry, then manual entry (ARC-008, SYS-001 to SYS-006).",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

@@ -17,12 +17,12 @@ const verified = {
 };
 
 describe("rule files", () => {
-  it("[F-4] accepts a verified file with a source link, verified date and verifier", () => {
+  it("[ARC-004] accepts a verified file with a source link, verified date and verifier", () => {
     const result = parseRuleFile(verified);
     expect(result.ok).toBe(true);
   });
 
-  it("[F-4] accepts a placeholder that has a source link but is not yet verified", () => {
+  it("[ARC-004] accepts a placeholder that has a source link but is not yet verified", () => {
     const result = parseRuleFile({
       ...verified,
       status: "placeholder",
@@ -35,7 +35,7 @@ describe("rule files", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("[F-4] rejects a verified file without a verified date or verifier", () => {
+  it("[ARC-004] rejects a verified file without a verified date or verifier", () => {
     const result = parseRuleFile({
       ...verified,
       source: {
@@ -52,7 +52,7 @@ describe("rule files", () => {
     });
   });
 
-  it("[F-4] rejects a missing source link, a bad date and unknown fields, listing each problem", () => {
+  it("[ARC-004] rejects a missing source link, a bad date and unknown fields, listing each problem", () => {
     const result = parseRuleFile({
       ...verified,
       source: {
@@ -70,14 +70,14 @@ describe("rule files", () => {
     expect(result.errors.join("\n")).toMatch(/extra/);
   });
 
-  it("[F-4] reports a problem with the file as a whole when it is not an object", () => {
+  it("[ARC-004] reports a problem with the file as a whole when it is not an object", () => {
     const result = parseRuleFile("shelf-life");
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(result.errors[0]).toMatch(/^\(file\): /);
   });
 
-  it("[F-4] every JSON file in /rules is a valid rule file whose id matches its file name", () => {
+  it("[ARC-004] every JSON file in /rules is a valid rule file whose id matches its file name", () => {
     const rulesDir = join(import.meta.dirname, "../../../rules");
     const files = readdirSync(rulesDir, {
       recursive: true,

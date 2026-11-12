@@ -1,4 +1,4 @@
-/** Audit entries: every AI call and every human sign-off is logged (F-11, AR-6). */
+/** Audit entries: every AI call and every human sign-off is logged (ARC-011, SYS-006). */
 
 export type AuditActor =
   | { readonly kind: "person"; readonly personId: string }

@@ -9,13 +9,13 @@ import {
 const d = parseIsoDate;
 
 describe("date-only ISO strings", () => {
-  it("[F-5] accepts real calendar dates written as YYYY-MM-DD", () => {
+  it("[ARC-005] accepts real calendar dates written as YYYY-MM-DD", () => {
     expect(isIsoDate("2026-12-01")).toBe(true);
     expect(isIsoDate("2028-02-29")).toBe(true);
     expect(isIsoDate("0099-01-01")).toBe(true);
   });
 
-  it("[F-5] rejects impossible dates, other formats and date-times", () => {
+  it("[ARC-005] rejects impossible dates, other formats and date-times", () => {
     for (const value of [
       "2026-02-30",
       "2027-02-29",
@@ -30,7 +30,7 @@ describe("date-only ISO strings", () => {
     }
   });
 
-  it("[F-5] parseIsoDate returns the same string or throws a RangeError naming the value", () => {
+  it("[ARC-005] parseIsoDate returns the same string or throws a RangeError naming the value", () => {
     expect(parseIsoDate("2027-03-01")).toBe("2027-03-01");
     expect(() => parseIsoDate("2027-02-30")).toThrow(RangeError);
     expect(() => parseIsoDate("2027-02-30")).toThrow('"2027-02-30"');
@@ -38,23 +38,23 @@ describe("date-only ISO strings", () => {
 });
 
 describe("daysBetween", () => {
-  it("[F-5] counts whole days in UTC, matching the worked numbers in P-1 and P-2", () => {
+  it("[ARC-005] counts whole days in UTC, matching the worked numbers in TC-101 and TC-102", () => {
     expect(daysBetween(d("2026-12-01"), d("2027-03-01"))).toBe(90);
     expect(daysBetween(d("2026-12-01"), d("2028-01-15"))).toBe(410);
   });
 
-  it("[F-5] is negative when the second date is earlier, and zero for the same date", () => {
+  it("[ARC-005] is negative when the second date is earlier, and zero for the same date", () => {
     expect(daysBetween(d("2027-03-01"), d("2026-12-01"))).toBe(-90);
     expect(daysBetween(d("2026-12-01"), d("2026-12-01"))).toBe(0);
   });
 
-  it("[F-5] counts leap days and is not affected by daylight saving changes", () => {
+  it("[ARC-005] counts leap days and is not affected by daylight saving changes", () => {
     expect(daysBetween(d("2028-02-28"), d("2028-03-01"))).toBe(2);
     expect(daysBetween(d("2026-03-07"), d("2026-03-09"))).toBe(2);
     expect(daysBetween(d("2026-10-31"), d("2026-11-02"))).toBe(2);
   });
 
-  it("[F-5] throws if handed a string that bypassed validation", () => {
+  it("[ARC-005] throws if handed a string that bypassed validation", () => {
     expect(() => daysBetween("2026-02-30" as IsoDate, d("2026-12-01"))).toThrow(
       RangeError,
     );

@@ -2,7 +2,7 @@
   "name": "@church-logistics/store",
   "private": true,
   "license": "UNLICENSED",
-  "description": "Offline-first storage and sync (F-6, F-7). Proposed in BUILD_SPEC v0.3; the storage choice is open (Q-1).",
+  "description": "Offline-first storage and sync (ARC-006, ARC-007). Proposed in BUILD_SPEC v0.3; the storage choice is open (OD-001).",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

@@ -2,7 +2,7 @@
   "name": "@church-logistics/synth",
   "private": true,
   "license": "UNLICENSED",
-  "description": "Seeded synthetic data generator (F-12). Synthetic data only.",
+  "description": "Seeded synthetic data generator (ARC-012). Synthetic data only.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
