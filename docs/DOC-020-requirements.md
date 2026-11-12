@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.9
+version: 0.10
 status: Draft
 effective_date:
 ---
@@ -228,7 +228,7 @@ Cold-chain items are always blocked in this build, whatever their expiry, so the
 - Safety-critical: yes
 - Formerly: PE-5
 
-A lot with no expiry date is "needs review" and does not count toward readiness.
+A lot with no expiry date is "needs review" and does not count toward readiness. An expiry that cannot be read as a date is treated the same way and is never guessed: only a full date (YYYY-MM-DD) or a month and year (MM/YYYY, OD-043) is read (proposed in iteration 1, for owner review).
 
 ### SYS-106 Readiness meter
 - Product: Prepped
@@ -413,3 +413,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.7 | 2026-11-12 | SYS-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
+| 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one (proposed, for owner review). | Claude, for owner review |

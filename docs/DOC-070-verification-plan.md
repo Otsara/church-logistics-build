@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.10
+version: 0.11
 status: Draft
 effective_date:
 ---
@@ -243,7 +243,7 @@ Given a lot marked controlled, then it is blocked whatever its expiry.
 - Traces to: SYS-105, SYS-106
 - Formerly: P-4
 
-Given a lot with no expiry date, then it is "needs review" and excluded from readiness.
+Given a lot with no expiry date, then it is "needs review" and excluded from readiness; an expiry that cannot be read, such as 2028-02-30, is treated the same way.
 
 ### TC-105 Missing import permit
 - Product: Prepped
@@ -539,3 +539,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.8 | 2026-11-12 | TC-123 biologics (OD-049); TC-124 retired (OD-046). | Claude, for owner review |
 | 0.9 | 2026-11-12 | TC-123 missing product type and gases; new TC-027 data script checks, TC-132 picker label (REV-001). | Claude, for owner review |
 | 0.10 | 2026-11-12 | TC-123 dosage-form prefix; TC-027 folder named with two dots (REV-002). | Claude, for owner review |
+| 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |

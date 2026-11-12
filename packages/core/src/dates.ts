@@ -47,6 +47,27 @@ export function daysBetween(from: IsoDate, to: IsoDate): number {
   return Math.round((millis(to) - millis(from)) / MS_PER_DAY);
 }
 
+/**
+ * The last day of a month, for an expiry printed as month and year only (OD-043: read as the
+ * last day of that month). Throws a RangeError for a month or year that is not a calendar value.
+ */
+export function lastDayOfMonth(year: number, month: number): IsoDate {
+  const date = new Date(0); // eslint-disable-line no-restricted-syntax -- dates are built only here (ARC-005)
+  // Day 0 of the next month is the last day of this one.
+  date.setUTCFullYear(year, month, 0);
+  const pad = (n: number, width: number): string =>
+    String(n).padStart(width, "0");
+  const text = `${pad(year, 4)}-${pad(month, 2)}-${pad(date.getUTCDate(), 2)}`;
+  // A month or year that is not a calendar value (0, 13, 2.5, -1, 10000) never makes a real
+  // date written with that same year and month, so this one check rejects them all.
+  if (!isIsoDate(text)) {
+    throw new RangeError(
+      `Not a calendar month: year ${String(year)}, month ${String(month)}`,
+    );
+  }
+  return text;
+}
+
 function millis(date: IsoDate): number {
   const value = utcMidnight(date);
   if (value === undefined)

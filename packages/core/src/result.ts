@@ -3,8 +3,11 @@
  * never silently passes or fails (SYS-105, SYS-304). No state means "approved" (CLAUDE.md rule 6).
  */
 
-/** Prepped lot eligibility (SYS-101 to SYS-105). */
-export type PreppedStatus = "eligible" | "blocked" | "needs_review";
+/**
+ * Prepped lot eligibility (SYS-101 to SYS-105). "discard" is a lot already past its expiry on
+ * the date of the check: listed separately, set aside and never eligible (SYS-116).
+ */
+export type PreppedStatus = "eligible" | "blocked" | "needs_review" | "discard";
 
 /** SpareWing part or pilot candidates (SYS-301 to SYS-306). */
 export type SpareWingStatus = "candidate" | "excluded" | "unknown";

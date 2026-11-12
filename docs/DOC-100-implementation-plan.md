@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.8
+version: 0.9
 status: Draft
 effective_date:
 ---
@@ -38,6 +38,8 @@ Exit criteria: `pnpm docs:check` and `pnpm check` pass; the owner's review recor
 - Dates: November 13 to 17
 
 `prepped/eligibility-rules`: TC-101 to TC-109 and SYS-108. `sparewing/candidate-rules`: TC-301 to TC-307, SYS-308 and SYS-309. Exit: ADR-006 criteria met and the owner's line-by-line review recorded for each unit.
+
+Status on 2026-11-12 (started early): lot eligibility is built on `prepped/eligibility-rules` (TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129), with 100% branch coverage and a mutation score of 100% on the new files. Waiting: the owner's line-by-line review; OD-052 before TC-105; a checked source link before the shelf-life rule file (OD-002). The scope above predates TC-110 to TC-132; whether they belong to this iteration is for the owner to confirm.
 
 ### IT-002 Iteration 2: AI steps
 - Dates: November 16 to 20
@@ -120,3 +122,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.6 | 2026-11-12 | IT-000 status: snapshot imported; held-back third sealed and handed over. | Claude, for owner review |
 | 0.7 | 2026-11-12 | IT-000 status after OD-046, OD-048 and OD-049. | Claude, for owner review |
 | 0.8 | 2026-11-12 | IT-000 status: REV-001 recorded; catalogue without gases. | Claude, for owner review |
+| 0.9 | 2026-11-12 | IT-001 status: lot eligibility built; scope question for the owner. | Claude, for owner review |

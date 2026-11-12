@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   daysBetween,
   isIsoDate,
+  lastDayOfMonth,
   parseIsoDate,
   type IsoDate,
 } from "../src/dates.ts";
@@ -72,5 +73,36 @@ describe("date validation edges", () => {
     expect(() => daysBetween("2026-02-30" as IsoDate, d("2026-12-01"))).toThrow(
       'Not a date-only ISO string: "2026-02-30"',
     );
+  });
+});
+
+describe("lastDayOfMonth", () => {
+  it("[SYS-102] gives the last day of a month, for expiry dates printed as month and year only (OD-043)", () => {
+    expect(lastDayOfMonth(2028, 3)).toBe("2028-03-31");
+    expect(lastDayOfMonth(2027, 4)).toBe("2027-04-30");
+    expect(lastDayOfMonth(2028, 2)).toBe("2028-02-29");
+    expect(lastDayOfMonth(2027, 2)).toBe("2027-02-28");
+    expect(lastDayOfMonth(2100, 2)).toBe("2100-02-28");
+    expect(lastDayOfMonth(2000, 2)).toBe("2000-02-29");
+    expect(lastDayOfMonth(2027, 1)).toBe("2027-01-31");
+    expect(lastDayOfMonth(2027, 12)).toBe("2027-12-31");
+    expect(lastDayOfMonth(999, 6)).toBe("0999-06-30");
+  });
+
+  it("[SYS-102] throws a RangeError for a month or year that is not a calendar value", () => {
+    for (const [year, month] of [
+      [2028, 0],
+      [2028, 13],
+      [2028, 2.5],
+      [-1, 3],
+      [10000, 3],
+      [2028.5, 3],
+    ] as const) {
+      expect(
+        () => lastDayOfMonth(year, month),
+        `${String(year)}/${String(month)}`,
+      ).toThrow(RangeError);
+    }
+    expect(() => lastDayOfMonth(2028, 13)).toThrow("year 2028, month 13");
   });
 });
