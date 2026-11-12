@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.6
+version: 0.7
 status: Draft
 effective_date:
 ---
@@ -79,6 +79,12 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Use: pinned by override in `pnpm-workspace.yaml` to fix denial-of-service advisories in versions before 6.16.1, reached only through Stryker's report-upload client.
 - Safety relevance: no.
 
+### SOUP-016 marked
+- Version: 12.0.2
+- Licence: MIT (npm package metadata, 2026-11-12)
+- Use: renders the controlled documents to HTML for the stamped review copies (`tools/review-copies.mjs`, `pnpm docs:review-copies`).
+- Safety relevance: no. Review copies are uncontrolled; the repository governs.
+
 ### SOUP-011 GitHub Actions
 - Version: actions/checkout@v4, pnpm/action-setup@v4, actions/setup-node@v4, actions/upload-artifact@v4
 - Terms: GitHub terms of service.
@@ -139,3 +145,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.4 | 2026-11-12 | SOUP-014 Stryker pinned at 10.1.1 (Apache-2.0); SOUP-011 adds upload-artifact; SOUP-001 also used by the importer; new SOUP-015 qs override. | Claude, for owner review |
 | 0.5 | 2026-11-12 | SOUP-002 funding (OD-028); SOUP-012 hosting (OD-018); SOUP-013 in use for sync, sign-in and AI gateway (OD-001, OD-027); SOUP-101 snapshot, CC0 confirmed and safety relevance (OD-034, OD-044); SOUP-102 licence moves to OD-046 (owner, 2026-11-12). | Claude, for owner review |
 | 0.6 | 2026-11-12 | SOUP-102 retired: the WHO list is not used (OD-046). | Claude, for owner review |
+| 0.7 | 2026-11-12 | New SOUP-016 marked 12.0.2 for the review-copy builder. | Claude, for owner review |

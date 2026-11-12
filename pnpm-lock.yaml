@@ -194,6 +194,9 @@ importers:
       globals:
         specifier: 17.13.0
         version: 17.13.0
+      marked:
+        specifier: 12.0.2
+        version: 12.0.2
       prettier:
         specifier: 3.9.10
         version: 3.9.10
@@ -1466,6 +1469,11 @@ packages:
   make-dir@4.0.0:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
+
+  marked@12.0.2:
+    resolution: {integrity: sha512-qXUm7e/YKFoqFPYPa3Ukg9xlI5cyAtGmyEIzMfW//m6kXwCy2Ps9DYf5ioijFKQ8qyuscrHoY04iJGctu2Kg0Q==}
+    engines: {node: '>= 18'}
+    hasBin: true
 
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
@@ -3106,6 +3114,8 @@ snapshots:
   make-dir@4.0.0:
     dependencies:
       semver: 7.8.6
+
+  marked@12.0.2: {}
 
   math-intrinsics@1.1.0: {}
 
