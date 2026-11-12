@@ -19,7 +19,7 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-003 | Open decisions and release blockers | 0.12 | Draft | `docs/DOC-003-open-decisions.md` |
 | DOC-010 | Intended use, users and regulatory position | 0.4 | Draft | `docs/DOC-010-intended-use.md` |
 | DOC-020 | User needs and system requirements | 0.10 | Draft | `docs/DOC-020-requirements.md` |
-| DOC-030 | Risk management file | 0.8 | Draft | `docs/DOC-030-risk-management.md` |
+| DOC-030 | Risk management file | 0.9 | Draft | `docs/DOC-030-risk-management.md` |
 | DOC-040 | Architecture and AI step contracts | 0.10 | Draft | `docs/DOC-040-architecture.md` |
 | DOC-050 | Decision record index | 0.1 | Draft | `docs/DOC-050-decision-records.md` |
 | DOC-060 | Security and privacy | 0.2 | Draft | `docs/DOC-060-security-privacy.md` |
@@ -47,7 +47,7 @@ Items defined, by type:
 | SOUP | 18 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 20 |
+| ADR | 21 |
 | REV | 2 |
 <!-- END GENERATED -->
 

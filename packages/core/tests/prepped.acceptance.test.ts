@@ -4,7 +4,7 @@ import { describe, it } from "vitest";
 
 describe("Prepped acceptance", () => {
   it.todo(
-    '[TC-105] Given a destination card that requires an import permit and no permit marked obtained, then readiness shows "Not ready" and the document draft lists the missing permit',
+    '[TC-105] Given a destination card that requires an import permit and no permit marked obtained, then the indicator shows "No go" and lists the missing permit, the meter shows its percentage as usual, and the document draft lists the missing permit',
   );
   it.todo(
     "[TC-106] Given a target of 200 courses and 150 eligible, then item coverage is 75%",

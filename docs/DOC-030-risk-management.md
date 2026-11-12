@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.8
+version: 0.9
 status: Draft
 effective_date:
 ---
@@ -189,13 +189,13 @@ Alternatives are shown only for a clinician to consider, labelled "Comparable, n
 - Product: Prepped
 - Traces to: IU-101
 
-Harm: medicines seized or delayed at the border; patients go without. Severity: serious. Probability with controls: unlikely; code caps readiness at Not ready (owner, 2026-11-12).
+Harm: medicines seized or delayed at the border; patients go without. Severity: serious. Probability with controls: unlikely; code shows "No go" and lists the missing document (owner, 2026-11-12; wording updated by OD-052, rating unchanged).
 
-### RC-106 Blocking issues stop "ready"
+### RC-106 Blocking issues mean "No go"
 - Product: Prepped
 - Traces to: HAZ-106
 
-Any blocking issue, such as a missing import permit, caps readiness at "Not ready" and is listed in the draft paperwork.
+Any blocking issue, such as a missing import permit, makes the indicator "No go" and is listed there and in the draft paperwork (owner, 2026-11-12; OD-052, ADR-021).
 
 ### HAZ-107 Readiness is overstated
 - Product: Prepped
@@ -409,3 +409,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.6 | 2026-11-12 | RC-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
 | 0.7 | 2026-11-12 | §1 severity and probability definitions and the full acceptability rule; every hazard rated (owner, 2026-11-12; OD-047, ADR-019); §1.5 residual risk. | Claude, for owner review |
 | 0.8 | 2026-11-12 | RC-103 picker label (SYS-118); RC-109 gases and missing product type (OD-051, REV-001). | Claude, for owner review |
+| 0.9 | 2026-11-12 | RC-106 and HAZ-106: a blocking issue means "No go"; "Not ready" retired; rating unchanged (owner, 2026-11-12; OD-052, ADR-021). | Claude, for owner review |

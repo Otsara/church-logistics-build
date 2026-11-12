@@ -238,13 +238,13 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 
 Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017.
 
-### SYS-107 Blocking issues cap readiness
+### SYS-107 Blocking issues mean No go
 - Product: Prepped
 - Traces to: UN-103, UN-104, RC-106
 - Safety-critical: yes
 - Formerly: PR-2
 
-Any blocking issue, such as a missing import permit, caps the meter at "Not ready".
+Any blocking issue, such as a missing import permit, makes the indicator "No go" (SYS-112) and is listed there and in the draft paperwork. The meter shows its percentage as usual. "Not ready" is not used (owner, 2026-11-12); OD-052, ADR-021.
 
 ### SYS-108 Comparable alternatives for clinician review
 - Product: Prepped
@@ -413,4 +413,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.7 | 2026-11-12 | SYS-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
-| 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one (proposed, for owner review). | Claude, for owner review |
+| 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one (proposed, for owner review). SYS-107: a blocking issue means "No go"; "Not ready" retired (owner, 2026-11-12; OD-052, ADR-021). | Claude, for owner review |

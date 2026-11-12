@@ -245,12 +245,12 @@ Given a lot marked controlled, then it is blocked whatever its expiry.
 
 Given a lot with no expiry date, then it is "needs review" and excluded from readiness; an expiry that cannot be read, such as 2028-02-30, is treated the same way.
 
-### TC-105 Missing import permit
+### TC-105 Missing import permit means No go
 - Product: Prepped
 - Traces to: SYS-107, AIC-102
 - Formerly: P-5
 
-Given a destination card that requires an import permit and no permit marked obtained, then readiness shows "Not ready" and the document draft lists the missing permit.
+Given a destination card that requires an import permit and no permit marked obtained, then the indicator shows "No go" and lists the missing permit, the meter shows its percentage as usual, and the document draft lists the missing permit (OD-052).
 
 ### TC-106 Item coverage
 - Product: Prepped
@@ -539,4 +539,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.8 | 2026-11-12 | TC-123 biologics (OD-049); TC-124 retired (OD-046). | Claude, for owner review |
 | 0.9 | 2026-11-12 | TC-123 missing product type and gases; new TC-027 data script checks, TC-132 picker label (REV-001). | Claude, for owner review |
 | 0.10 | 2026-11-12 | TC-123 dosage-form prefix; TC-027 folder named with two dots (REV-002). | Claude, for owner review |
-| 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |
+| 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). TC-105: "No go" in place of "Not ready" (OD-052). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |
