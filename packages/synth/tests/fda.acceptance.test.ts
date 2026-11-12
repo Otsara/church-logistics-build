@@ -29,6 +29,7 @@ const tablet = {
   route: ["ORAL"],
   active_ingredients: [{ name: "AMOXICILLIN", strength: "500 mg/1" }],
   pharm_class: ["Penicillin-class Antibacterial [EPC]", "Penicillins [CS]"],
+  product_type: "HUMAN PRESCRIPTION DRUG",
 };
 
 // How a missing schedule reads (OD-044): not controlled in the US, with the source shown.
@@ -157,6 +158,59 @@ describe("openFDA importer", () => {
       rules,
     );
     expect(merged.entries[0]?.inScope).toBe(false);
+  });
+
+  it("[TC-123] treats a missing or blank product type as out of scope, and excludes compressed gases (REV-001; OD-051)", () => {
+    const noType = parseNdcRecord(omit(tablet, "product_type"), rules);
+    expect(
+      noType.ok && [noType.entry.inScope, noType.entry.scopeReason],
+    ).toEqual([false, "product type not recorded"]);
+    const blankType = parseNdcRecord({ ...tablet, product_type: "  " }, rules);
+    expect(blankType.ok && blankType.entry.scopeReason).toBe(
+      "product type not recorded",
+    );
+    const gas = parseNdcRecord(
+      {
+        ...tablet,
+        generic_name: "Oxygen",
+        dosage_form: "GAS",
+        route: ["RESPIRATORY (INHALATION)"],
+      },
+      rules,
+    );
+    expect(gas.ok && [gas.entry.inScope, gas.entry.scopeReason]).toEqual([
+      false,
+      "outside this build's scope: dosage form GAS",
+    ]);
+    const paddedGas = parseNdcRecord(
+      { ...tablet, dosage_form: " gas " },
+      rules,
+    );
+    expect(paddedGas.ok && paddedGas.entry.scopeReason).toBe(
+      "outside this build's scope: dosage form GAS",
+    );
+    // Precedence: biologic, then missing product type, then dosage form, then routes.
+    const gasUnmapped = parseNdcRecord(
+      { ...tablet, dosage_form: "GAS", route: ["BUCCAL"] },
+      rules,
+    );
+    expect(gasUnmapped.ok && gasUnmapped.entry.scopeReason).toBe(
+      "outside this build's scope: dosage form GAS",
+    );
+    const gasNoType = parseNdcRecord(
+      { ...omit(tablet, "product_type"), dosage_form: "GAS" },
+      rules,
+    );
+    expect(gasNoType.ok && gasNoType.entry.scopeReason).toBe(
+      "product type not recorded",
+    );
+    const gasVaccine = parseNdcRecord(
+      { ...tablet, dosage_form: "GAS", product_type: "VACCINE" },
+      rules,
+    );
+    expect(gasVaccine.ok && gasVaccine.entry.scopeReason).toBe(
+      "biologic, treated as cold chain: VACCINE",
+    );
   });
 
   it("[ARC-015] maps every in-scope route the owner named", () => {

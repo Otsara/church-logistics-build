@@ -6,6 +6,7 @@ const rules: RouteScopeRules = {
   in_scope: ["oral", "topical"],
   routes: { ORAL: "oral", TOPICAL: "topical" },
   cold_chain_product_types: ["VACCINE"],
+  excluded_dosage_forms: ["GAS"],
 };
 
 const source = snapshotSourceSchema.parse({
@@ -30,6 +31,7 @@ const product = (
   dosage_form: "TABLET",
   route,
   active_ingredients: [{ name: name.toUpperCase(), strength: "5 mg/1" }],
+  product_type: "HUMAN OTC DRUG",
   ...extra,
 });
 
@@ -72,12 +74,14 @@ describe("Snapshot catalogue", () => {
           generic_name: "Amlodipine",
           dosage_form: "TABLET",
           route: ["ORAL"],
+          product_type: "HUMAN OTC DRUG",
         },
         {
           product_ndc: "00000-0007",
           generic_name: "Amlodipine",
           dosage_form: "SOLUTION",
           route: ["ORAL"],
+          product_type: "HUMAN OTC DRUG",
         },
       ],
       rules,

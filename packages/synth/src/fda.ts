@@ -30,6 +30,8 @@ export const routeScopeSchema = z.strictObject({
   routes: z.record(z.string(), z.enum(ROUTE_CATEGORIES)),
   /** FDA product types treated as cold chain whatever the lot says: biologics (OD-049). */
   cold_chain_product_types: z.array(z.string().min(1)),
+  /** FDA dosage forms outside this build's scope whatever the route: compressed gases (OD-051). */
+  excluded_dosage_forms: z.array(z.string().min(1)),
 });
 export type RouteScopeRules = z.infer<typeof routeScopeSchema>;
 
@@ -140,12 +142,16 @@ export function parseNdcRecord(
       scopeReason ??= `outside this build's scope: ${category}`;
   }
   if (fdaRoutes.length === 0) scopeReason = "no route recorded";
-  // A biologic is treated as cold chain whatever its route, and that reason comes first (OD-049).
-  const productType = record.product_type?.trim().toUpperCase();
-  if (
-    productType !== undefined &&
-    rules.cold_chain_product_types.includes(productType)
-  )
+  // Later checks override earlier reasons, so the reason shown is the most basic one:
+  // biologic, then missing product type, then excluded dosage form, then routes.
+  const dosageForm = record.dosage_form.trim().toUpperCase();
+  if (rules.excluded_dosage_forms.includes(dosageForm))
+    scopeReason = `outside this build's scope: dosage form ${dosageForm}`;
+  const productType = record.product_type?.trim().toUpperCase() ?? "";
+  // Without a product type a biologic cannot be recognised, so the product is left out (REV-001).
+  if (productType === "") scopeReason = "product type not recorded";
+  // A biologic is treated as cold chain whatever its route (OD-049).
+  if (rules.cold_chain_product_types.includes(productType))
     scopeReason = `biologic, treated as cold chain: ${productType}`;
   const strength =
     record.active_ingredients === undefined ||

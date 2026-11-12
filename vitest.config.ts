@@ -22,6 +22,8 @@ export default defineConfig({
         "packages/synth/src/fda.ts": FULL,
         // The snapshot catalogue keeps only in-scope products (ARC-018, safety-critical).
         "packages/synth/src/snapshot.ts": FULL,
+        // The data scripts' checks guard the snapshot and the held-back set (ARC-018, DAT-002).
+        "packages/synth/src/data-checks.ts": FULL,
       },
     },
   },
