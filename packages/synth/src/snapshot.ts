@@ -63,6 +63,8 @@ export function buildSnapshotCatalog(
     [e.genericName, e.strength ?? "", e.dosageForm, e.sourceId].join("|");
   const entries = catalog.entries
     .filter((e) => e.inScope)
+    // The order is part of the frozen file: the corpus generator picks entries by position
+    // (DAT-001), so changing it changes every generated scenario.
     .sort((a, b) => (key(a) < key(b) ? -1 : 1))
     .map((e): SnapshotEntry => ({
       sourceId: e.sourceId,

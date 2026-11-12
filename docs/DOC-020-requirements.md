@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.5
+version: 0.6
 status: Draft
 effective_date:
 ---
@@ -300,7 +300,7 @@ The lead clinician may add supplemental medicines beyond the floor list. Supplem
 - Traces to: UN-106, RC-114
 - Safety-critical: yes
 
-For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it, and then counts exactly the share of the target the clinician enters when accepting it. Prepped never converts doses by itself (owner, 2026-11-11; ADR-011).
+For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it, and then counts exactly the share of the target the clinician enters when accepting it. Prepped never converts doses by itself (owner, 2026-11-11; ADR-011). For example, tablets and an oral suspension of the same medicine may meet a floor item either alone or in portions of both, each counting the share entered for it (owner, 2026-11-12). Who accepts an exchange: the clinician, until OD-048 is decided.
 
 ### SYS-116 Expired lots set aside for discard
 - Product: Prepped
@@ -403,3 +403,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.3 | 2026-11-11 | SYS-106 meter kept (70/30, or 75/25 or 80/20 if the layout favours it); SYS-109 adds inhaled, nasal, vaginal and otic routes; SYS-113 updated; new SYS-115 exchanges, SYS-116 discard of expired lots, SYS-117 one expiry per lot number (owner, 2026-11-11; ADR-010). | Claude, for owner review |
 | 0.4 | 2026-11-11 | SYS-115: an accepted exchange counts the share of the target the clinician enters (owner, 2026-11-11; ADR-011). | Claude, for owner review |
 | 0.5 | 2026-11-12 | Owner decisions of 2026-11-12 carried into SYS-007 (OD-017), SYS-102 (OD-009, OD-043), SYS-103 (OD-044), SYS-106 (OD-040), SYS-108 (OD-022), SYS-109 (OD-042, OD-045), SYS-303 (OD-014, OD-015), SYS-307 (OD-016), SYS-308 (OD-023), SYS-310 (OD-026). | Claude, for owner review |
+| 0.6 | 2026-11-12 | SYS-115: tablets and suspension, alone or in portions (owner, 2026-11-12); acceptance pending OD-048. | Claude, for owner review |

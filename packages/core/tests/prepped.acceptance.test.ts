@@ -84,4 +84,7 @@ describe("Prepped acceptance", () => {
   it.todo(
     "[TC-129] Given a lot whose expiry is entered as 03/2028, then its expiry is read as 2028-03-31 and shown as read from a month-only date",
   );
+  it.todo(
+    "[TC-131] Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension covering 30 and another tablet strength covering 30, then the item is covered",
+  );
 });

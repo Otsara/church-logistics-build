@@ -94,9 +94,9 @@ describe("openFDA importer", () => {
       {
         ...tablet,
         pharm_class: [
-          " Penicillin-class Antibacterial [EPC] ",
+          "Penicillin-class Antibacterial  [EPC]",
           "Penicillins [CS]",
-          "Beta-Lactamase Inhibitor [EPC]",
+          " Beta-Lactamase Inhibitor [EPC] ",
           "Penicillin-class Antibacterial [EPC]",
           "Beta Lactamase Inhibitors [MoA]",
         ],

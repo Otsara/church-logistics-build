@@ -46,6 +46,33 @@ describe("Snapshot catalogue", () => {
       }),
       { product_ndc: "00000-0005" },
     ];
+    // A product without a recorded strength sorts after the same name's strengths ("|" sorts after letters).
+    const strengthless = buildSnapshotCatalog(
+      [
+        // Zinc oxide, intravenous diazepam (left out) and amlodipine 5 mg.
+        ...[0, 2, 3].map((n) => records[n]),
+        {
+          product_ndc: "00000-0006",
+          generic_name: "Amlodipine",
+          dosage_form: "TABLET",
+          route: ["ORAL"],
+        },
+        {
+          product_ndc: "00000-0007",
+          generic_name: "Amlodipine",
+          dosage_form: "SOLUTION",
+          route: ["ORAL"],
+        },
+      ],
+      rules,
+      source,
+    );
+    expect(strengthless.entries.map((e) => [e.sourceId, e.strength])).toEqual([
+      ["00000-0004", "AMLODIPINE 5 mg/1"],
+      ["00000-0007", null],
+      ["00000-0006", null],
+      ["00000-0003", "ZINC OXIDE 5 mg/1"],
+    ]);
     const catalog = buildSnapshotCatalog(records, rules, source);
     expect(catalog.source).toBe(source);
     expect(catalog.entries.map((e) => e.sourceId)).toEqual([
@@ -96,6 +123,7 @@ describe("Snapshot catalogue", () => {
       ["00000-0002", []],
     ]);
     expect(catalog.counts.controlled).toBe(2);
+    expect(catalog.counts.withClass).toBe(0);
     expect(() => buildSnapshotCatalog(records.slice(1), rules, source)).toThrow(
       "Snapshot has 4 records; the source lists 5",
     );
@@ -104,6 +132,19 @@ describe("Snapshot catalogue", () => {
   it("[TC-130] Given a source description with a malformed fingerprint or date, then it is refused", () => {
     expect(
       snapshotSourceSchema.safeParse({ ...source, zip_sha256: "abc" }).success,
+    ).toBe(false);
+    for (const bad of [
+      "a".repeat(65),
+      `x${"a".repeat(64)}`,
+      `${"a".repeat(64)}x`,
+    ])
+      expect(
+        snapshotSourceSchema.safeParse({ ...source, json_sha256: bad }).success,
+        bad,
+      ).toBe(false);
+    expect(
+      snapshotSourceSchema.safeParse({ ...source, export_date: "x2026-11-11" })
+        .success,
     ).toBe(false);
     expect(
       snapshotSourceSchema.safeParse({ ...source, export_date: "11/11/2026" })

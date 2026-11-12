@@ -75,16 +75,15 @@ const recordSchema = z.object({
 const EPC = " [EPC]";
 
 /** The established pharmacologic classes, without their "[EPC]" tag, sorted and unique. */
-const classesFrom = (pharmClass: readonly string[] | undefined): string[] =>
-  [
-    ...new Set(
-      (pharmClass ?? [])
-        .map((c) => c.trim())
-        .filter((c) => c.endsWith(EPC))
-        .map((c) => c.slice(0, -EPC.length).trim())
-        .filter((c) => c !== ""),
-    ),
-  ].sort();
+function classesFrom(pharmClass: readonly string[] | undefined): string[] {
+  if (pharmClass === undefined) return [];
+  // After trimming, a tag alone ("[EPC]") cannot end with " [EPC]", so no class is ever empty.
+  const classes = pharmClass
+    .map((c) => c.trim())
+    .filter((c) => c.endsWith(EPC))
+    .map((c) => c.slice(0, -EPC.length).trim());
+  return [...new Set(classes)].sort();
+}
 
 const controlledFrom = (
   schedule: string | null | undefined,

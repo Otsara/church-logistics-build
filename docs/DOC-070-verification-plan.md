@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.6
+version: 0.7
 status: Draft
 effective_date:
 ---
@@ -199,6 +199,18 @@ Given the same lot's quantity changed on two devices while offline, when both sy
 
 Given a device that has signed in and then goes offline, then work continues and its edits sync at the next connection with the editor recorded; given a person from another team, then that person cannot read or change this team's records; given unsynced edits, then signing out warns and keeps them (OD-001).
 
+### TC-025 Corpus and held-back split
+- Product: Shared
+- Traces to: DAT-001, DAT-002
+
+Given corpus and split seeds, then each product's scenarios are generated from derived seeds, one third of each product is held back and sealed, the same seeds give the same corpus, and a split seed equal to the corpus seed is refused.
+
+### TC-026 No held-back record in the repository
+- Product: Shared
+- Traces to: DAT-002
+
+Given the committed development data and the held-back manifest, then one third of each product is held back, no committed development record shares an id or fingerprint with a held-back record, and no data file carries the held-back package marker.
+
 ### TC-101 Lot blocked below minimum shelf life
 - Product: Prepped
 - Traces to: SYS-101, SYS-102, ARC-005
@@ -344,7 +356,7 @@ Given a floor item with a target of 100 and 40 eligible capsules, when the clini
 - Product: Prepped
 - Traces to: DAT-101, SYS-103, SYS-109
 
-Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
+Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; its classes are its established pharmacologic classes (EPC), without the tag, and none when it has none; an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
 
 ### TC-124 Floor catalogue from the WHO list and FDA data
 - Product: Prepped
@@ -383,6 +395,18 @@ Given a trip arriving 2026-12-01, then a lot expiring 2027-12-01 (365 days) is e
 - Traces to: SYS-102
 
 Given a lot whose expiry is entered as 03/2028, then its expiry is read as 2028-03-31 and shown as read from a month-only date (OD-043).
+
+### TC-130 Snapshot catalogue
+- Product: Prepped
+- Traces to: DAT-101, SYS-109
+
+Given a snapshot, then only products whose every reading is in scope are kept, sorted, with the source and counts; a file whose record count differs from its source, or a malformed source description, is refused.
+
+### TC-131 Tablets and suspension together
+- Product: Prepped
+- Traces to: SYS-115
+
+Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension exchange covering 30 and another tablet strength covering 30, then the item is covered, each part counting what was entered for it.
 
 ### TC-301 Alternate part found
 - Product: SpareWing
@@ -497,3 +521,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.4 | 2026-11-11 | New TC-122: an accepted exchange counts what the clinician enters (ADR-011). | Claude, for owner review |
 | 0.5 | 2026-11-12 | New TC-006 to TC-010, TC-013 to TC-022, TC-123 to TC-126 and TC-308 to TC-312, closing every coverage gap; §4 records how mutation testing runs. | Claude, for owner review |
 | 0.6 | 2026-11-12 | Owner decisions of 2026-11-12: TC-001, TC-101, TC-107, TC-123 and TC-124 updated; new TC-023, TC-024, TC-127 to TC-129, TC-313 to TC-316. | Claude, for owner review |
+| 0.7 | 2026-11-12 | TC-123 classes; new TC-025, TC-026, TC-130, TC-131. | Claude, for owner review |

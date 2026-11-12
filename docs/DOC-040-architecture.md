@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.5
+version: 0.6
 status: Draft
 effective_date:
 ---
@@ -116,19 +116,26 @@ The app calls the AI service only through a Supabase Edge Function that holds th
 - Traces to: DAT-101, SYS-103, SYS-109
 - Safety-critical: yes
 
-Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
+Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. Established pharmacologic classes (EPC) are kept as the entry's classes (OD-022). A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
 
 ### ARC-016 Held-back split and seal
 - Product: Shared
 - Traces to: DAT-002
 
-Sets aside one third of the records by a separate seed and seals them with SHA-256 fingerprints (`packages/synth/src/split.ts`).
+Sets aside one third of the records by a separate seed and seals them with SHA-256 fingerprints (`packages/synth/src/split.ts`). `packages/synth/src/corpus.ts` builds each product's scenarios from seeds derived from a corpus seed and splits each product separately. `packages/synth/scripts/build-corpus.ts` draws both seeds at random, writes the development part to `data/synthetic/development/`, the manifest to `data/synthetic/held-back-manifest.json`, and the held-back package, with the seeds, only outside the repository. A repository check (TC-026) shows no held-back record is committed.
 
 ### ARC-017 Repository policy checks
 - Product: Shared
 - Traces to: SEC-004, SEC-007
 
 Tests in `packages/policy` that check rules holding for the whole repository, such as the CI dependency audit and the absence of committed credentials.
+
+### ARC-018 Snapshot catalogue
+- Product: Shared
+- Traces to: DAT-101, SYS-109
+- Safety-critical: yes
+
+`packages/synth/src/snapshot.ts` builds the frozen in-scope catalogue from the FDA snapshot, keeping only products whose every reading is in scope. `packages/synth/scripts/import-fda.ts` refuses a file whose SHA-256, export date or record count differs from `data/fda/source.json`, and refuses a route rule file the owner has not verified. Output: `data/fda/catalog-2026-11-11.json`.
 
 ### ARC-101 Prepped rules engine
 - Product: Prepped
@@ -250,3 +257,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.3 | 2026-11-11 | ARC-101 allocated SYS-115 to SYS-117. | Claude, for owner review |
 | 0.4 | 2026-11-12 | New ARC-015 openFDA importer (safety-critical), ARC-016 held-back split and seal, ARC-017 repository policy checks; ARC-002 adds packages/policy. | Claude, for owner review |
 | 0.5 | 2026-11-12 | ARC-003 hosting and devices (OD-018, OD-035); ARC-006 sync and sign-in (OD-001); ARC-014 key store (OD-027); ARC-015 missing schedule (OD-044) (owner, 2026-11-12). | Claude, for owner review |
+| 0.6 | 2026-11-12 | ARC-015 reads EPC classes (OD-022); ARC-016 corpus builder and scripts; new ARC-018 snapshot catalogue. | Claude, for owner review |
