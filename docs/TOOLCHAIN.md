@@ -27,3 +27,4 @@ Why each tool and setting is here, and which spec item it serves. Supporting fil
 | `pnpm check` | Everything CI runs: formatting, lint, types, tests with coverage, document check |
 | `pnpm docs:update` | Regenerate the index, decision list, ADR index and traceability matrix |
 | `pnpm docs:check --strict` | Release gate |
+| `pnpm docs:review-copies "<review point>" <out.html>` | Stamped review copies of the documents, ADRs and review records; refuses uncommitted changes in `docs/` |
