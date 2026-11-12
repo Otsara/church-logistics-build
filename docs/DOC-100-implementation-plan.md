@@ -37,9 +37,9 @@ Exit criteria: `pnpm docs:check` and `pnpm check` pass; the owner's review recor
 ### IT-001 Iteration 1: safety cores in parallel
 - Dates: November 13 to 17
 
-`prepped/eligibility-rules`: TC-101 to TC-109 and SYS-108. `sparewing/candidate-rules`: TC-301 to TC-307, SYS-308 and SYS-309. Exit: ADR-006 criteria met and the owner's line-by-line review recorded for each unit.
+`prepped/eligibility-rules`: TC-101 to TC-122, TC-125, TC-127 to TC-129, TC-131 and TC-132, with SYS-108; TC-126 waits for OD-038. `sparewing/candidate-rules`: TC-301 to TC-309 and TC-313 to TC-316, with SYS-308 and SYS-309. Scope widened to every core-tested case whose rules are decided (owner, 2026-11-12); the first plan named only TC-101 to TC-109 and TC-301 to TC-307. Exit: ADR-006 criteria met and the owner's line-by-line review recorded for each unit.
 
-Status on 2026-11-12 (started early): lot eligibility is built on `prepped/eligibility-rules` (TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129), with 100% branch coverage and a mutation score of 100% on the new files. The shelf-life rule file reads 365 days from the WHO guidelines (placeholder pending OD-002; exceptions OD-053). Waiting: the owner's line-by-line review. The scope above predates TC-110 to TC-132; whether they belong to this iteration is for the owner to confirm.
+Status on 2026-11-12 (started early): lot eligibility is built on `prepped/eligibility-rules` (TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129), with 100% branch coverage and a mutation score of 100% on the new files. The shelf-life rule file reads 365 days from the WHO guidelines (placeholder pending OD-002; exceptions OD-053). Waiting: the owner's line-by-line review.
 
 ### IT-002 Iteration 2: AI steps
 - Dates: November 16 to 20
@@ -122,4 +122,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.6 | 2026-11-12 | IT-000 status: snapshot imported; held-back third sealed and handed over. | Claude, for owner review |
 | 0.7 | 2026-11-12 | IT-000 status after OD-046, OD-048 and OD-049. | Claude, for owner review |
 | 0.8 | 2026-11-12 | IT-000 status: REV-001 recorded; catalogue without gases. | Claude, for owner review |
-| 0.9 | 2026-11-12 | IT-001 status: lot eligibility built; scope question for the owner. | Claude, for owner review |
+| 0.9 | 2026-11-12 | IT-001 status: lot eligibility built; scope widened to every core-tested case whose rules are decided (owner, 2026-11-12). | Claude, for owner review |
