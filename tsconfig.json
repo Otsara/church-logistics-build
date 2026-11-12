@@ -21,5 +21,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["packages/*/src", "packages/*/tests", "vitest.config.ts"]
+  "include": [
+    "packages/*/src",
+    "packages/*/tests",
+    "packages/*/scripts",
+    "vitest.config.ts"
+  ]
 }

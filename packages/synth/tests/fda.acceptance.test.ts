@@ -28,6 +28,7 @@ const tablet = {
   dosage_form: "CAPSULE",
   route: ["ORAL"],
   active_ingredients: [{ name: "AMOXICILLIN", strength: "500 mg/1" }],
+  pharm_class: ["Penicillin-class Antibacterial [EPC]", "Penicillins [CS]"],
 };
 
 // How a missing schedule reads (OD-044): not controlled in the US, with the source shown.
@@ -55,6 +56,7 @@ describe("openFDA importer", () => {
         scopeReason: null,
         controlled: "no",
         controlledBasis: NOT_SCHEDULED,
+        classes: ["Penicillin-class Antibacterial"],
       },
     });
     const controlled = parseNdcRecord(
@@ -85,6 +87,33 @@ describe("openFDA importer", () => {
         mixed.entry.scopeReason,
       ],
     ).toEqual([false, ["oral"], "route not mapped: BUCCAL"]);
+  });
+
+  it("[TC-123] keeps only established pharmacologic classes (EPC) as the class, and none when the record has none", () => {
+    const several = parseNdcRecord(
+      {
+        ...tablet,
+        pharm_class: [
+          " Penicillin-class Antibacterial [EPC] ",
+          "Penicillins [CS]",
+          "Beta-Lactamase Inhibitor [EPC]",
+          "Penicillin-class Antibacterial [EPC]",
+          "Beta Lactamase Inhibitors [MoA]",
+        ],
+      },
+      rules,
+    );
+    expect(several.ok && several.entry.classes).toEqual([
+      "Beta-Lactamase Inhibitor",
+      "Penicillin-class Antibacterial",
+    ]);
+    const none = parseNdcRecord(omit(tablet, "pharm_class"), rules);
+    expect(none.ok && none.entry.classes).toEqual([]);
+    const noEpc = parseNdcRecord(
+      { ...tablet, pharm_class: ["Penicillins [CS]", "[EPC]"] },
+      rules,
+    );
+    expect(noEpc.ok && noEpc.entry.classes).toEqual([]);
   });
 
   it("[ARC-015] maps every in-scope route the owner named", () => {
@@ -200,6 +229,7 @@ describe("openFDA importer", () => {
           ...tablet,
           product_ndc: "00000-0004",
           route: ["ORAL", "INTRAVENOUS"],
+          pharm_class: ["Aminopenicillin [EPC]"],
         },
         {
           ...tablet,
@@ -225,6 +255,10 @@ describe("openFDA importer", () => {
     expect(amox?.inScope).toBe(false);
     expect(amox?.scopeReason).toBe("route not mapped: INTRAVENOUS");
     expect(amox?.fdaRoutes).toEqual(["ORAL", "INTRAVENOUS"]);
+    expect(amox?.classes).toEqual([
+      "Aminopenicillin",
+      "Penicillin-class Antibacterial",
+    ]);
     expect(catalog.rejected.map((r) => r.sourceId)).toEqual(["bad"]);
     const noStrength = omit(tablet, "active_ingredients");
     const strengthless = buildCatalog(

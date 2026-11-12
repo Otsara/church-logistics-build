@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { sealManifest, type Manifest } from "../../synth/src/split.ts";
 
 const root = join(import.meta.dirname, "../../..");
 const read = (path: string): string => readFileSync(join(root, path), "utf8");
@@ -54,4 +55,44 @@ describe("Repository policy acceptance", () => {
   it.todo(
     "[TC-015] Given the published apps, then they are served only over HTTPS and send the agreed security headers",
   );
+
+  it("[TC-026] Given the committed development data and the held-back manifest, then one third of each product is held back, no held-back record or id is in the repository, and the package marker appears in no data file", () => {
+    const manifest = JSON.parse(
+      read("data/synthetic/held-back-manifest.json"),
+    ) as {
+      scenariosPerProduct: number;
+      custody: string;
+      prepped: Manifest;
+      sparewing: Manifest;
+    };
+    expect(manifest.custody).toContain("OD-036");
+    for (const product of ["prepped", "sparewing"] as const) {
+      const development = (
+        JSON.parse(read(`data/synthetic/development/${product}.json`)) as {
+          scenarios: { id: string }[];
+        }
+      ).scenarios;
+      const held = manifest[product];
+      expect(held.count).toBe(Math.round(manifest.scenariosPerProduct / 3));
+      expect(development.length + held.count).toBe(
+        manifest.scenariosPerProduct,
+      );
+      const heldIds = new Set(held.records.map((r) => r.id));
+      const heldHashes = new Set(held.records.map((r) => r.sha256));
+      const devSeal = sealManifest(development);
+      expect(devSeal.records.filter((r) => heldIds.has(r.id))).toEqual([]);
+      expect(devSeal.records.filter((r) => heldHashes.has(r.sha256))).toEqual(
+        [],
+      );
+    }
+    const dataFiles = execFileSync("git", ["ls-files", "-z", "data"], {
+      cwd: root,
+      encoding: "utf8",
+    })
+      .split("\0")
+      .filter((f) => f !== "");
+    expect(dataFiles.length).toBeGreaterThan(0);
+    for (const file of dataFiles)
+      expect(read(file), file).not.toContain("HELD-BACK CONFIRMATION SET");
+  });
 });

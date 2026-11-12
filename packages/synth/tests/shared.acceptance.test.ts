@@ -19,6 +19,7 @@ const entry = (sourceId: string, genericName: string): CatalogEntry => ({
   controlled: "no",
   controlledBasis:
     "FDA drug directory: no DEA schedule recorded (US scheduling only)",
+  classes: [],
 });
 export const catalog = [
   entry("00000-0101", "Paracetamol"),

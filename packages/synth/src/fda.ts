@@ -46,6 +46,8 @@ export interface CatalogEntry {
   readonly scopeReason: string | null;
   readonly controlled: Controlled;
   readonly controlledBasis: string;
+  /** Established pharmacologic classes (EPC) from the directory, for comparable alternatives (OD-022). */
+  readonly classes: readonly string[];
 }
 
 export type ParseResult =
@@ -67,7 +69,22 @@ const recordSchema = z.object({
     )
     .optional(),
   dea_schedule: z.string().nullable().optional(),
+  pharm_class: z.array(z.string()).optional(),
 });
+
+const EPC = " [EPC]";
+
+/** The established pharmacologic classes, without their "[EPC]" tag, sorted and unique. */
+const classesFrom = (pharmClass: readonly string[] | undefined): string[] =>
+  [
+    ...new Set(
+      (pharmClass ?? [])
+        .map((c) => c.trim())
+        .filter((c) => c.endsWith(EPC))
+        .map((c) => c.slice(0, -EPC.length).trim())
+        .filter((c) => c !== ""),
+    ),
+  ].sort();
 
 const controlledFrom = (
   schedule: string | null | undefined,
@@ -141,6 +158,7 @@ export function parseNdcRecord(
       inScope: scopeReason === null,
       scopeReason,
       ...controlledFrom(record.dea_schedule),
+      classes: classesFrom(record.pharm_class),
     },
   };
 }
@@ -184,6 +202,7 @@ export function buildCatalog(
       routes: [...new Set([...prior.routes, ...e.routes])],
       inScope: prior.inScope && e.inScope,
       scopeReason: prior.scopeReason ?? e.scopeReason,
+      classes: [...new Set([...prior.classes, ...e.classes])].sort(),
       // A scheduled reading replaces "no"; an earlier schedule is kept.
       ...(prior.controlled === "no"
         ? { controlled: e.controlled, controlledBasis: e.controlledBasis }

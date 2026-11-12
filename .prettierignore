@@ -6,3 +6,6 @@ coverage/
 apps/*/ui/
 reports/
 .stryker-tmp/
+# Generated data files (scripts in packages/synth/scripts); one element per line.
+data/fda/catalog-*.json
+data/synthetic/

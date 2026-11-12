@@ -45,3 +45,18 @@ export {
   type SpareWingData,
   type SpareWingOptions,
 } from "./sparewing.ts";
+export {
+  buildSnapshotCatalog,
+  snapshotSourceSchema,
+  type SnapshotCatalog,
+  type SnapshotEntry,
+  type SnapshotSource,
+} from "./snapshot.ts";
+export {
+  buildCorpus,
+  scenarioSeed,
+  type Corpus,
+  type CorpusOptions,
+  type PreppedScenario,
+  type SpareWingScenario,
+} from "./corpus.ts";
