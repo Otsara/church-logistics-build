@@ -22,10 +22,10 @@ function utcMidnight(value: string): number | undefined {
   const day = Number(match[3]);
   const date = new Date(0); // eslint-disable-line no-restricted-syntax -- the one place a Date is built (ARC-005)
   date.setUTCFullYear(year, month - 1, day);
+  // An impossible date rolls over to a different month or day. If month and day both survive,
+  // the year cannot have changed, so checking it as well would be redundant.
   const isSameDay =
-    date.getUTCFullYear() === year &&
-    date.getUTCMonth() === month - 1 &&
-    date.getUTCDate() === day;
+    date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
   return isSameDay ? date.getTime() : undefined;
 }
 

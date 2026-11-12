@@ -47,6 +47,27 @@ jobs:
       - name: Known vulnerabilities in dependencies
         run: pnpm audit --audit-level high
 
+  mutation:
+    name: Mutation testing of safety-critical code (ADR-006)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Stryker, failing below a mutation score of 80%
+        run: pnpm mutation
+      - name: Keep the mutation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-report
+          path: reports/mutation/
+          retention-days: 90
+
   submission-gate:
     if: github.event_name == 'workflow_dispatch' && inputs.submission_gate
     runs-on: ubuntu-24.04

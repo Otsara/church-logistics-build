@@ -60,3 +60,17 @@ describe("daysBetween", () => {
     );
   });
 });
+
+describe("date validation edges", () => {
+  it("[ARC-005] rejects text before or after the date, and names the bad value when misused", () => {
+    expect(isIsoDate("x2026-12-01")).toBe(false);
+    expect(isIsoDate("2026-12-01x")).toBe(false);
+    expect(isIsoDate("2026-13-15")).toBe(false);
+    expect(isIsoDate("2026-04-31")).toBe(false);
+    expect(isIsoDate("2026-00-15")).toBe(false);
+    expect(isIsoDate("2026-12-00")).toBe(false);
+    expect(() => daysBetween("2026-02-30" as IsoDate, d("2026-12-01"))).toThrow(
+      'Not a date-only ISO string: "2026-02-30"',
+    );
+  });
+});
