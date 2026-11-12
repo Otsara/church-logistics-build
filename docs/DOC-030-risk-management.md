@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.4
+version: 0.7
 status: Draft
 effective_date:
 ---
@@ -14,9 +14,16 @@ Flight and pharmacy are high-risk activities. This file lists what could go wron
 
 1. Hazards are identified from the intended use (DOC-010), the requirements (DOC-020) and the owner's knowledge of mission pharmacy and aviation. The list is reviewed at each iteration.
 2. Each hazard records the sequence of events, the possible harm, and severity and probability estimates.
-3. **Severity scale, probability scale and acceptability criteria: TBD (OD-024).** Until the owner sets them, no hazard is rated and no residual risk is declared acceptable.
+3. **Scales and acceptability** (owner, 2026-11-12); OD-024, ADR-016:
+   - Severity: minor, serious, critical (harm to a patient, an aircraft or people).
+   - Probability: unlikely, possible, likely.
+   - A critical-severity risk is never accepted on its probability alone: it needs a control in code and a person's check.
+   - Severity definitions (owner, 2026-11-12): **critical**, could cause death or serious injury to a patient, crew or passengers, or loss of an aircraft; **serious**, could cause harm needing treatment, a missed or failed treatment, a failed mission or flight, legal action, or a privacy breach; **minor**, delay, inconvenience or cost, with no harm to a person.
+   - Probability is rated with the listed controls working (owner, 2026-11-12): **unlikely**, several controls must fail at once; **possible**, one control failing or one skipped check is enough; **likely**, expected in normal use.
+   - A serious-and-likely risk is never acceptable without a further control; any other risk is acceptable once its controls are verified by tests (owner, 2026-11-12); OD-047, ADR-019.
+   - Each hazard was rated by Claude and the ratings confirmed by the owner (owner, 2026-11-12); OD-047.
 4. Controls are preferred in this order: design out the hazard, protect against it in code, then inform the user. Every control ends in a qualified person's decision (ADR-002).
-5. Residual risk and the benefit-risk conclusion are recorded per product once OD-024 is closed.
+5. Residual risk, as rated (owner, 2026-11-12): no hazard is serious-and-likely, and every critical hazard has both a control in code and a person's check, so every residual risk is acceptable under the rule once its controls are verified by tests. Six serious-and-possible risks rest most on a person's check: HAZ-103, HAZ-104, HAZ-110, HAZ-111, HAZ-112 and HAZ-114. The ratings are reviewed at each iteration and whenever a control changes. The benefit-risk conclusion per product is TBD (OD-050).
 
 ## 2. Hazards and controls for both products
 
@@ -24,7 +31,7 @@ Flight and pharmacy are high-risk activities. This file lists what could go wron
 - Product: Shared
 - Traces to: IU-001
 
-Sequence: a user trusts a list, candidate or draft without checking it (automation bias). Harm: an unsuitable medicine is dispensed, or a flight goes ahead without proper verification. Severity: TBD. Probability: TBD (OD-024).
+Sequence: a user trusts a list, candidate or draft without checking it (automation bias). Harm: an unsuitable medicine is dispensed, or a flight goes ahead without proper verification. Severity: critical. Probability with controls: possible; people over-trust tools; control in code: nothing is final without sign-off; person's check: the sign-off (owner, 2026-11-12).
 
 ### RC-001 Suggestions are labelled and need sign-off
 - Product: Shared
@@ -36,7 +43,7 @@ Every output is labelled as a suggestion or draft, the model never decides, and 
 - Product: Shared
 - Traces to: IU-001
 
-Sequence: an AI step misreads a medicine, strength, quantity, expiry or part number from a messy list, and the error is accepted. Harm: wrong medicine or quantity packed; wrong part sought. Severity: TBD. Probability: TBD.
+Sequence: an AI step misreads a medicine, strength, quantity, expiry or part number from a messy list, and the error is accepted. Harm: wrong medicine or quantity packed; wrong part sought. Severity: serious. Probability with controls: unlikely; schema check, unknowns left blank, source line shown, a person checks each line (owner, 2026-11-12).
 
 ### RC-002 AI output is validated, never trusted
 - Product: Shared
@@ -48,7 +55,7 @@ AI output must pass a schema; unknown values stay null; every parsed line shows 
 - Product: Shared
 - Traces to: IU-001
 
-Sequence: a draft states an import or aviation rule that the model made up or got wrong. Harm: shipment seized, team delayed, or an unsafe practice followed. Severity: TBD. Probability: TBD.
+Sequence: a draft states an import or aviation rule that the model made up or got wrong. Harm: shipment seized, team delayed, or an unsafe practice followed. Severity: serious. Probability with controls: unlikely; regulations only from sourced rule cards, with citations (owner, 2026-11-12).
 
 ### RC-003 Regulations only from sourced rule cards
 - Product: Shared
@@ -60,7 +67,7 @@ The model may state a regulation only if it appears in a rule card with a source
 - Product: Shared
 - Traces to: IU-001, IU-002
 
-Sequence: names or personal details are sent to an AI service or exposed in the repository or demo. Harm: privacy breach. Severity: TBD. Probability: TBD.
+Sequence: names or personal details are sent to an AI service or exposed in the repository or demo. Harm: privacy breach. Severity: serious. Probability with controls: unlikely; synthetic data only; names replaced by ids before any AI call (owner, 2026-11-12).
 
 ### RC-004 Personal data kept out
 - Product: Shared
@@ -72,7 +79,7 @@ Names are replaced by ids before any AI call; only the fields a step needs are s
 - Product: Shared
 - Traces to: IU-003
 
-Sequence: offline edits are lost, or a sync conflict overwrites a correction without trace. Harm: a decision is made on stale or wrong data. Severity: TBD. Probability: TBD.
+Sequence: offline edits are lost, or a sync conflict overwrites a correction without trace. Harm: a decision is made on stale or wrong data. Severity: serious. Probability with controls: unlikely; audit log; a person settles each conflict (owner, 2026-11-12).
 
 ### RC-005 Offline queue and audited conflicts
 - Product: Shared
@@ -84,7 +91,7 @@ Edits are queued offline; on sync, conflicts keep both versions in the audit log
 - Product: Shared
 - Traces to: IU-003
 
-Sequence: no connection or an AI outage blocks work at a critical moment. Harm: delay to a trip or a disruption response. Severity: TBD. Probability: TBD.
+Sequence: no connection or an AI outage blocks work at a critical moment. Harm: delay to a trip or a disruption response. Severity: minor. Probability with controls: possible; outages happen; manual entry is always available (owner, 2026-11-12).
 
 ### RC-006 Manual path always available
 - Product: Shared
@@ -96,7 +103,7 @@ Each AI step retries once and then falls back to manual entry or a blank templat
 - Product: Shared
 - Traces to: IU-001
 
-Sequence: an AI service key is placed in the browser app or the repository and copied. Harm: misuse of the service in the program's name, unexpected cost, loss of service. Severity: TBD. Probability: TBD.
+Sequence: an AI service key is placed in the browser app or the repository and copied. Harm: misuse of the service in the program's name, unexpected cost, loss of service. Severity: minor. Probability with controls: unlikely; the harm is cost only; the key stays server-side (owner, 2026-11-12).
 
 ### RC-007 Keys held server-side only
 - Product: Shared
@@ -104,13 +111,25 @@ Sequence: an AI service key is placed in the browser app or the repository and c
 
 Keys never appear in front-end code or the repository; they are held as server-side secrets and used only by a server function (OD-027).
 
+### HAZ-008 Sign-in fails or is misused
+- Product: Shared
+- Traces to: IU-003
+
+Sequence: team sync needs sign-in (OD-001). A person cannot sign in where there is no connection and is locked out of the data; a shared or stolen sign-in lets someone read the team's data or make edits in another person's name; signing out discards edits not yet synced. Harm: delay to a trip or a disruption response; a decision made on data changed by the wrong person; privacy breach. Severity: serious. Probability with controls: unlikely; works offline once signed in; one account per person; every edit records its editor (owner, 2026-11-12).
+
+### RC-008 Sign-in never blocks offline work, and every edit has an owner
+- Product: Shared
+- Traces to: HAZ-008
+
+A device that has signed in keeps working offline, and its edits sync at the next connection. Each person has their own account; shared accounts are not offered. Every synced edit records who made it. Signing out with unsynced edits warns first and never discards them silently. Each team's records are readable only by its members (SEC-008). The build holds synthetic data only (SEC-002). If sync is dropped for the deadline (OD-001), sign-in is dropped with it.
+
 ## 3. Prepped hazards and controls
 
 ### HAZ-101 A medicine expires before or during the trip
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: a lot with too little shelf life at arrival is packed. Harm: patients receive expired or degraded medicine. Severity: TBD. Probability: TBD.
+Sequence: a lot with too little shelf life at arrival is packed. Harm: patients receive expired or degraded medicine. Severity: serious. Probability with controls: unlikely; code checks shelf life against the arrival date; month-only expiry is read as the end of the month, the less cautious reading (OD-043) (owner, 2026-11-12).
 
 ### RC-101 Shelf life checked by code against arrival
 - Product: Prepped
@@ -122,7 +141,7 @@ Code computes days remaining at the arrival date and blocks lots below the minim
 - Product: Prepped
 - Traces to: IU-101
 
-Harm: as HAZ-101. Severity: TBD. Probability: TBD.
+Harm: as HAZ-101. Severity: serious. Probability with controls: unlikely; code never counts a lot with unknown expiry (owner, 2026-11-12).
 
 ### RC-102 Unknown expiry needs review
 - Product: Prepped
@@ -134,7 +153,7 @@ A lot with no expiry date is marked "needs review" and never counts toward readi
 - Product: Prepped
 - Traces to: IU-101
 
-Harm: legal consequences for the team, diversion risk, harm to patients. Severity: TBD. Probability: TBD.
+Harm: legal consequences for the team, diversion risk, harm to patients. Severity: serious. Probability with controls: possible; code knows only US schedules; the destination's rules rest on the pharmacist's check (owner, 2026-11-12).
 
 ### RC-103 Controlled substances always blocked
 - Product: Prepped
@@ -146,19 +165,19 @@ Lots marked controlled are always blocked, whatever their expiry.
 - Product: Prepped
 - Traces to: IU-101
 
-Harm: loss of potency; patients receive ineffective medicine. Severity: TBD. Probability: TBD.
+Harm: loss of potency; patients receive ineffective medicine. Severity: serious. Probability with controls: possible; apart from biologics, cold chain rests on a person flagging the lot from its label (owner, 2026-11-12).
 
 ### RC-104 Cold-chain items always blocked
 - Product: Prepped
 - Traces to: HAZ-104
 
-Cold-chain items are blocked in this build (ADR-007).
+Cold-chain items are blocked in this build (ADR-007). Biologic product types are treated as cold chain whatever the lot says, so a missing cold-chain flag on a vaccine or plasma product cannot let it through (owner, 2026-11-12); OD-049.
 
 ### HAZ-105 A comparable alternative is taken as equivalent
 - Product: Prepped
 - Traces to: IU-101, IU-102
 
-Sequence: a medicine from the same class is packed in place of the intended one as if interchangeable. Harm: wrong agent for the clinical purpose. Severity: TBD. Probability: TBD.
+Sequence: a medicine from the same class is packed in place of the intended one as if interchangeable. Harm: wrong agent for the clinical purpose. Severity: critical. Probability with controls: unlikely; control in code: never substituted and labelled not equivalent; person's check: the clinician chooses (owner, 2026-11-12).
 
 ### RC-105 Alternatives only for clinician choice
 - Product: Prepped
@@ -170,7 +189,7 @@ Alternatives are shown only for a clinician to consider, labelled "Comparable, n
 - Product: Prepped
 - Traces to: IU-101
 
-Harm: medicines seized or delayed at the border; patients go without. Severity: TBD. Probability: TBD.
+Harm: medicines seized or delayed at the border; patients go without. Severity: serious. Probability with controls: unlikely; code caps readiness at Not ready (owner, 2026-11-12).
 
 ### RC-106 Blocking issues stop "ready"
 - Product: Prepped
@@ -182,7 +201,7 @@ Any blocking issue, such as a missing import permit, caps readiness at "Not read
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: coverage is computed wrongly and the team leaves short of needed medicines. Severity: TBD. Probability: TBD.
+Sequence: coverage is computed wrongly and the team leaves short of needed medicines. Severity: serious. Probability with controls: unlikely; safety-critical code with exact worked tests (owner, 2026-11-12).
 
 ### RC-107 Readiness computed by tested code
 - Product: Prepped
@@ -194,19 +213,19 @@ Coverage and readiness are computed by safety-critical code to the rules in SYS-
 - Product: Prepped
 - Traces to: IU-101
 
-Harm: quantities overstated or understated; readiness wrong. Severity: TBD. Probability: TBD.
+Harm: quantities overstated or understated; readiness wrong. Severity: serious. Probability with controls: unlikely; strict merge rule in code (owner, 2026-11-12).
 
 ### RC-108 Deterministic merge rule
 - Product: Prepped
 - Traces to: HAZ-108
 
-Donor lines are merged by a deterministic rule in core, never by the AI step. The rule itself: TBD (OD-011).
+Donor lines are merged by a deterministic rule in core, never by the AI step. Lines merge only when lot number, generic name, strength, form and expiry all match; otherwise they stay separate and are flagged "Same lot number, different details: check" (owner, 2026-11-12); ADR-017.
 
 ### HAZ-109 A medicine outside the build's scope is packed
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: an injectable, inhaled or other out-of-scope product, or one needing a cold chain, is packed. Harm: a medicine the team may not be equipped to store or give; potency loss. Severity: TBD. Probability: TBD.
+Sequence: an injectable, inhaled or other out-of-scope product, or one needing a cold chain, is packed. Harm: a medicine the team may not be equipped to store or give; potency loss. Severity: serious. Probability with controls: unlikely; route scope enforced in code; mapping verified by the owner (owner, 2026-11-12).
 
 ### RC-109 Route and storage scope enforced by code
 - Product: Prepped
@@ -218,7 +237,7 @@ Only lots with an in-scope route and no cold chain can be eligible; all others a
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: an essential medicine is left off the floor, or a target is too low for the caseload. Harm: the team runs short of an essential medicine. Severity: TBD. Probability: TBD.
+Sequence: an essential medicine is left off the floor, or a target is too low for the caseload. Harm: the team runs short of an essential medicine. Severity: serious. Probability with controls: possible; rests on the clinician's judgement, which the tool cannot check (owner, 2026-11-12).
 
 ### RC-110 Floor and targets set by the lead clinician
 - Product: Prepped
@@ -230,7 +249,7 @@ The lead clinician chooses the floor list and every target; Prepped never sets t
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: an estimated quantity is accepted without clinical judgement. Harm: as HAZ-110. Severity: TBD. Probability: TBD.
+Sequence: an estimated quantity is accepted without clinical judgement. Harm: as HAZ-110. Severity: serious. Probability with controls: possible; labelled as an estimate, but over-trust is common (owner, 2026-11-12).
 
 ### RC-111 Estimates labelled and never applied automatically
 - Product: Prepped
@@ -242,7 +261,7 @@ Estimates are labelled as estimates, applied only when the clinician accepts or 
 - Product: Prepped
 - Traces to: IU-101, IU-102
 
-Sequence: the team deploys because the indicator says "Go", without the leader's own judgement; or a "No go" is ignored without seeing what is short. Severity: TBD. Probability: TBD.
+Sequence: the team deploys because the indicator says "Go", without the leader's own judgement; or a "No go" is ignored without seeing what is short. Severity: serious. Probability with controls: possible; an indicator only, but people over-trust it (owner, 2026-11-12).
 
 ### RC-112 Go is an indicator with its reasons
 - Product: Prepped
@@ -254,7 +273,7 @@ The indicator is labelled "Indicator only", always shows the criteria and every 
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: a supplemental medicine is counted as covering a floor item it does not replace. Harm: the floor appears met when it is not. Severity: TBD. Probability: TBD.
+Sequence: a supplemental medicine is counted as covering a floor item it does not replace. Harm: the floor appears met when it is not. Severity: serious. Probability with controls: unlikely; code keeps supplements apart from the floor (owner, 2026-11-12).
 
 ### RC-113 Supplements kept apart from floor coverage
 - Product: Prepped
@@ -266,7 +285,7 @@ Supplements never count toward a floor item and never change the indicator.
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: a different strength or formulation is counted as if it supplied the same amount of medicine (for example a 250 mg form counted as 500 mg). Harm: the team carries less medicine than the floor needs. Severity: TBD. Probability: TBD.
+Sequence: a different strength or formulation is counted as if it supplied the same amount of medicine (for example a 250 mg form counted as 500 mg). Harm: the team carries less medicine than the floor needs. Severity: serious. Probability with controls: possible; rests on the clinician entering the right share (owner, 2026-11-12).
 
 ### RC-114 Exchanges count only when the clinician sets them
 - Product: Prepped
@@ -286,7 +305,7 @@ Lots past their expiry on the date of the check are listed for discard and can n
 - Product: SpareWing
 - Traces to: IU-301
 
-Harm: an incorrect part is fitted; airworthiness compromised. Severity: TBD. Probability: TBD.
+Harm: an incorrect part is fitted; airworthiness compromised. Severity: critical. Probability with controls: unlikely; control in code: only entered part numbers and alternates; person's check: mechanic sign-off (owner, 2026-11-12).
 
 ### RC-301 Only entered part numbers and alternates
 - Product: SpareWing
@@ -298,7 +317,7 @@ Only parts with the same part number or an alternate the program entered are can
 - Product: SpareWing
 - Traces to: IU-301
 
-Harm: as HAZ-301. Severity: TBD. Probability: TBD.
+Harm: as HAZ-301. Severity: critical. Probability with controls: unlikely; control in code: unserviceable parts excluded; person's check: the mechanic inspects (owner, 2026-11-12).
 
 ### RC-302 Unserviceable parts excluded
 - Product: SpareWing
@@ -310,7 +329,7 @@ Parts marked not serviceable never appear.
 - Product: SpareWing
 - Traces to: IU-301
 
-Harm: a flight is assigned to a pilot not qualified for it. Severity: TBD. Probability: TBD.
+Harm: a flight is assigned to a pilot not qualified for it. Severity: critical. Probability with controls: unlikely; control in code: ratings and currency checked through the end of the disruption; person's check: director and pilot (owner, 2026-11-12).
 
 ### RC-303 Pilot rules checked by code
 - Product: SpareWing
@@ -322,7 +341,7 @@ A pilot is a candidate only when entered ratings and currency meet the requireme
 - Product: SpareWing
 - Traces to: IU-301
 
-Harm: an unverified option is treated as valid, or a valid option is never seen. Severity: TBD. Probability: TBD.
+Harm: an unverified option is treated as valid, or a valid option is never seen. Severity: critical. Probability with controls: unlikely; control in code: missing data shown as unknown; person's check: review (owner, 2026-11-12).
 
 ### RC-304 Unknown shown as unknown
 - Product: SpareWing
@@ -334,7 +353,7 @@ Missing data is shown as "unknown" and unverified lead times as "unverified"; if
 - Product: SpareWing
 - Traces to: IU-301, IU-302
 
-Sequence: a proposed plan or candidate is treated as approval of a schedule change or of airworthiness. Severity: TBD. Probability: TBD.
+Sequence: a proposed plan or candidate is treated as approval of a schedule change or of airworthiness. Severity: critical. Probability with controls: possible; over-trust in operations; control in code: sign-off flag and no approval wording; person's check: the decision is recorded by the director, mechanic or pilot (owner, 2026-11-12).
 
 ### RC-305 Sign-off flag and no approvals
 - Product: SpareWing
@@ -346,7 +365,7 @@ Every candidate carries the sign-off flag; the tool never approves a schedule ch
 - Product: SpareWing
 - Traces to: IU-301
 
-Sequence: an ETA built on a guessed lead time is trusted. Harm: plans fail; communities miss flights. Severity: TBD. Probability: TBD.
+Sequence: an ETA built on a guessed lead time is trusted. Harm: plans fail; communities miss flights. Severity: serious. Probability with controls: unlikely; guessed lead times are marked unverified (owner, 2026-11-12).
 
 ### RC-306 Unverified ETAs marked
 - Product: SpareWing
@@ -358,7 +377,7 @@ ETAs use only entered lead times; without one the ETA shows "unverified".
 - Product: SpareWing
 - Traces to: IU-301
 
-Harm: a community loses service without warning. Severity: TBD. Probability: TBD.
+Harm: a community loses service without warning. Severity: serious. Probability with controls: unlikely; safety-critical code with worked tests (owner, 2026-11-12).
 
 ### RC-307 Missed flights computed by tested code
 - Product: SpareWing
@@ -370,13 +389,13 @@ Missed community flights are computed by safety-critical code to SYS-307, with e
 - Product: SpareWing
 - Traces to: IU-301
 
-Sequence: the "best" proposal favours speed over safety, or pushes other options out of sight. Severity: TBD. Probability: TBD.
+Sequence: the "best" proposal favours speed over safety, or pushes other options out of sight. Severity: serious. Probability with controls: unlikely; every option shown has passed the safety rules and stays visible (owner, 2026-11-12).
 
 ### RC-308 Transparent ranking
 - Product: SpareWing
 - Traces to: HAZ-308
 
-Ranking criteria are set by the program and shown with each proposal; ranking never removes a candidate from view (OD-023).
+Ranking follows a fixed order, shown with each proposal: fewest missed community flights, earliest return to service, fewest transfers (owner, 2026-11-12); ranking never removes a candidate from view (OD-023).
 
 ## Revision history
 
@@ -386,3 +405,6 @@ Ranking criteria are set by the program and shown with each proposal; ranking ne
 | 0.2 | 2026-11-10 | New HAZ-109 to HAZ-113 and RC-109 to RC-113 for route scope, floor list, caseload estimate, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |
 | 0.3 | 2026-11-11 | New HAZ-114 and RC-114 for exchanges; RC-115 discard of expired lots (ADR-010). | Claude, for owner review |
 | 0.4 | 2026-11-11 | RC-114 cites ADR-011. | Claude, for owner review |
+| 0.5 | 2026-11-12 | §1 scales and acceptability rule (OD-024, owner, 2026-11-12); hazard ratings pending OD-047. New HAZ-008 and RC-008 for sign-in (OD-001). RC-108 merge rule (OD-011); RC-308 ranking order (OD-023). | Claude, for owner review |
+| 0.6 | 2026-11-12 | RC-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
+| 0.7 | 2026-11-12 | §1 severity and probability definitions and the full acceptability rule; every hazard rated (owner, 2026-11-12; OD-047, ADR-019); §1.5 residual risk. | Claude, for owner review |

@@ -1,0 +1,9 @@
+{
+  "url": "https://download.open.fda.gov/drug/ndc/drug-ndc-0001-of-0001.json.zip",
+  "export_date": "2026-11-11",
+  "downloaded": "2026-11-12",
+  "licence": "https://open.fda.gov/license/",
+  "zip_sha256": "df68fd940abd2bb1737b0bbc6beaa7dbd78bafdd49a31ffdd50b24b6620f69b3",
+  "json_sha256": "b0e7506395e29cc8f72b9ca0bd2232b5afa5b04a98cd6a02c16353b7f949601a",
+  "records": 138327
+}

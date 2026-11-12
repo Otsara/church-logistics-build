@@ -93,3 +93,46 @@ describe("rule files", () => {
     }
   });
 });
+
+describe("rule file details", () => {
+  it("[ARC-004] needs both a verified date and a verifier, not just one", () => {
+    const dateOnly = parseRuleFile({
+      ...verified,
+      source: { ...verified.source, verified_by: null },
+    });
+    const verifierOnly = parseRuleFile({
+      ...verified,
+      source: { ...verified.source, verified_date: null },
+    });
+    expect(dateOnly.ok).toBe(false);
+    expect(verifierOnly.ok).toBe(false);
+  });
+
+  it("[ARC-004] accepts lower-case kebab-case ids only, and each named product", () => {
+    expect(parseRuleFile({ ...verified, id: "a-b-c" }).ok).toBe(true);
+    for (const id of ["Shelf-life", "shelf-life!", "-shelf", "shelf-"]) {
+      const result = parseRuleFile({ ...verified, id });
+      expect(result, id).toEqual({
+        ok: false,
+        errors: ["id: must be lower-case kebab-case"],
+      });
+    }
+    for (const product of ["prepped", "sparewing", "shared"]) {
+      expect(parseRuleFile({ ...verified, product }).ok, product).toBe(true);
+    }
+    expect(parseRuleFile({ ...verified, product: "other" }).ok).toBe(false);
+  });
+
+  it("[ARC-004] explains a bad verified date in plain words", () => {
+    const result = parseRuleFile({
+      ...verified,
+      source: { ...verified.source, verified_date: "2026-02-30" },
+    });
+    expect(result).toEqual({
+      ok: false,
+      errors: [
+        "source.verified_date: must be a date-only ISO string (YYYY-MM-DD)",
+      ],
+    });
+  });
+});

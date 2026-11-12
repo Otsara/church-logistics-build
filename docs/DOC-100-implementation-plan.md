@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.2
+version: 0.7
 status: Draft
 effective_date:
 ---
@@ -29,6 +29,8 @@ Proposed scope:
 4. Data: the openFDA snapshot importer, the synthetic generators for both products (TC-005), and the held-back third split off and sealed (DAT-002; OD-034, OD-036).
 5. Test cases and placeholder tests for the requirements added on 2026-11-10 (SYS-007 to SYS-010, SYS-108, SYS-308, SYS-309, SEC and DAT items).
 6. Decisions on back end, key storage and hosting (OD-001, OD-018, OD-027, OD-028), and the two Lovable projects created.
+
+Status on 2026-11-12: Stryker runs in CI with a score of 97.84% on the safety-critical code after the OD-044 change (136 of 139 mutants killed; the 3 survivors are equivalent); the openFDA importer, the synthetic data generators for both products and the held-back split and seal are built and tested; the 26 missing test cases are written (TC-005, TC-016, TC-019 to TC-021, TC-123 and TC-312 implemented). The owner closed the decisions iteration 1 needs, and the back-end and hosting decisions (owner, 2026-11-12). The FDA snapshot of 2026-11-11 is imported (32,601 in-scope entries; OD-034), and the corpus is built with its held-back third sealed and handed to the owner (OD-036), rebuilt once after biologics were excluded (OD-049). Still open: the owner's review, rating the hazards (OD-047) and the Lovable projects.
 
 Exit criteria: `pnpm docs:check` and `pnpm check` pass; the owner's review recorded; the held-back set sealed; Stryker runs on core; every decision iteration 1 needs is closed.
 
@@ -99,7 +101,7 @@ The demo, video, screenshots and live demo use synthetic data only, with no real
 ### SUB-006 Submission contents
 - Formerly: H-6
 
-Project name, written description, track, demo video link, and a live demo link, which the owner wants (OD-021, OD-018). The repository link is optional (OD-021). Licences and terms of the open-source code and AI tools used are followed.
+Project name, written description, track, demo video link, and a live demo link on lovable.app (OD-018). The written description reuses a one-page executive summary; the repository is made public for judging and its link submitted, then returned to private (owner, 2026-11-12); OD-021. Licences and terms of the open-source code and AI tools used are followed.
 
 ### SUB-007 One project, Open Track
 - Formerly: H-7
@@ -112,3 +114,8 @@ One project in one track, the Open Track. The description and demo address its f
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft: iterations IT-000 to IT-004, review points and check-ins; submission requirements H-1..H-7 carried over as SUB-001..007 (ADR-001). | Claude, for owner review |
 | 0.2 | 2026-11-11 | IT-003: two stand-alone Lovable projects and the approved credit plan (owner, 2026-11-11). | Claude, for owner review |
+| 0.3 | 2026-11-12 | IT-000 status on 2026-11-12. | Claude, for owner review |
+| 0.4 | 2026-11-12 | IT-000 status: mutation score corrected from 97.18% to 97.14%, as in the Stryker report (owner, 2026-11-12). | Claude, for owner review |
+| 0.5 | 2026-11-12 | IT-000 status after the owner's decisions of 2026-11-12; SUB-006 demo and repository link (OD-018, OD-021). | Claude, for owner review |
+| 0.6 | 2026-11-12 | IT-000 status: snapshot imported; held-back third sealed and handed over. | Claude, for owner review |
+| 0.7 | 2026-11-12 | IT-000 status after OD-046, OD-048 and OD-049. | Claude, for owner review |

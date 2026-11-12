@@ -18,6 +18,10 @@ export default defineConfig({
         functions: 90,
         statements: 90,
         "packages/core/src/**": FULL,
+        // The openFDA importer sets scope and controlled-substance flags (ARC-015, safety-critical).
+        "packages/synth/src/fda.ts": FULL,
+        // The snapshot catalogue keeps only in-scope products (ARC-018, safety-critical).
+        "packages/synth/src/snapshot.ts": FULL,
       },
     },
   },

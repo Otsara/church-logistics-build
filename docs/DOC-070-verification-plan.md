@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.4
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -38,7 +38,7 @@ How each requirement is shown to be met, how safety-critical code is verified, h
 A safety-critical unit (marked in DOC-020 and DOC-040) is verified only when all of these hold and are recorded:
 
 1. 100% branch, line, function and statement coverage.
-2. Mutation score of at least 80% (Stryker), measured on the changed code and critical paths (owner, 2026-11-10).
+2. Mutation score of at least 80% (Stryker), measured on the changed code and critical paths (owner, 2026-11-10). `stryker.config.json` lists the safety-critical units to mutate, and CI runs `pnpm mutation` on every pull request. Incremental mode is off: on 2026-11-12 it reused stale results and under-reported the score (90.85% against 96.48% on a full run), and stale results could equally over-report.
 3. The owner's line-by-line review in the build conversation, written up as a review record `docs/reviews/REV-nnn-*.md` naming the commit and files reviewed (owner, 2026-11-10).
 
 ## 5. Pre-release confirmation run
@@ -65,7 +65,7 @@ Failures are reported with evidence: the command, the output, the commit. Every 
 - Traces to: SYS-007, SYS-008
 - Formerly: X-1
 
-Given edits made offline, when the connection returns, then all edits appear after sync and any conflict keeps both versions in the audit log.
+Given edits made offline, when the connection returns, then all edits appear after sync and any conflict keeps both versions in the audit log (conflict handling: TC-023).
 
 ### TC-002 AI timeout falls back
 - Product: Shared
@@ -95,14 +95,128 @@ Given pilot names, then they are replaced by ids before any AI call.
 
 Given the same seed, then the synthetic data generator produces identical data.
 
+### TC-006 Unreadable expiry stays null
+- Product: Shared
+- Traces to: SYS-002
+
+Given a donor line whose expiry cannot be read, then the parsed expiry is null, never a guessed date, and the line is "needs review".
+
+### TC-007 Regulations only from the rule card
+- Product: Shared
+- Traces to: SYS-004, AIC-102
+
+Given a recorded draft that states an import requirement absent from the trip's rule card, then the statement is flagged and the draft is not accepted; a statement citing the rule card id passes.
+
+### TC-008 Drafts marked until reviewed
+- Product: Shared
+- Traces to: SYS-005, SYS-008, AIC-102, AIC-302
+
+Given any draft from AIC-102 or AIC-302, then it shows "Draft, human review required" until a person marks it reviewed, and marking it reviewed records the reviewer and time in the audit log.
+
+### TC-009 Nothing final without sign-off
+- Product: Shared
+- Traces to: SYS-010
+
+Given a packing list and a SpareWing proposal, then neither becomes final until the person with authority signs it off, and no screen, export or message uses the word "approved".
+
+### TC-010 Explanations only restate computed results
+- Product: Shared
+- Traces to: AIC-103, AIC-303, SYS-003
+
+Given computed readiness or candidates and a recorded explanation that mentions an item, number or status not in the computed results, then the explanation is rejected and the computed list is shown instead.
+
+### TC-013 No AI key in the apps or repository
+- Product: Shared
+- Traces to: SEC-001
+
+Given the built front-end bundles and the repository, then no AI service key appears, and the apps reach the AI only through the server-side gateway.
+
+### TC-014 Synthetic data only
+- Product: Shared
+- Traces to: SEC-002, DAT-003
+
+Given every fixture, golden example and demo data file, then every person, donor and pilot name is synthetic and every data file is marked synthetic.
+
+### TC-015 HTTPS and security headers
+- Product: Shared
+- Traces to: SEC-003
+
+Given the published apps, then they are served only over HTTPS and send the agreed security headers. Header set: TBD (OD-018).
+
+### TC-016 Dependency audit on every pull request
+- Product: Shared
+- Traces to: SEC-004
+
+Given the CI workflow, then every pull request runs a dependency audit that fails on high or critical advisories.
+
+### TC-017 Only needed fields reach the AI
+- Product: Shared
+- Traces to: SEC-005, SYS-006
+
+Given a record with names and extra fields, then each AI step's request contains only the fields that step needs and no names.
+
+### TC-018 Data stored on devices protected
+- Product: Shared
+- Traces to: SEC-006
+
+Given the protection for data stored on devices chosen in OD-033, then data at rest is protected as decided. Expected result: TBD (OD-033).
+
+### TC-019 No secrets committed
+- Product: Shared
+- Traces to: SEC-007, SEC-001
+
+Given the repository, then .env files are ignored and no tracked file contains a credential.
+
+### TC-020 Held-back third split
+- Product: Shared
+- Traces to: DAT-002
+
+Given 30 records and a split seed, then 10 are held back and 20 kept for development, no record is in both, the same seed gives the same split whatever the input order, and another seed gives a different one.
+
+### TC-021 Held-back seal detects change
+- Product: Shared
+- Traces to: DAT-002
+
+Given a sealed held-back set, then verification passes while it is unchanged, and names every changed, added or removed record, and a tampered set fingerprint.
+
+### TC-022 Golden examples never from the held-back set
+- Product: Shared
+- Traces to: DAT-004
+
+Given the golden example files and the held-back manifest, then no golden example comes from a held-back record.
+
 **Prepped**
+
+### TC-023 Sync conflict held for a person
+- Product: Shared
+- Traces to: SYS-007
+
+Given the same lot's quantity changed on two devices while offline, when both sync, then the lot is marked "Conflict: check", is not counted toward coverage until a person chooses a version, and both versions are in the audit log (OD-017).
+
+### TC-024 Sign-in and team separation
+- Product: Shared
+- Traces to: SEC-008
+
+Given a device that has signed in and then goes offline, then work continues and its edits sync at the next connection with the editor recorded; given a person from another team, then that person cannot read or change this team's records; given unsynced edits, then signing out warns and keeps them (OD-001).
+
+### TC-025 Corpus and held-back split
+- Product: Shared
+- Traces to: DAT-001, DAT-002
+
+Given corpus and split seeds, then each product's scenarios are generated from derived seeds, one third of each product is held back and sealed, the same seeds give the same corpus, and a split seed equal to the corpus seed is refused.
+
+### TC-026 No held-back record in the repository
+- Product: Shared
+- Traces to: DAT-002
+
+Given the committed development data and the held-back manifest, then one third of each product is held back, no committed development record shares an id or fingerprint with a held-back record, and no data file carries the held-back package marker.
 
 ### TC-101 Lot blocked below minimum shelf life
 - Product: Prepped
 - Traces to: SYS-101, SYS-102, ARC-005
 - Formerly: P-1
 
-Given a lot expiring 2027-03-01 and a trip arriving 2026-12-01, when eligibility runs with the 12-month rule, then the lot is blocked with the reason "90 days remaining, 12 months required".
+Given a lot expiring 2027-03-01 and a trip arriving 2026-12-01, when eligibility runs with the 12-month rule, then the lot is blocked with the reason "90 days remaining, 365 required" (OD-009).
 
 ### TC-102 Lot eligible above minimum shelf life
 - Product: Prepped
@@ -144,7 +258,7 @@ Given a target of 200 courses and 150 eligible, then item coverage is 75%.
 - Traces to: AIC-101
 - Formerly: P-7
 
-Given two donor lines with the same lot number and generic name, then they merge into one lot with summed quantity.
+Given two donor lines with the same lot number, generic name, strength, form and expiry from different donors, then they merge into one lot with summed quantity that lists both donors (OD-011).
 
 ### TC-108 Arrival change recalculates without AI
 - Product: Prepped
@@ -238,7 +352,63 @@ Given two donor lines with the same lot number and medicine but expiry dates of 
 
 Given a floor item with a target of 100 and 40 eligible capsules, when the clinician accepts an oral suspension exchange and enters that it covers 60 of the target, then the item is covered; when the clinician enters 30, the item stays 30 short. Prepped performs no dose conversion in either case.
 
+### TC-123 openFDA record to catalog entry
+- Product: Prepped
+- Traces to: DAT-101, SYS-103, SYS-109
+
+Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; its classes are its established pharmacologic classes (EPC), without the tag, and none when it has none; a biologic product type such as VACCINE makes it out of scope with the reason "biologic, treated as cold chain" (OD-049); an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
+
+### TC-124 Floor catalogue from the WHO list and FDA data
+- Product: Prepped
+- Traces to: DAT-102
+- Status: Retired
+- Reason: the WHO list is not used (owner, 2026-11-12); OD-046
+
+Given WHO list items and FDA directory entries, then matched catalog entries carry both references, and each unmatched WHO item stays listed, marked "No FDA directory entry: enter details by hand" (OD-034).
+
+### TC-125 Comparable alternatives for clinician choice
+- Product: Prepped
+- Traces to: SYS-108
+
+Given a floor item that is short and eligible lots of another medicine in the same class, then those lots are listed as "Comparable, not equivalent: clinician review required" with their class and its source, and none is added until the clinician chooses it.
+
+### TC-126 Caseload estimate never applied by itself
+- Product: Prepped
+- Traces to: SYS-111
+
+Given an anticipated caseload, then any estimated quantity is labelled as an estimate and the target stays empty until the clinician accepts or changes it.
+
 **SpareWing**
+
+### TC-127 Same lot number, different details
+- Product: Prepped
+- Traces to: AIC-101
+
+Given two donor lines with the same lot number and generic name but different expiry dates, then they stay separate lots, both flagged "Same lot number, different details: check" (OD-011).
+
+### TC-128 Exactly 365 days of shelf life
+- Product: Prepped
+- Traces to: SYS-102
+
+Given a trip arriving 2026-12-01, then a lot expiring 2027-12-01 (365 days) is eligible, and a lot expiring 2027-11-30 is blocked with the reason "364 days remaining, 365 required" (OD-009).
+
+### TC-129 Expiry printed as month and year
+- Product: Prepped
+- Traces to: SYS-102
+
+Given a lot whose expiry is entered as 03/2028, then its expiry is read as 2028-03-31 and shown as read from a month-only date (OD-043).
+
+### TC-130 Snapshot catalogue
+- Product: Prepped
+- Traces to: DAT-101, SYS-109
+
+Given a snapshot, then only products whose every reading is in scope are kept, sorted, with the source and counts; a file whose record count differs from its source, or a malformed source description, is refused.
+
+### TC-131 Tablets and suspension together
+- Product: Prepped
+- Traces to: SYS-115
+
+Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension exchange covering 30 and another tablet strength covering 30, then the item is covered, each part counting what was entered for it.
 
 ### TC-301 Alternate part found
 - Product: SpareWing
@@ -289,6 +459,60 @@ Given a transfer mode with no entered lead time, then the ETA shows "unverified"
 
 Given a part marked not serviceable, then it never appears.
 
+### TC-308 Ranking never hides a candidate
+- Product: SpareWing
+- Traces to: SYS-308
+
+Given five candidates, then the ranked proposal lists all five with the reasons for their order, and none is removed.
+
+### TC-309 No approvals or airworthiness statements
+- Product: SpareWing
+- Traces to: SYS-309
+
+Given any proposal, then nothing approves a schedule change or states that an aircraft is flightworthy, and a decision is recorded only when the flight base director, mechanic or pilot records it.
+
+### TC-310 Messages drafted, never sent automatically
+- Product: SpareWing
+- Traces to: SYS-310, AIC-302
+
+Given a disruption and a chosen candidate, then the drafted message is marked as a draft, carries pilot ids instead of names to the AI step, and is not sent until a person sends it.
+
+### TC-311 Parts emails parsed against golden examples
+- Product: SpareWing
+- Traces to: AIC-301
+
+Given the recorded golden parts emails, then the parsed parts match the expected results, each with its source line and confidence, and an invalid output leads to manual entry.
+
+### TC-312 SpareWing data recognisably synthetic
+- Product: SpareWing
+- Traces to: DAT-301
+
+Given generated SpareWing data, then every part number and aircraft id uses the made-up format and every pilot name comes from the synthetic word lists.
+
+### TC-313 Currency must last through the disruption
+- Product: SpareWing
+- Traces to: SYS-303
+
+Given a pilot whose currency is valid on the date needed but lapses before the expected end of the disruption, then the pilot is not a candidate, with the reason naming the lapse date (OD-015).
+
+### TC-314 Requirement from aircraft type and aircraft
+- Product: SpareWing
+- Traces to: SYS-303
+
+Given an aircraft type whose rule file requires rating R1 and an aircraft that adds rating R2, then a pilot holding only R1 is not a candidate for that aircraft, with the reason "missing R2" (OD-014).
+
+### TC-315 Cover only from listed bases
+- Product: SpareWing
+- Traces to: SYS-307
+
+Given a community whose rule file lists only base 1, and an available aircraft with a qualified pilot at base 2, then their flights do not reduce the missed-flight count (OD-016).
+
+### TC-316 Ranking order
+- Product: SpareWing
+- Traces to: SYS-308
+
+Given two options with the same number of missed flights, then the one with the earlier return to service ranks first; given two with the same missed flights and return date, then the one with fewer transfers ranks first; every option stays visible with its reasons (OD-023).
+
 ## Revision history
 
 | Version | Date | Change | By |
@@ -297,3 +521,7 @@ Given a part marked not serviceable, then it never appears.
 | 0.2 | 2026-11-10 | New TC-110 to TC-117 for route scope, floor coverage, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |
 | 0.3 | 2026-11-11 | New TC-118 to TC-121 for wider routes, exchanges, discard of expired lots and one expiry per lot number (ADR-010). | Claude, for owner review |
 | 0.4 | 2026-11-11 | New TC-122: an accepted exchange counts what the clinician enters (ADR-011). | Claude, for owner review |
+| 0.5 | 2026-11-12 | New TC-006 to TC-010, TC-013 to TC-022, TC-123 to TC-126 and TC-308 to TC-312, closing every coverage gap; §4 records how mutation testing runs. | Claude, for owner review |
+| 0.6 | 2026-11-12 | Owner decisions of 2026-11-12: TC-001, TC-101, TC-107, TC-123 and TC-124 updated; new TC-023, TC-024, TC-127 to TC-129, TC-313 to TC-316. | Claude, for owner review |
+| 0.7 | 2026-11-12 | TC-123 classes; new TC-025, TC-026, TC-130, TC-131. | Claude, for owner review |
+| 0.8 | 2026-11-12 | TC-123 biologics (OD-049); TC-124 retired (OD-046). | Claude, for owner review |

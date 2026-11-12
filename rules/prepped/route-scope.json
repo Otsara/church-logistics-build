@@ -1,0 +1,45 @@
+{
+  "id": "route-scope",
+  "product": "prepped",
+  "title": "Routes in scope, and how FDA route terms map to them",
+  "status": "verified",
+  "source": {
+    "url": "https://www.fda.gov/industry/structured-product-labeling-resources/route-administration",
+    "verified_date": "2026-11-12",
+    "verified_by": "owner"
+  },
+  "notes": "In-scope categories are the owner's decisions of 2026-11-10 and 2026-11-11 (SYS-109). The owner checked this mapping on 2026-11-12 (OD-042). Feeding tube is not a category: the FDA directory lists almost no ENTERAL products and suitability for a feeding tube is the clinician's judgement (OD-045). Any FDA route not listed here, for example BUCCAL, TRANSDERMAL, ENTERAL or any injection, is treated as outside scope. Biologic product types (cold_chain_product_types) are treated as cold chain, and so outside scope, whatever the lot says (owner, 2026-11-12; OD-049).",
+  "data": {
+    "in_scope": [
+      "oral",
+      "sublingual",
+      "rectal",
+      "topical",
+      "ophthalmic",
+      "inhaled",
+      "nasal",
+      "vaginal",
+      "otic"
+    ],
+    "routes": {
+      "ORAL": "oral",
+      "SUBLINGUAL": "sublingual",
+      "RECTAL": "rectal",
+      "TOPICAL": "topical",
+      "CUTANEOUS": "topical",
+      "OPHTHALMIC": "ophthalmic",
+      "RESPIRATORY (INHALATION)": "inhaled",
+      "NASAL": "nasal",
+      "VAGINAL": "vaginal",
+      "AURICULAR (OTIC)": "otic"
+    },
+    "cold_chain_product_types": [
+      "VACCINE",
+      "PLASMA DERIVATIVE",
+      "CELLULAR THERAPY",
+      "STANDARDIZED ALLERGENIC",
+      "NON-STANDARDIZED ALLERGENIC",
+      "LICENSED VACCINE BULK INTERMEDIATE"
+    ]
+  }
+}

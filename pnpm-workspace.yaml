@@ -4,3 +4,5 @@ packages:
 # minimatch 7 to 11.0.0, used by the lint parser, has a denial-of-service advisory; 11.0.1 fixes it.
 overrides:
   "minimatch@>=7.0.0 <11.0.1": "11.0.5"
+  # qs before 6.16.1 has denial-of-service advisories; reached only through Stryker's report-upload client.
+  "qs@<6.16.1": "6.17.1"

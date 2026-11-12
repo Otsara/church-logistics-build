@@ -41,6 +41,7 @@ Run `pnpm docs:update`, then `pnpm check` (includes `pnpm docs:check`). Both mus
 - install: `pnpm install`
 - test: `pnpm test`
 - full check (what CI runs): `pnpm check`
+- mutation testing of safety-critical code: `pnpm mutation` (ADR-006)
 - documents: `pnpm docs:check`; regenerate generated sections with `pnpm docs:update`; release gate `pnpm docs:check --strict`
 - dev: not yet; screens come from Lovable (OD-018)
 

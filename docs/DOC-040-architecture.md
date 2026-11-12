@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.3
+version: 0.7
 status: Draft
 effective_date:
 ---
@@ -25,13 +25,13 @@ TypeScript throughout. One language for rules, tests and screens.
 - Traces to: SYS-003
 - Formerly: F-2
 
-`packages/core` (pure rules), `packages/ai` (model wrapper), `packages/synth` (seed data), `packages/store` (offline storage and sync), `apps/prepped`, `apps/sparewing`. Rules stay testable without screens. Core has no network, no clock and no AI imports, enforced by lint.
+`packages/core` (pure rules), `packages/ai` (model wrapper), `packages/synth` (seed data), `packages/store` (offline storage and sync), `apps/prepped`, `apps/sparewing`. Added 2026-11-12: `packages/policy` (repository policy tests, ARC-017). Rules stay testable without screens. Core has no network, no clock and no AI imports, enforced by lint.
 
 ### ARC-003 Screens
 - Product: Shared
 - Formerly: F-3
 
-Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Projects, hosting and devices: TBD (OD-018, OD-035).
+Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Two stand-alone Lovable projects, each published on its lovable.app address; CI runs a smoke test that the published screens load and call the core rules (owner, 2026-11-12); OD-018. Phone, tablet and laptop, phone first, WCAG 2.2 AA (OD-035).
 
 ### ARC-004 Rule files
 - Product: Shared
@@ -53,7 +53,7 @@ Date-only ISO strings, compared in UTC, to avoid time-zone bugs in shelf-life ma
 - Traces to: SYS-007
 - Formerly: F-6
 
-Local-first in the browser (IndexedDB), optional cloud sync. Works with spotty internet. Choice of sync service: TBD (OD-001).
+Local-first in the browser (IndexedDB), with team sync through Supabase when online and sign-in through Supabase Auth (owner, 2026-11-12); ADR-012. Works with spotty internet. Conflicts are flagged for a person (SYS-007). Fallback if sync proves problematic for the deadline: local-only (OD-001).
 
 ### ARC-007 Offline
 - Product: Shared
@@ -109,7 +109,33 @@ Before any AI call, names are replaced by ids and only the fields the step needs
 - Product: Shared
 - Traces to: SEC-001
 
-The app calls the AI service only through a server function that holds the key as a secret. Proposed: a Supabase Edge Function (OD-027).
+The app calls the AI service only through a Supabase Edge Function that holds the key as a secret and checks that the user is signed in (owner, 2026-11-12); OD-027.
+
+### ARC-015 openFDA importer
+- Product: Shared
+- Traces to: DAT-101, SYS-103, SYS-109
+- Safety-critical: yes
+
+Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. Established pharmacologic classes (EPC) are kept as the entry's classes (OD-022). A biologic product type listed in the rule file makes the product out of scope with the reason "biologic, treated as cold chain" (owner, 2026-11-12); OD-049. A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
+
+### ARC-016 Held-back split and seal
+- Product: Shared
+- Traces to: DAT-002
+
+Sets aside one third of the records by a separate seed and seals them with SHA-256 fingerprints (`packages/synth/src/split.ts`). `packages/synth/src/corpus.ts` builds each product's scenarios from seeds derived from a corpus seed and splits each product separately. `packages/synth/scripts/build-corpus.ts` draws both seeds at random, writes the development part to `data/synthetic/development/`, the manifest to `data/synthetic/held-back-manifest.json`, and the held-back package, with the seeds, only outside the repository. A repository check (TC-026) shows no held-back record is committed.
+
+### ARC-017 Repository policy checks
+- Product: Shared
+- Traces to: SEC-004, SEC-007
+
+Tests in `packages/policy` that check rules holding for the whole repository, such as the CI dependency audit and the absence of committed credentials.
+
+### ARC-018 Snapshot catalogue
+- Product: Shared
+- Traces to: DAT-101, SYS-109
+- Safety-critical: yes
+
+`packages/synth/src/snapshot.ts` builds the frozen in-scope catalogue from the FDA snapshot, keeping only products whose every reading is in scope. `packages/synth/scripts/import-fda.ts` refuses a file whose SHA-256, export date or record count differs from `data/fda/source.json`, and refuses a route rule file the owner has not verified. Output: `data/fda/catalog-2026-11-11.json`.
 
 ### ARC-101 Prepped rules engine
 - Product: Prepped
@@ -229,3 +255,7 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.1 | 2026-11-10 | First draft. Foundation decisions F-1..F-12 carried over as ARC-001..012 and AI steps AI-P1..AI-S3 as AIC-101..103, AIC-301..303, wording unchanged (ADR-001). New: ARC-013, ARC-014, ARC-101, ARC-102, ARC-301, ARC-302; safety-critical units marked (ADR-006); ARC-009 updated by ADR-008. | Claude, for owner review |
 | 0.2 | 2026-11-10 | ARC-101 allocated SYS-109 to SYS-114. | Claude, for owner review |
 | 0.3 | 2026-11-11 | ARC-101 allocated SYS-115 to SYS-117. | Claude, for owner review |
+| 0.4 | 2026-11-12 | New ARC-015 openFDA importer (safety-critical), ARC-016 held-back split and seal, ARC-017 repository policy checks; ARC-002 adds packages/policy. | Claude, for owner review |
+| 0.5 | 2026-11-12 | ARC-003 hosting and devices (OD-018, OD-035); ARC-006 sync and sign-in (OD-001); ARC-014 key store (OD-027); ARC-015 missing schedule (OD-044) (owner, 2026-11-12). | Claude, for owner review |
+| 0.6 | 2026-11-12 | ARC-015 reads EPC classes (OD-022); ARC-016 corpus builder and scripts; new ARC-018 snapshot catalogue. | Claude, for owner review |
+| 0.7 | 2026-11-12 | ARC-015: biologic product types out of scope (OD-049). | Claude, for owner review |

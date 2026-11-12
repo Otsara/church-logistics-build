@@ -1,0 +1,106 @@
+{
+  "synthetic": true,
+  "baseDate": "2026-11-12",
+  "generatorCommit": "2ca06acf1df17dfd269b0baec3e77ca9fffbcfc2",
+  "catalog": {
+    "file": "data/fda/catalog-2026-11-11.json",
+    "sha256": "1acd52802a8a8ba32f46cf1faa0234f406cf5c0c6d8b2662f6e38a8ed02cc9f2"
+  },
+  "scenariosPerProduct": 30,
+  "packageSha256": "0cd2c43025d5e91b438b2f69bfe156133ae377fd53a2128e76ebe9137561a117",
+  "custody": "Held by the owner in the owner's own private storage (OD-036)",
+  "prepped": {
+    "algorithm": "sha256",
+    "count": 10,
+    "records": [
+      {
+        "id": "P002",
+        "sha256": "2c09c93f3f88e2463cdddeabb4ca285441241d87ea50aadca8489f5850cc2188"
+      },
+      {
+        "id": "P003",
+        "sha256": "b1541289556e5b0ddb1dca546fe90b2321820608203a43fd5687f8247aeee6d1"
+      },
+      {
+        "id": "P011",
+        "sha256": "3fae92267281382ef4bc02dd50320d57c5f328ef253bc82650ec96f40b8d8b32"
+      },
+      {
+        "id": "P012",
+        "sha256": "a518a7acb2fdd7f95485c16780c81f0f041ee481fcf2dad66a6e8eddfe3cdfa8"
+      },
+      {
+        "id": "P013",
+        "sha256": "8f48bc8c9bab078b4f0775b0240ab8c9cedee8518e8e20aecef5e36f6f1c6874"
+      },
+      {
+        "id": "P014",
+        "sha256": "276d668c1385eefb29638aa4947a939d203554dec197649763ae919011fb5cc6"
+      },
+      {
+        "id": "P015",
+        "sha256": "109338454e5a924a8472b9f9325141b594207e7af43e16b9c7a39069aad91e68"
+      },
+      {
+        "id": "P021",
+        "sha256": "2b2aa86afd32aae583f4687ca5053f09579c7593b79e409ebfc7d89a5519d4ec"
+      },
+      {
+        "id": "P025",
+        "sha256": "e83e877a0f9e72d8f8b8537666ce841aff9ff05a18698a8dc02b66ac5ef6dacc"
+      },
+      {
+        "id": "P028",
+        "sha256": "59f4f28bc09ac5a12587c6038f99f9a57788df8e73bad71ebf3f8be15c787b09"
+      }
+    ],
+    "setSha256": "482ea9922ee330b599c518a0ea2f3e3e3d6d21564e351632f37795421fa3bfb5"
+  },
+  "sparewing": {
+    "algorithm": "sha256",
+    "count": 10,
+    "records": [
+      {
+        "id": "S005",
+        "sha256": "fabb5e16d23d098338dece5bfb4344c88360cbeb9cfb64f8b948a6d63366a147"
+      },
+      {
+        "id": "S007",
+        "sha256": "4fbf3e5df60b9655274470571399dfbd2ea9d296c7a4db69070cf02166702b20"
+      },
+      {
+        "id": "S009",
+        "sha256": "c2c9638902d82e7731755c5068f0a3249803ef3b38a14d89637efc7bd16e996d"
+      },
+      {
+        "id": "S013",
+        "sha256": "a100a06727acd18e3e9c34c63b330b4a2f5bf01ad9d7bba23a44e6cd3deee611"
+      },
+      {
+        "id": "S019",
+        "sha256": "3650562f8e142669a0784d4f1ca831f303a275f5b0d508ddbf1430b7adc64dae"
+      },
+      {
+        "id": "S025",
+        "sha256": "ae4e56c038a38cdf2bbf4aaa6b68c3f26a9ea8a2b33c9f357b1f9c96c5c437c9"
+      },
+      {
+        "id": "S026",
+        "sha256": "2237a586e25f3e22c5d2c17defc95dfabf33eead165f2ad8dbc3ecc7c1a13ca4"
+      },
+      {
+        "id": "S027",
+        "sha256": "427e2a7dba2e680f07663a23e0bab18907b3e13b23cef7526736b176d2519021"
+      },
+      {
+        "id": "S029",
+        "sha256": "f2165d4a5c6c5090cd41201f17c47d7be3ae66945c76b41b2edc1358b160545e"
+      },
+      {
+        "id": "S030",
+        "sha256": "ac3b6bd0b9b5a6c0c27508b1e42c554a362237f8b0fd689252c67695f199ff78"
+      }
+    ],
+    "setSha256": "327df3af3e1c273e9c400e35170af39e181e2c8e2166ec14fdea6a6264b25a29"
+  }
+}

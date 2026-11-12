@@ -2,12 +2,13 @@
   "name": "@church-logistics/synth",
   "private": true,
   "license": "UNLICENSED",
-  "description": "Seeded synthetic data generator (ARC-012). Synthetic data only.",
+  "description": "Seeded synthetic data generators, the held-back split and seal, and the openFDA importer (ARC-012, ARC-015, ARC-016). Synthetic data only.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@church-logistics/core": "workspace:*"
+    "@church-logistics/core": "workspace:*",
+    "zod": "4.6.7"
   }
 }
