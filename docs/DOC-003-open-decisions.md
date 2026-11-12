@@ -1,7 +1,7 @@
 ---
 id: DOC-003
 title: Open decisions and release blockers
-version: 0.10
+version: 0.11
 status: Draft
 effective_date:
 ---
@@ -407,7 +407,7 @@ With every hazard rated (OD-047), DOC-030 needs the owner's benefit-risk conclus
 - Status: Closed
 - Blocks: none
 - Affects: SYS-109, ARC-015, DAT-101
-- Decision: Compressed gases (FDA dosage form GAS: oxygen, nitrogen, medical air, carbon dioxide, nitrous oxide and mixtures) are outside this build's scope (owner, 2026-11-12). Raised in the line-by-line review (REV-001); re-importing removed 180 entries (32,586 to 32,406). Recorded in ADR-020.
+- Decision: Compressed gases (FDA dosage form GAS: oxygen, nitrogen, medical air, carbon dioxide, nitrous oxide and mixtures) are outside this build's scope (owner, 2026-11-12). Raised in the line-by-line review (REV-001); re-importing removed 180 entries (32,586 to 32,406). Recorded in ADR-020. Refined in REV-002: any dosage form beginning with GAS is excluded, so variants such as "GAS, COMPRESSED" are caught; the 2026-11-11 export uses only "GAS", so the catalogue is unchanged (owner, 2026-11-12).
 
 ### OD-041 Counting exchanged formulations and strengths
 - Status: Closed
@@ -429,3 +429,4 @@ With every hazard rated (OD-047), DOC-030 needs the owner's benefit-risk conclus
 | 0.8 | 2026-11-12 | Closed OD-046 (WHO list not used), OD-048 (only the clinician accepts an exchange) and OD-049 (biologics treated as cold chain) (owner, 2026-11-12). OD-034 and OD-036 notes. | Claude, for owner review |
 | 0.9 | 2026-11-12 | OD-047 closed (owner, 2026-11-12); new OD-050 benefit-risk conclusion, open. | Claude, for owner review |
 | 0.10 | 2026-11-12 | New OD-051 compressed gases, closed (owner, 2026-11-12; REV-001); OD-036 third package. | Claude, for owner review |
+| 0.11 | 2026-11-12 | OD-051 refined: dosage forms beginning with GAS (owner, 2026-11-12; REV-002). | Claude, for owner review |
