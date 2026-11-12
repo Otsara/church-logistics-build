@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.5
+version: 0.6
 status: Draft
 effective_date:
 ---
@@ -168,7 +168,7 @@ Harm: loss of potency; patients receive ineffective medicine. Severity: TBD. Pro
 - Product: Prepped
 - Traces to: HAZ-104
 
-Cold-chain items are blocked in this build (ADR-007).
+Cold-chain items are blocked in this build (ADR-007). Biologic product types are treated as cold chain whatever the lot says, so a missing cold-chain flag on a vaccine or plasma product cannot let it through (owner, 2026-11-12); OD-049.
 
 ### HAZ-105 A comparable alternative is taken as equivalent
 - Product: Prepped
@@ -403,3 +403,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.3 | 2026-11-11 | New HAZ-114 and RC-114 for exchanges; RC-115 discard of expired lots (ADR-010). | Claude, for owner review |
 | 0.4 | 2026-11-11 | RC-114 cites ADR-011. | Claude, for owner review |
 | 0.5 | 2026-11-12 | §1 scales and acceptability rule (OD-024, owner, 2026-11-12); hazard ratings pending OD-047. New HAZ-008 and RC-008 for sign-in (OD-001). RC-108 merge rule (OD-011); RC-308 ranking order (OD-023). | Claude, for owner review |
+| 0.6 | 2026-11-12 | RC-104: biologics treated as cold chain (OD-049). | Claude, for owner review |

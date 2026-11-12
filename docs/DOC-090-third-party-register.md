@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.5
+version: 0.6
 status: Draft
 effective_date:
 ---
@@ -114,6 +114,8 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Terms: the printed 2025 lists state CC BY-NC-SA 3.0 IGO (non-commercial, share-alike); the electronic list's licensing page states CC BY 3.0 IGO and is dated 2023. To resolve (OD-046).
 - Use: reference for which medicines make up the floor catalogue (DAT-102). The catalogue itself is recreated from FDA directory data (owner, 2026-11-10).
 - Safety relevance: indirect. The clinician chooses the floor; the list only frames the choice.
+- Status: Retired
+- Reason: the WHO list is not used (owner, 2026-11-12); OD-046
 
 ## Costs
 
@@ -136,3 +138,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.3 | 2026-11-11 | SOUP-013: free Supabase project prepped-sparewing created (owner, 2026-11-11). | Claude, for owner review |
 | 0.4 | 2026-11-12 | SOUP-014 Stryker pinned at 10.1.1 (Apache-2.0); SOUP-011 adds upload-artifact; SOUP-001 also used by the importer; new SOUP-015 qs override. | Claude, for owner review |
 | 0.5 | 2026-11-12 | SOUP-002 funding (OD-028); SOUP-012 hosting (OD-018); SOUP-013 in use for sync, sign-in and AI gateway (OD-001, OD-027); SOUP-101 snapshot, CC0 confirmed and safety relevance (OD-034, OD-044); SOUP-102 licence moves to OD-046 (owner, 2026-11-12). | Claude, for owner review |
+| 0.6 | 2026-11-12 | SOUP-102 retired: the WHO list is not used (OD-046). | Claude, for owner review |

@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.6
+version: 0.7
 status: Draft
 effective_date:
 ---
@@ -116,7 +116,7 @@ The app calls the AI service only through a Supabase Edge Function that holds th
 - Traces to: DAT-101, SYS-103, SYS-109
 - Safety-critical: yes
 
-Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. Established pharmacologic classes (EPC) are kept as the entry's classes (OD-022). A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
+Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. Established pharmacologic classes (EPC) are kept as the entry's classes (OD-022). A biologic product type listed in the rule file makes the product out of scope with the reason "biologic, treated as cold chain" (owner, 2026-11-12); OD-049. A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
 
 ### ARC-016 Held-back split and seal
 - Product: Shared
@@ -258,3 +258,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.4 | 2026-11-12 | New ARC-015 openFDA importer (safety-critical), ARC-016 held-back split and seal, ARC-017 repository policy checks; ARC-002 adds packages/policy. | Claude, for owner review |
 | 0.5 | 2026-11-12 | ARC-003 hosting and devices (OD-018, OD-035); ARC-006 sync and sign-in (OD-001); ARC-014 key store (OD-027); ARC-015 missing schedule (OD-044) (owner, 2026-11-12). | Claude, for owner review |
 | 0.6 | 2026-11-12 | ARC-015 reads EPC classes (OD-022); ARC-016 corpus builder and scripts; new ARC-018 snapshot catalogue. | Claude, for owner review |
+| 0.7 | 2026-11-12 | ARC-015: biologic product types out of scope (OD-049). | Claude, for owner review |

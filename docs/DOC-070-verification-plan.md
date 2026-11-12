@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.7
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -356,11 +356,13 @@ Given a floor item with a target of 100 and 40 eligible capsules, when the clini
 - Product: Prepped
 - Traces to: DAT-101, SYS-103, SYS-109
 
-Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; its classes are its established pharmacologic classes (EPC), without the tag, and none when it has none; an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
+Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; its classes are its established pharmacologic classes (EPC), without the tag, and none when it has none; a biologic product type such as VACCINE makes it out of scope with the reason "biologic, treated as cold chain" (OD-049); an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
 
 ### TC-124 Floor catalogue from the WHO list and FDA data
 - Product: Prepped
 - Traces to: DAT-102
+- Status: Retired
+- Reason: the WHO list is not used (owner, 2026-11-12); OD-046
 
 Given WHO list items and FDA directory entries, then matched catalog entries carry both references, and each unmatched WHO item stays listed, marked "No FDA directory entry: enter details by hand" (OD-034).
 
@@ -522,3 +524,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.5 | 2026-11-12 | New TC-006 to TC-010, TC-013 to TC-022, TC-123 to TC-126 and TC-308 to TC-312, closing every coverage gap; §4 records how mutation testing runs. | Claude, for owner review |
 | 0.6 | 2026-11-12 | Owner decisions of 2026-11-12: TC-001, TC-101, TC-107, TC-123 and TC-124 updated; new TC-023, TC-024, TC-127 to TC-129, TC-313 to TC-316. | Claude, for owner review |
 | 0.7 | 2026-11-12 | TC-123 classes; new TC-025, TC-026, TC-130, TC-131. | Claude, for owner review |
+| 0.8 | 2026-11-12 | TC-123 biologics (OD-049); TC-124 retired (OD-046). | Claude, for owner review |

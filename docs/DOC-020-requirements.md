@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.6
+version: 0.7
 status: Draft
 effective_date:
 ---
@@ -220,7 +220,7 @@ Controlled substances are always blocked. Controlled status comes from the FDA d
 - Safety-critical: yes
 - Formerly: PE-4
 
-Cold-chain items are always blocked in this build, whatever their expiry, so they stay visible with a reason instead of disappearing (owner, 2026-11-09; ADR-007).
+Cold-chain items are always blocked in this build, whatever their expiry, so they stay visible with a reason instead of disappearing (owner, 2026-11-09; ADR-007). Biologic product types in the FDA drug directory are treated as cold chain whatever the lot says (owner, 2026-11-12); OD-049, ADR-018.
 
 ### SYS-105 Unknown expiry needs review
 - Product: Prepped
@@ -404,3 +404,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.4 | 2026-11-11 | SYS-115: an accepted exchange counts the share of the target the clinician enters (owner, 2026-11-11; ADR-011). | Claude, for owner review |
 | 0.5 | 2026-11-12 | Owner decisions of 2026-11-12 carried into SYS-007 (OD-017), SYS-102 (OD-009, OD-043), SYS-103 (OD-044), SYS-106 (OD-040), SYS-108 (OD-022), SYS-109 (OD-042, OD-045), SYS-303 (OD-014, OD-015), SYS-307 (OD-016), SYS-308 (OD-023), SYS-310 (OD-026). | Claude, for owner review |
 | 0.6 | 2026-11-12 | SYS-115: tablets and suspension, alone or in portions (owner, 2026-11-12); acceptance pending OD-048. | Claude, for owner review |
+| 0.7 | 2026-11-12 | SYS-104: biologics treated as cold chain (OD-049). | Claude, for owner review |

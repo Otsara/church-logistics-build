@@ -324,9 +324,6 @@ describe("openFDA importer", () => {
       keepsFirstScheduled.entries[0]?.controlledBasis,
     ]).toEqual(["yes", "FDA drug directory: DEA schedule CIII"]);
   });
-  it.todo(
-    "[TC-124] Given WHO list items and FDA directory entries, then matched catalog entries carry both references and unmatched WHO items are listed",
-  );
 });
 
 describe("openFDA importer details", () => {
