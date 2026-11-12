@@ -33,7 +33,7 @@ Run `pnpm docs:update`, then `pnpm check` (includes `pnpm docs:check`). Both mus
 
 ## Review copies and check-ins
 
-- At each review point (a pull request opened, merged or baselined), republish the changed documents as review copies on claude.ai (https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg), each stamped with document ID, version, status and commit. The repository governs; never edit a review copy first.
+- At each review point (a pull request opened, merged or baselined), republish the review copies on claude.ai (https://claude.ai/artifact/7LasbqoQfWkfEKMfNFj1bZ), built with `pnpm docs:review-copies`, each stamped with document ID, version, status and commit. The repository governs; never edit a review copy first.
 - Scheduled check-ins every 4 hours between 08:00 and 23:59 Central time list open release blockers, decisions owed, pull request and CI state, and days to the deadline (DOC-100 §3).
 
 ## Commands
@@ -43,9 +43,12 @@ Run `pnpm docs:update`, then `pnpm check` (includes `pnpm docs:check`). Both mus
 - full check (what CI runs): `pnpm check`
 - mutation testing of safety-critical code: `pnpm mutation` (ADR-006)
 - documents: `pnpm docs:check`; regenerate generated sections with `pnpm docs:update`; release gate `pnpm docs:check --strict`
+- review copies: `pnpm docs:review-copies "<review point>" <out.html>`, then publish to the review-copy page
 - dev: not yet; screens come from Lovable (OD-018)
 
 ## Branches
+
+The repository is `Otsara/church-logistics-build` (moved from `jjmanaloor/church-logistics-build`). Start sessions with it as the source, so pull-request events reach the session.
 
 Work on a branch named for its stream and topic; merge to `main` by pull request only, with the owner's agreement: `build/...` (foundation), `prepped/...`, `sparewing/...`, `shared/...` (AI wrapper, synthetic data, offline store). Parallel streams stay in their own folders and number ranges. Shared files (`package.json`, `pnpm-lock.yaml`, `CLAUDE.md`, DOC-000 to DOC-003) change in small, separate commits; after a merge, regenerate `pnpm-lock.yaml` with `pnpm install` and generated sections with `pnpm docs:update` rather than merging them by hand.
 

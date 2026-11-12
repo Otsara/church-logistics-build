@@ -18,7 +18,8 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm docs:check",
     "docs:check": "node tools/check-docs.mjs",
     "docs:update": "node tools/check-docs.mjs --update",
-    "mutation": "stryker run"
+    "mutation": "stryker run",
+    "docs:review-copies": "node tools/review-copies.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",
@@ -29,6 +30,7 @@
     "@vitest/coverage-v8": "4.1.12",
     "eslint": "9.39.5",
     "globals": "17.13.0",
+    "marked": "12.0.2",
     "prettier": "3.9.10",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.1",

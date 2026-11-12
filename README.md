@@ -6,6 +6,7 @@ Two decision-support apps for missionary work in pharmacy (Prepped) and flight (
 - Open decisions and release blockers: `docs/DOC-003-open-decisions.md`.
 - Traceability matrix: `docs/DOC-080-traceability-matrix.md` (generated).
 - Agent instructions: `CLAUDE.md`. Toolchain: `docs/TOOLCHAIN.md`.
-- Review copies (uncontrolled): https://claude.ai/artifact/KidYyKqH3HUeydraCFK4Vg
+- Review copies (uncontrolled): https://claude.ai/artifact/7LasbqoQfWkfEKMfNFj1bZ, built with `pnpm docs:review-copies`.
+- Repository: `Otsara/church-logistics-build` (moved from `jjmanaloor`). Start new sessions with it as the source.
 
 Quick start: `pnpm install`, then `pnpm check`.
