@@ -147,7 +147,8 @@ describe("Prepped lot eligibility", () => {
     expect(after.status).toBe("blocked");
     expect(after.daysRemaining).toBe(354);
     expect(after.reasons).toEqual(["354 days remaining, 365 required"]);
-    // The rules import nothing outside packages/core, so no AI step can be called (SYS-003).
+    // The rules import nothing outside packages/core except the zod validator, so no AI step
+    // can be called (SYS-003).
     const dir = join(import.meta.dirname, "../src/prepped");
     for (const file of readdirSync(dir)) {
       const source = readFileSync(join(dir, file), "utf8");
@@ -155,7 +156,9 @@ describe("Prepped lot eligibility", () => {
         (m) => m[1],
       );
       for (const path of imports)
-        expect(path, `${file} imports ${String(path)}`).toMatch(/^\.\.?\//);
+        expect(path, `${file} imports ${String(path)}`).toMatch(
+          /^(\.\.?\/|zod$)/,
+        );
     }
   });
 

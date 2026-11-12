@@ -27,3 +27,7 @@ export {
   type Expiry,
   type ExpiryReading,
 } from "./prepped/expiry.ts";
+export {
+  readShelfLifeRules,
+  type ShelfLifeReading,
+} from "./prepped/shelf-life.ts";
