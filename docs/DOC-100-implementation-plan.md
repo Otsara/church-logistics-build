@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -30,7 +30,7 @@ Proposed scope:
 5. Test cases and placeholder tests for the requirements added on 2026-11-10 (SYS-007 to SYS-010, SYS-108, SYS-308, SYS-309, SEC and DAT items).
 6. Decisions on back end, key storage and hosting (OD-001, OD-018, OD-027, OD-028), and the two Lovable projects created.
 
-Status on 2026-11-12: Stryker runs in CI with a score of 97.18% on the safety-critical code; the openFDA importer, the synthetic data generators for both products and the held-back split and seal are built and tested; the 26 missing test cases are written (TC-005, TC-016, TC-019 to TC-021, TC-123 and TC-312 implemented). Still open: the owner's review, the FDA snapshot (OD-034, network), sealing the held-back third (OD-036), the back-end decisions and the Lovable projects.
+Status on 2026-11-12: Stryker runs in CI with a score of 97.14% on the safety-critical code (136 of 140 mutants killed; the 4 survivors are equivalent); the openFDA importer, the synthetic data generators for both products and the held-back split and seal are built and tested; the 26 missing test cases are written (TC-005, TC-016, TC-019 to TC-021, TC-123 and TC-312 implemented). Still open: the owner's review, the FDA snapshot (OD-034, network), sealing the held-back third (OD-036), the back-end decisions and the Lovable projects.
 
 Exit criteria: `pnpm docs:check` and `pnpm check` pass; the owner's review recorded; the held-back set sealed; Stryker runs on core; every decision iteration 1 needs is closed.
 
@@ -115,3 +115,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.1 | 2026-11-10 | First draft: iterations IT-000 to IT-004, review points and check-ins; submission requirements H-1..H-7 carried over as SUB-001..007 (ADR-001). | Claude, for owner review |
 | 0.2 | 2026-11-11 | IT-003: two stand-alone Lovable projects and the approved credit plan (owner, 2026-11-11). | Claude, for owner review |
 | 0.3 | 2026-11-12 | IT-000 status on 2026-11-12. | Claude, for owner review |
+| 0.4 | 2026-11-12 | IT-000 status: mutation score corrected from 97.18% to 97.14%, as in the Stryker report (owner, 2026-11-12). | Claude, for owner review |
