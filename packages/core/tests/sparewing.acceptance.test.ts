@@ -30,4 +30,16 @@ describe("SpareWing acceptance", () => {
   it.todo(
     "[TC-309] Given any proposal, then nothing approves a schedule change or states that an aircraft is flightworthy, and a decision is recorded only when the flight base director, mechanic or pilot records it",
   );
+  it.todo(
+    "[TC-313] Given a pilot current on the date needed whose currency lapses before the expected end of the disruption, then the pilot is not a candidate, with the lapse date in the reason",
+  );
+  it.todo(
+    '[TC-314] Given an aircraft type requiring rating R1 and an aircraft adding R2, then a pilot holding only R1 is not a candidate, with the reason "missing R2"',
+  );
+  it.todo(
+    "[TC-315] Given a community whose rule file lists only base 1, then an available aircraft and qualified pilot at base 2 do not reduce its missed flights",
+  );
+  it.todo(
+    "[TC-316] Given options tied on missed flights, then the earlier return to service ranks first, then fewer transfers, and every option stays visible with its reasons",
+  );
 });

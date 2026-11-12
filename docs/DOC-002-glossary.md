@@ -1,7 +1,7 @@
 ---
 id: DOC-002
 title: Glossary
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -23,7 +23,7 @@ effective_date:
 | Decision support | Software that proposes and explains; a qualified person decides (ADR-002). |
 | Draft | Any generated text or list that is not final until the responsible person marks it reviewed. |
 | Discard list | Lots past their expiry on the date of the check, set aside to be discarded and never packed (owner, 2026-11-11). |
-| Enteral and topical scope | The routes in scope for this build: by mouth, under the tongue, rectal, feeding tube, skin, eye, inhaled, nasal, vaginal and ear, with no cold chain. Injections and infusions are out (owner, 2026-11-10 and 2026-11-11). |
+| Enteral and topical scope | The routes in scope for this build: by mouth, under the tongue, rectal, skin, eye, inhaled, nasal, vaginal and ear, with no cold chain. Injections and infusions are out (owner, 2026-11-10 and 2026-11-11); feeding tube was dropped as a category (owner, 2026-11-12). |
 | Exchange | Another formulation or strength of the same medicine, offered to meet a floor item; it counts only when the clinician accepts it (owner, 2026-11-11). |
 | Eligible (Prepped) | A lot that meets every rule for the trip. Still subject to clinician sign-off. |
 | Floor list | The mission's minimum set of essential medicines and target quantities, chosen by the lead clinician (owner, 2026-11-10). |
@@ -54,3 +54,4 @@ effective_date:
 | 0.1 | 2026-11-10 | First draft. | Claude, for owner review |
 | 0.2 | 2026-11-10 | Added enteral and topical scope, floor list, Go or No go, and supplement. | Claude, for owner review |
 | 0.3 | 2026-11-11 | Added discard list and exchange; updated scope and readiness. | Claude, for owner review |
+| 0.4 | 2026-11-12 | Scope entry: feeding tube dropped (OD-045). | Claude, for owner review |

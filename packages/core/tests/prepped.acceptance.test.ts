@@ -4,7 +4,7 @@ import { describe, it } from "vitest";
 
 describe("Prepped acceptance", () => {
   it.todo(
-    '[TC-101] Given a lot expiring 2027-03-01 and a trip arriving 2026-12-01, when eligibility runs with the 12-month rule, then the lot is blocked with the reason "90 days remaining, 12 months required"',
+    '[TC-101] Given a lot expiring 2027-03-01 and a trip arriving 2026-12-01, when eligibility runs with the 365-day rule, then the lot is blocked with the reason "90 days remaining, 365 required"',
   );
   it.todo(
     "[TC-102] Given a lot expiring 2028-01-15 and the same trip, then it is eligible with 410 days remaining",
@@ -22,7 +22,7 @@ describe("Prepped acceptance", () => {
     "[TC-106] Given a target of 200 courses and 150 eligible, then item coverage is 75%",
   );
   it.todo(
-    "[TC-107] Given two donor lines with the same lot number and generic name, then they merge into one lot with summed quantity",
+    "[TC-107] Given two donor lines with the same lot number, generic name, strength, form and expiry from different donors, then they merge into one lot with summed quantity that lists both donors",
   );
   it.todo(
     "[TC-108] Given the arrival date moves 30 days later, then eligibility recalculates without calling any AI step",
@@ -74,5 +74,14 @@ describe("Prepped acceptance", () => {
   );
   it.todo(
     "[TC-126] Given an anticipated caseload, then any estimated quantity is labelled as an estimate and the target stays empty until the clinician accepts or changes it",
+  );
+  it.todo(
+    '[TC-127] Given two donor lines with the same lot number and generic name but different expiry dates, then they stay separate lots, both flagged "Same lot number, different details: check"',
+  );
+  it.todo(
+    '[TC-128] Given a trip arriving 2026-12-01, then a lot expiring 2027-12-01 is eligible and a lot expiring 2027-11-30 is blocked with the reason "364 days remaining, 365 required"',
+  );
+  it.todo(
+    "[TC-129] Given a lot whose expiry is entered as 03/2028, then its expiry is read as 2028-03-31 and shown as read from a month-only date",
   );
 });

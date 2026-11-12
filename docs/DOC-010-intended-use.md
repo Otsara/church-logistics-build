@@ -1,7 +1,7 @@
 ---
 id: DOC-010
 title: Intended use, users and regulatory position
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -25,7 +25,7 @@ For the AI for Church Hackathon 2026, both products are prototypes and minimum v
 ### IU-003 Language and setting
 - Product: Shared
 
-English only for now (owner, 2026-11-10; OD-030). Users work in places with poor or intermittent connectivity, so both products must keep working offline apart from the AI steps. Devices and accessibility target: TBD (OD-035).
+English only for now (owner, 2026-11-10; OD-030). Users work in places with poor or intermittent connectivity, so both products must keep working offline apart from the AI steps. Phone, tablet and laptop, with one responsive layout, phone first; accessibility target WCAG 2.2 level AA (owner, 2026-11-12); OD-035.
 
 ## 2. Prepped
 
@@ -34,12 +34,12 @@ English only for now (owner, 2026-11-10; OD-030). Users work in places with poor
 
 Prepped helps a medical mission team prepare its mission pharmacy from donated medicines. The lead clinician chooses the mission's minimum floor list from the essential medicines and sets a target quantity for each. Prepped checks each donated lot against the trip's arrival date and rules, shows which lots are eligible, blocked or need review and why, shows how lots from different donations can be combined to meet the floor and where shortages remain, offers comparable available alternatives within a therapeutic class for a clinician to consider, lets the clinician add supplemental medicines beyond the floor, drafts the import paperwork for the destination, and shows a Go or No go indicator. A pharmacist or clinician makes every final decision, and the decision to deploy the team rests with the lead clinician or team leader alone (owner, 2026-11-10; ADR-009).
 
-In scope for this build: medicines taken by mouth, under the tongue, rectally or by feeding tube; topical skin and eye preparations (owner, 2026-11-10); and inhaled, nasal, vaginal and ear preparations (owner, 2026-11-11); none needing a cold chain. Injections, infusions and any route not named are shown as blocked, "outside this build's scope". Lots of the same medicine in other formulations or strengths can be offered as exchanges to meet the floor, and expired lots are set aside for discard (owner, 2026-11-11).
+In scope for this build: medicines taken by mouth, under the tongue or rectally; topical skin and eye preparations (owner, 2026-11-10); and inhaled, nasal, vaginal and ear preparations (owner, 2026-11-11); none needing a cold chain. Feeding tube was dropped as a route category (owner, 2026-11-12); OD-045. Injections, infusions and any route not named are shown as blocked, "outside this build's scope". Lots of the same medicine in other formulations or strengths can be offered as exchanges to meet the floor, and expired lots are set aside for discard (owner, 2026-11-11).
 
 ### IU-102 What Prepped must never do
 - Product: Prepped
 
-Prepped never presents a comparable alternative as equivalent and never swaps one medicine for another by itself (ADR-003). It never decides whether the team deploys: Go and No go are indicators only (owner, 2026-11-10). It never sets a floor list or a target quantity; it may offer an estimate for the clinician to accept or change (SYS-111). Proposed, awaiting owner confirmation (OD-025): it never calculates a dose, never gives advice about a specific patient, and never marks a packing list final without a pharmacist or clinician.
+Prepped never presents a comparable alternative as equivalent and never swaps one medicine for another by itself (ADR-003). It never decides whether the team deploys: Go and No go are indicators only (owner, 2026-11-10). It never sets a floor list or a target quantity; it may offer an estimate for the clinician to accept or change (SYS-111). It never calculates a dose, never gives advice about a specific patient, and never marks a packing list final without a pharmacist or clinician (owner, 2026-11-12); OD-025, ADR-016.
 
 ### IU-103 Prepped users
 - Product: Prepped
@@ -57,7 +57,7 @@ SpareWing helps a mission aviation program respond when an aircraft is grounded 
 ### IU-302 What SpareWing must never do
 - Product: SpareWing
 
-SpareWing never approves a schedule change and never confirms that an aircraft is flightworthy (owner, 2026-11-10). Proposed, awaiting owner confirmation (OD-026): it never decides that two parts are interchangeable, never judges a pilot fit to fly, and never sends a message without a person sending it.
+SpareWing never approves a schedule change and never confirms that an aircraft is flightworthy (owner, 2026-11-10). It never decides that two parts are interchangeable, never judges a pilot fit to fly, and never sends a message without a person sending it (owner, 2026-11-12); OD-026, ADR-016.
 
 ### IU-303 SpareWing users
 - Product: SpareWing
@@ -81,3 +81,4 @@ No other regulatory classification, standard clause or clinical claim is made in
 | 0.1 | 2026-11-10 | First draft from the owner's answers of 2026-11-10. | Claude, for owner review |
 | 0.2 | 2026-11-10 | IU-101 and IU-102: minimum floor list, Go or No go indicator, supplements and route scope (owner, 2026-11-10; ADR-009). | Claude, for owner review |
 | 0.3 | 2026-11-11 | IU-101: wider route scope, exchanges across formulations and strengths, discard of expired lots (owner, 2026-11-11; ADR-010). | Claude, for owner review |
+| 0.4 | 2026-11-12 | IU-003 devices and accessibility (OD-035); IU-002 feeding tube dropped (OD-045); IU-102 and IU-302 limits confirmed (OD-025, OD-026) (owner, 2026-11-12). | Claude, for owner review |

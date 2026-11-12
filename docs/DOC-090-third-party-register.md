@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.4
+version: 0.5
 status: Draft
 effective_date:
 ---
@@ -23,7 +23,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Terms: Anthropic commercial terms; paid per use.
 - Use: the AI steps AIC-101 to AIC-303, called only through the server-side gateway (ARC-014) (ADR-008).
 - Safety relevance: yes, mitigated. Output is never trusted: schema validation, null for unknowns, code makes every decision, manual fallback (RC-002, RC-006).
-- Cost: $0.10 per million input tokens and $0.50 per million output tokens for prompts up to 100,000 tokens (Anthropic price list, 2026-11-03). Funding: OD-028.
+- Cost: $0.10 per million input tokens and $0.50 per million output tokens for prompts up to 100,000 tokens (Anthropic price list, 2026-11-03). Funding: up to $20, capped by a spending limit the owner sets on the account (owner, 2026-11-12); OD-028.
 
 ### SOUP-003 Node.js
 - Version: 24 in CI; 22.12 or later locally
@@ -88,13 +88,13 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-012 Lovable
 - Version: service
 - Terms: Lovable terms; publishing to a lovable.app address is available on every plan, custom domains need a paid plan (Lovable documentation).
-- Use: generates the screens (ARC-003). Projects and hosting: OD-018.
+- Use: generates the screens (ARC-003); each app is published on its lovable.app address (owner, 2026-11-12); OD-018.
 - Safety relevance: indirect. Screens must call the rules engines for every decision.
 
-### SOUP-013 Supabase (proposed)
+### SOUP-013 Supabase
 - Version: service
 - Terms: Supabase terms. Free plan, with Edge Function invocations limited per month and projects paused after inactivity; Pro plan billed monthly (third-party summaries, to confirm on supabase.com/pricing).
-- Use: proposed AI gateway (ARC-014) and optional sync (ARC-006). A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds nothing yet and is not used until OD-001 and OD-027 are decided. Free projects pause after a week without activity, which matters for a live demo during judging.
+- Use: team sync and sign-in (ARC-006, SEC-008) and the AI gateway holding the key (ARC-014) (owner, 2026-11-12); OD-001, OD-027. A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds nothing yet. Free projects pause after a week without activity, which matters for a live demo during judging.
 - Safety relevance: indirect.
 
 ### SOUP-014 Stryker
@@ -104,14 +104,14 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Safety relevance: indirect.
 
 ### SOUP-101 FDA drug directory (openFDA NDC)
-- Version: snapshot date TBD (OD-034)
-- Terms: openFDA states its data is public domain under CC0 1.0 unless otherwise noted, asks for attribution, and says results should be assumed unvalidated (open.fda.gov/license, open.fda.gov/terms). To confirm for the chosen file (OD-034).
-- Use: real medicine names and dosage forms for synthetic Prepped data (DAT-101).
-- Safety relevance: indirect. Names and forms only; no clinical decision rests on the directory.
+- Version: NDC export of 2026-11-11 (`drug-ndc-0001-of-0001.json.zip`, 138,327 records, SHA-256 df68fd940abd2bb1737b0bbc6beaa7dbd78bafdd49a31ffdd50b24b6620f69b3), downloaded 2026-11-12 (OD-034)
+- Terms: openFDA states its data is public domain under CC0 1.0 unless otherwise noted, asks for attribution, and says results should be assumed unvalidated (open.fda.gov/license, open.fda.gov/terms). The licence page states CC0 1.0 for openFDA data (read 2026-11-12); the file's own metadata links to that page.
+- Use: real medicine names, dosage forms, routes, DEA schedules and pharmacologic classes for synthetic Prepped data (DAT-101).
+- Safety relevance: yes, mitigated. Controlled status and route scope feed eligibility through the safety-critical importer (ARC-015); classes only frame alternatives for the clinician (SYS-108). openFDA says to assume its data unvalidated, so the pharmacist confirms controlled status for the destination.
 
 ### SOUP-102 WHO Model List of Essential Medicines
 - Version: 24th list (2025)
-- Terms: the printed 2025 lists state CC BY-NC-SA 3.0 IGO (non-commercial, share-alike); the electronic list's licensing page states CC BY 3.0 IGO and is dated 2023. To resolve (OD-034).
+- Terms: the printed 2025 lists state CC BY-NC-SA 3.0 IGO (non-commercial, share-alike); the electronic list's licensing page states CC BY 3.0 IGO and is dated 2023. To resolve (OD-046).
 - Use: reference for which medicines make up the floor catalogue (DAT-102). The catalogue itself is recreated from FDA directory data (owner, 2026-11-10).
 - Safety relevance: indirect. The clinician chooses the floor; the list only frames the choice.
 
@@ -135,3 +135,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.2 | 2026-11-10 | New SOUP-102 WHO Model List of Essential Medicines (reference only; licence to resolve, OD-034). | Claude, for owner review |
 | 0.3 | 2026-11-11 | SOUP-013: free Supabase project prepped-sparewing created (owner, 2026-11-11). | Claude, for owner review |
 | 0.4 | 2026-11-12 | SOUP-014 Stryker pinned at 10.1.1 (Apache-2.0); SOUP-011 adds upload-artifact; SOUP-001 also used by the importer; new SOUP-015 qs override. | Claude, for owner review |
+| 0.5 | 2026-11-12 | SOUP-002 funding (OD-028); SOUP-012 hosting (OD-018); SOUP-013 in use for sync, sign-in and AI gateway (OD-001, OD-027); SOUP-101 snapshot, CC0 confirmed and safety relevance (OD-034, OD-044); SOUP-102 licence moves to OD-046 (owner, 2026-11-12). | Claude, for owner review |

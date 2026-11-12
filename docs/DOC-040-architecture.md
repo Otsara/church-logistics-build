@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.4
+version: 0.5
 status: Draft
 effective_date:
 ---
@@ -31,7 +31,7 @@ TypeScript throughout. One language for rules, tests and screens.
 - Product: Shared
 - Formerly: F-3
 
-Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Projects, hosting and devices: TBD (OD-018, OD-035).
+Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Two stand-alone Lovable projects, each published on its lovable.app address; CI runs a smoke test that the published screens load and call the core rules (owner, 2026-11-12); OD-018. Phone, tablet and laptop, phone first, WCAG 2.2 AA (OD-035).
 
 ### ARC-004 Rule files
 - Product: Shared
@@ -53,7 +53,7 @@ Date-only ISO strings, compared in UTC, to avoid time-zone bugs in shelf-life ma
 - Traces to: SYS-007
 - Formerly: F-6
 
-Local-first in the browser (IndexedDB), optional cloud sync. Works with spotty internet. Choice of sync service: TBD (OD-001).
+Local-first in the browser (IndexedDB), with team sync through Supabase when online and sign-in through Supabase Auth (owner, 2026-11-12); ADR-012. Works with spotty internet. Conflicts are flagged for a person (SYS-007). Fallback if sync proves problematic for the deadline: local-only (OD-001).
 
 ### ARC-007 Offline
 - Product: Shared
@@ -109,14 +109,14 @@ Before any AI call, names are replaced by ids and only the fields the step needs
 - Product: Shared
 - Traces to: SEC-001
 
-The app calls the AI service only through a server function that holds the key as a secret. Proposed: a Supabase Edge Function (OD-027).
+The app calls the AI service only through a Supabase Edge Function that holds the key as a secret and checks that the user is signed in (owner, 2026-11-12); OD-027.
 
 ### ARC-015 openFDA importer
 - Product: Shared
 - Traces to: DAT-101, SYS-103, SYS-109
 - Safety-critical: yes
 
-Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. Controlled status is "unknown" when the record does not say; a route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
+Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
 
 ### ARC-016 Held-back split and seal
 - Product: Shared
@@ -249,3 +249,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.2 | 2026-11-10 | ARC-101 allocated SYS-109 to SYS-114. | Claude, for owner review |
 | 0.3 | 2026-11-11 | ARC-101 allocated SYS-115 to SYS-117. | Claude, for owner review |
 | 0.4 | 2026-11-12 | New ARC-015 openFDA importer (safety-critical), ARC-016 held-back split and seal, ARC-017 repository policy checks; ARC-002 adds packages/policy. | Claude, for owner review |
+| 0.5 | 2026-11-12 | ARC-003 hosting and devices (OD-018, OD-035); ARC-006 sync and sign-in (OD-001); ARC-014 key store (OD-027); ARC-015 missing schedule (OD-044) (owner, 2026-11-12). | Claude, for owner review |

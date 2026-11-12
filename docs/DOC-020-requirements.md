@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.4
+version: 0.5
 status: Draft
 effective_date:
 ---
@@ -167,7 +167,7 @@ Names are replaced by ids before the call, and every call is logged.
 - Product: Shared
 - Traces to: UN-001, RC-005
 
-Edits made offline are kept and appear after sync when the connection returns; any conflict keeps both versions in the audit log. Which version the app shows after a conflict: TBD (OD-017).
+Edits made offline are kept and appear after sync when the connection returns; any conflict keeps both versions in the audit log. A conflicting record is marked "Conflict: check" and treated as not settled (a lot is not counted, a pilot is not a candidate) until a person chooses a version (owner, 2026-11-12); ADR-012.
 
 ### SYS-008 Audit log
 - Product: Shared
@@ -204,7 +204,7 @@ Days remaining at arrival = expiry date minus trip arrival date.
 - Safety-critical: yes
 - Formerly: PE-2
 
-Default minimum is 12 months remaining at arrival, taken from WHO guidance. A rule can lower it for a direct donation, set per item category in `/rules/shelf-life.json`. The value and its meaning are placeholders pending OD-002 and OD-009.
+Default minimum is 12 months remaining at arrival, taken from WHO guidance, counted as 365 days from the arrival date; a lot whose expiry is exactly 365 days after arrival passes (owner, 2026-11-12); ADR-013. An expiry printed as month and year only is read as the last day of that month (owner, 2026-11-12); OD-043. A rule can lower the minimum for a direct donation, set per item category in `/rules/shelf-life.json`. The value remains a placeholder pending OD-002.
 
 ### SYS-103 Controlled substances blocked
 - Product: Prepped
@@ -212,7 +212,7 @@ Default minimum is 12 months remaining at arrival, taken from WHO guidance. A ru
 - Safety-critical: yes
 - Formerly: PE-3
 
-Controlled substances are always blocked.
+Controlled substances are always blocked. Controlled status comes from the FDA drug directory: a product with a DEA schedule is controlled; a product without one counts as not controlled in the US, and the screen shows that basis and its source. The pharmacist confirms the destination's controlled-drug rules (owner, 2026-11-12); ADR-014.
 
 ### SYS-104 Cold-chain items blocked
 - Product: Prepped
@@ -236,7 +236,7 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 - Safety-critical: yes
 - Formerly: PR-1
 
-Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority weights: TBD (OD-040).
+Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017.
 
 ### SYS-107 Blocking issues cap readiness
 - Product: Prepped
@@ -251,14 +251,14 @@ Any blocking issue, such as a missing import permit, caps the meter at "Not read
 - Traces to: UN-105, RC-105
 - Safety-critical: yes
 
-For a need that eligible lots do not cover, Prepped lists other eligible lots in the same therapeutic class for the clinician to consider. Each is labelled "Comparable, not equivalent: clinician review required", shows its class and the source of that class, and is added to the collection only when the clinician chooses it. Prepped never substitutes automatically (owner, 2026-11-10; ADR-003). Class source: TBD (OD-022).
+For a need that eligible lots do not cover, Prepped lists other eligible lots in the same therapeutic class for the clinician to consider. Each is labelled "Comparable, not equivalent: clinician review required", shows its class and the source of that class, and is added to the collection only when the clinician chooses it. Prepped never substitutes automatically (owner, 2026-11-10; ADR-003). The class is the established pharmacologic class (EPC) in the FDA drug directory (owner, 2026-11-12); a product without one gets no alternatives, and the screen says so (ADR-014).
 
 ### SYS-109 Route and storage scope
 - Product: Prepped
 - Traces to: UN-102, RC-109
 - Safety-critical: yes
 
-A lot is in scope only if its route is oral, sublingual, rectal, feeding tube, topical (skin) or ophthalmic (owner, 2026-11-10), or inhaled, nasal, vaginal or otic (owner, 2026-11-11), and it needs no cold chain. Injections, infusions and any route not named are blocked with the reason "outside this build's scope".
+A lot is in scope only if its route is oral, sublingual, rectal, topical (skin) or ophthalmic (owner, 2026-11-10), or inhaled, nasal, vaginal or otic (owner, 2026-11-11), and it needs no cold chain. Feeding tube is not a route category: suitability for a feeding tube is the clinician's judgement (owner, 2026-11-12); OD-045. FDA route terms map to these categories through `rules/prepped/route-scope.json`, verified by the owner (owner, 2026-11-12); OD-042. Injections, infusions and any route not named are blocked with the reason "outside this build's scope".
 
 ### SYS-110 Mission floor list set by the lead clinician
 - Product: Prepped
@@ -340,7 +340,7 @@ Parts marked not serviceable never appear.
 - Safety-critical: yes
 - Formerly: SC-3
 
-A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. Where the requirement comes from and the reference date: TBD (OD-014, OD-015).
+A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. The requirement is the aircraft type's rule file in `/rules` plus any extra requirements entered on the individual aircraft. Currency is checked on the date the pilot is needed and must hold until the expected end of the disruption; otherwise the pilot is not a candidate and the reason is shown (owner, 2026-11-12); ADR-015.
 
 ### SYS-304 Missing data shows as unknown
 - Product: SpareWing
@@ -372,14 +372,14 @@ If no candidates exist, the result says so and shows the local order lead time, 
 - Safety-critical: yes
 - Formerly: SI-1
 
-Missed community flights = flights scheduled between the disruption start and expected end for communities served by the grounded aircraft, minus flights another aircraft or pilot can cover. Which aircraft and pilots count: TBD (OD-016).
+Missed community flights = flights scheduled between the disruption start and expected end for communities served by the grounded aircraft, minus flights another aircraft or pilot can cover. Only aircraft and pilots at bases that the program's rule file lists for that community count, and the candidate rules (SYS-303) still apply (owner, 2026-11-12); ADR-015.
 
 ### SYS-308 Proposed plan for review
 - Product: SpareWing
 - Traces to: UN-305, RC-308
 - Safety-critical: yes
 
-SpareWing ranks the candidate options and proposes the best plan for the director, mechanic and pilot to review and verify (owner, 2026-11-10). Ranking never removes a candidate from view, and the reasons for the ranking are shown. Ranking criteria and weights: TBD (OD-023).
+SpareWing ranks the candidate options and proposes the best plan for the director, mechanic and pilot to review and verify (owner, 2026-11-10). Ranking never removes a candidate from view, and the reasons for the ranking are shown. Options are ranked in strict order, with no weights: fewest missed community flights, then earliest return to service, then fewest transfers between bases; cost is shown but not ranked (owner, 2026-11-12); ADR-015.
 
 ### SYS-309 Never approves schedules or airworthiness
 - Product: SpareWing
@@ -392,7 +392,7 @@ SpareWing never approves a schedule change and never states that an aircraft is 
 - Product: SpareWing
 - Traces to: UN-304, RC-001
 
-SpareWing drafts messages to bases and communities about a disruption and the chosen candidate, for a person to review, edit and send. Each draft is marked as a draft (SYS-005). Whether SpareWing may ever send a message itself: TBD (OD-026).
+SpareWing drafts messages to bases and communities about a disruption and the chosen candidate, for a person to review, edit and send. Each draft is marked as a draft (SYS-005). SpareWing never sends a message itself (owner, 2026-11-12); OD-026.
 
 ## Revision history
 
@@ -402,3 +402,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.2 | 2026-11-10 | New UN-106, UN-107 and SYS-109 to SYS-114: route and storage scope, floor list set by the lead clinician, caseload estimate, Go or No go indicator, combining donations, supplements (owner, 2026-11-10; ADR-009). SYS-106 marked for keep-or-retire (OD-004). | Claude, for owner review |
 | 0.3 | 2026-11-11 | SYS-106 meter kept (70/30, or 75/25 or 80/20 if the layout favours it); SYS-109 adds inhaled, nasal, vaginal and otic routes; SYS-113 updated; new SYS-115 exchanges, SYS-116 discard of expired lots, SYS-117 one expiry per lot number (owner, 2026-11-11; ADR-010). | Claude, for owner review |
 | 0.4 | 2026-11-11 | SYS-115: an accepted exchange counts the share of the target the clinician enters (owner, 2026-11-11; ADR-011). | Claude, for owner review |
+| 0.5 | 2026-11-12 | Owner decisions of 2026-11-12 carried into SYS-007 (OD-017), SYS-102 (OD-009, OD-043), SYS-103 (OD-044), SYS-106 (OD-040), SYS-108 (OD-022), SYS-109 (OD-042, OD-045), SYS-303 (OD-014, OD-015), SYS-307 (OD-016), SYS-308 (OD-023), SYS-310 (OD-026). | Claude, for owner review |

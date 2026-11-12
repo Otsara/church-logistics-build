@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.5
+version: 0.6
 status: Draft
 effective_date:
 ---
@@ -65,7 +65,7 @@ Failures are reported with evidence: the command, the output, the commit. Every 
 - Traces to: SYS-007, SYS-008
 - Formerly: X-1
 
-Given edits made offline, when the connection returns, then all edits appear after sync and any conflict keeps both versions in the audit log.
+Given edits made offline, when the connection returns, then all edits appear after sync and any conflict keeps both versions in the audit log (conflict handling: TC-023).
 
 ### TC-002 AI timeout falls back
 - Product: Shared
@@ -187,12 +187,24 @@ Given the golden example files and the held-back manifest, then no golden exampl
 
 **Prepped**
 
+### TC-023 Sync conflict held for a person
+- Product: Shared
+- Traces to: SYS-007
+
+Given the same lot's quantity changed on two devices while offline, when both sync, then the lot is marked "Conflict: check", is not counted toward coverage until a person chooses a version, and both versions are in the audit log (OD-017).
+
+### TC-024 Sign-in and team separation
+- Product: Shared
+- Traces to: SEC-008
+
+Given a device that has signed in and then goes offline, then work continues and its edits sync at the next connection with the editor recorded; given a person from another team, then that person cannot read or change this team's records; given unsynced edits, then signing out warns and keeps them (OD-001).
+
 ### TC-101 Lot blocked below minimum shelf life
 - Product: Prepped
 - Traces to: SYS-101, SYS-102, ARC-005
 - Formerly: P-1
 
-Given a lot expiring 2027-03-01 and a trip arriving 2026-12-01, when eligibility runs with the 12-month rule, then the lot is blocked with the reason "90 days remaining, 12 months required".
+Given a lot expiring 2027-03-01 and a trip arriving 2026-12-01, when eligibility runs with the 12-month rule, then the lot is blocked with the reason "90 days remaining, 365 required" (OD-009).
 
 ### TC-102 Lot eligible above minimum shelf life
 - Product: Prepped
@@ -234,7 +246,7 @@ Given a target of 200 courses and 150 eligible, then item coverage is 75%.
 - Traces to: AIC-101
 - Formerly: P-7
 
-Given two donor lines with the same lot number and generic name, then they merge into one lot with summed quantity.
+Given two donor lines with the same lot number, generic name, strength, form and expiry from different donors, then they merge into one lot with summed quantity that lists both donors (OD-011).
 
 ### TC-108 Arrival change recalculates without AI
 - Product: Prepped
@@ -332,13 +344,13 @@ Given a floor item with a target of 100 and 40 eligible capsules, when the clini
 - Product: Prepped
 - Traces to: DAT-101, SYS-103, SYS-109
 
-Given an openFDA record for an oral capsule with dea_schedule null, then the catalog entry has its name, form, strength, route "oral", in scope and controlled "no"; with dea_schedule "CII" it is controlled "yes"; without a dea_schedule value it is controlled "unknown"; an INTRAVENOUS route or an unmapped route such as BUCCAL makes it out of scope, with the reason.
+Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
 
 ### TC-124 Floor catalogue from the WHO list and FDA data
 - Product: Prepped
 - Traces to: DAT-102
 
-Given WHO list items and FDA directory entries, then matched catalog entries carry both references and unmatched WHO items are listed. Handling of unmatched items: TBD (OD-034).
+Given WHO list items and FDA directory entries, then matched catalog entries carry both references, and each unmatched WHO item stays listed, marked "No FDA directory entry: enter details by hand" (OD-034).
 
 ### TC-125 Comparable alternatives for clinician choice
 - Product: Prepped
@@ -353,6 +365,24 @@ Given a floor item that is short and eligible lots of another medicine in the sa
 Given an anticipated caseload, then any estimated quantity is labelled as an estimate and the target stays empty until the clinician accepts or changes it.
 
 **SpareWing**
+
+### TC-127 Same lot number, different details
+- Product: Prepped
+- Traces to: AIC-101
+
+Given two donor lines with the same lot number and generic name but different expiry dates, then they stay separate lots, both flagged "Same lot number, different details: check" (OD-011).
+
+### TC-128 Exactly 365 days of shelf life
+- Product: Prepped
+- Traces to: SYS-102
+
+Given a trip arriving 2026-12-01, then a lot expiring 2027-12-01 (365 days) is eligible, and a lot expiring 2027-11-30 is blocked with the reason "364 days remaining, 365 required" (OD-009).
+
+### TC-129 Expiry printed as month and year
+- Product: Prepped
+- Traces to: SYS-102
+
+Given a lot whose expiry is entered as 03/2028, then its expiry is read as 2028-03-31 and shown as read from a month-only date (OD-043).
 
 ### TC-301 Alternate part found
 - Product: SpareWing
@@ -433,6 +463,30 @@ Given the recorded golden parts emails, then the parsed parts match the expected
 
 Given generated SpareWing data, then every part number and aircraft id uses the made-up format and every pilot name comes from the synthetic word lists.
 
+### TC-313 Currency must last through the disruption
+- Product: SpareWing
+- Traces to: SYS-303
+
+Given a pilot whose currency is valid on the date needed but lapses before the expected end of the disruption, then the pilot is not a candidate, with the reason naming the lapse date (OD-015).
+
+### TC-314 Requirement from aircraft type and aircraft
+- Product: SpareWing
+- Traces to: SYS-303
+
+Given an aircraft type whose rule file requires rating R1 and an aircraft that adds rating R2, then a pilot holding only R1 is not a candidate for that aircraft, with the reason "missing R2" (OD-014).
+
+### TC-315 Cover only from listed bases
+- Product: SpareWing
+- Traces to: SYS-307
+
+Given a community whose rule file lists only base 1, and an available aircraft with a qualified pilot at base 2, then their flights do not reduce the missed-flight count (OD-016).
+
+### TC-316 Ranking order
+- Product: SpareWing
+- Traces to: SYS-308
+
+Given two options with the same number of missed flights, then the one with the earlier return to service ranks first; given two with the same missed flights and return date, then the one with fewer transfers ranks first; every option stays visible with its reasons (OD-023).
+
 ## Revision history
 
 | Version | Date | Change | By |
@@ -442,3 +496,4 @@ Given generated SpareWing data, then every part number and aircraft id uses the 
 | 0.3 | 2026-11-11 | New TC-118 to TC-121 for wider routes, exchanges, discard of expired lots and one expiry per lot number (ADR-010). | Claude, for owner review |
 | 0.4 | 2026-11-11 | New TC-122: an accepted exchange counts what the clinician enters (ADR-011). | Claude, for owner review |
 | 0.5 | 2026-11-12 | New TC-006 to TC-010, TC-013 to TC-022, TC-123 to TC-126 and TC-308 to TC-312, closing every coverage gap; §4 records how mutation testing runs. | Claude, for owner review |
+| 0.6 | 2026-11-12 | Owner decisions of 2026-11-12: TC-001, TC-101, TC-107, TC-123 and TC-124 updated; new TC-023, TC-024, TC-127 to TC-129, TC-313 to TC-316. | Claude, for owner review |

@@ -28,15 +28,18 @@ const tablet = {
   dosage_form: "CAPSULE",
   route: ["ORAL"],
   active_ingredients: [{ name: "AMOXICILLIN", strength: "500 mg/1" }],
-  dea_schedule: null,
 };
+
+// How a missing schedule reads (OD-044): not controlled in the US, with the source shown.
+const NOT_SCHEDULED =
+  "FDA drug directory: no DEA schedule recorded (US scheduling only)";
 
 /** A copy of a record without one field, as openFDA does when it has no value. */
 const omit = (record: object, key: string): Record<string, unknown> =>
   Object.fromEntries(Object.entries(record).filter(([k]) => k !== key));
 
 describe("openFDA importer", () => {
-  it("[TC-123] reads an in-scope, non-controlled product, and flags controlled, unknown, injected and unmapped ones", () => {
+  it("[TC-123] reads an in-scope product without a schedule as not controlled, with its source, and flags controlled, injected and unmapped ones", () => {
     const ok = parseNdcRecord(tablet, rules);
     expect(ok).toEqual({
       ok: true,
@@ -51,16 +54,19 @@ describe("openFDA importer", () => {
         inScope: true,
         scopeReason: null,
         controlled: "no",
+        controlledBasis: NOT_SCHEDULED,
       },
     });
     const controlled = parseNdcRecord(
       { ...tablet, dea_schedule: "CII" },
       rules,
     );
-    expect(controlled.ok && controlled.entry.controlled).toBe("yes");
-    const withoutSchedule = omit(tablet, "dea_schedule");
-    const unknown = parseNdcRecord(withoutSchedule, rules);
-    expect(unknown.ok && unknown.entry.controlled).toBe("unknown");
+    expect(
+      controlled.ok && [
+        controlled.entry.controlled,
+        controlled.entry.controlledBasis,
+      ],
+    ).toEqual(["yes", "FDA drug directory: DEA schedule CII"]);
     const injected = parseNdcRecord(
       { ...tablet, route: ["INTRAVENOUS"] },
       rules,
@@ -86,7 +92,6 @@ describe("openFDA importer", () => {
       "ORAL",
       "SUBLINGUAL",
       "RECTAL",
-      "ENTERAL",
       "TOPICAL",
       "CUTANEOUS",
       "OPHTHALMIC",
@@ -110,7 +115,23 @@ describe("openFDA importer", () => {
     const absent = parseNdcRecord(withoutRoute, rules);
     expect(absent.ok && absent.entry.scopeReason).toBe("no route recorded");
     const empty = parseNdcRecord({ ...tablet, dea_schedule: "" }, rules);
-    expect(empty.ok && empty.entry.controlled).toBe("no");
+    expect(
+      empty.ok && [empty.entry.controlled, empty.entry.controlledBasis],
+    ).toEqual(["no", NOT_SCHEDULED]);
+    const nullSchedule = parseNdcRecord(
+      { ...tablet, dea_schedule: null },
+      rules,
+    );
+    expect(nullSchedule.ok && nullSchedule.entry.controlled).toBe("no");
+    const padded = parseNdcRecord({ ...tablet, dea_schedule: " CIV " }, rules);
+    expect(padded.ok && padded.entry.controlledBasis).toBe(
+      "FDA drug directory: DEA schedule CIV",
+    );
+    // Feeding tube is not a route category (OD-045): ENTERAL stays out of scope.
+    const enteral = parseNdcRecord({ ...tablet, route: ["ENTERAL"] }, rules);
+    expect(enteral.ok && enteral.entry.scopeReason).toBe(
+      "route not mapped: ENTERAL",
+    );
     const narrowed: RouteScopeRules = {
       ...rules,
       in_scope: rules.in_scope.filter((c) => c !== "oral"),
@@ -197,7 +218,10 @@ describe("openFDA importer", () => {
       "00000-0003",
       "00000-0004",
     ]);
-    expect(amox?.controlled).toBe("yes");
+    expect([amox?.controlled, amox?.controlledBasis]).toEqual([
+      "yes",
+      "FDA drug directory: DEA schedule CIV",
+    ]);
     expect(amox?.inScope).toBe(false);
     expect(amox?.scopeReason).toBe("route not mapped: INTRAVENOUS");
     expect(amox?.fdaRoutes).toEqual(["ORAL", "INTRAVENOUS"]);
@@ -210,11 +234,18 @@ describe("openFDA importer", () => {
     expect(
       strengthless.entries.map((e) => [e.strength, e.otherSourceIds]),
     ).toEqual([[null, ["00000-0006"]]]);
-    const keepsUnknownOverNo = buildCatalog(
-      [{ ...tablet, dea_schedule: undefined }, tablet],
+    const keepsFirstScheduled = buildCatalog(
+      [
+        { ...tablet, dea_schedule: "CIII" },
+        { ...tablet, product_ndc: "00000-0007", dea_schedule: "CIV" },
+        { ...tablet, product_ndc: "00000-0008" },
+      ],
       rules,
     );
-    expect(keepsUnknownOverNo.entries[0]?.controlled).toBe("unknown");
+    expect([
+      keepsFirstScheduled.entries[0]?.controlled,
+      keepsFirstScheduled.entries[0]?.controlledBasis,
+    ]).toEqual(["yes", "FDA drug directory: DEA schedule CIII"]);
   });
   it.todo(
     "[TC-124] Given WHO list items and FDA directory entries, then matched catalog entries carry both references and unmatched WHO items are listed",

@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.4
+version: 0.5
 status: Draft
 effective_date:
 ---
@@ -14,9 +14,13 @@ Flight and pharmacy are high-risk activities. This file lists what could go wron
 
 1. Hazards are identified from the intended use (DOC-010), the requirements (DOC-020) and the owner's knowledge of mission pharmacy and aviation. The list is reviewed at each iteration.
 2. Each hazard records the sequence of events, the possible harm, and severity and probability estimates.
-3. **Severity scale, probability scale and acceptability criteria: TBD (OD-024).** Until the owner sets them, no hazard is rated and no residual risk is declared acceptable.
+3. **Scales and acceptability** (owner, 2026-11-12); OD-024, ADR-016:
+   - Severity: minor, serious, critical (harm to a patient, an aircraft or people).
+   - Probability: unlikely, possible, likely.
+   - A critical-severity risk is never accepted on its probability alone: it needs a control in code and a person's check.
+   - Each hazard is rated by Claude and confirmed by the owner (OD-047). Until then every rating below stays TBD and no residual risk is declared acceptable.
 4. Controls are preferred in this order: design out the hazard, protect against it in code, then inform the user. Every control ends in a qualified person's decision (ADR-002).
-5. Residual risk and the benefit-risk conclusion are recorded per product once OD-024 is closed.
+5. Residual risk and the benefit-risk conclusion are recorded per product once the hazards are rated (OD-047).
 
 ## 2. Hazards and controls for both products
 
@@ -103,6 +107,18 @@ Sequence: an AI service key is placed in the browser app or the repository and c
 - Traces to: HAZ-007
 
 Keys never appear in front-end code or the repository; they are held as server-side secrets and used only by a server function (OD-027).
+
+### HAZ-008 Sign-in fails or is misused
+- Product: Shared
+- Traces to: IU-003
+
+Sequence: team sync needs sign-in (OD-001). A person cannot sign in where there is no connection and is locked out of the data; a shared or stolen sign-in lets someone read the team's data or make edits in another person's name; signing out discards edits not yet synced. Harm: delay to a trip or a disruption response; a decision made on data changed by the wrong person; privacy breach. Severity: TBD. Probability: TBD (OD-047).
+
+### RC-008 Sign-in never blocks offline work, and every edit has an owner
+- Product: Shared
+- Traces to: HAZ-008
+
+A device that has signed in keeps working offline, and its edits sync at the next connection. Each person has their own account; shared accounts are not offered. Every synced edit records who made it. Signing out with unsynced edits warns first and never discards them silently. Each team's records are readable only by its members (SEC-008). The build holds synthetic data only (SEC-002). If sync is dropped for the deadline (OD-001), sign-in is dropped with it.
 
 ## 3. Prepped hazards and controls
 
@@ -200,7 +216,7 @@ Harm: quantities overstated or understated; readiness wrong. Severity: TBD. Prob
 - Product: Prepped
 - Traces to: HAZ-108
 
-Donor lines are merged by a deterministic rule in core, never by the AI step. The rule itself: TBD (OD-011).
+Donor lines are merged by a deterministic rule in core, never by the AI step. Lines merge only when lot number, generic name, strength, form and expiry all match; otherwise they stay separate and are flagged "Same lot number, different details: check" (owner, 2026-11-12); ADR-017.
 
 ### HAZ-109 A medicine outside the build's scope is packed
 - Product: Prepped
@@ -376,7 +392,7 @@ Sequence: the "best" proposal favours speed over safety, or pushes other options
 - Product: SpareWing
 - Traces to: HAZ-308
 
-Ranking criteria are set by the program and shown with each proposal; ranking never removes a candidate from view (OD-023).
+Ranking follows a fixed order, shown with each proposal: fewest missed community flights, earliest return to service, fewest transfers (owner, 2026-11-12); ranking never removes a candidate from view (OD-023).
 
 ## Revision history
 
@@ -386,3 +402,4 @@ Ranking criteria are set by the program and shown with each proposal; ranking ne
 | 0.2 | 2026-11-10 | New HAZ-109 to HAZ-113 and RC-109 to RC-113 for route scope, floor list, caseload estimate, Go or No go indicator and supplements (ADR-009). | Claude, for owner review |
 | 0.3 | 2026-11-11 | New HAZ-114 and RC-114 for exchanges; RC-115 discard of expired lots (ADR-010). | Claude, for owner review |
 | 0.4 | 2026-11-11 | RC-114 cites ADR-011. | Claude, for owner review |
+| 0.5 | 2026-11-12 | §1 scales and acceptability rule (OD-024, owner, 2026-11-12); hazard ratings pending OD-047. New HAZ-008 and RC-008 for sign-in (OD-001). RC-108 merge rule (OD-011); RC-308 ranking order (OD-023). | Claude, for owner review |

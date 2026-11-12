@@ -1,16 +1,20 @@
 /**
  * Importer for FDA drug directory (openFDA NDC) product records (DAT-101, ARC-015).
  * Safety-critical: the scope and controlled-substance flags it sets feed eligibility (SYS-103,
- * SYS-109). Anything it cannot read for certain is marked unknown or out of scope, never passed.
+ * SYS-109). A route it cannot map is out of scope. A record without a DEA schedule is read as not
+ * controlled in the US, and the entry says so, because openFDA omits the field for products that
+ * are not scheduled (OD-044; owner, 2026-11-12).
  */
 import { z } from "zod";
 
-/** Route categories from the owner's scope decisions (SYS-109; owner, 2026-11-10 and 2026-11-11). */
+/**
+ * Route categories from the owner's scope decisions (SYS-109; owner, 2026-11-10 and 2026-11-11).
+ * Feeding tube is not a category: suitability is the clinician's judgement (OD-045).
+ */
 export const ROUTE_CATEGORIES = [
   "oral",
   "sublingual",
   "rectal",
-  "feeding-tube",
   "topical",
   "ophthalmic",
   "inhaled",
@@ -27,8 +31,8 @@ export const routeScopeSchema = z.strictObject({
 });
 export type RouteScopeRules = z.infer<typeof routeScopeSchema>;
 
-/** Controlled-substance status: "unknown" when the record does not say. */
-export type Controlled = "yes" | "no" | "unknown";
+/** US controlled-substance status from the FDA drug directory; `controlledBasis` says why. */
+export type Controlled = "yes" | "no";
 
 export interface CatalogEntry {
   readonly sourceId: string;
@@ -41,6 +45,7 @@ export interface CatalogEntry {
   readonly inScope: boolean;
   readonly scopeReason: string | null;
   readonly controlled: Controlled;
+  readonly controlledBasis: string;
 }
 
 export type ParseResult =
@@ -64,11 +69,20 @@ const recordSchema = z.object({
   dea_schedule: z.string().nullable().optional(),
 });
 
-const controlledFrom = (raw: object): Controlled => {
-  const value = (raw as { dea_schedule?: unknown }).dea_schedule;
-  if (value === undefined) return "unknown";
-  if (value === null || value === "") return "no";
-  return "yes";
+const controlledFrom = (
+  schedule: string | null | undefined,
+): Pick<CatalogEntry, "controlled" | "controlledBasis"> => {
+  const value = schedule?.trim() ?? "";
+  return value === ""
+    ? {
+        controlled: "no",
+        controlledBasis:
+          "FDA drug directory: no DEA schedule recorded (US scheduling only)",
+      }
+    : {
+        controlled: "yes",
+        controlledBasis: `FDA drug directory: DEA schedule ${value}`,
+      };
 };
 
 /** Reads one openFDA NDC product record. Never throws; every problem is listed. */
@@ -126,7 +140,7 @@ export function parseNdcRecord(
       routes,
       inScope: scopeReason === null,
       scopeReason,
-      controlled: controlledFrom(raw as object),
+      ...controlledFrom(record.dea_schedule),
     },
   };
 }
@@ -139,8 +153,8 @@ export interface Catalog {
 /**
  * Builds a catalog from many records. Products with the same generic name, strength and dosage
  * form become one entry that keeps every source id. If they disagree on controlled status or
- * routes, the entry keeps the most cautious reading: controlled wins over unknown over not
- * controlled, and any out-of-scope reading makes the entry out of scope.
+ * routes, the entry keeps the most cautious reading: controlled wins over not controlled (the
+ * first schedule found is kept), and any out-of-scope reading makes the entry out of scope.
  */
 export function buildCatalog(
   records: readonly unknown[],
@@ -148,7 +162,6 @@ export function buildCatalog(
 ): Catalog {
   const byKey = new Map<string, CatalogEntry>();
   const rejected: Extract<ParseResult, { ok: false }>[] = [];
-  const caution: Record<Controlled, number> = { no: 0, unknown: 1, yes: 2 };
   for (const raw of records) {
     const result = parseNdcRecord(raw, rules);
     if (!result.ok) {
@@ -171,10 +184,10 @@ export function buildCatalog(
       routes: [...new Set([...prior.routes, ...e.routes])],
       inScope: prior.inScope && e.inScope,
       scopeReason: prior.scopeReason ?? e.scopeReason,
-      controlled:
-        caution[e.controlled] > caution[prior.controlled]
-          ? e.controlled
-          : prior.controlled,
+      // A scheduled reading replaces "no"; an earlier schedule is kept.
+      ...(prior.controlled === "no"
+        ? { controlled: e.controlled, controlledBasis: e.controlledBasis }
+        : {}),
     });
   }
   return { entries: [...byKey.values()], rejected };

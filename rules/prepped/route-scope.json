@@ -2,19 +2,18 @@
   "id": "route-scope",
   "product": "prepped",
   "title": "Routes in scope, and how FDA route terms map to them",
-  "status": "placeholder",
+  "status": "verified",
   "source": {
     "url": "https://www.fda.gov/industry/structured-product-labeling-resources/route-administration",
-    "verified_date": null,
-    "verified_by": null
+    "verified_date": "2026-11-12",
+    "verified_by": "owner"
   },
-  "notes": "In-scope categories are the owner's decisions of 2026-11-10 and 2026-11-11 (SYS-109). The mapping of FDA route terms to categories is a placeholder to be checked by the owner against the FDA route list and the live data (OD-042). Any FDA route not listed here, for example BUCCAL, TRANSDERMAL or any injection, is treated as outside scope.",
+  "notes": "In-scope categories are the owner's decisions of 2026-11-10 and 2026-11-11 (SYS-109). The owner checked this mapping on 2026-11-12 (OD-042). Feeding tube is not a category: the FDA directory lists almost no ENTERAL products and suitability for a feeding tube is the clinician's judgement (OD-045). Any FDA route not listed here, for example BUCCAL, TRANSDERMAL, ENTERAL or any injection, is treated as outside scope.",
   "data": {
     "in_scope": [
       "oral",
       "sublingual",
       "rectal",
-      "feeding-tube",
       "topical",
       "ophthalmic",
       "inhaled",
@@ -26,7 +25,6 @@
       "ORAL": "oral",
       "SUBLINGUAL": "sublingual",
       "RECTAL": "rectal",
-      "ENTERAL": "feeding-tube",
       "TOPICAL": "topical",
       "CUTANEOUS": "topical",
       "OPHTHALMIC": "ophthalmic",
