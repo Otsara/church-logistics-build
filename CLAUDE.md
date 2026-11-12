@@ -13,7 +13,7 @@ Two decision-support apps for missionary work in pharmacy (Prepped) and flight (
 
 - **Update the documents in the same change as the work.** New or changed behaviour: DOC-020. New hazards or controls: DOC-030. Structure or AI steps: DOC-040. Security: DOC-060. Data: DOC-065. Tests: DOC-070. Dependencies, services or data sets: DOC-090 before first use. Plan or submission: DOC-100.
 - **IDs:** every item has a unique `PREFIX-nnn` ID, is defined once as `### PREFIX-nnn Title` with its fields, traces to its parent, and is never renumbered or reused. Use the next free number in your product's range: 001–099 Shared, 100–299 Prepped, 300–499 SpareWing.
-- **Versions:** every document change bumps the version and adds a revision history row. Commit messages name the documents and item IDs, for example `DOC-020 v0.2, DOC-070 v0.2: add SYS-110, TC-110`.
+- **Versions:** every document change bumps the version and adds a revision history row. Commit messages start with what changed in plain words, then name the documents and item IDs, for example `Shelf-life check counts days to arrival (DOC-020 v0.2, DOC-070 v0.2: SYS-110, TC-110)`.
 - **Owner decisions** are recorded as "(owner, YYYY-MM-DD)". A decision that crosses documents or affects safety gets an ADR in `docs/adr/` with context, options and consequences.
 - **Never invent** safety or regulatory classifications, clinical claims, standards clauses or numeric limits. Write `TBD`, add an open decision to DOC-003, and ask the owner.
 - **Never edit generated sections**; run `pnpm docs:update`.
@@ -51,6 +51,8 @@ Run `pnpm docs:update`, then `pnpm check` (includes `pnpm docs:check`). Both mus
 The repository is `Otsara/church-logistics-build` (moved from `jjmanaloor/church-logistics-build`). Start sessions with it as the source, so pull-request events reach the session.
 
 Work on a branch named for its stream and topic; merge to `main` by pull request only, with the owner's agreement: `build/...` (foundation), `prepped/...`, `sparewing/...`, `shared/...` (AI wrapper, synthetic data, offline store). Parallel streams stay in their own folders and number ranges. Shared files (`package.json`, `pnpm-lock.yaml`, `CLAUDE.md`, DOC-000 to DOC-003) change in small, separate commits; after a merge, regenerate `pnpm-lock.yaml` with `pnpm install` and generated sections with `pnpm docs:update` rather than merging them by hand.
+
+**Names say what they are about (owner, 2026-11-12).** Name every branch, commit, pull request, scheduled task and review-copy label so a reader can tell what it covers without looking anything up: for example branch `prepped/shelf-life-check`, pull request "Prepped: shelf-life check counts days to arrival", review-copy label "Shelf-life check merged to main", scheduled task "Re-check the shelf-life pull request". IDs, version numbers, pull request numbers and commit hashes may follow the plain words but never replace them. Never push work to a session's default branch name (such as `claude/<random words>`); create a branch named for the stream and topic instead.
 
 ## Definition of done
 
