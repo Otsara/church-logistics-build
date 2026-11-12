@@ -9,9 +9,10 @@
 import { execFileSync } from "node:child_process";
 import { randomInt } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { parseIsoDate } from "@church-logistics/core";
 import { buildCorpus } from "../src/corpus.ts";
+import { assertOutsideRoot } from "../src/data-checks.ts";
 import type { CatalogEntry } from "../src/fda.ts";
 import { ROOT, linedJson, sha256 } from "./io.ts";
 
@@ -23,10 +24,7 @@ const [target] = process.argv.slice(2);
 if (target === undefined)
   throw new Error("Give the path for the held-back package");
 const packagePath = resolve(target);
-if (!relative(ROOT, packagePath).startsWith(".."))
-  throw new Error(
-    "The held-back package must be written outside the repository",
-  );
+assertOutsideRoot(packagePath, ROOT);
 
 const catalogText = readFileSync(join(ROOT, CATALOG), "utf8");
 const catalog = (

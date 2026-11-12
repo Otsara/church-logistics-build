@@ -6,7 +6,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { buildSnapshotCatalog, snapshotSourceSchema } from "../src/snapshot.ts";
-import { ROOT, linedJson, readRouteScope, sha256 } from "./io.ts";
+import { readSnapshot, verifiedRouteScope } from "../src/data-checks.ts";
+import { ROOT, linedJson } from "./io.ts";
 
 const [input] = process.argv.slice(2);
 if (input === undefined)
@@ -14,25 +15,13 @@ if (input === undefined)
 const source = snapshotSourceSchema.parse(
   JSON.parse(readFileSync(join(ROOT, "data/fda/source.json"), "utf8")),
 );
-const bytes = readFileSync(input);
-const fingerprint = sha256(bytes);
-if (fingerprint !== source.json_sha256)
-  throw new Error(
-    `Snapshot fingerprint ${fingerprint} does not match data/fda/source.json`,
-  );
-const snapshot = JSON.parse(bytes.toString("utf8")) as {
-  meta?: { last_updated?: string };
-  results: unknown[];
-};
-if (snapshot.meta?.last_updated !== source.export_date)
-  throw new Error(
-    `Snapshot export date ${String(snapshot.meta?.last_updated)} does not match ${source.export_date}`,
-  );
-const catalog = buildSnapshotCatalog(
-  snapshot.results,
-  readRouteScope(),
-  source,
+const rules = verifiedRouteScope(
+  JSON.parse(
+    readFileSync(join(ROOT, "rules/prepped/route-scope.json"), "utf8"),
+  ),
 );
+const records = readSnapshot(readFileSync(input), source);
+const catalog = buildSnapshotCatalog(records, rules, source);
 const out = join(ROOT, `data/fda/catalog-${source.export_date}.json`);
 const { entries, ...head } = catalog;
 writeFileSync(out, linedJson({ ...head }, "entries", entries));

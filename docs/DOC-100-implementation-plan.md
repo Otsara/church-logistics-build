@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.7
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -30,7 +30,7 @@ Proposed scope:
 5. Test cases and placeholder tests for the requirements added on 2026-11-10 (SYS-007 to SYS-010, SYS-108, SYS-308, SYS-309, SEC and DAT items).
 6. Decisions on back end, key storage and hosting (OD-001, OD-018, OD-027, OD-028), and the two Lovable projects created.
 
-Status on 2026-11-12: Stryker runs in CI with a score of 97.84% on the safety-critical code after the OD-044 change (136 of 139 mutants killed; the 3 survivors are equivalent); the openFDA importer, the synthetic data generators for both products and the held-back split and seal are built and tested; the 26 missing test cases are written (TC-005, TC-016, TC-019 to TC-021, TC-123 and TC-312 implemented). The owner closed the decisions iteration 1 needs, and the back-end and hosting decisions (owner, 2026-11-12). The FDA snapshot of 2026-11-11 is imported (32,601 in-scope entries; OD-034), and the corpus is built with its held-back third sealed and handed to the owner (OD-036), rebuilt once after biologics were excluded (OD-049). Still open: the owner's review, rating the hazards (OD-047) and the Lovable projects.
+Status on 2026-11-12: Stryker runs in CI with a score of 97.84% on the safety-critical code after the OD-044 change (136 of 139 mutants killed; the 3 survivors are equivalent); the openFDA importer, the synthetic data generators for both products and the held-back split and seal are built and tested; the 26 missing test cases are written (TC-005, TC-016, TC-019 to TC-021, TC-123 and TC-312 implemented). The owner closed the decisions iteration 1 needs, and the back-end and hosting decisions (owner, 2026-11-12). The FDA snapshot of 2026-11-11 is imported (32,601 in-scope entries; OD-034), and the corpus is built with its held-back third sealed and handed to the owner (OD-036), rebuilt after biologics (OD-049) and compressed gases (OD-051) were excluded. The owner's line-by-line review of the iteration-0 safety-critical code is recorded in REV-001. Still open: the owner's review, rating the hazards (OD-047) and the Lovable projects.
 
 Exit criteria: `pnpm docs:check` and `pnpm check` pass; the owner's review recorded; the held-back set sealed; Stryker runs on core; every decision iteration 1 needs is closed.
 
@@ -119,3 +119,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.5 | 2026-11-12 | IT-000 status after the owner's decisions of 2026-11-12; SUB-006 demo and repository link (OD-018, OD-021). | Claude, for owner review |
 | 0.6 | 2026-11-12 | IT-000 status: snapshot imported; held-back third sealed and handed over. | Claude, for owner review |
 | 0.7 | 2026-11-12 | IT-000 status after OD-046, OD-048 and OD-049. | Claude, for owner review |
+| 0.8 | 2026-11-12 | IT-000 status: REV-001 recorded; catalogue without gases. | Claude, for owner review |

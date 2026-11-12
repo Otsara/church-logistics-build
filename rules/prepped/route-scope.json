@@ -8,7 +8,7 @@
     "verified_date": "2026-11-12",
     "verified_by": "owner"
   },
-  "notes": "In-scope categories are the owner's decisions of 2026-11-10 and 2026-11-11 (SYS-109). The owner checked this mapping on 2026-11-12 (OD-042). Feeding tube is not a category: the FDA directory lists almost no ENTERAL products and suitability for a feeding tube is the clinician's judgement (OD-045). Any FDA route not listed here, for example BUCCAL, TRANSDERMAL, ENTERAL or any injection, is treated as outside scope. Biologic product types (cold_chain_product_types) are treated as cold chain, and so outside scope, whatever the lot says (owner, 2026-11-12; OD-049).",
+  "notes": "In-scope categories are the owner's decisions of 2026-11-10 and 2026-11-11 (SYS-109). The owner checked this mapping on 2026-11-12 (OD-042). Feeding tube is not a category: the FDA directory lists almost no ENTERAL products and suitability for a feeding tube is the clinician's judgement (OD-045). Any FDA route not listed here, for example BUCCAL, TRANSDERMAL, ENTERAL or any injection, is treated as outside scope. Biologic product types (cold_chain_product_types) are treated as cold chain, and so outside scope, whatever the lot says (owner, 2026-11-12; OD-049). Compressed gases (any dosage form beginning with an excluded form, here GAS) are outside scope (owner, 2026-11-12; OD-051, REV-002). A product without a product type is outside scope, because a biologic could not be recognised (owner, 2026-11-12; REV-001).",
   "data": {
     "in_scope": [
       "oral",
@@ -40,6 +40,7 @@
       "STANDARDIZED ALLERGENIC",
       "NON-STANDARDIZED ALLERGENIC",
       "LICENSED VACCINE BULK INTERMEDIATE"
-    ]
+    ],
+    "excluded_dosage_forms": ["GAS"]
   }
 }

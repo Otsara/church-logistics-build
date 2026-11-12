@@ -60,3 +60,8 @@ export {
   type PreppedScenario,
   type SpareWingScenario,
 } from "./corpus.ts";
+export {
+  assertOutsideRoot,
+  readSnapshot,
+  verifiedRouteScope,
+} from "./data-checks.ts";

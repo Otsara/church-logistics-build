@@ -87,4 +87,7 @@ describe("Prepped acceptance", () => {
   it.todo(
     "[TC-131] Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension covering 30 and another tablet strength covering 30, then the item is covered",
   );
+  it.todo(
+    '[TC-132] Given a catalogue with a controlled medicine, when the lead clinician picks floor items, then it is labelled "Controlled: cannot be packed in this build" with its basis',
+  );
 });

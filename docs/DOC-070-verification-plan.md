@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.8
+version: 0.10
 status: Draft
 effective_date:
 ---
@@ -211,6 +211,12 @@ Given corpus and split seeds, then each product's scenarios are generated from d
 
 Given the committed development data and the held-back manifest, then one third of each product is held back, no committed development record shares an id or fingerprint with a held-back record, and no data file carries the held-back package marker.
 
+### TC-027 Data script checks
+- Product: Shared
+- Traces to: DAT-002, DAT-101
+
+Given the snapshot file, then it is read only when its SHA-256 and export date match `data/fda/source.json`; given the route rule file, then it is used only when valid and verified, with every problem listed; given a path for the held-back package, then any path inside the repository, including a folder inside it whose name starts with two dots, or the repository itself, is refused (REV-002).
+
 ### TC-101 Lot blocked below minimum shelf life
 - Product: Prepped
 - Traces to: SYS-101, SYS-102, ARC-005
@@ -356,7 +362,7 @@ Given a floor item with a target of 100 and 40 eligible capsules, when the clini
 - Product: Prepped
 - Traces to: DAT-101, SYS-103, SYS-109
 
-Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; its classes are its established pharmacologic classes (EPC), without the tag, and none when it has none; a biologic product type such as VACCINE makes it out of scope with the reason "biologic, treated as cold chain" (OD-049); an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
+Given an openFDA record for an oral capsule without a dea_schedule, then the catalog entry has its name, form, strength, route "oral", in scope, controlled "no" and the basis "FDA drug directory: no DEA schedule recorded (US scheduling only)" (OD-044); with dea_schedule "CII" it is controlled "yes" with the basis "FDA drug directory: DEA schedule CII"; its classes are its established pharmacologic classes (EPC), without the tag, and none when it has none; a biologic product type such as VACCINE makes it out of scope with the reason "biologic, treated as cold chain" (OD-049); a missing or blank product type gives "product type not recorded", and a dosage form beginning with GAS, such as "GAS, COMPRESSED", gives "outside this build's scope: dosage form …" while GRANULE stays in scope (REV-001, REV-002, OD-051), the reasons taking precedence in that order; an INTRAVENOUS route, an unmapped route such as BUCCAL, or ENTERAL (OD-045) makes it out of scope, with the reason.
 
 ### TC-124 Floor catalogue from the WHO list and FDA data
 - Product: Prepped
@@ -409,6 +415,12 @@ Given a snapshot, then only products whose every reading is in scope are kept, s
 - Traces to: SYS-115
 
 Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension exchange covering 30 and another tablet strength covering 30, then the item is covered, each part counting what was entered for it.
+
+### TC-132 Controlled medicines labelled in the picker
+- Product: Prepped
+- Traces to: SYS-118
+
+Given a catalogue with a controlled medicine, when the lead clinician picks floor items, then that medicine is labelled "Controlled: cannot be packed in this build" with its basis.
 
 ### TC-301 Alternate part found
 - Product: SpareWing
@@ -525,3 +537,5 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.6 | 2026-11-12 | Owner decisions of 2026-11-12: TC-001, TC-101, TC-107, TC-123 and TC-124 updated; new TC-023, TC-024, TC-127 to TC-129, TC-313 to TC-316. | Claude, for owner review |
 | 0.7 | 2026-11-12 | TC-123 classes; new TC-025, TC-026, TC-130, TC-131. | Claude, for owner review |
 | 0.8 | 2026-11-12 | TC-123 biologics (OD-049); TC-124 retired (OD-046). | Claude, for owner review |
+| 0.9 | 2026-11-12 | TC-123 missing product type and gases; new TC-027 data script checks, TC-132 picker label (REV-001). | Claude, for owner review |
+| 0.10 | 2026-11-12 | TC-123 dosage-form prefix; TC-027 folder named with two dots (REV-002). | Claude, for owner review |
