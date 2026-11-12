@@ -5,6 +5,7 @@ import type { RouteScopeRules } from "../src/fda.ts";
 const rules: RouteScopeRules = {
   in_scope: ["oral", "topical"],
   routes: { ORAL: "oral", TOPICAL: "topical" },
+  cold_chain_product_types: ["VACCINE"],
 };
 
 const source = snapshotSourceSchema.parse({
@@ -46,6 +47,21 @@ describe("Snapshot catalogue", () => {
       }),
       { product_ndc: "00000-0005" },
     ];
+    // A biologic is treated as cold chain and left out (OD-049).
+    const withVaccine = buildSnapshotCatalog(
+      [
+        ...records.slice(0, 4),
+        product("00000-0008", "Typhoid vaccine live oral", ["ORAL"], {
+          product_type: "VACCINE",
+        }),
+      ],
+      rules,
+      source,
+    );
+    expect(withVaccine.entries.map((e) => e.sourceId)).toEqual([
+      "00000-0004",
+      "00000-0003",
+    ]);
     // A product without a recorded strength sorts after the same name's strengths ("|" sorts after letters).
     const strengthless = buildSnapshotCatalog(
       [

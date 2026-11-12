@@ -28,6 +28,8 @@ export type RouteCategory = (typeof ROUTE_CATEGORIES)[number];
 export const routeScopeSchema = z.strictObject({
   in_scope: z.array(z.enum(ROUTE_CATEGORIES)),
   routes: z.record(z.string(), z.enum(ROUTE_CATEGORIES)),
+  /** FDA product types treated as cold chain whatever the lot says: biologics (OD-049). */
+  cold_chain_product_types: z.array(z.string().min(1)),
 });
 export type RouteScopeRules = z.infer<typeof routeScopeSchema>;
 
@@ -70,6 +72,7 @@ const recordSchema = z.object({
     .optional(),
   dea_schedule: z.string().nullable().optional(),
   pharm_class: z.array(z.string()).optional(),
+  product_type: z.string().optional(),
 });
 
 const EPC = " [EPC]";
@@ -137,6 +140,13 @@ export function parseNdcRecord(
       scopeReason ??= `outside this build's scope: ${category}`;
   }
   if (fdaRoutes.length === 0) scopeReason = "no route recorded";
+  // A biologic is treated as cold chain whatever its route, and that reason comes first (OD-049).
+  const productType = record.product_type?.trim().toUpperCase();
+  if (
+    productType !== undefined &&
+    rules.cold_chain_product_types.includes(productType)
+  )
+    scopeReason = `biologic, treated as cold chain: ${productType}`;
   const strength =
     record.active_ingredients === undefined ||
     record.active_ingredients.length === 0

@@ -116,6 +116,49 @@ describe("openFDA importer", () => {
     expect(noEpc.ok && noEpc.entry.classes).toEqual([]);
   });
 
+  it("[TC-123] treats biologic product types as cold chain, so out of scope whatever the route (OD-049)", () => {
+    for (const type of [
+      "VACCINE",
+      "PLASMA DERIVATIVE",
+      "CELLULAR THERAPY",
+      "STANDARDIZED ALLERGENIC",
+      "NON-STANDARDIZED ALLERGENIC",
+      "LICENSED VACCINE BULK INTERMEDIATE",
+    ]) {
+      const result = parseNdcRecord({ ...tablet, product_type: type }, rules);
+      expect(
+        result.ok && [result.entry.inScope, result.entry.scopeReason],
+        type,
+      ).toEqual([false, `biologic, treated as cold chain: ${type}`]);
+    }
+    const padded = parseNdcRecord(
+      { ...tablet, product_type: " vaccine " },
+      rules,
+    );
+    expect(padded.ok && padded.entry.scopeReason).toBe(
+      "biologic, treated as cold chain: VACCINE",
+    );
+    for (const type of ["HUMAN PRESCRIPTION DRUG", "HUMAN OTC DRUG"]) {
+      const result = parseNdcRecord({ ...tablet, product_type: type }, rules);
+      expect(result.ok && result.entry.inScope, type).toBe(true);
+    }
+    const unmappedFirst = parseNdcRecord(
+      { ...tablet, route: ["BUCCAL"], product_type: "VACCINE" },
+      rules,
+    );
+    expect(unmappedFirst.ok && unmappedFirst.entry.scopeReason).toBe(
+      "biologic, treated as cold chain: VACCINE",
+    );
+    const merged = buildCatalog(
+      [
+        tablet,
+        { ...tablet, product_ndc: "00000-0009", product_type: "VACCINE" },
+      ],
+      rules,
+    );
+    expect(merged.entries[0]?.inScope).toBe(false);
+  });
+
   it("[ARC-015] maps every in-scope route the owner named", () => {
     const terms = [
       "ORAL",
