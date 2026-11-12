@@ -1,0 +1,7 @@
+{
+  "name": "@church-logistics/policy",
+  "private": true,
+  "license": "UNLICENSED",
+  "description": "Repository policy checks: security and data rules that apply to the whole repository (ARC-017; SEC-001 to SEC-007, DAT-003).",
+  "type": "module"
+}

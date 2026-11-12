@@ -1,0 +1,39 @@
+{
+  "id": "route-scope",
+  "product": "prepped",
+  "title": "Routes in scope, and how FDA route terms map to them",
+  "status": "placeholder",
+  "source": {
+    "url": "https://www.fda.gov/industry/structured-product-labeling-resources/route-administration",
+    "verified_date": null,
+    "verified_by": null
+  },
+  "notes": "In-scope categories are the owner's decisions of 2026-11-10 and 2026-11-11 (SYS-109). The mapping of FDA route terms to categories is a placeholder to be checked by the owner against the FDA route list and the live data (OD-042). Any FDA route not listed here, for example BUCCAL, TRANSDERMAL or any injection, is treated as outside scope.",
+  "data": {
+    "in_scope": [
+      "oral",
+      "sublingual",
+      "rectal",
+      "feeding-tube",
+      "topical",
+      "ophthalmic",
+      "inhaled",
+      "nasal",
+      "vaginal",
+      "otic"
+    ],
+    "routes": {
+      "ORAL": "oral",
+      "SUBLINGUAL": "sublingual",
+      "RECTAL": "rectal",
+      "ENTERAL": "feeding-tube",
+      "TOPICAL": "topical",
+      "CUTANEOUS": "topical",
+      "OPHTHALMIC": "ophthalmic",
+      "RESPIRATORY (INHALATION)": "inhaled",
+      "NASAL": "nasal",
+      "VAGINAL": "vaginal",
+      "AURICULAR (OTIC)": "otic"
+    }
+  }
+}
