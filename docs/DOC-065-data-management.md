@@ -1,7 +1,7 @@
 ---
 id: DOC-065
 title: Data management plan
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -44,7 +44,7 @@ Golden examples for the AI steps (AIC-101 to AIC-303) are drawn only from the de
 - Product: Prepped
 - Traces to: UN-101, RC-101
 
-Medicine names, dosage forms and routes come from a dated snapshot of the FDA drug directory (openFDA) (owner, 2026-11-10), for both floor items (DAT-102) and supplements. Lots, lot numbers, quantities, expiry dates, donors, trips and needs are synthetic. Controlled-substance and storage flags are taken from the directory where it records them, otherwise generated and labelled synthetic. Snapshot date, subset and confirmation of terms: TBD (OD-034). Therapeutic classes: TBD (OD-022).
+Medicine names, dosage forms and routes come from a dated snapshot of the FDA drug directory (openFDA) (owner, 2026-11-10), for both floor items (DAT-102) and supplements. Lots, lot numbers, quantities, expiry dates, donors, trips and needs are synthetic. Controlled-substance and storage flags are taken from the directory where it records them, otherwise generated and labelled synthetic. The importer (ARC-015) marks a product's controlled status "unknown" when the record does not say, and treats a route not mapped in `rules/prepped/route-scope.json` as out of scope (mapping to verify, OD-042). Snapshot date, subset and confirmation of terms: TBD (OD-034). Therapeutic classes: TBD (OD-022).
 
 ### DAT-102 Essential-medicines floor catalogue
 - Product: Prepped
@@ -72,3 +72,4 @@ Fully synthetic: bases, aircraft, part numbers and alternates, parts stock, pilo
 | 0.1 | 2026-11-10 | First draft from the owner's answers of 2026-11-10 (ADR-005). | Claude, for owner review |
 | 0.2 | 2026-11-10 | New DAT-102 essential-medicines floor catalogue recreated from FDA data (owner, 2026-11-10; ADR-009); DAT-101 covers routes and supplements. | Claude, for owner review |
 | 0.3 | 2026-11-11 | DAT-102: merge of the WHO list and FDA data accepted by the owner (owner, 2026-11-11). | Claude, for owner review |
+| 0.4 | 2026-11-12 | DAT-101: how the importer treats unknown controlled status and unmapped routes. | Claude, for owner review |

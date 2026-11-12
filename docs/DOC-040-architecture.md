@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -25,7 +25,7 @@ TypeScript throughout. One language for rules, tests and screens.
 - Traces to: SYS-003
 - Formerly: F-2
 
-`packages/core` (pure rules), `packages/ai` (model wrapper), `packages/synth` (seed data), `packages/store` (offline storage and sync), `apps/prepped`, `apps/sparewing`. Rules stay testable without screens. Core has no network, no clock and no AI imports, enforced by lint.
+`packages/core` (pure rules), `packages/ai` (model wrapper), `packages/synth` (seed data), `packages/store` (offline storage and sync), `apps/prepped`, `apps/sparewing`. Added 2026-11-12: `packages/policy` (repository policy tests, ARC-017). Rules stay testable without screens. Core has no network, no clock and no AI imports, enforced by lint.
 
 ### ARC-003 Screens
 - Product: Shared
@@ -110,6 +110,25 @@ Before any AI call, names are replaced by ids and only the fields the step needs
 - Traces to: SEC-001
 
 The app calls the AI service only through a server function that holds the key as a secret. Proposed: a Supabase Edge Function (OD-027).
+
+### ARC-015 openFDA importer
+- Product: Shared
+- Traces to: DAT-101, SYS-103, SYS-109
+- Safety-critical: yes
+
+Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. Controlled status is "unknown" when the record does not say; a route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
+
+### ARC-016 Held-back split and seal
+- Product: Shared
+- Traces to: DAT-002
+
+Sets aside one third of the records by a separate seed and seals them with SHA-256 fingerprints (`packages/synth/src/split.ts`).
+
+### ARC-017 Repository policy checks
+- Product: Shared
+- Traces to: SEC-004, SEC-007
+
+Tests in `packages/policy` that check rules holding for the whole repository, such as the CI dependency audit and the absence of committed credentials.
 
 ### ARC-101 Prepped rules engine
 - Product: Prepped
@@ -229,3 +248,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.1 | 2026-11-10 | First draft. Foundation decisions F-1..F-12 carried over as ARC-001..012 and AI steps AI-P1..AI-S3 as AIC-101..103, AIC-301..303, wording unchanged (ADR-001). New: ARC-013, ARC-014, ARC-101, ARC-102, ARC-301, ARC-302; safety-critical units marked (ADR-006); ARC-009 updated by ADR-008. | Claude, for owner review |
 | 0.2 | 2026-11-10 | ARC-101 allocated SYS-109 to SYS-114. | Claude, for owner review |
 | 0.3 | 2026-11-11 | ARC-101 allocated SYS-115 to SYS-117. | Claude, for owner review |
+| 0.4 | 2026-11-12 | New ARC-015 openFDA importer (safety-critical), ARC-016 held-back split and seal, ARC-017 repository policy checks; ARC-002 adds packages/policy. | Claude, for owner review |

@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -15,7 +15,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-001 zod
 - Version: 4.6.7
 - Licence: MIT
-- Use: runtime schema validation of rule files (ARC-004) and AI output (ARC-008), in `packages/core` and `packages/ai`.
+- Use: runtime schema validation of rule files (ARC-004), AI output (ARC-008) and openFDA records (ARC-015), in `packages/core`, `packages/ai` and `packages/synth`.
 - Safety relevance: yes. It is part of the guard on AI output and rule files. Covered by the safety-critical tests of ARC-008 and ARC-004.
 
 ### SOUP-002 Anthropic API, Claude Haiku 5.5
@@ -73,8 +73,14 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Use: pinned by override in `pnpm-workspace.yaml` to fix a denial-of-service advisory in the lint tooling.
 - Safety relevance: no.
 
+### SOUP-015 qs (override)
+- Version: 6.17.1
+- Licence: BSD-3-Clause
+- Use: pinned by override in `pnpm-workspace.yaml` to fix denial-of-service advisories in versions before 6.16.1, reached only through Stryker's report-upload client.
+- Safety relevance: no.
+
 ### SOUP-011 GitHub Actions
-- Version: actions/checkout@v4, pnpm/action-setup@v4, actions/setup-node@v4
+- Version: actions/checkout@v4, pnpm/action-setup@v4, actions/setup-node@v4, actions/upload-artifact@v4
 - Terms: GitHub terms of service.
 - Use: CI (`.github/workflows/verify.yml`).
 - Safety relevance: indirect. CI enforces the checks.
@@ -91,10 +97,10 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Use: proposed AI gateway (ARC-014) and optional sync (ARC-006). A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds nothing yet and is not used until OD-001 and OD-027 are decided. Free projects pause after a week without activity, which matters for a live demo during judging.
 - Safety relevance: indirect.
 
-### SOUP-014 Stryker (planned)
-- Version: to be pinned at installation in iteration 0
-- Licence: to be confirmed from the package metadata at installation
-- Use: mutation testing of safety-critical code (ADR-006).
+### SOUP-014 Stryker
+- Version: @stryker-mutator/core, vitest-runner and typescript-checker 10.1.1 (published 2026-10-23)
+- Licence: Apache-2.0 (npm package metadata, 2026-11-12)
+- Use: mutation testing of safety-critical code (ADR-006), `pnpm mutation`, in CI on every pull request.
 - Safety relevance: indirect.
 
 ### SOUP-101 FDA drug directory (openFDA NDC)
@@ -128,3 +134,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.1 | 2026-11-10 | First draft: SOUP-001 to SOUP-014, SOUP-101; costs. | Claude, for owner review |
 | 0.2 | 2026-11-10 | New SOUP-102 WHO Model List of Essential Medicines (reference only; licence to resolve, OD-034). | Claude, for owner review |
 | 0.3 | 2026-11-11 | SOUP-013: free Supabase project prepped-sparewing created (owner, 2026-11-11). | Claude, for owner review |
+| 0.4 | 2026-11-12 | SOUP-014 Stryker pinned at 10.1.1 (Apache-2.0); SOUP-011 adds upload-artifact; SOUP-001 also used by the importer; new SOUP-015 qs override. | Claude, for owner review |
