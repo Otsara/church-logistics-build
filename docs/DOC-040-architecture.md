@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.8
+version: 0.9
 status: Draft
 effective_date:
 ---
@@ -116,7 +116,7 @@ The app calls the AI service only through a Supabase Edge Function that holds th
 - Traces to: DAT-101, SYS-103, SYS-109
 - Safety-critical: yes
 
-Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. Established pharmacologic classes (EPC) are kept as the entry's classes (OD-022). A biologic product type listed in the rule file makes the product out of scope with the reason "biologic, treated as cold chain" (owner, 2026-11-12); OD-049. A missing product type, or an excluded dosage form (GAS), also makes it out of scope; the reason shown follows the order biologic, missing product type, dosage form, routes (owner, 2026-11-12); REV-001, OD-051. A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
+Reads FDA drug directory (openFDA NDC) product records into catalog entries in `packages/synth/src/fda.ts`. A product without a DEA schedule is read as not controlled in the US, with that basis recorded on the entry (owner, 2026-11-12); OD-044. Established pharmacologic classes (EPC) are kept as the entry's classes (OD-022). A biologic product type listed in the rule file makes the product out of scope with the reason "biologic, treated as cold chain" (owner, 2026-11-12); OD-049. A missing product type, or a dosage form beginning with an excluded form (GAS), also makes it out of scope (REV-002); the reason shown follows the order biologic, missing product type, dosage form, routes (owner, 2026-11-12); REV-001, OD-051. A route not listed in `rules/prepped/route-scope.json` makes the product out of scope; products merged across labelers keep the most cautious reading.
 
 ### ARC-016 Held-back split and seal
 - Product: Shared
@@ -135,7 +135,7 @@ Tests in `packages/policy` that check rules holding for the whole repository, su
 - Traces to: DAT-101, SYS-109
 - Safety-critical: yes
 
-`packages/synth/src/snapshot.ts` builds the frozen in-scope catalogue from the FDA snapshot, keeping only products whose every reading is in scope. `packages/synth/scripts/import-fda.ts` refuses a file whose SHA-256, export date or record count differs from `data/fda/source.json`, and refuses a route rule file the owner has not verified. Output: `data/fda/catalog-2026-11-11.json`. These checks, and the refusal to write the held-back package inside the repository, live in `packages/synth/src/data-checks.ts` under 100% coverage and mutation testing (REV-001).
+`packages/synth/src/snapshot.ts` builds the frozen in-scope catalogue from the FDA snapshot, keeping only products whose every reading is in scope. `packages/synth/scripts/import-fda.ts` refuses a file whose SHA-256, export date or record count differs from `data/fda/source.json`, and refuses a route rule file the owner has not verified. Output: `data/fda/catalog-2026-11-11.json`. These checks, and the refusal to write the held-back package inside the repository (only a path that climbs out of the repository counts as outside, REV-002), live in `packages/synth/src/data-checks.ts` under 100% coverage and mutation testing (REV-001).
 
 ### ARC-101 Prepped rules engine
 - Product: Prepped
@@ -260,3 +260,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.6 | 2026-11-12 | ARC-015 reads EPC classes (OD-022); ARC-016 corpus builder and scripts; new ARC-018 snapshot catalogue. | Claude, for owner review |
 | 0.7 | 2026-11-12 | ARC-015: biologic product types out of scope (OD-049). | Claude, for owner review |
 | 0.8 | 2026-11-12 | ARC-015 missing product type and excluded dosage forms; ARC-018 data checks tested (REV-001); ARC-102 traces SYS-118. | Claude, for owner review |
+| 0.9 | 2026-11-12 | ARC-015 dosage-form prefix match; ARC-018 held-back path check fixed (REV-002). | Claude, for owner review |

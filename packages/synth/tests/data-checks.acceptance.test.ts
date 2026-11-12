@@ -107,8 +107,15 @@ describe("Data script checks", () => {
     expect(() => {
       assertOutsideRoot("/work/repo-other/held.json", root);
     }).not.toThrow();
+    for (const outside of ["/work", "/elsewhere/held.json"])
+      expect(() => {
+        assertOutsideRoot(outside, root);
+      }, outside).not.toThrow();
     for (const inside of [
       "/work/repo/held.json",
+      // A folder inside the repository whose name starts with two dots (REV-002).
+      "/work/repo/..held/x.json",
+      "/work/repo/...x",
       "/work/repo/data/held.json",
       join(root, "a", "..", "held.json"),
       root,

@@ -4,7 +4,7 @@
  * the owner, and the held-back package must never be written inside the repository.
  */
 import { createHash } from "node:crypto";
-import { relative, resolve } from "node:path";
+import { relative, resolve, sep } from "node:path";
 import { parseRuleFile } from "@church-logistics/core";
 import { routeScopeSchema, type RouteScopeRules } from "./fda.ts";
 import type { SnapshotSource } from "./snapshot.ts";
@@ -39,10 +39,15 @@ export function verifiedRouteScope(raw: unknown): RouteScopeRules {
   return routeScopeSchema.parse(file.file.data);
 }
 
-/** Refuses any path inside the repository root, including the root itself. */
+/**
+ * Refuses any path inside the repository root, including the root itself. Only a path that
+ * climbs out of the root is outside; a folder inside it named "..held" is not (REV-002). A path
+ * on another drive is refused too, which errs on the safe side.
+ */
 export function assertOutsideRoot(path: string, root: string): void {
   const rel = relative(resolve(root), resolve(path));
-  if (!rel.startsWith(".."))
+  const outside = rel === ".." || rel.startsWith(`..${sep}`);
+  if (!outside)
     throw new Error(
       "The held-back package must be written outside the repository",
     );

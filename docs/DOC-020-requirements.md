@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.8
+version: 0.9
 status: Draft
 effective_date:
 ---
@@ -258,7 +258,7 @@ For a need that eligible lots do not cover, Prepped lists other eligible lots in
 - Traces to: UN-102, RC-109
 - Safety-critical: yes
 
-A lot is in scope only if its route is oral, sublingual, rectal, topical (skin) or ophthalmic (owner, 2026-11-10), or inhaled, nasal, vaginal or otic (owner, 2026-11-11), and it needs no cold chain. Feeding tube is not a route category: suitability for a feeding tube is the clinician's judgement (owner, 2026-11-12); OD-045. FDA route terms map to these categories through `rules/prepped/route-scope.json`, verified by the owner (owner, 2026-11-12); OD-042. Compressed gases are outside scope (OD-051), and so is a product whose FDA product type is not recorded, because a biologic could not be recognised (owner, 2026-11-12); REV-001, ADR-020. Injections, infusions and any route not named are blocked with the reason "outside this build's scope".
+A lot is in scope only if its route is oral, sublingual, rectal, topical (skin) or ophthalmic (owner, 2026-11-10), or inhaled, nasal, vaginal or otic (owner, 2026-11-11), and it needs no cold chain. Feeding tube is not a route category: suitability for a feeding tube is the clinician's judgement (owner, 2026-11-12); OD-045. FDA route terms map to these categories through `rules/prepped/route-scope.json`, verified by the owner (owner, 2026-11-12); OD-042. Compressed gases (any dosage form beginning with GAS) are outside scope (OD-051; REV-002), and so is a product whose FDA product type is not recorded, because a biologic could not be recognised (owner, 2026-11-12); REV-001, ADR-020. Injections, infusions and any route not named are blocked with the reason "outside this build's scope".
 
 ### SYS-110 Mission floor list set by the lead clinician
 - Product: Prepped
@@ -412,3 +412,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.6 | 2026-11-12 | SYS-115: tablets and suspension, alone or in portions (owner, 2026-11-12); acceptance pending OD-048. | Claude, for owner review |
 | 0.7 | 2026-11-12 | SYS-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
+| 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |

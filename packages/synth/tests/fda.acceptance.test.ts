@@ -189,6 +189,27 @@ describe("openFDA importer", () => {
     expect(paddedGas.ok && paddedGas.entry.scopeReason).toBe(
       "outside this build's scope: dosage form GAS",
     );
+    // Any dosage form starting with an excluded form is excluded (REV-002).
+    for (const form of ["GAS, COMPRESSED", "gas, liquefied", "GASES"]) {
+      const variant = parseNdcRecord({ ...tablet, dosage_form: form }, rules);
+      expect(variant.ok && variant.entry.scopeReason, form).toBe(
+        `outside this build's scope: dosage form ${form.toUpperCase()}`,
+      );
+    }
+    // With several excluded forms, matching any one of them is enough.
+    const twoForms: RouteScopeRules = {
+      ...rules,
+      excluded_dosage_forms: ["AEROSOL", "GAS"],
+    };
+    const gasOfTwo = parseNdcRecord(
+      { ...tablet, dosage_form: "GAS" },
+      twoForms,
+    );
+    expect(gasOfTwo.ok && gasOfTwo.entry.scopeReason).toBe(
+      "outside this build's scope: dosage form GAS",
+    );
+    const notGas = parseNdcRecord({ ...tablet, dosage_form: "GRANULE" }, rules);
+    expect(notGas.ok && notGas.entry.inScope).toBe(true);
     // Precedence: biologic, then missing product type, then dosage form, then routes.
     const gasUnmapped = parseNdcRecord(
       { ...tablet, dosage_form: "GAS", route: ["BUCCAL"] },
