@@ -31,3 +31,14 @@ export {
   readShelfLifeRules,
   type ShelfLifeReading,
 } from "./prepped/shelf-life.ts";
+export {
+  assessFloor,
+  INDICATOR_LABEL,
+  type AcceptedExchange,
+  type FloorAssessment,
+  type FloorInput,
+  type FloorItem,
+  type FloorItemCoverage,
+  type RequiredDocument,
+  type StockLot,
+} from "./prepped/floor.ts";
