@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.11
+version: 0.13
 status: Draft
 effective_date:
 ---
@@ -330,7 +330,7 @@ When the lead clinician picks floor items, a controlled medicine in the catalogu
 - Safety-critical: yes
 - Formerly: SC-1
 
-A part is a candidate only if it has the same part number or a listed alternate that the program entered. The tool never decides two parts are interchangeable.
+A part is a candidate only if it has the same part number or a listed alternate that the program entered. The tool never decides two parts are interchangeable. An alternate counts only when the program lists it as an alternate for the needed part, not the other way round, since interchangeability can run one way only (proposed in iteration 1, for owner review).
 
 ### SYS-302 Unserviceable parts never appear
 - Product: SpareWing
@@ -338,7 +338,7 @@ A part is a candidate only if it has the same part number or a listed alternate 
 - Safety-critical: yes
 - Formerly: SC-2
 
-Parts marked not serviceable never appear.
+Parts marked not serviceable never appear, and neither do parts with none in stock (proposed in iteration 1, for owner review).
 
 ### SYS-303 Pilot candidates
 - Product: SpareWing
@@ -346,7 +346,7 @@ Parts marked not serviceable never appear.
 - Safety-critical: yes
 - Formerly: SC-3
 
-A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. The requirement is the aircraft type's rule file in `/rules` plus any extra requirements entered on the individual aircraft. Currency is checked on the date the pilot is needed and must hold until the expected end of the disruption; otherwise the pilot is not a candidate and the reason is shown (owner, 2026-11-12); ADR-015.
+A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. The requirement is the aircraft type's rule file in `/rules` plus any extra requirements entered on the individual aircraft. Currency is checked on the date the pilot is needed and must hold until the expected end of the disruption; otherwise the pilot is not a candidate and the reason is shown (owner, 2026-11-12); ADR-015. Entered availability must cover every day from the date needed to the expected end; a known reason to rule a pilot out outweighs data not entered (proposed in iteration 1, for owner review).
 
 ### SYS-304 Missing data shows as unknown
 - Product: SpareWing
@@ -354,7 +354,7 @@ A pilot is a candidate only if the entered ratings and currency dates meet the a
 - Safety-critical: yes
 - Formerly: SC-4
 
-Missing data shows as "unknown", never as a silent exclusion or a silent pass.
+Missing data shows as "unknown", never as a silent exclusion or a silent pass. A part's ETA is the date of the search plus the entered lead time; with no lead time, a negative one, or no transfer mode entered between the bases, the part still shows, with its ETA "unverified" (proposed in iteration 1, for owner review).
 
 ### SYS-305 Sign-off flag on every candidate
 - Product: SpareWing
@@ -378,21 +378,21 @@ If no candidates exist, the result says so and shows the local order lead time, 
 - Safety-critical: yes
 - Formerly: SI-1
 
-Missed community flights = flights scheduled between the disruption start and expected end for communities served by the grounded aircraft, minus flights another aircraft or pilot can cover. Only aircraft and pilots at bases that the program's rule file lists for that community count, and the candidate rules (SYS-303) still apply (owner, 2026-11-12); ADR-015.
+Missed community flights = flights scheduled between the disruption start and expected end for communities served by the grounded aircraft, minus flights another aircraft or pilot can cover. Only aircraft and pilots at bases that the program's rule file lists for that community count, and the candidate rules (SYS-303) still apply (owner, 2026-11-12); ADR-015. A pilot whose result is "unknown" is shown as possible cover but not counted; the start and expected end days both count (proposed in iteration 1, for owner review).
 
 ### SYS-308 Proposed plan for review
 - Product: SpareWing
 - Traces to: UN-305, RC-308
 - Safety-critical: yes
 
-SpareWing ranks the candidate options and proposes the best plan for the director, mechanic and pilot to review and verify (owner, 2026-11-10). Ranking never removes a candidate from view, and the reasons for the ranking are shown. Options are ranked in strict order, with no weights: fewest missed community flights, then earliest return to service, then fewest transfers between bases; cost is shown but not ranked (owner, 2026-11-12); ADR-015.
+SpareWing ranks the candidate options and proposes the best plan for the director, mechanic and pilot to review and verify (owner, 2026-11-10). Ranking never removes a candidate from view, and the reasons for the ranking are shown. Options are ranked in strict order, with no weights: fewest missed community flights, then earliest return to service, then fewest transfers between bases; cost is shown but not ranked (owner, 2026-11-12); ADR-015. An unknown return to service ranks after a known one, and options tied on every criterion keep the order entered, saying so (proposed in iteration 1, for owner review).
 
 ### SYS-309 Never approves schedules or airworthiness
 - Product: SpareWing
 - Traces to: UN-305, RC-305
 - Safety-critical: yes
 
-SpareWing never approves a schedule change and never states that an aircraft is flightworthy. A proposal becomes a decision only when the flight base director, mechanic or pilot records it (owner, 2026-11-10; ADR-002).
+SpareWing never approves a schedule change and never states that an aircraft is flightworthy. A proposal becomes a decision only when the flight base director, mechanic or pilot records it (owner, 2026-11-10; ADR-002), identified by name or id in the audit log; anyone else, or an AI step, is refused (proposed in iteration 1, for owner review).
 
 ### SYS-310 Draft messages to bases and communities
 - Product: SpareWing
@@ -414,4 +414,5 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
 | 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one; every unambiguous label format is read (owner, 2026-11-13; ADR-022). SYS-107: a blocking issue means "No go"; "Not ready" retired (owner, 2026-11-12; OD-052, ADR-021). SYS-102: shelf-life rule file and its WHO source, verified by the owner; WHO's exceptions not applied (OD-053). | Claude, for owner review |
-| 0.11 | 2026-11-13 | SYS-113 lots shown with their manufacturer; SYS-117 lots are per manufacturer, and a line without one is not treated as the same (owner, 2026-11-13; OD-054, ADR-024); SYS-112 documents marked reviewed by the lead clinician or team leader (owner, 2026-11-13); SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). | Claude, for owner review |
+| 0.12 | 2026-11-13 | SpareWing iteration 1: SYS-301 alternates one way; SYS-302 no stock; SYS-303 availability every day; SYS-304 ETA and "unverified"; SYS-307 unknown pilots not counted; SYS-308 unknown return and ties; SYS-309 who records a decision (proposed, for owner review). Numbered 0.12 because the floor-coverage branch takes 0.11. | Claude, for owner review |
+| 0.13 | 2026-11-13 | SYS-113 lots shown with their manufacturer; SYS-117 lots are per manufacturer, and a line without one is not treated as the same (owner, 2026-11-13; OD-054, ADR-024); SYS-112 documents marked reviewed by the lead clinician or team leader (owner, 2026-11-13); SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). (prepared as 0.11 on the floor-coverage branch, renumbered after the SpareWing merge) | Claude, for owner review |

@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.12
+version: 0.14
 status: Draft
 effective_date:
 ---
@@ -546,4 +546,5 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.9 | 2026-11-12 | TC-123 missing product type and gases; new TC-027 data script checks, TC-132 picker label (REV-001). | Claude, for owner review |
 | 0.10 | 2026-11-12 | TC-123 dosage-form prefix; TC-027 folder named with two dots (REV-002). | Claude, for owner review |
 | 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). TC-105: "No go" in place of "Not ready" (OD-052). New TC-133 expiry formats on labels (owner, 2026-11-13). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |
-| 0.12 | 2026-11-13 | TC-107, TC-121, TC-127: manufacturer (OD-054); TC-112 lots shown with their maker. Implemented: TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131, with tests of the proposed safety rules (SYS-106, SYS-112, SYS-113, SYS-115). TC-105 waits for the document draft (AIC-102, iteration 2). | Claude, for owner review |
+| 0.13 | 2026-11-13 | Implemented: TC-301 to TC-309 and TC-313 to TC-316, with tests of the proposed rules (SYS-301, SYS-303, SYS-304, SYS-307). Numbered 0.13 because the floor-coverage branch takes 0.12. | Claude, for owner review |
+| 0.14 | 2026-11-13 | TC-107, TC-121, TC-127: manufacturer (OD-054); TC-112 lots shown with their maker. Implemented: TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131, with tests of the proposed safety rules (SYS-106, SYS-112, SYS-113, SYS-115). TC-105 waits for the document draft (AIC-102, iteration 2). (prepared as 0.12 on the floor-coverage branch, renumbered after the SpareWing merge) | Claude, for owner review |
