@@ -152,9 +152,10 @@ describe("Prepped lot eligibility", () => {
     const dir = join(import.meta.dirname, "../src/prepped");
     for (const file of readdirSync(dir)) {
       const source = readFileSync(join(dir, file), "utf8");
-      const imports = [...source.matchAll(/from\s+"([^"]+)"/g)].map(
-        (m) => m[1],
-      );
+      const imports = [
+        ...source.matchAll(/^(?:import|export)\b[^;]*?\bfrom\s+"([^"]+)";/gm),
+      ].map((m) => m[1]);
+      expect(imports.length, file).toBeGreaterThan(0);
       for (const path of imports)
         expect(path, `${file} imports ${String(path)}`).toMatch(
           /^(\.\.?\/|zod$)/,
@@ -294,7 +295,6 @@ describe("Prepped lot eligibility", () => {
       "13/2028",
       "003/2028",
       "3/28",
-      "03-2028",
       "03/2028x",
       "x03/2028",
     ]) {
@@ -302,5 +302,179 @@ describe("Prepped lot eligibility", () => {
         "needs_review",
       );
     }
+  });
+});
+
+describe("Expiry formats printed on labels", () => {
+  const read = (text: string) => checkLot(lot({ expiry: text }), TRIP);
+
+  it("[TC-133] Given a full expiry date in any unambiguous label format, then it is read as that date and the reading is shown", () => {
+    for (const [text, date] of [
+      ["2028-03-15", "2028-03-15"],
+      ["2028/03/15", "2028-03-15"],
+      ["2028.3.15", "2028-03-15"],
+      ["15 MAR 2028", "2028-03-15"],
+      ["15-Mar-2028", "2028-03-15"],
+      ["15MAR2028", "2028-03-15"],
+      ["15 March 2028", "2028-03-15"],
+      ["5.sept.2028", "2028-09-05"],
+      ["MAR 15 2028", "2028-03-15"],
+      ["March 15, 2028", "2028-03-15"],
+      ["mar-15-2028", "2028-03-15"],
+      ["EXP 15 MAR 2028", "2028-03-15"],
+      ["Exp.: 2028-03-15", "2028-03-15"],
+      ["Expiry date 15/03/2028", "2028-03-15"],
+      ["expires 03/15/2028", "2028-03-15"],
+      ["USE BY 31.12.2028", "2028-12-31"],
+      ["05/05/2028", "2028-05-05"],
+    ] as const) {
+      const result = read(text);
+      expect(result.expiry, text).toBe(date);
+      expect(result.expiryMonthOnly, text).toBe(false);
+      expect(result.status, text).toBe("eligible");
+    }
+    expect(read("15 MAR 2028").reasons).toEqual([
+      "470 days remaining, 365 required",
+      'expiry read from "15 MAR 2028" as 2028-03-15',
+    ]);
+    // A full date already in YYYY-MM-DD needs no note.
+    expect(read("2028-03-15").reasons).toEqual([
+      "470 days remaining, 365 required",
+    ]);
+  });
+
+  it("[TC-133] Given a month-and-year expiry in any unambiguous label format, then it is read as the last day of that month (OD-043)", () => {
+    for (const [text, date] of [
+      ["03/2028", "2028-03-31"],
+      ["3-2028", "2028-03-31"],
+      ["03.2028", "2028-03-31"],
+      ["2028-03", "2028-03-31"],
+      ["2028/3", "2028-03-31"],
+      ["2028.02", "2028-02-29"],
+      ["MAR 2028", "2028-03-31"],
+      ["Mar-2028", "2028-03-31"],
+      ["MAR2028", "2028-03-31"],
+      ["march 2028", "2028-03-31"],
+      ["Sep/2028", "2028-09-30"],
+      ["EXP: JUN 2028", "2028-06-30"],
+    ] as const) {
+      const result = read(text);
+      expect(result.expiry, text).toBe(date);
+      expect(result.expiryMonthOnly, text).toBe(true);
+    }
+    expect(read("EXP: JUN 2028").reasons).toEqual([
+      "577 days remaining, 365 required",
+      "expiry read from a month-only date (EXP: JUN 2028) as 2028-06-30",
+    ]);
+  });
+
+  it("[TC-133] Given a date whose day and month could be read either way, then it needs review and is never guessed", () => {
+    for (const text of ["04/05/2028", "4-5-2028", "12.01.2028"]) {
+      const result = read(text);
+      expect(result.status, text).toBe("needs_review");
+      expect(result.expiry, text).toBeNull();
+      expect(result.reasons, text).toEqual([
+        `day and month order unclear in "${text}": check the lot`,
+      ]);
+    }
+  });
+
+  it("[TC-133] Given a two-digit year, then it needs review and is never guessed", () => {
+    for (const text of [
+      "03/28",
+      "3-28",
+      "15/03/28",
+      "15 MAR 28",
+      "MAR 28",
+      "MAR28",
+    ]) {
+      const result = read(text);
+      expect(result.status, text).toBe("needs_review");
+      expect(result.reasons, text).toEqual([
+        `two-digit year in "${text}": check the lot`,
+      ]);
+    }
+  });
+
+  it("[TC-133] Given an impossible date, an unknown month name or other text, then it needs review", () => {
+    for (const text of [
+      "31/04/2028",
+      "30 FEB 2028",
+      "2028-13",
+      "2028/02/30",
+      "13/2028",
+      "0/2028",
+      "FOO 2028",
+      "15 FOO 2028",
+      "FOO 15 2028",
+      "15/13/2028/1",
+      "EXP",
+      "2028",
+      "MAR 15 28 2028",
+      "1/2/3/2028",
+      "Q1 2028",
+    ]) {
+      const result = read(text);
+      expect(result.status, text).toBe("needs_review");
+      expect(result.reasons, text).toEqual([
+        `expiry date not readable: "${text}": check the lot`,
+      ]);
+    }
+  });
+
+  it("[TC-133] Given every English month name and abbreviation, then each is read as its month", () => {
+    const names = [
+      ["JAN", "JANUARY"],
+      ["FEB", "FEBRUARY"],
+      ["MAR", "MARCH"],
+      ["APR", "APRIL"],
+      ["MAY"],
+      ["JUN", "JUNE"],
+      ["JUL", "JULY"],
+      ["AUG", "AUGUST"],
+      ["SEP", "SEPT", "SEPTEMBER"],
+      ["OCT", "OCTOBER"],
+      ["NOV", "NOVEMBER"],
+      ["DEC", "DECEMBER"],
+    ];
+    names.forEach((forms, index) => {
+      const month = String(index + 1).padStart(2, "0");
+      for (const name of forms)
+        expect(read(`9 ${name} 2029`).expiry, name).toBe(`2029-${month}-09`);
+    });
+  });
+
+  it("[TC-133] Given extra text before or after a date, or spacing variants, then only a clean reading is accepted", () => {
+    // Anything before or after the date is never ignored.
+    for (const text of [
+      "X2028-03-15",
+      "2028-03-15X",
+      "X2028-03",
+      "2028-03X",
+      "X15/03/2028",
+      "15/03/2028X",
+      "X15 MAR 2028",
+      "15 MAR 2028X",
+      "XMAR 15 2028",
+      "MAR 15 2028X",
+      "XMAR 2028",
+      "MAR 2028X",
+      "#MAR 15 2028",
+      "MAR EXP 2028",
+    ]) {
+      expect(read(text).status, text).toBe("needs_review");
+    }
+    // Repeated spaces, no space after a label colon, and no separator next to a month name.
+    for (const [text, date] of [
+      ["15  MAR   2028", "2028-03-15"],
+      ["EXP:2028-03-15", "2028-03-15"],
+      ["MAR15 2028", "2028-03-15"],
+      ["MAR 15,2028", "2028-03-15"],
+    ] as const) {
+      expect(read(text).expiry, text).toBe(date);
+    }
+    expect(read("15MAR28").reasons).toEqual([
+      'two-digit year in "15MAR28": check the lot',
+    ]);
   });
 });

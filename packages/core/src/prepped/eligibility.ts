@@ -88,9 +88,12 @@ export function checkLot(
   }
 
   const { date, monthOnly, text } = reading.expiry;
+  // Show how the label was read, unless it was already written as YYYY-MM-DD.
   const note = monthOnly
     ? [`expiry read from a month-only date (${text}) as ${date}`]
-    : [];
+    : text === date
+      ? []
+      : [`expiry read from "${text}" as ${date}`];
   const daysRemaining = daysBetween(rules.arrival, date);
   const result = {
     lotId: lot.id,

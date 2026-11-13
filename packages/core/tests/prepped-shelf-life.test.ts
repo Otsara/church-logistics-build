@@ -31,7 +31,7 @@ describe("Shelf-life rule file", () => {
     expect(result).toEqual({
       ok: true,
       minimumDaysAtArrival: 365,
-      status: "placeholder",
+      status: "verified",
       sourceUrl: "https://www.who.int/publications/i/item/9789241501989",
     });
   });
