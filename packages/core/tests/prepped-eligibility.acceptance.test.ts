@@ -294,7 +294,6 @@ describe("Prepped lot eligibility", () => {
       "00/2028",
       "13/2028",
       "003/2028",
-      "3/28",
       "03/2028x",
       "x03/2028",
     ]) {
@@ -379,15 +378,33 @@ describe("Expiry formats printed on labels", () => {
     }
   });
 
-  it("[TC-133] Given a two-digit year, then it needs review and is never guessed", () => {
-    for (const text of [
-      "03/28",
-      "3-28",
-      "15/03/28",
-      "15 MAR 28",
-      "MAR 28",
-      "MAR28",
-    ]) {
+  it("[TC-133] Given a two-digit year where the year is certainly last, then it is read as 20YY (owner, 2026-11-13)", () => {
+    for (const [text, date, monthOnly] of [
+      ["03/28", "2028-03-31", true],
+      ["3-28", "2028-03-31", true],
+      ["12.30", "2030-12-31", true],
+      ["MAR 28", "2028-03-31", true],
+      ["MAR28", "2028-03-31", true],
+      ["Sept/29", "2029-09-30", true],
+      ["15 MAR 28", "2028-03-15", false],
+      ["15MAR28", "2028-03-15", false],
+      ["MAR 15, 28", "2028-03-15", false],
+      ["EXP 06/28", "2028-06-30", true],
+    ] as const) {
+      const result = read(text);
+      expect(result.expiry, text).toBe(date);
+      expect(result.expiryMonthOnly, text).toBe(monthOnly);
+    }
+    expect(read("15 MAR 28").reasons).toEqual([
+      "470 days remaining, 365 required",
+      'expiry read from "15 MAR 28" as 2028-03-15',
+    ]);
+    // "20" is 2020: already expired on the date of the check.
+    expect(read("MAR 20").status).toBe("discard");
+  });
+
+  it("[TC-133] Given day, month and year all in numbers with a two-digit year, then it needs review, because a year-first label (YY-MM-DD) would be misread", () => {
+    for (const text of ["15/03/28", "27-12-30", "1.2.28"]) {
       const result = read(text);
       expect(result.status, text).toBe("needs_review");
       expect(result.reasons, text).toEqual([
@@ -473,8 +490,5 @@ describe("Expiry formats printed on labels", () => {
     ] as const) {
       expect(read(text).expiry, text).toBe(date);
     }
-    expect(read("15MAR28").reasons).toEqual([
-      'two-digit year in "15MAR28": check the lot',
-    ]);
   });
 });

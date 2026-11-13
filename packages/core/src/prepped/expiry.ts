@@ -1,9 +1,10 @@
 /**
  * Reading an expiry date as entered from a label (ARC-101; safety-critical). Every label format
  * whose meaning is unambiguous is read (owner, 2026-11-13; TC-133); a date printed as month and
- * year only is read as the last day of that month (OD-043). Nothing is guessed: a two-digit year,
- * a day and month that could be read either way, or anything else is reported, so the lot needs
- * review (SYS-105).
+ * year only is read as the last day of that month (OD-043). A two-digit year written last means
+ * 20YY (owner, 2026-11-13). Nothing is guessed: a day and month that could be read either way, a
+ * two-digit year after a numeric day and month (a year-first label would be misread), or anything
+ * else is reported, so the lot needs review (SYS-105).
  */
 import { isIsoDate, lastDayOfMonth, type IsoDate } from "../dates.ts";
 
@@ -51,26 +52,31 @@ const MONTHS = new Map<string, number>([
 /** A leading label word, such as "EXP", "Exp.:", "Expiry date", "Expires" or "Use by". */
 const LABEL = /^(?:EXP(?:IRY|IRES)?\.?(?: DATE)?|USE BY) ?:? ?/;
 
-// Numbers are 1–2 digit days and months and 4-digit years; separators are "-", "/" or ".".
+// Days and months have 1–2 digits; separators are "-", "/" or ".". A year has 4 digits, or 2
+// where it is certainly last (YEAR = 4 or 2 digits).
 const YEAR_MONTH_DAY = /^(\d{4})([-/.])(\d{1,2})\2(\d{1,2})$/;
 const YEAR_MONTH = /^(\d{4})[-/.](\d{1,2})$/;
-const MONTH_YEAR = /^(\d{1,2})[-/.](\d{4})$/;
+const MONTH_YEAR = /^(\d{1,2})[-/.](\d{4}|\d{2})$/;
 const NUMERIC_DAY_MONTH_YEAR = /^(\d{1,2})([-/.])(\d{1,2})\2(\d{4})$/;
 // A named month may be separated by a space, "-", "/", "." or nothing ("15MAR2028").
-const DAY_NAME_YEAR = /^(\d{1,2})[ \-/.]?([A-Z]+)[ \-/.]?(\d{4})$/;
-const NAME_DAY_YEAR = /^([A-Z]+)[ \-/.]?(\d{1,2}),?[ \-/.]?(\d{4})$/;
-const NAME_YEAR = /^([A-Z]+)[ \-/.]?(\d{4})$/;
-const TWO_DIGIT_YEAR =
-  /^(?:(?:\d{1,2}[-/.]){1,2}|(?:\d{1,2}[ \-/.]?)?[A-Z]+[ \-/.]?)\d{2}$/;
+const DAY_NAME_YEAR = /^(\d{1,2})[ \-/.]?([A-Z]+)[ \-/.]?(\d{4}|\d{2})$/;
+const NAME_DAY_YEAR = /^([A-Z]+)[ \-/.]?(\d{1,2}),?[ \-/.]?(\d{4}|\d{2})$/;
+const NAME_YEAR = /^([A-Z]+)[ \-/.]?(\d{4}|\d{2})$/;
+/** Day, month and two-digit year all in numbers: could be a year-first label (YY-MM-DD). */
+const TWO_DIGIT_YEAR = /^\d{1,2}([-/.])\d{1,2}\1\d{2}$/;
 
 const pad = (n: string): string => n.padStart(2, "0");
+
+/** A two-digit year written last means 20YY (owner, 2026-11-13). */
+const fullYear = (year: string): string =>
+  year.length === 2 ? `20${year}` : year;
 
 /** A capture group; every group used here always takes part in its match. */
 const g = (m: RegExpExecArray, i: number): string => String(m[i]);
 
 /** The date, if year, month and day make a real one. */
 const fullDate = (year: string, month: number, day: string): IsoDate | null => {
-  const text = `${year}-${pad(String(month))}-${pad(day)}`;
+  const text = `${fullYear(year)}-${pad(String(month))}-${pad(day)}`;
   return isIsoDate(text) ? text : null;
 };
 
@@ -95,14 +101,15 @@ function readLabel(s: string): Read {
   }
   m = DAY_NAME_YEAR.exec(s);
   if (m !== null) return full(named(g(m, 3), g(m, 2), g(m, 1)));
+  // Month and year before month, day and year, so "MAR 2028" is never read as "MAR 20, 28".
+  m = NAME_YEAR.exec(s);
+  if (m !== null) return monthEnd(g(m, 2), MONTHS.get(g(m, 1)) ?? 0);
   m = NAME_DAY_YEAR.exec(s);
   if (m !== null) return full(named(g(m, 3), g(m, 1), g(m, 2)));
   m = YEAR_MONTH.exec(s);
   if (m !== null) return monthEnd(g(m, 1), Number(g(m, 2)));
   m = MONTH_YEAR.exec(s);
   if (m !== null) return monthEnd(g(m, 2), Number(g(m, 1)));
-  m = NAME_YEAR.exec(s);
-  if (m !== null) return monthEnd(g(m, 2), MONTHS.get(g(m, 1)) ?? 0);
   return null;
 }
 
@@ -116,7 +123,7 @@ const named = (year: string, name: string, day: string): IsoDate | null => {
 
 const monthEnd = (year: string, month: number): Read =>
   month >= 1 && month <= 12
-    ? { date: lastDayOfMonth(Number(year), month), monthOnly: true }
+    ? { date: lastDayOfMonth(Number(fullYear(year)), month), monthOnly: true }
     : null;
 
 /** Reads an expiry as entered. Never throws. */
