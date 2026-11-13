@@ -26,4 +26,4 @@ By the owner on 2026-11-13: donor lines merge only when the manufacturer matches
 - Lot identity is protected where it matters, in merging: two manufacturers' lots with the same lot number stay separate and are flagged (TC-127), and SYS-117's expiry conflict applies within one manufacturer.
 - Generic floor items ("amoxicillin 500 mg capsules") are met by any maker's lots, each listed with its manufacturer, so the clinician sees what will be packed before signing off the list.
 - The Lot entity gains a manufacturer field; the donor-list step (AIC-101) is to read it from the label where present.
-- Proposed with this decision, for the owner's review: a line without a manufacturer is treated as possibly the same manufacturer when looking for expiry conflicts (SYS-117), the cautious reading.
+- A line without a manufacturer is not treated as the same manufacturer, even where that is likely: it never merges and raises no expiry conflict (SYS-117), and a line sharing its lot number is flagged "Same lot number, different details: check" (TC-127) (owner, 2026-11-13). Claude had proposed the opposite, cautious reading; the owner chose this one.
