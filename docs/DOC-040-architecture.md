@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.9
+version: 0.10
 status: Draft
 effective_date:
 ---
@@ -46,7 +46,7 @@ JSON files in `/rules`, loaded by core, so a pharmacist or mechanic can read and
 - Safety-critical: yes
 - Formerly: F-5
 
-Date-only ISO strings, compared in UTC, to avoid time-zone bugs in shelf-life math. Implemented in `packages/core/src/dates.ts`.
+Date-only ISO strings, compared in UTC, to avoid time-zone bugs in shelf-life math. Implemented in `packages/core/src/dates.ts`, including the last day of a month for expiries printed as month and year only (OD-043).
 
 ### ARC-006 Storage
 - Product: Shared
@@ -143,6 +143,8 @@ Tests in `packages/policy` that check rules holding for the whole repository, su
 - Safety-critical: yes
 
 Eligibility, route scope, floor coverage, the Go or No go indicator, readiness, supplements and comparable alternatives, as pure functions in `packages/core/src/prepped/`. No AI, network or clock.
+
+Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Route scope and controlled status come from the lot's catalogue entry (ARC-015). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
 
 ### ARC-102 Prepped screens
 - Product: Prepped
@@ -261,3 +263,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.7 | 2026-11-12 | ARC-015: biologic product types out of scope (OD-049). | Claude, for owner review |
 | 0.8 | 2026-11-12 | ARC-015 missing product type and excluded dosage forms; ARC-018 data checks tested (REV-001); ARC-102 traces SYS-118. | Claude, for owner review |
 | 0.9 | 2026-11-12 | ARC-015 dosage-form prefix match; ARC-018 held-back path check fixed (REV-002). | Claude, for owner review |
+| 0.10 | 2026-11-12 | ARC-005 month-end date; ARC-101 lot eligibility, expiry reading and the shelf-life rule file built. | Claude, for owner review |

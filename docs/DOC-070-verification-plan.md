@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.10
+version: 0.11
 status: Draft
 effective_date:
 ---
@@ -243,14 +243,14 @@ Given a lot marked controlled, then it is blocked whatever its expiry.
 - Traces to: SYS-105, SYS-106
 - Formerly: P-4
 
-Given a lot with no expiry date, then it is "needs review" and excluded from readiness.
+Given a lot with no expiry date, then it is "needs review" and excluded from readiness; an expiry that cannot be read, such as 2028-02-30, is treated the same way.
 
-### TC-105 Missing import permit
+### TC-105 Missing import permit means No go
 - Product: Prepped
 - Traces to: SYS-107, AIC-102
 - Formerly: P-5
 
-Given a destination card that requires an import permit and no permit marked obtained, then readiness shows "Not ready" and the document draft lists the missing permit.
+Given a destination card that requires an import permit and no permit marked obtained, then the indicator shows "No go" and lists the missing permit, the meter shows its percentage as usual, and the document draft lists the missing permit (OD-052).
 
 ### TC-106 Item coverage
 - Product: Prepped
@@ -416,6 +416,12 @@ Given a snapshot, then only products whose every reading is in scope are kept, s
 
 Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension exchange covering 30 and another tablet strength covering 30, then the item is covered, each part counting what was entered for it.
 
+### TC-133 Expiry formats printed on labels
+- Product: Prepped
+- Traces to: SYS-105, SYS-102
+
+Given expiries in label formats, then every unambiguous one is read and the reading shown: full dates with the year first, with a named month, or with numeric day and month where only one order is a real date; month-and-year dates as the month's last day; any of these after a label word such as "EXP"; a two-digit year written last as 20YY (15 MAR 28, MAR 28, 03/28, 27/12/30). A day and month that could be read either way, an impossible date, an unknown month name, or extra text before or after the date needs review, with the reason (owner, 2026-11-13).
+
 ### TC-132 Controlled medicines labelled in the picker
 - Product: Prepped
 - Traces to: SYS-118
@@ -539,3 +545,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.8 | 2026-11-12 | TC-123 biologics (OD-049); TC-124 retired (OD-046). | Claude, for owner review |
 | 0.9 | 2026-11-12 | TC-123 missing product type and gases; new TC-027 data script checks, TC-132 picker label (REV-001). | Claude, for owner review |
 | 0.10 | 2026-11-12 | TC-123 dosage-form prefix; TC-027 folder named with two dots (REV-002). | Claude, for owner review |
+| 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). TC-105: "No go" in place of "Not ready" (OD-052). New TC-133 expiry formats on labels (owner, 2026-11-13). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |

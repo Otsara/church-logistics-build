@@ -1,0 +1,15 @@
+{
+  "id": "shelf-life",
+  "product": "prepped",
+  "title": "Minimum shelf life at arrival",
+  "status": "verified",
+  "source": {
+    "url": "https://www.who.int/publications/i/item/9789241501989",
+    "verified_date": "2026-11-13",
+    "verified_by": "owner"
+  },
+  "notes": "WHO, Guidelines for medicine donations, revised 2010 (ISBN 978 92 4 150198 9), Article 6: 'After arrival in the recipient country all donated medicines should have a remaining shelf-life of at least one year.' Read by Claude on 2026-11-12 from the publication page and its PDF (SHA-256 cb41c017c38714425150f3e82f7d12b72667ae3c5192207b996723dc088cb89b). One year is counted as 365 days from the arrival date, and exactly 365 days passes (owner, 2026-11-12; OD-009, ADR-013). The same article allows two exceptions, neither applied in this build (owner, 2026-11-13; OD-053): direct donations to a specific health facility whose staff know the shelf life is limited and can use the stock before expiry; and medicines with a total shelf life under two years, of which at least one third, and at least six months (183 days, owner), should remain. Verified by the owner against the source for the prototype (OD-006, ADR-022); external review by a pharmacist or clinician is still needed before real-world use (OD-002).",
+  "data": {
+    "minimum_days_at_arrival": 365
+  }
+}

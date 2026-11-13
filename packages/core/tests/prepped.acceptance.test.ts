@@ -4,37 +4,13 @@ import { describe, it } from "vitest";
 
 describe("Prepped acceptance", () => {
   it.todo(
-    '[TC-101] Given a lot expiring 2027-03-01 and a trip arriving 2026-12-01, when eligibility runs with the 365-day rule, then the lot is blocked with the reason "90 days remaining, 365 required"',
-  );
-  it.todo(
-    "[TC-102] Given a lot expiring 2028-01-15 and the same trip, then it is eligible with 410 days remaining",
-  );
-  it.todo(
-    "[TC-103] Given a lot marked controlled, then it is blocked whatever its expiry",
-  );
-  it.todo(
-    '[TC-104] Given a lot with no expiry date, then it is "needs review" and excluded from readiness',
-  );
-  it.todo(
-    '[TC-105] Given a destination card that requires an import permit and no permit marked obtained, then readiness shows "Not ready" and the document draft lists the missing permit',
+    '[TC-105] Given a destination card that requires an import permit and no permit marked obtained, then the indicator shows "No go" and lists the missing permit, the meter shows its percentage as usual, and the document draft lists the missing permit',
   );
   it.todo(
     "[TC-106] Given a target of 200 courses and 150 eligible, then item coverage is 75%",
   );
   it.todo(
     "[TC-107] Given two donor lines with the same lot number, generic name, strength, form and expiry from different donors, then they merge into one lot with summed quantity that lists both donors",
-  );
-  it.todo(
-    "[TC-108] Given the arrival date moves 30 days later, then eligibility recalculates without calling any AI step",
-  );
-  it.todo(
-    '[TC-109] Given a lot marked cold chain that would otherwise be eligible (expiring 2028-01-15, trip arriving 2026-12-01), then it is blocked with the reason "cold-chain items are not handled in this build"',
-  );
-  it.todo(
-    '[TC-110] Given a lot for injection (route: intravenous), needing no cold chain, expiring 2028-01-15, and a trip arriving 2026-12-01, then it is blocked with the reason "outside this build\'s scope"',
-  );
-  it.todo(
-    "[TC-111] Given a skin cream lot and an eye-drop lot, neither needing a cold chain, both expiring 2028-01-15, and a trip arriving 2026-12-01, then both are eligible",
   );
   it.todo(
     "[TC-112] Given a floor item with a target of 100 and two eligible lots of the same medicine, strength and form, from different donors, of 60 and 50, then the item is covered and both lots are listed against it",
@@ -55,13 +31,7 @@ describe("Prepped acceptance", () => {
     '[TC-117] Given a floor item with no target quantity entered, then it is "needs review", counts as not covered, and the indicator shows "No go"',
   );
   it.todo(
-    "[TC-118] Given inhaled, nasal, vaginal, ear and eye lots, none needing a cold chain, all expiring 2028-01-15, and a trip arriving 2026-12-01, then all are eligible",
-  );
-  it.todo(
     "[TC-119] Given a floor item for a 500 mg capsule with a target of 100, 40 eligible capsules, and an eligible lot of the same medicine as an oral suspension, then the suspension is offered as an exchange and the item stays 60 short until the clinician accepts the exchange",
-  );
-  it.todo(
-    '[TC-120] Given a lot expiring 2026-11-01 and a check made on 2026-11-11, then the lot is listed as "Discard: expired" and is never eligible',
   );
   it.todo(
     '[TC-121] Given two donor lines with the same lot number and medicine but expiry dates of 2027-06-30 and 2027-09-30, then they are not merged and both are "needs review"',
@@ -77,12 +47,6 @@ describe("Prepped acceptance", () => {
   );
   it.todo(
     '[TC-127] Given two donor lines with the same lot number and generic name but different expiry dates, then they stay separate lots, both flagged "Same lot number, different details: check"',
-  );
-  it.todo(
-    '[TC-128] Given a trip arriving 2026-12-01, then a lot expiring 2027-12-01 is eligible and a lot expiring 2027-11-30 is blocked with the reason "364 days remaining, 365 required"',
-  );
-  it.todo(
-    "[TC-129] Given a lot whose expiry is entered as 03/2028, then its expiry is read as 2028-03-31 and shown as read from a month-only date",
   );
   it.todo(
     "[TC-131] Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension covering 30 and another tablet strength covering 30, then the item is covered",

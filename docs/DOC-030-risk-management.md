@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.8
+version: 0.9
 status: Draft
 effective_date:
 ---
@@ -129,13 +129,13 @@ A device that has signed in keeps working offline, and its edits sync at the nex
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: a lot with too little shelf life at arrival is packed. Harm: patients receive expired or degraded medicine. Severity: serious. Probability with controls: unlikely; code checks shelf life against the arrival date; month-only expiry is read as the end of the month, the less cautious reading (OD-043) (owner, 2026-11-12).
+Sequence: a lot with too little shelf life at arrival is packed. Harm: patients receive expired or degraded medicine. Severity: serious. Probability with controls: unlikely; code checks shelf life against the arrival date; month-only expiry is read as the end of the month, the less cautious reading (OD-043) (owner, 2026-11-12). A two-digit year written last is read as 20YY even after a numeric day and month, so a year-first label (YY-MM-DD) such as 27/12/30 would be read as 2030-12-27 instead of 2027-12-30, overstating shelf life; the owner accepted this, relying on the reading being shown (owner, 2026-11-13; ADR-022). The rating is for the owner to confirm.
 
 ### RC-101 Shelf life checked by code against arrival
 - Product: Prepped
 - Traces to: HAZ-101
 
-Code computes days remaining at the arrival date and blocks lots below the minimum, with the reason shown; a change of arrival date recalculates immediately.
+Code computes days remaining at the arrival date and blocks lots below the minimum, with the reason shown; a change of arrival date recalculates immediately. Every expiry not entered as YYYY-MM-DD is shown with how it was read, for example "expiry read from \"27-12-30\" as 2030-12-27", so a person can catch a misread (ADR-022).
 
 ### HAZ-102 A lot with unknown expiry is counted as usable
 - Product: Prepped
@@ -189,13 +189,13 @@ Alternatives are shown only for a clinician to consider, labelled "Comparable, n
 - Product: Prepped
 - Traces to: IU-101
 
-Harm: medicines seized or delayed at the border; patients go without. Severity: serious. Probability with controls: unlikely; code caps readiness at Not ready (owner, 2026-11-12).
+Harm: medicines seized or delayed at the border; patients go without. Severity: serious. Probability with controls: unlikely; code shows "No go" and lists the missing document (owner, 2026-11-12; wording updated by OD-052, rating unchanged).
 
-### RC-106 Blocking issues stop "ready"
+### RC-106 Blocking issues mean "No go"
 - Product: Prepped
 - Traces to: HAZ-106
 
-Any blocking issue, such as a missing import permit, caps readiness at "Not ready" and is listed in the draft paperwork.
+Any blocking issue, such as a missing import permit, makes the indicator "No go" and is listed there and in the draft paperwork (owner, 2026-11-12; OD-052, ADR-021).
 
 ### HAZ-107 Readiness is overstated
 - Product: Prepped
@@ -409,3 +409,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.6 | 2026-11-12 | RC-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
 | 0.7 | 2026-11-12 | §1 severity and probability definitions and the full acceptability rule; every hazard rated (owner, 2026-11-12; OD-047, ADR-019); §1.5 residual risk. | Claude, for owner review |
 | 0.8 | 2026-11-12 | RC-103 picker label (SYS-118); RC-109 gases and missing product type (OD-051, REV-001). | Claude, for owner review |
+| 0.9 | 2026-11-12 | RC-106 and HAZ-106: a blocking issue means "No go"; "Not ready" retired; rating unchanged (owner, 2026-11-12; OD-052, ADR-021). HAZ-101 and RC-101: two-digit years read as 20YY, with the reading shown (owner, 2026-11-13; ADR-022). | Claude, for owner review |

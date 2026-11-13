@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.9
+version: 0.10
 status: Draft
 effective_date:
 ---
@@ -204,7 +204,7 @@ Days remaining at arrival = expiry date minus trip arrival date.
 - Safety-critical: yes
 - Formerly: PE-2
 
-Default minimum is 12 months remaining at arrival, taken from WHO guidance, counted as 365 days from the arrival date; a lot whose expiry is exactly 365 days after arrival passes (owner, 2026-11-12); ADR-013. An expiry printed as month and year only is read as the last day of that month (owner, 2026-11-12); OD-043. A rule can lower the minimum for a direct donation, set per item category in `/rules/shelf-life.json`. The value remains a placeholder pending OD-002.
+Default minimum is 12 months remaining at arrival, taken from WHO guidance, counted as 365 days from the arrival date; a lot whose expiry is exactly 365 days after arrival passes (owner, 2026-11-12); ADR-013. An expiry printed as month and year only is read as the last day of that month (owner, 2026-11-12); OD-043. The minimum is read from `rules/prepped/shelf-life.json`, which cites WHO, Guidelines for medicine donations, revised 2010, Article 6: "at least one year" after arrival (read 2026-11-12). A rule can lower the minimum for a direct donation, set per item category in that file; no category or value is set, and neither of WHO's exceptions applies in this build (owner, 2026-11-13); OD-053, ADR-022. The owner verified the file against its source for the prototype (owner, 2026-11-13); external review is still needed before real-world use (OD-002).
 
 ### SYS-103 Controlled substances blocked
 - Product: Prepped
@@ -228,7 +228,7 @@ Cold-chain items are always blocked in this build, whatever their expiry, so the
 - Safety-critical: yes
 - Formerly: PE-5
 
-A lot with no expiry date is "needs review" and does not count toward readiness.
+A lot with no expiry date is "needs review" and does not count toward readiness. An expiry that cannot be read as a date is treated the same way and is never guessed (owner, 2026-11-13). Every unambiguous label format is read (owner, 2026-11-13; ADR-022): a full date with the year first (2028-03-15, 2028/03/15, 2028.3.15), with a named month (15 MAR 2028, 15MAR2028, MAR 15, 2028), or with the day and month in numbers when only one order makes a real date (15/03/2028, 03/15/2028); a month and year (03/2028, 2028-03, MAR 2028), read as the last day of the month (OD-043); and any of these after a label word such as "EXP" or "Use by". A two-digit year written last means 20YY (owner, 2026-11-13): 15 MAR 28, MAR 28, 03/28 and 27/12/30 are read; the owner accepted that a year-first label (YY-MM-DD) would be misread (HAZ-101). A day and month that could be read either way (04/05/2028, 1.2.28) needs review. Month names are in English only for the MVP (owner, 2026-11-13; OD-030).
 
 ### SYS-106 Readiness meter
 - Product: Prepped
@@ -238,13 +238,13 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 
 Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017.
 
-### SYS-107 Blocking issues cap readiness
+### SYS-107 Blocking issues mean No go
 - Product: Prepped
 - Traces to: UN-103, UN-104, RC-106
 - Safety-critical: yes
 - Formerly: PR-2
 
-Any blocking issue, such as a missing import permit, caps the meter at "Not ready".
+Any blocking issue, such as a missing import permit, makes the indicator "No go" (SYS-112) and is listed there and in the draft paperwork. The meter shows its percentage as usual. "Not ready" is not used (owner, 2026-11-12); OD-052, ADR-021.
 
 ### SYS-108 Comparable alternatives for clinician review
 - Product: Prepped
@@ -413,3 +413,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.7 | 2026-11-12 | SYS-104: biologics treated as cold chain (OD-049). | Claude, for owner review |
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
+| 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one; every unambiguous label format is read (owner, 2026-11-13; ADR-022). SYS-107: a blocking issue means "No go"; "Not ready" retired (owner, 2026-11-12; OD-052, ADR-021). SYS-102: shelf-life rule file and its WHO source, verified by the owner; WHO's exceptions not applied (OD-053). | Claude, for owner review |
