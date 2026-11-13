@@ -12,8 +12,9 @@
  *   reviewed (SYS-112); otherwise "No go", listing what is short or missing. Always labelled as an
  *   indicator only (ADR-009).
  * - Meter: priority-weighted coverage (3, 2, 1) counts 70% and documents 30% (SYS-106, ADR-017).
- * - Anything that could overstate coverage needs review instead: no target (SYS-110), an accepted
- *   exchange that is not valid, or a lot that would count twice.
+ * - Anything that could overstate coverage needs review instead: no target, or a target of 0 not
+ *   yet confirmed (SYS-110), an accepted exchange that is not valid, or a lot that would count
+ *   twice (ADR-023).
  */
 import type { LotEligibility } from "./eligibility.ts";
 
@@ -33,6 +34,8 @@ export interface FloorItem {
   /** Set by the lead clinician; null until entered. */
   readonly target: number | null;
   readonly priority: 1 | 2 | 3;
+  /** The lead clinician confirmed that a target of 0 is intended (owner, 2026-11-13). */
+  readonly zeroTargetConfirmed?: boolean;
 }
 
 /** A donated lot with its catalogue entry and its eligibility for this trip. */
@@ -138,6 +141,7 @@ interface Draft {
   readonly accepted: { lotId: string; covers: number }[];
   readonly offered: StockLot[];
   readonly reasons: string[];
+  readonly zeroConfirmed: boolean;
   review: boolean;
 }
 
@@ -170,8 +174,17 @@ export function assessFloor(input: FloorInput): FloorAssessment {
 
   const drafts = input.floorItems.map((item): Draft => {
     const reasons: string[] = [];
-    let review = !isAmount(item.target);
-    if (review) {
+    // A target of 0 is asked about once; when confirmed it needs no further review (SYS-110).
+    const zeroConfirmed =
+      item.target === 0 && item.zeroTargetConfirmed === true;
+    let review = !zeroConfirmed && !isAmount(item.target);
+    if (zeroConfirmed) {
+      reasons.push("target of 0 confirmed by the lead clinician");
+    } else if (item.target === 0) {
+      reasons.push(
+        "target of 0 entered: the lead clinician confirms it is correct",
+      );
+    } else if (review) {
       reasons.push("no target quantity entered: the lead clinician sets it");
     }
     const lots = eligible.filter(
@@ -216,7 +229,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
         sameMedicine(lot.genericName, item.genericName) &&
         !acceptedIds.has(lot.lotId),
     );
-    return { item, lots, accepted, offered, reasons, review };
+    return { item, lots, accepted, offered, reasons, zeroConfirmed, review };
   });
 
   for (const [lotId, ids] of countsToward) {
@@ -290,8 +303,11 @@ function finish(draft: Draft): FloorItemCoverage {
     covered,
     reasons,
   };
-  if (draft.review || !isAmount(item.target)) {
+  if (draft.review || item.target === null) {
     return { ...base, status: "needs_review", short: null, coverage: 0 };
+  }
+  if (draft.zeroConfirmed) {
+    return { ...base, status: "covered", short: 0, coverage: 1 };
   }
   const short = Math.max(item.target - covered, 0);
   return {
@@ -309,6 +325,8 @@ function meter(
   let weighted = 0;
   let totalWeight = 0;
   for (const item of items) {
+    // A confirmed target of 0 asks for nothing, so it neither raises nor lowers the meter.
+    if (item.target === 0 && item.status === "covered") continue;
     const weight = PRIORITY_WEIGHT[item.priority];
     weighted += weight * item.coverage;
     totalWeight += weight;

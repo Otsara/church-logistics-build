@@ -265,7 +265,7 @@ A lot is in scope only if its route is oral, sublingual, rectal, topical (skin) 
 - Traces to: UN-106, RC-110
 - Safety-critical: yes
 
-The lead clinician chooses each mission's floor list from the essential-medicines catalogue (DAT-102) and enters a target quantity for each item. Prepped never sets a floor item or a target itself (owner, 2026-11-10). A floor item without a target is "needs review" and counts as not covered.
+The lead clinician chooses each mission's floor list from the essential-medicines catalogue (DAT-102) and enters a target quantity for each item. Prepped never sets a floor item or a target itself (owner, 2026-11-10). A floor item without a target is "needs review" and counts as not covered. A target of 0 asks the lead clinician to confirm it; once confirmed, the item counts as covered, needs no further review, and is left out of the meter (owner, 2026-11-13).
 
 ### SYS-111 Estimate from anticipated caseload
 - Product: Prepped
@@ -414,4 +414,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
 | 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one; every unambiguous label format is read (owner, 2026-11-13; ADR-022). SYS-107: a blocking issue means "No go"; "Not ready" retired (owner, 2026-11-12; OD-052, ADR-021). SYS-102: shelf-life rule file and its WHO source, verified by the owner; WHO's exceptions not applied (OD-053). | Claude, for owner review |
-| 0.11 | 2026-11-13 | SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). | Claude, for owner review |
+| 0.11 | 2026-11-13 | SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). | Claude, for owner review |

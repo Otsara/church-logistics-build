@@ -199,7 +199,7 @@ describe("Prepped floor coverage and the Go or No go indicator", () => {
   });
 
   it('[TC-117] Given a floor item with no target quantity entered, then it is "needs review", counts as not covered, and the indicator shows "No go"', () => {
-    for (const target of [null, 0, -5, Number.NaN, Number.POSITIVE_INFINITY]) {
+    for (const target of [null, -5, Number.NaN, Number.POSITIVE_INFINITY]) {
       const result = assess(
         [item("F1", AMOX_CAP, target), ORS_ITEM],
         [stock("L1", AMOX_CAP, 500), ORS_LOT],
@@ -476,5 +476,64 @@ describe("Prepped readiness meter", () => {
     );
     // (3 × 0 + 1 × 1) / 4
     expect(result.meter.coverage).toBe(0.25);
+  });
+});
+
+describe("A floor target of 0", () => {
+  it("[SYS-110] Given a target of 0 not yet confirmed, then the item needs review and the lead clinician is asked to confirm it", () => {
+    const result = assess(
+      [item("F1", AMOX_CAP, 0), ORS_ITEM],
+      [stock("L1", AMOX_CAP, 40), ORS_LOT],
+    );
+    expect(result.items[0]).toMatchObject({
+      status: "needs_review",
+      short: null,
+      coverage: 0,
+      reasons: [
+        "target of 0 entered: the lead clinician confirms it is correct",
+      ],
+    });
+    expect(result.indicator).toBe("No go");
+    // An unconfirmed 0 counts as 0% in the meter, like any item that needs review: (3 × 0 + 3 × 1) / 6.
+    expect(result.meter.coverage).toBe(0.5);
+  });
+
+  it("[SYS-110] Given a confirmation flag on a target that is not 0, then it has no effect", () => {
+    const flagged = { ...item("F1", AMOX_CAP, 100), zeroTargetConfirmed: true };
+    expect(assess([flagged], []).items[0]).toMatchObject({
+      status: "short",
+      short: 100,
+      coverage: 0,
+      reasons: [],
+    });
+  });
+
+  it("[SYS-110] Given a target of 0 the lead clinician has confirmed, then the item is covered, needs no further review and is left out of the meter (owner, 2026-11-13)", () => {
+    const confirmed = {
+      ...item("F1", AMOX_CAP, 0, 1),
+      zeroTargetConfirmed: true,
+    };
+    const result = assess([confirmed, item("F2", ORS, 100, 3)], [ORS_LOT]);
+    expect(result.items[0]).toMatchObject({
+      status: "covered",
+      short: 0,
+      coverage: 1,
+      reasons: ["target of 0 confirmed by the lead clinician"],
+    });
+    // Only the ORS item (50 of 100) weighs in the meter; the confirmed 0 adds nothing.
+    expect(result.meter.coverage).toBe(0.5);
+    expect(result.shortages).toEqual([
+      { floorItemId: "F2", genericName: "Oral rehydration salts", short: 50 },
+    ]);
+    // A confirmed 0 with every other item covered is "Go".
+    expect(assess([confirmed, ORS_ITEM], [ORS_LOT]).indicator).toBe("Go");
+    // Confirmation applies only to 0: a missing target still needs review.
+    const missing = {
+      ...item("F1", AMOX_CAP, null),
+      zeroTargetConfirmed: true,
+    };
+    expect(assess([missing], []).items[0]?.status).toBe("needs_review");
+    // A floor list of confirmed zeros only has nothing to weigh: the meter shows 0 coverage.
+    expect(assess([confirmed], []).meter.coverage).toBe(0);
   });
 });
