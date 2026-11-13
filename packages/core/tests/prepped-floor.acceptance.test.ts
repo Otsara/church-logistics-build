@@ -37,9 +37,11 @@ const stock = (
   quantity: number,
   donorId = "D001",
   expiry: string | null = "2028-01-15",
+  manufacturer: string | null = "Synthetic Maker A",
 ): StockLot => ({
   lotId,
   donorId,
+  manufacturer,
   catalogEntryId: entry.id,
   genericName: entry.name,
   dosageForm: entry.form,
@@ -127,20 +129,29 @@ describe("Prepped floor coverage and the Go or No go indicator", () => {
   });
 
   it("[TC-112] Given a floor item with a target of 100 and two eligible lots of the same medicine, strength and form, from different donors, of 60 and 50, then the item is covered and both lots are listed against it", () => {
+    // Different makers count directly, each lot listed with its maker (owner, 2026-11-13; OD-054).
     const result = assess(
       [item("F1", AMOX_CAP, 100)],
-      [stock("L1", AMOX_CAP, 60, "D001"), stock("L2", AMOX_CAP, 50, "D002")],
+      [
+        stock("L1", AMOX_CAP, 60, "D001", "2028-01-15", "Synthetic Maker X"),
+        stock("L2", AMOX_CAP, 50, "D002", "2028-01-15", null),
+      ],
     );
     expect(result.items[0]).toMatchObject({
       status: "covered",
       covered: 110,
       short: 0,
       coverage: 1,
-      lots: [
-        { lotId: "L1", donorId: "D001", quantity: 60 },
-        { lotId: "L2", donorId: "D002", quantity: 50 },
-      ],
     });
+    expect(result.items[0]?.lots).toEqual([
+      {
+        lotId: "L1",
+        donorId: "D001",
+        manufacturer: "Synthetic Maker X",
+        quantity: 60,
+      },
+      { lotId: "L2", donorId: "D002", manufacturer: null, quantity: 50 },
+    ]);
     expect(result.indicator).toBe("Go");
   });
 
@@ -230,6 +241,7 @@ describe("Prepped floor coverage and the Go or No go indicator", () => {
         {
           lotId: "L-SUSP",
           donorId: "D002",
+          manufacturer: "Synthetic Maker A",
           dosageForm: "POWDER, FOR SUSPENSION",
           strength: "250 mg/5 mL",
           quantity: 30,

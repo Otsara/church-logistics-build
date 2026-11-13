@@ -264,7 +264,7 @@ Given a target of 200 courses and 150 eligible, then item coverage is 75%.
 - Traces to: AIC-101
 - Formerly: P-7
 
-Given two donor lines with the same lot number, generic name, strength, form and expiry from different donors, then they merge into one lot with summed quantity that lists both donors (OD-011).
+Given two donor lines with the same lot number, generic name, strength, form, expiry and manufacturer from different donors, then they merge into one lot with summed quantity that lists both donors (OD-011).
 
 ### TC-108 Arrival change recalculates without AI
 - Product: Prepped
@@ -350,7 +350,7 @@ Given a lot expiring 2026-11-01 and a check made on 2026-11-11, then the lot is 
 - Product: Prepped
 - Traces to: SYS-117
 
-Given two donor lines with the same lot number and medicine but expiry dates of 2027-06-30 and 2027-09-30, then they are not merged and both are "needs review".
+Given two donor lines with the same lot number, medicine and manufacturer but expiry dates of 2027-06-30 and 2027-09-30, then they are not merged and both are "needs review".
 
 ### TC-122 Accepted exchange counts what the clinician enters
 - Product: Prepped
@@ -390,7 +390,7 @@ Given an anticipated caseload, then any estimated quantity is labelled as an est
 - Product: Prepped
 - Traces to: AIC-101
 
-Given two donor lines with the same lot number and generic name but different expiry dates, then they stay separate lots, both flagged "Same lot number, different details: check" (OD-011).
+Given two donor lines with the same lot number and generic name but different expiry dates, or different manufacturers, then they stay separate lots, both flagged "Same lot number, different details: check" (OD-011).
 
 ### TC-128 Exactly 365 days of shelf life
 - Product: Prepped
@@ -546,4 +546,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.9 | 2026-11-12 | TC-123 missing product type and gases; new TC-027 data script checks, TC-132 picker label (REV-001). | Claude, for owner review |
 | 0.10 | 2026-11-12 | TC-123 dosage-form prefix; TC-027 folder named with two dots (REV-002). | Claude, for owner review |
 | 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). TC-105: "No go" in place of "Not ready" (OD-052). New TC-133 expiry formats on labels (owner, 2026-11-13). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |
-| 0.12 | 2026-11-13 | Implemented: TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131, with tests of the proposed safety rules (SYS-106, SYS-112, SYS-113, SYS-115). TC-105 waits for the document draft (AIC-102, iteration 2). | Claude, for owner review |
+| 0.12 | 2026-11-13 | TC-107, TC-121, TC-127: manufacturer (OD-054); TC-112 lots shown with their maker. Implemented: TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131, with tests of the proposed safety rules (SYS-106, SYS-112, SYS-113, SYS-115). TC-105 waits for the document draft (AIC-102, iteration 2). | Claude, for owner review |

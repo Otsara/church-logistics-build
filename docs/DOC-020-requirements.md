@@ -286,7 +286,7 @@ Prepped shows "Go" only when every floor item's target is covered by eligible st
 - Traces to: UN-106, RC-112
 - Safety-critical: yes
 
-For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Lots of the same medicine, formulation and strength combine directly; other formulations and strengths are handled as exchanges (SYS-115) (owner, 2026-11-11). A lot combines toward a floor item when both refer to the same catalogue entry, and only eligible lots count. A lot that would count toward two floor items (the same product listed twice, or a lot accepted as an exchange for one item that is another item's own product) makes both items "needs review", so nothing is counted twice; the clinician resolves it, and Prepped never decides which item gets the stock (owner, 2026-11-13; ADR-023).
+For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Lots of the same medicine, formulation and strength combine directly; other formulations and strengths are handled as exchanges (SYS-115) (owner, 2026-11-11). A lot combines toward a floor item when both refer to the same catalogue entry, whoever made it, and only eligible lots count; each lot is listed with its donor and manufacturer (owner, 2026-11-13; OD-054, ADR-024). A lot that would count toward two floor items (the same product listed twice, or a lot accepted as an exchange for one item that is another item's own product) makes both items "needs review", so nothing is counted twice; the clinician resolves it, and Prepped never decides which item gets the stock (owner, 2026-11-13; ADR-023).
 
 ### SYS-114 Supplemental medicines
 - Product: Prepped
@@ -314,7 +314,7 @@ Lots whose expiry date has passed on the date of the check are listed separately
 - Traces to: UN-101, RC-108
 - Safety-critical: yes
 
-Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number and medicine but different expiry dates are not merged; they are marked "needs review" until a person corrects them.
+Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number, medicine and manufacturer but different expiry dates are not merged; they are marked "needs review" until a person corrects them. Lines from different manufacturers are different lots even with the same lot number (owner, 2026-11-13; OD-054); a line without a manufacturer is treated as possibly the same manufacturer (proposed, for owner review).
 
 ### SYS-118 Controlled medicines labelled in the floor-list picker
 - Product: Prepped
@@ -414,4 +414,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
 | 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one; every unambiguous label format is read (owner, 2026-11-13; ADR-022). SYS-107: a blocking issue means "No go"; "Not ready" retired (owner, 2026-11-12; OD-052, ADR-021). SYS-102: shelf-life rule file and its WHO source, verified by the owner; WHO's exceptions not applied (OD-053). | Claude, for owner review |
-| 0.11 | 2026-11-13 | SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). | Claude, for owner review |
+| 0.11 | 2026-11-13 | SYS-113 lots shown with their manufacturer; SYS-117 lots are per manufacturer (owner, 2026-11-13; OD-054, ADR-024); SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). | Claude, for owner review |

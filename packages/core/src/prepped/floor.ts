@@ -4,7 +4,7 @@
  * clock or calls an AI step (SYS-003).
  *
  * - A floor item is met by eligible lots of its own catalogue entry (same medicine, strength and
- *   form), combined across donations (SYS-113).
+ *   form), combined across donations and makers, each lot listed with its maker (SYS-113, OD-054).
  * - Eligible lots of the same medicine in another form or strength are offered as exchanges, and
  *   count only as accepted by the clinician, exactly the amount entered: no dose conversion
  *   (SYS-115, ADR-011).
@@ -42,6 +42,8 @@ export interface FloorItem {
 export interface StockLot {
   readonly lotId: string;
   readonly donorId: string;
+  /** The maker, as on the label; null if not recorded. Shown beside every lot (OD-054). */
+  readonly manufacturer: string | null;
   readonly catalogEntryId: string;
   readonly genericName: string;
   readonly dosageForm: string;
@@ -82,12 +84,14 @@ export interface FloorItemCoverage {
   readonly lots: readonly {
     readonly lotId: string;
     readonly donorId: string;
+    readonly manufacturer: string | null;
     readonly quantity: number;
   }[];
   /** Eligible lots of the same medicine in another form or strength, not yet accepted. */
   readonly exchangesOffered: readonly {
     readonly lotId: string;
     readonly donorId: string;
+    readonly manufacturer: string | null;
     readonly dosageForm: string;
     readonly strength: string | null;
     readonly quantity: number;
@@ -285,15 +289,17 @@ function finish(draft: Draft): FloorItemCoverage {
     genericName: item.genericName,
     target: item.target,
     priority: item.priority,
-    lots: draft.lots.map(({ lotId, donorId, quantity }) => ({
+    lots: draft.lots.map(({ lotId, donorId, manufacturer, quantity }) => ({
       lotId,
       donorId,
+      manufacturer,
       quantity,
     })),
     exchangesOffered: draft.offered.map(
-      ({ lotId, donorId, dosageForm, strength, quantity }) => ({
+      ({ lotId, donorId, manufacturer, dosageForm, strength, quantity }) => ({
         lotId,
         donorId,
+        manufacturer,
         dosageForm,
         strength,
         quantity,
