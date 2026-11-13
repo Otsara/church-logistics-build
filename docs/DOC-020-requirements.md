@@ -279,7 +279,7 @@ From the anticipated caseload the team leader enters, Prepped may offer an estim
 - Traces to: UN-103, UN-106, RC-106, RC-112
 - Safety-critical: yes
 
-Prepped shows "Go" only when every floor item's target is covered by eligible stock, combining lots from different donations, and every document the destination's rule card requires is prepared and marked reviewed. Otherwise it shows "No go" and lists each short floor item with the amount short, and each missing document. The indicator always carries the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (owner, 2026-11-10; ADR-009). With no floor items chosen, the indicator shows "No go" with that reason, never "Go"; an accepted exchange for an item not on the floor list also means "No go" until it is checked (proposed in iteration 1, for owner review).
+Prepped shows "Go" only when every floor item's target is covered by eligible stock, combining lots from different donations, and every document the destination's rule card requires is prepared and marked reviewed. Otherwise it shows "No go" and lists each short floor item with the amount short, and each missing document. The indicator always carries the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (owner, 2026-11-10; ADR-009). With no floor items chosen, the indicator shows "No go" with that reason, never "Go" (owner, 2026-11-13). An accepted exchange for an item not on the floor list also means "No go" until it is checked (proposed in iteration 1, for owner review).
 
 ### SYS-113 Combining donations and showing shortages
 - Product: Prepped
@@ -414,4 +414,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.8 | 2026-11-12 | SYS-109 gases and missing product type (OD-051, REV-001); new SYS-118 controlled label in the floor-list picker (owner, 2026-11-12). | Claude, for owner review |
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
 | 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one; every unambiguous label format is read (owner, 2026-11-13; ADR-022). SYS-107: a blocking issue means "No go"; "Not ready" retired (owner, 2026-11-12; OD-052, ADR-021). SYS-102: shelf-life rule file and its WHO source, verified by the owner; WHO's exceptions not applied (OD-053). | Claude, for owner review |
-| 0.11 | 2026-11-13 | SYS-112 empty floor list and stray exchanges; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (proposed, for owner review). | Claude, for owner review |
+| 0.11 | 2026-11-13 | SYS-112 empty floor list means "No go" (owner, 2026-11-13) and stray exchanges; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (proposed, for owner review). | Claude, for owner review |
