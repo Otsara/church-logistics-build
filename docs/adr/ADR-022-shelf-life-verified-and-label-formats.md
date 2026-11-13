@@ -25,7 +25,7 @@ All by the owner on 2026-11-13:
 - The shelf-life rule file is verified by the owner against its source for the prototype; external review remains a condition of real-world use (OD-002).
 - Option (a): neither WHO exception applies in this build. Six months, where used, is 183 days. Both exceptions are to be revisited in the build-out after the hackathon, beyond the MVP.
 - Every unambiguous label format is read; an expiry that cannot be read needs review like a missing one (SYS-105). Ambiguous formats are never guessed: a numeric day and month where both orders make a real date needs review.
-- A two-digit year written last means 20YY. Claude applies it where the year is certainly last (after a named month, or after a numeric month: 03/28). After a numeric day and month (27/12/30) it still needs review, because a year-first label (YY-MM-DD) would be read three years too late, overstating shelf life; the owner may lift this.
+- A two-digit year written last means 20YY, after a named month (15 MAR 28), a numeric month (03/28), or a numeric day and month (27/12/30). Claude first kept the last case as "needs review", because a year-first label (YY-MM-DD) would be read three years too late and overstate shelf life; the owner chose to read it as 20YY, accepting that risk, with the reading always shown (HAZ-101, RC-101).
 - Month names are read in English only for the MVP (OD-030).
 
 ## Consequences

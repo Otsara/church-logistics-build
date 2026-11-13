@@ -2,9 +2,10 @@
  * Reading an expiry date as entered from a label (ARC-101; safety-critical). Every label format
  * whose meaning is unambiguous is read (owner, 2026-11-13; TC-133); a date printed as month and
  * year only is read as the last day of that month (OD-043). A two-digit year written last means
- * 20YY (owner, 2026-11-13). Nothing is guessed: a day and month that could be read either way, a
- * two-digit year after a numeric day and month (a year-first label would be misread), or anything
- * else is reported, so the lot needs review (SYS-105).
+ * 20YY, even after a numeric day and month, where a year-first label (YY-MM-DD) would be misread;
+ * the owner accepted that risk, and the reading is always shown (owner, 2026-11-13; HAZ-101).
+ * Nothing is guessed: a day and month that could be read either way, or anything else, is
+ * reported, so the lot needs review (SYS-105).
  */
 import { isIsoDate, lastDayOfMonth, type IsoDate } from "../dates.ts";
 
@@ -57,13 +58,11 @@ const LABEL = /^(?:EXP(?:IRY|IRES)?\.?(?: DATE)?|USE BY) ?:? ?/;
 const YEAR_MONTH_DAY = /^(\d{4})([-/.])(\d{1,2})\2(\d{1,2})$/;
 const YEAR_MONTH = /^(\d{4})[-/.](\d{1,2})$/;
 const MONTH_YEAR = /^(\d{1,2})[-/.](\d{4}|\d{2})$/;
-const NUMERIC_DAY_MONTH_YEAR = /^(\d{1,2})([-/.])(\d{1,2})\2(\d{4})$/;
+const NUMERIC_DAY_MONTH_YEAR = /^(\d{1,2})([-/.])(\d{1,2})\2(\d{4}|\d{2})$/;
 // A named month may be separated by a space, "-", "/", "." or nothing ("15MAR2028").
 const DAY_NAME_YEAR = /^(\d{1,2})[ \-/.]?([A-Z]+)[ \-/.]?(\d{4}|\d{2})$/;
 const NAME_DAY_YEAR = /^([A-Z]+)[ \-/.]?(\d{1,2}),?[ \-/.]?(\d{4}|\d{2})$/;
 const NAME_YEAR = /^([A-Z]+)[ \-/.]?(\d{4}|\d{2})$/;
-/** Day, month and two-digit year all in numbers: could be a year-first label (YY-MM-DD). */
-const TWO_DIGIT_YEAR = /^\d{1,2}([-/.])\d{1,2}\1\d{2}$/;
 
 const pad = (n: string): string => n.padStart(2, "0");
 
@@ -136,10 +135,8 @@ export function readExpiry(entered: string | null): ExpiryReading {
     return { ok: true, expiry: { ...read, text } };
   }
   const problem =
-    read !== null
-      ? "day and month order unclear in"
-      : TWO_DIGIT_YEAR.test(normalised)
-        ? "two-digit year in"
-        : "expiry date not readable:";
+    read === null
+      ? "expiry date not readable:"
+      : "day and month order unclear in";
   return { ok: false, reason: `${problem} "${text}": check the lot` };
 }

@@ -403,14 +403,21 @@ describe("Expiry formats printed on labels", () => {
     expect(read("MAR 20").status).toBe("discard");
   });
 
-  it("[TC-133] Given day, month and year all in numbers with a two-digit year, then it needs review, because a year-first label (YY-MM-DD) would be misread", () => {
-    for (const text of ["15/03/28", "27-12-30", "1.2.28"]) {
-      const result = read(text);
-      expect(result.status, text).toBe("needs_review");
-      expect(result.reasons, text).toEqual([
-        `two-digit year in "${text}": check the lot`,
-      ]);
+  it("[TC-133] Given day, month and year all in numbers with a two-digit year, then it is read as 20YY when only one day-month order is real (owner, 2026-11-13)", () => {
+    for (const [text, date] of [
+      ["15/03/28", "2028-03-15"],
+      ["27-12-30", "2030-12-27"],
+      ["03.15.28", "2028-03-15"],
+    ] as const) {
+      expect(read(text).expiry, text).toBe(date);
     }
+    expect(read("27-12-30").reasons).toEqual([
+      "1487 days remaining, 365 required",
+      'expiry read from "27-12-30" as 2030-12-27',
+    ]);
+    expect(read("1.2.28").reasons).toEqual([
+      'day and month order unclear in "1.2.28": check the lot',
+    ]);
   });
 
   it("[TC-133] Given an impossible date, an unknown month name or other text, then it needs review", () => {

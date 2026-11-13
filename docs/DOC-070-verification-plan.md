@@ -420,7 +420,7 @@ Given a floor item with a target of 100 and 40 eligible tablets, when the clinic
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
 
-Given expiries in label formats, then every unambiguous one is read and the reading shown: full dates with the year first, with a named month, or with numeric day and month where only one order is a real date; month-and-year dates as the month's last day; any of these after a label word such as "EXP"; a two-digit year written last as 20YY (15 MAR 28, MAR 28, 03/28). A two-digit year after a numeric day and month (27/12/30), a day and month that could be read either way, an impossible date, an unknown month name, or extra text before or after the date needs review, with the reason (owner, 2026-11-13).
+Given expiries in label formats, then every unambiguous one is read and the reading shown: full dates with the year first, with a named month, or with numeric day and month where only one order is a real date; month-and-year dates as the month's last day; any of these after a label word such as "EXP"; a two-digit year written last as 20YY (15 MAR 28, MAR 28, 03/28, 27/12/30). A day and month that could be read either way, an impossible date, an unknown month name, or extra text before or after the date needs review, with the reason (owner, 2026-11-13).
 
 ### TC-132 Controlled medicines labelled in the picker
 - Product: Prepped
