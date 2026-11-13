@@ -68,6 +68,33 @@ export function lastDayOfMonth(year: number, month: number): IsoDate {
   return text;
 }
 
+export const WEEKDAYS = [
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+  "Sun",
+] as const;
+export type Weekday = (typeof WEEKDAYS)[number];
+
+/** The date a whole number of days later (or earlier, if negative), in UTC. */
+export function addDays(date: IsoDate, days: number): IsoDate {
+  if (!Number.isInteger(days)) {
+    throw new RangeError(`Not a whole number of days: ${String(days)}`);
+  }
+  const moved = new Date(millis(date) + days * MS_PER_DAY); // eslint-disable-line no-restricted-syntax -- dates are built only here (ARC-005)
+  return parseIsoDate(moved.toISOString().slice(0, 10));
+}
+
+/** The day of the week of a date, in UTC. */
+export function weekday(date: IsoDate): Weekday {
+  // 1970-01-01 was a Thursday, index 3 from Monday.
+  const days = Math.round(millis(date) / MS_PER_DAY);
+  return WEEKDAYS[(((days + 3) % 7) + 7) % 7] as Weekday;
+}
+
 function millis(date: IsoDate): number {
   const value = utcMidnight(date);
   if (value === undefined)

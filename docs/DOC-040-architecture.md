@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.10
+version: 0.12
 status: Draft
 effective_date:
 ---
@@ -159,6 +159,8 @@ Lovable-generated screens in `apps/prepped/ui`, calling ARC-101 for every decisi
 
 Candidates, missed-flight impact and plan ranking, as pure functions in `packages/core/src/sparewing/`. No AI, network or clock.
 
+Built so far: part candidates (`parts.ts`), pilot candidates (`pilots.ts`), missed community flights (`missed.ts`), the ranked proposal (`rank.ts`) and recording a person's decision (`decision.ts`). The required ratings and the cover bases are inputs until the program's two rule files (ratings per aircraft type, cover bases per community) are written (ADR-015, OD-005). `dates.ts` adds `addDays` and `weekday` (ARC-005).
+
 ### ARC-302 SpareWing screens
 - Product: SpareWing
 - Traces to: SYS-010
@@ -264,3 +266,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.8 | 2026-11-12 | ARC-015 missing product type and excluded dosage forms; ARC-018 data checks tested (REV-001); ARC-102 traces SYS-118. | Claude, for owner review |
 | 0.9 | 2026-11-12 | ARC-015 dosage-form prefix match; ARC-018 held-back path check fixed (REV-002). | Claude, for owner review |
 | 0.10 | 2026-11-12 | ARC-005 month-end date; ARC-101 lot eligibility, expiry reading and the shelf-life rule file built. | Claude, for owner review |
+| 0.12 | 2026-11-13 | ARC-301 SpareWing candidate rules built; ARC-005 addDays and weekday. Numbered 0.12 because the floor-coverage branch takes 0.11. | Claude, for owner review |

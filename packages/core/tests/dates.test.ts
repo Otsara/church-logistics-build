@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   daysBetween,
+  addDays,
   isIsoDate,
   lastDayOfMonth,
   parseIsoDate,
+  weekday,
   type IsoDate,
 } from "../src/dates.ts";
 
@@ -104,5 +106,36 @@ describe("lastDayOfMonth", () => {
       ).toThrow(RangeError);
     }
     expect(() => lastDayOfMonth(2028, 13)).toThrow("year 2028, month 13");
+  });
+});
+
+describe("addDays and weekday", () => {
+  it("[ARC-005] adds whole days in UTC across month, year and leap-day boundaries, and subtracts with a negative count", () => {
+    expect(addDays(d("2026-11-16"), 4)).toBe("2026-11-20");
+    expect(addDays(d("2026-12-30"), 3)).toBe("2027-01-02");
+    expect(addDays(d("2028-02-28"), 1)).toBe("2028-02-29");
+    expect(addDays(d("2027-02-28"), 1)).toBe("2027-03-01");
+    expect(addDays(d("2026-03-08"), 1)).toBe("2026-03-09");
+    expect(addDays(d("2026-11-16"), 0)).toBe("2026-11-16");
+    expect(addDays(d("2026-11-16"), -16)).toBe("2026-10-31");
+  });
+
+  it("[ARC-005] throws a RangeError for a count that is not a whole number", () => {
+    for (const n of [1.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(() => addDays(d("2026-11-16"), n), String(n)).toThrow(RangeError);
+    }
+    expect(() => addDays(d("2026-11-16"), 1.5)).toThrow(
+      "Not a whole number of days: 1.5",
+    );
+  });
+
+  it("[ARC-005] gives the weekday of a date in UTC", () => {
+    // 2026-11-16 is a Monday.
+    expect(
+      [16, 17, 18, 19, 20, 21, 22].map((day) =>
+        weekday(d(`2026-11-${String(day)}`)),
+      ),
+    ).toEqual(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]);
+    expect(weekday(d("2000-01-01"))).toBe("Sat");
   });
 });
