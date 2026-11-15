@@ -265,14 +265,15 @@ export function assessFloor(input: FloorInput): FloorAssessment {
         reasons.push(
           `lot ${lotId} (${product(lot)}) is a different medicine, so it cannot be an exchange for ${item.genericName}: check`,
         );
+      } else if (lot.eligibility.status !== "eligible") {
+        // Reported before a missing amount: an ineligible lot never counts (ADR-029).
+        reasons.push(
+          `${name} is not eligible (${lot.eligibility.status.replace("_", " ")}): not counted`,
+        );
       } else if (!isAmount(covers)) {
         review = true;
         reasons.push(
           `lot ${lotId} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
-        );
-      } else if (lot.eligibility.status !== "eligible") {
-        reasons.push(
-          `${name} is not eligible (${lot.eligibility.status.replace("_", " ")}): not counted`,
         );
       } else {
         accepted.push({ lotId, covers });
@@ -306,14 +307,21 @@ export function assessFloor(input: FloorInput): FloorAssessment {
         reasons.push(
           `lot ${lotId} (${product(lot)}) brings a class ${item.genericName} does not have (${extraClasses(lot, itemClasses).join(", ")}), so it cannot be a comparable alternative: check`,
         );
+      } else if (lot.eligibility.status !== "eligible") {
+        // Reported before a missing amount: an ineligible lot never counts (ADR-029).
+        reasons.push(
+          `${name} is not eligible (${lot.eligibility.status.replace("_", " ")}): not counted`,
+        );
       } else if (!isAmount(covers)) {
         review = true;
         reasons.push(
           `lot ${lotId} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
         );
-      } else if (lot.eligibility.status !== "eligible") {
+      } else if (covers > lot.quantity) {
+        // More than the lot holds needs a further review (owner, 2026-11-15; ADR-029).
+        review = true;
         reasons.push(
-          `${name} is not eligible (${lot.eligibility.status.replace("_", " ")}): not counted`,
+          `lot ${lotId} (${product(lot)}) holds ${String(lot.quantity)} but ${String(covers)} is entered as covering ${item.genericName}: review; find further donations, or the lead clinician redefines the floor`,
         );
       } else {
         chosen.push({ lotId, covers });

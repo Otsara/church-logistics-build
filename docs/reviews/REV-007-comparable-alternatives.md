@@ -20,8 +20,13 @@ Findings and the owner's decisions (owner, 2026-11-15):
 | 2 | Whether alternatives are listed for every item or only short ones was not settled. | Listed for every floor item; marked as offered when the item is short or needs review (ADR-028, TC-135). |
 | 3 | Whether anything else in part 1 needed changing. | No. |
 
-Results after the fixes: 100% line and branch coverage; Stryker mutation score 100% on `alternatives.ts` and 99.17% on `floor.ts`; the two survivors are equivalent (a missing class list replaced by a made-up class, which still matches nothing).
+Results after the fixes: 100% line and branch coverage; Stryker mutation score 100% on `alternatives.ts` and 99.19% on `floor.ts` after part 2; the two survivors are equivalent (a missing class list replaced by a made-up class, which still matches nothing).
 
 ## Part 2: counting a chosen alternative (`floor.ts`)
 
-Pending: to be reviewed in the build conversation.
+Findings and the owner's decisions (owner, 2026-11-15):
+
+| # | Finding | Decision |
+|---|---|---|
+| 1 | The amount entered for a chosen alternative was not checked against what its lot holds. | The lead clinician sets the floor; an alternative that falls short numerically needs further review, and the floor is redefined if further donations are not found. Built: not counted, item needs review (ADR-029, TC-136). The same question for accepted exchanges is open (OD-056). |
+| 2 | An ineligible chosen lot with no amount entered was reported as needing an amount. | Ineligible first, for alternatives and exchanges (ADR-029, TC-136). |

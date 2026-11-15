@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.20
+version: 0.21
 status: Draft
 effective_date:
 ---
@@ -428,6 +428,12 @@ Given a floor item with a target of 300 and 100 eligible, when the clinician cho
 
 Given a single-agent floor item in the penicillin class, then a combination product that shares the class but adds another (for example a beta-lactamase inhibitor) is not listed as an alternative, and if the clinician chooses it anyway the item needs review with the extra classes named. Given two floor items, one covered and one short, then both show their alternatives and only the short item's are marked as offered (owner, 2026-11-15; ADR-028).
 
+### TC-136 A chosen amount beyond the lot, and an ineligible lot before a missing amount
+- Product: Prepped
+- Traces to: SYS-108, SYS-115
+
+Given a floor item of 300 with 100 eligible, when the clinician chooses a comparable alternative whose lot holds 50 and enters that it covers 200, then the item needs review, the choice is not counted, and the reason says to find further donations or have the lead clinician redefine the floor; entered as 50, it counts. Given a chosen alternative or an accepted exchange whose lot is not eligible and has no amount entered, then it is reported as not eligible and not counted, not as needing an amount (owner, 2026-11-15; ADR-029).
+
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -565,3 +571,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.17 | 2026-11-15 | Implemented: TC-132 picker label. Numbered 0.17 because open branches take 0.14 to 0.16. | Claude, for owner review |
 | 0.18 | 2026-11-15 | Implemented: TC-125 comparable alternatives. New TC-134 chosen alternatives count what the clinician enters (OD-055). | Claude, for owner review |
 | 0.20 | 2026-11-15 | New TC-135 alternatives bring no extra class and are offered when the item is short (ADR-028), implemented. Numbered 0.20 because the merge follow-ups branch takes 0.19. | Claude, for owner review |
+| 0.21 | 2026-11-15 | New TC-136 a chosen amount beyond the lot needs review, and an ineligible lot is reported before a missing amount (ADR-029), implemented. | Claude, for owner review |
