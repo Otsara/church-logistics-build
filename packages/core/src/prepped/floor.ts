@@ -122,7 +122,9 @@ export interface FloorAssessment {
   readonly missingDocuments: readonly {
     readonly documentId: string;
     readonly name: string;
-    readonly reason: "not prepared" | "prepared, not yet reviewed";
+    readonly reason:
+      | "not prepared"
+      | "prepared, not yet marked reviewed by the lead clinician or team leader";
   }[];
   /** Problems with the floor list as a whole; any one means "No go". */
   readonly problems: readonly string[];
@@ -132,6 +134,16 @@ export interface FloorAssessment {
     readonly overall: number;
   };
 }
+
+/** A lot named by medicine, strength and form, as the reasons show it (owner, 2026-11-15). */
+const product = (lot: StockLot): string =>
+  [lot.genericName, lot.strength, lot.dosageForm.toLowerCase()]
+    .filter((part) => part !== null)
+    .join(" ");
+
+/** Two or three spelled out; more as digits. */
+const howMany = (n: number): string =>
+  n === 2 ? "two" : n === 3 ? "three" : String(n);
 
 const sameMedicine = (a: string, b: string): boolean =>
   a.trim().toLowerCase() === b.trim().toLowerCase();
@@ -186,7 +198,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       reasons.push("target of 0 confirmed by the lead clinician");
     } else if (item.target === 0) {
       reasons.push(
-        "target of 0 entered: the lead clinician confirms it is correct",
+        "target of 0 entered: the lead clinician confirms it is intended",
       );
     } else if (review) {
       reasons.push("no target quantity entered: the lead clinician sets it");
@@ -207,14 +219,18 @@ export function assessFloor(input: FloorInput): FloorAssessment {
         reasons.push(`${name} is not in the stock list: not counted`);
       } else if (lot.catalogEntryId === item.catalogEntryId) {
         review = true;
-        reasons.push(`${name} is the floor item's own product: check`);
+        reasons.push(
+          `lot ${lotId} (${product(lot)}) is already counted for this item, so it cannot also be an exchange: check`,
+        );
       } else if (!sameMedicine(lot.genericName, item.genericName)) {
         review = true;
-        reasons.push(`${name} is not the same medicine: check`);
+        reasons.push(
+          `lot ${lotId} (${product(lot)}) is a different medicine, so it cannot be an exchange for ${item.genericName}: check`,
+        );
       } else if (!isAmount(covers)) {
         review = true;
         reasons.push(
-          `${name} has no valid amount covered: the clinician enters it`,
+          `lot ${lotId} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
         );
       } else if (lot.eligibility.status !== "eligible") {
         reasons.push(
@@ -242,7 +258,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       if (!ids.includes(draft.item.id)) continue;
       draft.review = true;
       draft.reasons.push(
-        `lot ${lotId} would count toward ${ids.join(" and ")}: check`,
+        `lot ${lotId} would be counted toward ${howMany(ids.length)} floor items (${ids.join(" and ")}): the clinician resolves it`,
       );
     }
   }
@@ -254,7 +270,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       documentId: doc.id,
       name: doc.name,
       reason: doc.prepared
-        ? ("prepared, not yet reviewed" as const)
+        ? ("prepared, not yet marked reviewed by the lead clinician or team leader" as const)
         : ("not prepared" as const),
     }));
   const shortages = items

@@ -186,7 +186,8 @@ describe("Prepped floor coverage and the Go or No go indicator", () => {
       {
         documentId: "DOC-PERMIT",
         name: "Import permit",
-        reason: "prepared, not yet reviewed",
+        reason:
+          "prepared, not yet marked reviewed by the lead clinician or team leader",
       },
     ]);
     expect(assess(...covered, [PERMIT(true)]).indicator).toBe("Go");
@@ -387,18 +388,28 @@ describe("Prepped floor coverage: lots that never count, and inputs that need re
       });
       expect(result.indicator).toBe("No go");
     };
+    // A lot recorded without a strength is named by medicine and form.
+    const noStrength = assess(
+      [item("F1", AMOX_CAP, 100)],
+      [{ ...stock("L-X", ORS, 10), strength: null }],
+      [],
+      [{ floorItemId: "F1", lotId: "L-X", covers: 60 }],
+    );
+    expect(noStrength.items[0]?.reasons).toEqual([
+      "lot L-X (Oral rehydration salts powder) is a different medicine, so it cannot be an exchange for Amoxicillin: check",
+    ]);
     check(
       { floorItemId: "F1", lotId: "L-ORS", covers: 60 },
-      "accepted exchange L-ORS is not the same medicine: check",
+      "lot L-ORS (Oral rehydration salts 20.5 g powder) is a different medicine, so it cannot be an exchange for Amoxicillin: check",
     );
     check(
       { floorItemId: "F1", lotId: "L1", covers: 60 },
-      "accepted exchange L1 is the floor item's own product: check",
+      "lot L1 (Amoxicillin 500 mg capsule) is already counted for this item, so it cannot also be an exchange: check",
     );
     for (const covers of [0, -10, Number.NaN, Number.POSITIVE_INFINITY]) {
       check(
         { floorItemId: "F1", lotId: "L-SUSP", covers },
-        "accepted exchange L-SUSP has no valid amount covered: the clinician enters it",
+        "lot L-SUSP (Amoxicillin 250 mg/5 mL powder, for suspension) has no amount entered: the clinician enters how much of the target it covers",
       );
     }
   });
@@ -411,11 +422,40 @@ describe("Prepped floor coverage: lots that never count, and inputs that need re
     );
     // Only the two items sharing the lot need review; the ORS item is untouched.
     expect(twice.items.map((i) => [i.status, i.reasons])).toEqual([
-      ["needs_review", ["lot L1 would count toward F1 and F3: check"]],
+      [
+        "needs_review",
+        [
+          "lot L1 would be counted toward two floor items (F1 and F3): the clinician resolves it",
+        ],
+      ],
       ["covered", []],
-      ["needs_review", ["lot L1 would count toward F1 and F3: check"]],
+      [
+        "needs_review",
+        [
+          "lot L1 would be counted toward two floor items (F1 and F3): the clinician resolves it",
+        ],
+      ],
     ]);
     expect(twice.indicator).toBe("No go");
+    // Listed three times: the count is spelled out, and every item waits.
+    const thrice = assess(
+      [
+        item("F1", AMOX_CAP, 10),
+        item("F3", AMOX_CAP, 10),
+        item("F5", AMOX_CAP, 10),
+      ],
+      [stock("L1", AMOX_CAP, 60)],
+    );
+    expect(thrice.items[2]?.reasons).toEqual([
+      "lot L1 would be counted toward three floor items (F1 and F3 and F5): the clinician resolves it",
+    ]);
+    const four = assess(
+      ["F1", "F3", "F5", "F7"].map((id) => item(id, AMOX_CAP, 10)),
+      [stock("L1", AMOX_CAP, 60)],
+    );
+    expect(four.items[0]?.reasons).toEqual([
+      "lot L1 would be counted toward 4 floor items (F1 and F3 and F5 and F7): the clinician resolves it",
+    ]);
     // A lot accepted as an exchange for one item that also counts directly for another.
     const crossed = assess(
       [item("F1", AMOX_CAP, 100), item("F4", AMOX_SUSP, 10)],
@@ -428,7 +468,7 @@ describe("Prepped floor coverage: lots that never count, and inputs that need re
       "needs_review",
     ]);
     expect(crossed.items[1]?.reasons).toEqual([
-      "lot L-SUSP would count toward F1 and F4: check",
+      "lot L-SUSP would be counted toward two floor items (F1 and F4): the clinician resolves it",
     ]);
     // An exchange accepted for an item not on the floor list is reported, never counted.
     const stray = assess(
@@ -502,7 +542,7 @@ describe("A floor target of 0", () => {
       short: null,
       coverage: 0,
       reasons: [
-        "target of 0 entered: the lead clinician confirms it is correct",
+        "target of 0 entered: the lead clinician confirms it is intended",
       ],
     });
     expect(result.indicator).toBe("No go");

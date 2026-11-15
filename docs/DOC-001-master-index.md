@@ -48,7 +48,7 @@ Items defined, by type:
 | SUB | 7 |
 | IT | 5 |
 | ADR | 24 |
-| REV | 3 |
+| REV | 4 |
 <!-- END GENERATED -->
 
 ## Revision history
