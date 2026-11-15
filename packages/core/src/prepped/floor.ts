@@ -36,6 +36,8 @@ export interface FloorItem {
   readonly priority: 1 | 2 | 3;
   /** The lead clinician confirmed that a target of 0 is intended (owner, 2026-11-13). */
   readonly zeroTargetConfirmed?: boolean;
+  /** The catalogue entry's EPC classes, for comparable alternatives (SYS-108). */
+  readonly classes?: readonly string[];
 }
 
 /** A donated lot with its catalogue entry and its eligibility for this trip. */
@@ -50,10 +52,22 @@ export interface StockLot {
   readonly strength: string | null;
   readonly quantity: number;
   readonly eligibility: LotEligibility;
+  /** The catalogue entry's EPC classes, for comparable alternatives (SYS-108). */
+  readonly classes?: readonly string[];
 }
 
 /** An exchange the clinician accepted, with the share of the target it covers (SYS-115). */
 export interface AcceptedExchange {
+  readonly floorItemId: string;
+  readonly lotId: string;
+  readonly covers: number;
+}
+
+/**
+ * A comparable alternative the clinician chose, with the share of the target it covers
+ * (OD-055 option b; owner, 2026-11-15; ADR-026).
+ */
+export interface ChosenAlternative {
   readonly floorItemId: string;
   readonly lotId: string;
   readonly covers: number;
@@ -72,6 +86,7 @@ export interface FloorInput {
   readonly lots: readonly StockLot[];
   readonly acceptedExchanges: readonly AcceptedExchange[];
   readonly requiredDocuments: readonly RequiredDocument[];
+  readonly chosenAlternatives?: readonly ChosenAlternative[];
 }
 
 export interface FloorItemCoverage {
@@ -97,6 +112,11 @@ export interface FloorItemCoverage {
     readonly quantity: number;
   }[];
   /** Accepted exchanges that count, each with the amount the clinician entered. */
+  /** Comparable alternatives the clinician chose that count, each with the amount entered. */
+  readonly alternativesChosen: readonly {
+    readonly lotId: string;
+    readonly covers: number;
+  }[];
   readonly exchangesAccepted: readonly {
     readonly lotId: string;
     readonly covers: number;
@@ -155,6 +175,7 @@ interface Draft {
   readonly item: FloorItem;
   readonly lots: StockLot[];
   readonly accepted: { lotId: string; covers: number }[];
+  readonly chosen: { lotId: string; covers: number }[];
   readonly offered: StockLot[];
   readonly reasons: string[];
   readonly zeroConfirmed: boolean;
@@ -178,6 +199,14 @@ export function assessFloor(input: FloorInput): FloorAssessment {
     if (!itemIds.has(exchange.floorItemId)) {
       problems.push(
         `accepted exchange ${exchange.lotId} is for ${exchange.floorItemId}, which is not on the floor list: check`,
+      );
+    }
+  }
+  const chosenAlternatives = input.chosenAlternatives ?? [];
+  for (const choice of chosenAlternatives) {
+    if (!itemIds.has(choice.floorItemId)) {
+      problems.push(
+        `chosen alternative ${choice.lotId} is for ${choice.floorItemId}, which is not on the floor list: check`,
       );
     }
   }
@@ -242,6 +271,45 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       }
     }
 
+    // Comparable alternatives the clinician chose: another medicine sharing a class, counting
+    // exactly the amount entered (OD-055 option b; owner, 2026-11-15; ADR-026).
+    const chosen: { lotId: string; covers: number }[] = [];
+    const itemClasses = item.classes ?? [];
+    for (const { lotId, covers } of chosenAlternatives.filter(
+      (choice) => choice.floorItemId === item.id,
+    )) {
+      const lot = lotById.get(lotId);
+      const name = `chosen alternative ${lotId}`;
+      if (lot === undefined) {
+        reasons.push(`${name} is not in the stock list: not counted`);
+      } else if (sameMedicine(lot.genericName, item.genericName)) {
+        review = true;
+        reasons.push(
+          `lot ${lotId} (${product(lot)}) is the same medicine, so it is an exchange, not a comparable alternative: check`,
+        );
+      } else if (!(lot.classes ?? []).some((c) => itemClasses.includes(c))) {
+        review = true;
+        reasons.push(
+          `lot ${lotId} (${product(lot)}) shares no class with ${item.genericName}, so it cannot be a comparable alternative: check`,
+        );
+      } else if (!isAmount(covers)) {
+        review = true;
+        reasons.push(
+          `lot ${lotId} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
+        );
+      } else if (lot.eligibility.status !== "eligible") {
+        reasons.push(
+          `${name} is not eligible (${lot.eligibility.status.replace("_", " ")}): not counted`,
+        );
+      } else {
+        chosen.push({ lotId, covers });
+        count(lotId, item.id);
+        reasons.push(
+          `covered partly by a comparable alternative chosen by the clinician: lot ${lotId} (${product(lot)}), ${String(covers)}`,
+        );
+      }
+    }
+
     const acceptedIds = new Set(mine.map((exchange) => exchange.lotId));
     const offered = eligible.filter(
       (lot) =>
@@ -249,7 +317,16 @@ export function assessFloor(input: FloorInput): FloorAssessment {
         sameMedicine(lot.genericName, item.genericName) &&
         !acceptedIds.has(lot.lotId),
     );
-    return { item, lots, accepted, offered, reasons, zeroConfirmed, review };
+    return {
+      item,
+      lots,
+      accepted,
+      chosen,
+      offered,
+      reasons,
+      zeroConfirmed,
+      review,
+    };
   });
 
   for (const [lotId, ids] of countsToward) {
@@ -299,7 +376,8 @@ function finish(draft: Draft): FloorItemCoverage {
   const { item, reasons } = draft;
   const covered =
     draft.lots.reduce((sum, lot) => sum + lot.quantity, 0) +
-    draft.accepted.reduce((sum, exchange) => sum + exchange.covers, 0);
+    draft.accepted.reduce((sum, exchange) => sum + exchange.covers, 0) +
+    draft.chosen.reduce((sum, choice) => sum + choice.covers, 0);
   const base = {
     floorItemId: item.id,
     genericName: item.genericName,
@@ -321,6 +399,7 @@ function finish(draft: Draft): FloorItemCoverage {
         quantity,
       }),
     ),
+    alternativesChosen: draft.chosen,
     exchangesAccepted: draft.accepted,
     covered,
     reasons,
