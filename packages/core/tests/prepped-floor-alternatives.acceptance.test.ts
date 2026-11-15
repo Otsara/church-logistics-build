@@ -74,7 +74,7 @@ describe("Chosen comparable alternatives", () => {
   it("[TC-134] Given a floor item of 300 with 100 eligible, when the clinician chooses a comparable alternative and enters that it covers 200, then the item is covered and says so; when nothing is entered for it, it does not count", () => {
     const lots = [
       stock("L-AMOX", "Amoxicillin", 100),
-      stock("L-AMP", "Ampicillin", 50),
+      stock("L-AMP", "Ampicillin", 250),
     ];
     const chosen = assess(lots, [
       { floorItemId: "F1", lotId: "L-AMP", covers: 200 },
@@ -89,7 +89,7 @@ describe("Chosen comparable alternatives", () => {
       ],
     });
     expect(chosen.indicator).toBe("Go");
-    // Counted exactly as entered: the ampicillin lot's own quantity (50) plays no part.
+    // Counted exactly as entered, which may be less than the lot holds (250).
     const part = assess(lots, [
       { floorItemId: "F1", lotId: "L-AMP", covers: 120 },
     ]);
@@ -105,7 +105,7 @@ describe("Chosen comparable alternatives", () => {
     });
   });
 
-  it("[SYS-108] Given a chosen alternative that is the same medicine, shares no class, or has no valid amount, then the item needs review and it is not counted", () => {
+  it("[SYS-108, TC-135] Given a chosen alternative that is the same medicine, shares no class, brings an extra class, or has no valid amount, then the item needs review and it is not counted", () => {
     const lots = [
       stock("L-AMOX", "Amoxicillin", 100),
       stock("L-AMOX2", "amoxicillin", 50),
@@ -135,6 +135,24 @@ describe("Chosen comparable alternatives", () => {
       { floorItemId: "F1", lotId: "L-NOCLASS", covers: 200 },
       "lot L-NOCLASS (Synthetic medicine 500 mg capsule) shares no class with Amoxicillin, so it cannot be a comparable alternative: check",
     );
+    // A combination adding a class the floor item lacks cannot be a comparable alternative.
+    const comboLots = [
+      ...lots,
+      stock("L-COMBO", "Amoxicillin and Clavulanate Potassium", 50, [
+        PENICILLIN,
+        "beta Lactamase Inhibitor",
+        "Second synthetic class",
+      ]),
+    ];
+    const combo = assess(comboLots, [
+      { floorItemId: "F1", lotId: "L-COMBO", covers: 200 },
+    ]);
+    expect(combo.items[0]).toMatchObject({
+      status: "needs_review",
+      reasons: [
+        "lot L-COMBO (Amoxicillin and Clavulanate Potassium 500 mg capsule) brings a class Amoxicillin does not have (beta Lactamase Inhibitor, Second synthetic class), so it cannot be a comparable alternative: check",
+      ],
+    });
     for (const covers of [0, -1, Number.NaN]) {
       check(
         { floorItemId: "F1", lotId: "L-AMP", covers },
@@ -226,6 +244,48 @@ describe("Chosen comparable alternatives", () => {
     expect(stray.indicator).toBe("No go");
   });
 
+  it("[TC-136] Given a chosen alternative entered as covering more than its lot holds, then the item needs review and it is not counted; entered at exactly the lot's quantity, it counts", () => {
+    const lots = [
+      stock("L-AMOX", "Amoxicillin", 100),
+      stock("L-AMP", "Ampicillin", 50),
+    ];
+    const over = assess(lots, [
+      { floorItemId: "F1", lotId: "L-AMP", covers: 200 },
+    ]);
+    expect(over.items[0]).toMatchObject({
+      status: "needs_review",
+      alternativesChosen: [],
+      reasons: [
+        "lot L-AMP (Ampicillin 500 mg capsule) holds 50 but 200 is entered as covering Amoxicillin: review; find further donations, or the lead clinician redefines the floor",
+      ],
+    });
+    expect(over.indicator).toBe("No go");
+    const exact = assess(lots, [
+      { floorItemId: "F1", lotId: "L-AMP", covers: 50 },
+    ]);
+    expect(exact.items[0]).toMatchObject({
+      status: "short",
+      covered: 150,
+      short: 150,
+    });
+  });
+
+  it("[TC-136] Given a chosen alternative that is not eligible and has no amount entered, then it is reported as not eligible and not counted, not as needing an amount", () => {
+    const result = assess(
+      [
+        stock("L-AMOX", "Amoxicillin", 100),
+        stock("L-OLD", "Ampicillin", 50, [PENICILLIN], "2027-03-01"),
+      ],
+      [{ floorItemId: "F1", lotId: "L-OLD", covers: 0 }],
+    );
+    expect(result.items[0]).toMatchObject({
+      status: "short",
+      reasons: [
+        "chosen alternative L-OLD is not eligible (blocked): not counted",
+      ],
+    });
+  });
+
   it("[SYS-113] Given a lot chosen as an alternative for one item that is another item's own product, then both need review (ADR-023)", () => {
     const AMP_ITEM: FloorItem = {
       id: "F2",
@@ -236,7 +296,7 @@ describe("Chosen comparable alternatives", () => {
       classes: [PENICILLIN],
     };
     const result = assess(
-      [stock("L-AMOX", "Amoxicillin", 100), stock("L-AMP", "Ampicillin", 50)],
+      [stock("L-AMOX", "Amoxicillin", 100), stock("L-AMP", "Ampicillin", 250)],
       [{ floorItemId: "F1", lotId: "L-AMP", covers: 200 }],
       [AMOX, AMP_ITEM],
     );

@@ -372,6 +372,24 @@ describe("Prepped floor coverage: lots that never count, and inputs that need re
     });
   });
 
+  it("[TC-136] Given an accepted exchange that is not eligible and has no amount entered, then it is reported as not eligible and not counted, not as needing an amount", () => {
+    const result = assess(
+      [item("F1", AMOX_CAP, 100)],
+      [
+        stock("L1", AMOX_CAP, 40),
+        stock("L-SUSP", AMOX_SUSP, 30, "D001", "2027-03-01"),
+      ],
+      [],
+      [{ floorItemId: "F1", lotId: "L-SUSP", covers: 0 }],
+    );
+    expect(result.items[0]).toMatchObject({
+      status: "short",
+      reasons: [
+        "accepted exchange L-SUSP is not eligible (blocked): not counted",
+      ],
+    });
+  });
+
   it("[SYS-115] Given an accepted exchange that is not the same medicine, is the item's own product, or has no valid covered amount, then the item needs review and the exchange is not counted", () => {
     const lots = [
       stock("L1", AMOX_CAP, 40),

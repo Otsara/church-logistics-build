@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.12
+version: 0.14
 status: Draft
 effective_date:
 ---
@@ -183,7 +183,7 @@ Sequence: a medicine from the same class is packed in place of the intended one 
 - Product: Prepped
 - Traces to: HAZ-105
 
-Alternatives are shown only for a clinician to consider, labelled "Comparable, not equivalent", with their class source; they are added only when the clinician chooses them; never substituted automatically (ADR-003). A chosen alternative counts toward the floor only the share of the target the clinician enters, and the item says so (owner, 2026-11-15; OD-055, ADR-026).
+Alternatives are shown only for a clinician to consider, labelled "Comparable, not equivalent", with their class source; they are added only when the clinician chooses them; never substituted automatically (ADR-003). A chosen alternative counts toward the floor only the share of the target the clinician enters, and the item says so (owner, 2026-11-15; OD-055, ADR-026). An alternative brings no class the floor item lacks, so a combination product is never offered for a single agent (owner, 2026-11-15; ADR-028). An amount entered beyond what the chosen lot holds is not counted and the item needs review (owner, 2026-11-15; ADR-029).
 
 ### HAZ-106 A required import document is missing
 - Product: Prepped
@@ -413,3 +413,5 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.10 | 2026-11-13 | RC-108 merging needs the same manufacturer (OD-054); RC-107 no lot counted twice and empty floor list; RC-114 accepted exchanges that stop counting or need review (owner, 2026-11-13; ADR-023). | Claude, for owner review |
 | 0.11 | 2026-11-15 | RC-105: a chosen alternative counts only what the clinician enters (owner, 2026-11-15; OD-055, ADR-026). | Claude, for owner review |
 | 0.12 | 2026-11-15 | RC-108: merge review reasons carried into eligibility; no lot number or expiry needs clarification (ADR-027). Numbered 0.12 because the open alternatives branch takes 0.11. | Claude, for owner review |
+| 0.13 | 2026-11-15 | RC-105: an alternative brings no class the floor item lacks (owner, 2026-11-15; ADR-028). Numbered 0.13 because the merge follow-ups branch takes 0.12. | Claude, for owner review |
+| 0.14 | 2026-11-15 | RC-105: an amount entered beyond the chosen lot's quantity needs review (owner, 2026-11-15; ADR-029). | Claude, for owner review |

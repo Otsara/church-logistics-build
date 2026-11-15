@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { parseIsoDate } from "../src/dates.ts";
 import { checkLot } from "../src/prepped/eligibility.ts";
 import {
+  alternativesForFloor,
   CLASS_SOURCE,
   COMPARABLE_LABEL,
   comparableAlternatives,
@@ -65,7 +66,7 @@ describe("Comparable alternatives", () => {
     expect(CLASS_SOURCE).toBe(
       "FDA drug directory: established pharmacologic class (EPC)",
     );
-    const ampicillin = lot("L-AMP", "Ampicillin", [PENICILLIN, "Other class"]);
+    const ampicillin = lot("L-AMP", "Ampicillin", [PENICILLIN]);
     const lots = [
       lot("L-AMOX", "Amoxicillin", [PENICILLIN]),
       ampicillin,
@@ -158,5 +159,120 @@ describe("Comparable alternatives", () => {
       alternatives: [],
       note: `no eligible lot of another medicine in the same class (${PENICILLIN}, Second class)`,
     });
+  });
+});
+
+describe("Alternatives bring no class the floor item lacks (owner, 2026-11-15)", () => {
+  it("[TC-135] Given a single-agent floor item, then a combination product sharing its class but adding another is not offered; a lot whose classes all belong to the item is", () => {
+    const HCTZ = {
+      id: "F7",
+      catalogEntryId: "E-Hydrochlorothiazide",
+      genericName: "Hydrochlorothiazide",
+      classes: ["Thiazide Diuretic"],
+    };
+    const result = comparableAlternatives(HCTZ, [
+      lot("L-COMBO", "Losartan and hydrochlorothiazide", [
+        "Angiotensin 2 Receptor Blocker",
+        "Thiazide Diuretic",
+      ]),
+      lot("L-CHLOR", "Chlorothiazide", ["Thiazide Diuretic"]),
+    ]);
+    expect(result.alternatives.map((a) => a.lotId)).toEqual(["L-CHLOR"]);
+    // A combination floor item can be offered a single agent whose class it contains.
+    const coAmox = {
+      id: "F8",
+      catalogEntryId: "E-AmoxClav",
+      genericName: "Amoxicillin and Clavulanate Potassium",
+      classes: [PENICILLIN, "beta Lactamase Inhibitor"],
+    };
+    expect(
+      comparableAlternatives(coAmox, [
+        lot("L-AMOX", "Amoxicillin", [PENICILLIN]),
+      ]).alternatives.map((a) => a.sharedClasses),
+    ).toEqual([[PENICILLIN]]);
+  });
+});
+
+describe("Alternatives offered when a floor item is short", () => {
+  it("[TC-135] Given a floor assessment, then every item's alternatives are listed and those of a short or needs-review item are marked as offered because it is short", () => {
+    const ampicillin = lot("L-AMP", "Ampicillin", [PENICILLIN]);
+    const amoxLot = lot("L-AMOX", "Amoxicillin", [PENICILLIN]);
+    const floorItems = [
+      {
+        id: "F1",
+        catalogEntryId: "E-Amoxicillin",
+        genericName: "Amoxicillin",
+        target: 300,
+        priority: 1 as const,
+        classes: [PENICILLIN],
+      },
+      {
+        id: "F2",
+        catalogEntryId: "E-Amoxicillin",
+        genericName: "Amoxicillin",
+        target: 50,
+        priority: 2 as const,
+        classes: [PENICILLIN],
+      },
+    ];
+    const one = assessFloor({
+      floorItems: [floorItems[0] as (typeof floorItems)[number]],
+      lots: [amoxLot, ampicillin],
+      acceptedExchanges: [],
+      requiredDocuments: [],
+    });
+    const listed = alternativesForFloor(
+      [AMOX_ITEM],
+      [amoxLot, ampicillin],
+      one,
+    );
+    expect(listed).toEqual([
+      {
+        ...comparableAlternatives(AMOX_ITEM, [amoxLot, ampicillin]),
+        offered: true,
+      },
+    ]);
+    const covered = assessFloor({
+      floorItems: [
+        { ...(floorItems[1] as (typeof floorItems)[number]), id: "F1" },
+      ],
+      lots: [amoxLot, ampicillin],
+      acceptedExchanges: [],
+      requiredDocuments: [],
+    });
+    expect(
+      alternativesForFloor([AMOX_ITEM], [amoxLot, ampicillin], covered)[0]
+        ?.offered,
+    ).toBe(false);
+    // With two items, each is marked by its own coverage.
+    const both = assessFloor({
+      floorItems: [
+        { ...(floorItems[1] as (typeof floorItems)[number]), id: "F1" },
+        {
+          ...(floorItems[0] as (typeof floorItems)[number]),
+          id: "F2",
+          catalogEntryId: "E-Cefalexin",
+          genericName: "Cefalexin",
+        },
+      ],
+      lots: [amoxLot, ampicillin],
+      acceptedExchanges: [],
+      requiredDocuments: [],
+    });
+    expect(
+      alternativesForFloor(
+        [AMOX_ITEM, { ...AMOX_ITEM, id: "F2" }],
+        [ampicillin],
+        both,
+      ).map((r) => r.offered),
+    ).toEqual([false, true]);
+    // An item missing from the assessment is not marked as offered.
+    expect(
+      alternativesForFloor(
+        [{ ...AMOX_ITEM, id: "F9" }],
+        [amoxLot, ampicillin],
+        covered,
+      )[0]?.offered,
+    ).toBe(false);
   });
 });
