@@ -144,7 +144,7 @@ Tests in `packages/policy` that check rules holding for the whole repository, su
 
 Eligibility, route scope, floor coverage, the Go or No go indicator, readiness, supplements and comparable alternatives, as pure functions in `packages/core/src/prepped/`. No AI, network or clock.
 
-Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Route scope and controlled status come from the lot's catalogue entry (ARC-015). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
+Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`). Merging donor lines into lots (`merge.ts`: lot number, name, strength, form, expiry and manufacturer must all match; OD-011, OD-054). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Route scope and controlled status come from the lot's catalogue entry (ARC-015). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
 
 ### ARC-102 Prepped screens
 - Product: Prepped
@@ -268,4 +268,5 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.10 | 2026-11-12 | ARC-005 month-end date; ARC-101 lot eligibility, expiry reading and the shelf-life rule file built. | Claude, for owner review |
 | 0.12 | 2026-11-13 | ARC-301 SpareWing candidate rules built; ARC-005 addDays and weekday. Numbered 0.12 because the floor-coverage branch takes 0.11. | Claude, for owner review |
 | 0.13 | 2026-11-13 | ARC-101 floor coverage, exchanges, indicator and meter built; Lot has a manufacturer (OD-054). (prepared as 0.11 on the floor-coverage branch, renumbered after the SpareWing merge) | Claude, for owner review |
+| 0.14 | 2026-11-15 | ARC-101 donor-line merging built. | Claude, for owner review |
 | 0.15 | 2026-11-15 | ARC-101 picker label for controlled medicines built. Numbered 0.15 because open branches take 0.13 and 0.14. | Claude, for owner review |
