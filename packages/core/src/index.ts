@@ -85,3 +85,12 @@ export {
   type MergedLot,
 } from "./prepped/merge.ts";
 export { CONTROLLED_LABEL, pickerLabel } from "./prepped/picker.ts";
+export {
+  CLASS_SOURCE,
+  COMPARABLE_LABEL,
+  comparableAlternatives,
+  type Alternative,
+  type AlternativesResult,
+  type ClassedLot,
+  type ItemForAlternatives,
+} from "./prepped/alternatives.ts";

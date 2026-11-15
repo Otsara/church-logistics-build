@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.14
+version: 0.15
 status: Draft
 effective_date:
 ---
@@ -251,7 +251,7 @@ Any blocking issue, such as a missing import permit, makes the indicator "No go"
 - Traces to: UN-105, RC-105
 - Safety-critical: yes
 
-For a need that eligible lots do not cover, Prepped lists other eligible lots in the same therapeutic class for the clinician to consider. Each is labelled "Comparable, not equivalent: clinician review required", shows its class and the source of that class, and is added to the collection only when the clinician chooses it. Prepped never substitutes automatically (owner, 2026-11-10; ADR-003). The class is the established pharmacologic class (EPC) in the FDA drug directory (owner, 2026-11-12); a product without one gets no alternatives, and the screen says so (ADR-014).
+For a need that eligible lots do not cover, Prepped lists other eligible lots in the same therapeutic class for the clinician to consider. Each is labelled "Comparable, not equivalent: clinician review required", shows its class and the source of that class, and is added to the collection only when the clinician chooses it. Prepped never substitutes automatically (owner, 2026-11-10; ADR-003). The class is the established pharmacologic class (EPC) in the FDA drug directory (owner, 2026-11-12); a product without one gets no alternatives, and the screen says so (ADR-014). The same medicine in another form or strength is an exchange (SYS-115), never an alternative. Whether a chosen alternative counts toward the floor item is open (OD-055); until decided it does not.
 
 ### SYS-109 Route and storage scope
 - Product: Prepped
@@ -417,3 +417,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.12 | 2026-11-13 | SpareWing iteration 1: SYS-301 alternates one way; SYS-302 no stock; SYS-303 availability every day; SYS-304 ETA and "unverified"; SYS-307 unknown pilots not counted; SYS-308 unknown return and ties; SYS-309 who records a decision (proposed, for owner review). Numbered 0.12 because the floor-coverage branch takes 0.11. | Claude, for owner review |
 | 0.13 | 2026-11-13 | SYS-113 lots shown with their manufacturer; SYS-117 lots are per manufacturer, and a line without one is not treated as the same (owner, 2026-11-13; OD-054, ADR-024); SYS-112 documents marked reviewed by the lead clinician or team leader (owner, 2026-11-13); SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). (prepared as 0.11 on the floor-coverage branch, renumbered after the SpareWing merge) SYS-106 meter decisions (owner, 2026-11-15). | Claude, for owner review |
 | 0.14 | 2026-11-15 | SYS-301 to SYS-309: the SpareWing interpretations decided by the owner (owner, 2026-11-15; ADR-025): alternates one way, with an interchange to confirm; SYS-304 "data missing" in place of "unknown". Numbered 0.14 because the floor-coverage branch takes 0.13. | Claude, for owner review |
+| 0.15 | 2026-11-15 | SYS-108: exchanges are not alternatives; counting a chosen alternative is open (OD-055). | Claude, for owner review |
