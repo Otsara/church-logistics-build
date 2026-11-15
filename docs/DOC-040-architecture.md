@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.17
+version: 0.18
 status: Draft
 effective_date:
 ---
@@ -154,12 +154,12 @@ Lovable-generated screens in `apps/prepped/ui`, calling ARC-101 for every decisi
 
 ### ARC-301 SpareWing rules engine
 - Product: SpareWing
-- Traces to: SYS-301, SYS-302, SYS-303, SYS-304, SYS-305, SYS-306, SYS-307, SYS-308, SYS-309, SYS-310
+- Traces to: SYS-301, SYS-302, SYS-303, SYS-304, SYS-305, SYS-306, SYS-307, SYS-308, SYS-309, SYS-310, SYS-311
 - Safety-critical: yes
 
 Candidates, missed-flight impact and plan ranking, as pure functions in `packages/core/src/sparewing/`. No AI, network or clock.
 
-Built so far: part candidates (`parts.ts`), pilot candidates (`pilots.ts`), missed community flights (`missed.ts`), the ranked proposal (`rank.ts`) and recording a person's decision (`decision.ts`). The required ratings and the cover bases are inputs until the program's two rule files (ratings per aircraft type, cover bases per community) are written (ADR-015, OD-005). `dates.ts` adds `addDays` and `weekday` (ARC-005).
+Built so far: part candidates (`parts.ts`; part numbers compared without spaces or letter case, and the quantity needed noted, ADR-030), pilot candidates (`pilots.ts`), missed community flights (`missed.ts`), the ranked proposal (`rank.ts`) and recording a person's decision (`decision.ts`). The required ratings and the cover bases are inputs until the program's two rule files (ratings per aircraft type, cover bases per community) are written (ADR-015, OD-005). `dates.ts` adds `addDays` and `weekday` (ARC-005).
 
 ### ARC-302 SpareWing screens
 - Product: SpareWing
@@ -272,3 +272,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.15 | 2026-11-15 | ARC-101 picker label for controlled medicines built. Numbered 0.15 because open branches take 0.13 and 0.14. | Claude, for owner review |
 | 0.16 | 2026-11-15 | ARC-101 comparable alternatives built. Chosen alternatives counted in floor.ts (OD-055). | Claude, for owner review |
 | 0.17 | 2026-11-15 | ARC-101: alternatives listed for every floor item and marked as offered when short; no extra classes (ADR-028). | Claude, for owner review |
+| 0.18 | 2026-11-15 | ARC-301: part numbers compared without spaces or letter case; quantity needed (SYS-311, ADR-030). | Claude, for owner review |

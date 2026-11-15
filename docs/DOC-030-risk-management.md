@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.14
+version: 0.15
 status: Draft
 effective_date:
 ---
@@ -311,7 +311,7 @@ Harm: an incorrect part is fitted; airworthiness compromised. Severity: critical
 - Product: SpareWing
 - Traces to: HAZ-301
 
-Only parts with the same part number or an alternate the program entered are candidates; the tool never infers interchangeability.
+Only parts with the same part number or an alternate the program entered are candidates; the tool never infers interchangeability. Only leading and trailing spaces and letter case are ignored when comparing part numbers; every other character must match (owner, 2026-11-15; ADR-030).
 
 ### HAZ-302 An unserviceable part is proposed
 - Product: SpareWing
@@ -415,3 +415,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.12 | 2026-11-15 | RC-108: merge review reasons carried into eligibility; no lot number or expiry needs clarification (ADR-027). Numbered 0.12 because the open alternatives branch takes 0.11. | Claude, for owner review |
 | 0.13 | 2026-11-15 | RC-105: an alternative brings no class the floor item lacks (owner, 2026-11-15; ADR-028). Numbered 0.13 because the merge follow-ups branch takes 0.12. | Claude, for owner review |
 | 0.14 | 2026-11-15 | RC-105: an amount entered beyond the chosen lot's quantity needs review (owner, 2026-11-15; ADR-029). | Claude, for owner review |
+| 0.15 | 2026-11-15 | RC-301: only spaces and letter case ignored when comparing part numbers (owner, 2026-11-15; ADR-030). | Claude, for owner review |
