@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.12
+version: 0.14
 status: Draft
 effective_date:
 ---
@@ -39,7 +39,7 @@ Exit criteria: `pnpm docs:check` and `pnpm check` pass; the owner's review recor
 
 `prepped/eligibility-rules`: TC-101 to TC-122, TC-125, TC-127 to TC-129, TC-131 and TC-132, with SYS-108; TC-126 waits for OD-038. `sparewing/candidate-rules`: TC-301 to TC-309 and TC-313 to TC-316, with SYS-308 and SYS-309. Scope widened to every core-tested case whose rules are decided (owner, 2026-11-12); the first plan named only TC-101 to TC-109 and TC-301 to TC-307. Exit: ADR-006 criteria met and the owner's line-by-line review recorded for each unit.
 
-Status on 2026-11-12 (started early): lot eligibility is built on `prepped/eligibility-rules` (TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129, TC-133), with 100% branch coverage and a mutation score of at least 92% on each new file. The shelf-life rule file reads 365 days from the WHO guidelines, verified by the owner for the prototype (external review: OD-002); expiries are read in every unambiguous label format (TC-133). The owner's line-by-line review is recorded in REV-003 (owner, 2026-11-13). Floor coverage, exchanges, Go or No go and the meter are built on `prepped/floor-coverage` (TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131); the owner's line-by-line review is recorded in REV-004 (owner, 2026-11-15). SpareWing candidate rules are built and merged (TC-301 to TC-309, TC-313 to TC-316), started in parallel with the owner's go-ahead (owner, 2026-11-13); the owner's line-by-line review and the interpretations marked proposed in DOC-020 are still to be recorded.
+Status on 2026-11-12 (started early): lot eligibility is built on `prepped/eligibility-rules` (TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129, TC-133), with 100% branch coverage and a mutation score of at least 92% on each new file. The shelf-life rule file reads 365 days from the WHO guidelines, verified by the owner for the prototype (external review: OD-002); expiries are read in every unambiguous label format (TC-133). The owner's line-by-line review is recorded in REV-003 (owner, 2026-11-13). Floor coverage, exchanges, Go or No go and the meter are built on `prepped/floor-coverage` (TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131); the owner's line-by-line review is recorded in REV-004 (owner, 2026-11-15). Donor-line merging is built on `prepped/donor-line-merging` (TC-107, TC-121, TC-127), waiting for the owner's review. SpareWing candidate rules are built and merged (TC-301 to TC-309, TC-313 to TC-316), started in parallel with the owner's go-ahead (owner, 2026-11-13); the owner's line-by-line review and the interpretations marked proposed in DOC-020 are still to be recorded.
 
 ### IT-002 Iteration 2: AI steps
 - Dates: November 16 to 20
@@ -125,3 +125,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.9 | 2026-11-12 | IT-001 status: lot eligibility built; scope widened to every core-tested case whose rules are decided (owner, 2026-11-12). | Claude, for owner review |
 | 0.11 | 2026-11-13 | IT-001 status: SpareWing candidate rules built. Numbered 0.11 because the floor-coverage branch takes 0.10. | Claude, for owner review |
 | 0.12 | 2026-11-13 | IT-001 status: eligibility reviewed (REV-003); floor coverage built. (prepared as 0.10 on the floor-coverage branch, renumbered after the SpareWing merge) | Claude, for owner review |
+| 0.14 | 2026-11-15 | IT-001 status: donor-line merging built. Numbered 0.14 because the SpareWing decisions branch takes 0.13. | Claude, for owner review |
