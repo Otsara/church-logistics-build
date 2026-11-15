@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.11
+version: 0.13
 status: Draft
 effective_date:
 ---
@@ -183,7 +183,7 @@ Sequence: a medicine from the same class is packed in place of the intended one 
 - Product: Prepped
 - Traces to: HAZ-105
 
-Alternatives are shown only for a clinician to consider, labelled "Comparable, not equivalent", with their class source; they are added only when the clinician chooses them; never substituted automatically (ADR-003). A chosen alternative counts toward the floor only the share of the target the clinician enters, and the item says so (owner, 2026-11-15; OD-055, ADR-026).
+Alternatives are shown only for a clinician to consider, labelled "Comparable, not equivalent", with their class source; they are added only when the clinician chooses them; never substituted automatically (ADR-003). A chosen alternative counts toward the floor only the share of the target the clinician enters, and the item says so (owner, 2026-11-15; OD-055, ADR-026). An alternative brings no class the floor item lacks, so a combination product is never offered for a single agent (owner, 2026-11-15; ADR-028).
 
 ### HAZ-106 A required import document is missing
 - Product: Prepped
@@ -412,3 +412,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.9 | 2026-11-12 | RC-106 and HAZ-106: a blocking issue means "No go"; "Not ready" retired; rating unchanged (owner, 2026-11-12; OD-052, ADR-021). HAZ-101 and RC-101: two-digit years read as 20YY, with the reading shown (owner, 2026-11-13; ADR-022). | Claude, for owner review |
 | 0.10 | 2026-11-13 | RC-108 merging needs the same manufacturer (OD-054); RC-107 no lot counted twice and empty floor list; RC-114 accepted exchanges that stop counting or need review (owner, 2026-11-13; ADR-023). | Claude, for owner review |
 | 0.11 | 2026-11-15 | RC-105: a chosen alternative counts only what the clinician enters (owner, 2026-11-15; OD-055, ADR-026). | Claude, for owner review |
+| 0.13 | 2026-11-15 | RC-105: an alternative brings no class the floor item lacks (owner, 2026-11-15; ADR-028). Numbered 0.13 because the merge follow-ups branch takes 0.12. | Claude, for owner review |

@@ -105,7 +105,7 @@ describe("Chosen comparable alternatives", () => {
     });
   });
 
-  it("[SYS-108] Given a chosen alternative that is the same medicine, shares no class, or has no valid amount, then the item needs review and it is not counted", () => {
+  it("[SYS-108, TC-135] Given a chosen alternative that is the same medicine, shares no class, brings an extra class, or has no valid amount, then the item needs review and it is not counted", () => {
     const lots = [
       stock("L-AMOX", "Amoxicillin", 100),
       stock("L-AMOX2", "amoxicillin", 50),
@@ -135,6 +135,24 @@ describe("Chosen comparable alternatives", () => {
       { floorItemId: "F1", lotId: "L-NOCLASS", covers: 200 },
       "lot L-NOCLASS (Synthetic medicine 500 mg capsule) shares no class with Amoxicillin, so it cannot be a comparable alternative: check",
     );
+    // A combination adding a class the floor item lacks cannot be a comparable alternative.
+    const comboLots = [
+      ...lots,
+      stock("L-COMBO", "Amoxicillin and Clavulanate Potassium", 50, [
+        PENICILLIN,
+        "beta Lactamase Inhibitor",
+        "Second synthetic class",
+      ]),
+    ];
+    const combo = assess(comboLots, [
+      { floorItemId: "F1", lotId: "L-COMBO", covers: 200 },
+    ]);
+    expect(combo.items[0]).toMatchObject({
+      status: "needs_review",
+      reasons: [
+        "lot L-COMBO (Amoxicillin and Clavulanate Potassium 500 mg capsule) brings a class Amoxicillin does not have (beta Lactamase Inhibitor, Second synthetic class), so it cannot be a comparable alternative: check",
+      ],
+    });
     for (const covers of [0, -1, Number.NaN]) {
       check(
         { floorItemId: "F1", lotId: "L-AMP", covers },

@@ -165,6 +165,15 @@ const product = (lot: StockLot): string =>
 const howMany = (n: number): string =>
   n === 2 ? "two" : n === 3 ? "three" : String(n);
 
+/** A lot's EPC classes; none when not recorded. */
+const classesOf = (lot: StockLot): readonly string[] => lot.classes ?? [];
+
+/** Classes a lot has that the floor item lacks (owner, 2026-11-15; ADR-028). */
+const extraClasses = (
+  lot: StockLot,
+  itemClasses: readonly string[],
+): readonly string[] => classesOf(lot).filter((c) => !itemClasses.includes(c));
+
 const sameMedicine = (a: string, b: string): boolean =>
   a.trim().toLowerCase() === b.trim().toLowerCase();
 
@@ -287,10 +296,15 @@ export function assessFloor(input: FloorInput): FloorAssessment {
         reasons.push(
           `lot ${lotId} (${product(lot)}) is the same medicine, so it is an exchange, not a comparable alternative: check`,
         );
-      } else if (!(lot.classes ?? []).some((c) => itemClasses.includes(c))) {
+      } else if (!classesOf(lot).some((c) => itemClasses.includes(c))) {
         review = true;
         reasons.push(
           `lot ${lotId} (${product(lot)}) shares no class with ${item.genericName}, so it cannot be a comparable alternative: check`,
+        );
+      } else if (extraClasses(lot, itemClasses).length > 0) {
+        review = true;
+        reasons.push(
+          `lot ${lotId} (${product(lot)}) brings a class ${item.genericName} does not have (${extraClasses(lot, itemClasses).join(", ")}), so it cannot be a comparable alternative: check`,
         );
       } else if (!isAmount(covers)) {
         review = true;

@@ -87,6 +87,7 @@ export {
 } from "./prepped/merge.ts";
 export { CONTROLLED_LABEL, pickerLabel } from "./prepped/picker.ts";
 export {
+  alternativesForFloor,
   CLASS_SOURCE,
   COMPARABLE_LABEL,
   comparableAlternatives,
