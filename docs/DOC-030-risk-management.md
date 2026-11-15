@@ -183,7 +183,7 @@ Sequence: a medicine from the same class is packed in place of the intended one 
 - Product: Prepped
 - Traces to: HAZ-105
 
-Alternatives are shown only for a clinician to consider, labelled "Comparable, not equivalent", with their class source; they are added only when the clinician chooses them; never substituted automatically (ADR-003).
+Alternatives are shown only for a clinician to consider, labelled "Comparable, not equivalent", with their class source; they are added only when the clinician chooses them; never substituted automatically (ADR-003). A chosen alternative counts toward the floor only the share of the target the clinician enters, and the item says so (owner, 2026-11-15; OD-055, ADR-026).
 
 ### HAZ-106 A required import document is missing
 - Product: Prepped
@@ -411,4 +411,5 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.8 | 2026-11-12 | RC-103 picker label (SYS-118); RC-109 gases and missing product type (OD-051, REV-001). | Claude, for owner review |
 | 0.9 | 2026-11-12 | RC-106 and HAZ-106: a blocking issue means "No go"; "Not ready" retired; rating unchanged (owner, 2026-11-12; OD-052, ADR-021). HAZ-101 and RC-101: two-digit years read as 20YY, with the reading shown (owner, 2026-11-13; ADR-022). | Claude, for owner review |
 | 0.10 | 2026-11-13 | RC-108 merging needs the same manufacturer (OD-054); RC-107 no lot counted twice and empty floor list; RC-114 accepted exchanges that stop counting or need review (owner, 2026-11-13; ADR-023). | Claude, for owner review |
+| 0.11 | 2026-11-15 | RC-105: a chosen alternative counts only what the clinician enters (owner, 2026-11-15; OD-055, ADR-026). | Claude, for owner review |
 | 0.12 | 2026-11-15 | RC-108: merge review reasons carried into eligibility; no lot number or expiry needs clarification (ADR-027). Numbered 0.12 because the open alternatives branch takes 0.11. | Claude, for owner review |
