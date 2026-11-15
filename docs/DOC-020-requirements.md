@@ -236,7 +236,7 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 - Safety-critical: yes
 - Formerly: PR-1
 
-Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017.
+Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017. A floor item that needs review counts as 0% covered; with no documents required, the document share counts as complete; the 70/30 split stays until the screens are built, when 75/25 or 80/20 may be chosen (owner, 2026-11-15).
 
 ### SYS-107 Blocking issues mean No go
 - Product: Prepped
@@ -265,7 +265,7 @@ A lot is in scope only if its route is oral, sublingual, rectal, topical (skin) 
 - Traces to: UN-106, RC-110
 - Safety-critical: yes
 
-The lead clinician chooses each mission's floor list from the essential-medicines catalogue (DAT-102) and enters a target quantity for each item. Prepped never sets a floor item or a target itself (owner, 2026-11-10). A floor item without a target is "needs review" and counts as not covered.
+The lead clinician chooses each mission's floor list from the essential-medicines catalogue (DAT-102) and enters a target quantity for each item. Prepped never sets a floor item or a target itself (owner, 2026-11-10). A floor item without a target is "needs review" and counts as not covered. A target of 0 asks the lead clinician to confirm it; once confirmed, the item counts as covered, needs no further review, and is left out of the meter (owner, 2026-11-13).
 
 ### SYS-111 Estimate from anticipated caseload
 - Product: Prepped
@@ -279,14 +279,14 @@ From the anticipated caseload the team leader enters, Prepped may offer an estim
 - Traces to: UN-103, UN-106, RC-106, RC-112
 - Safety-critical: yes
 
-Prepped shows "Go" only when every floor item's target is covered by eligible stock, combining lots from different donations, and every document the destination's rule card requires is prepared and marked reviewed. Otherwise it shows "No go" and lists each short floor item with the amount short, and each missing document. The indicator always carries the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (owner, 2026-11-10; ADR-009).
+Prepped shows "Go" only when every floor item's target is covered by eligible stock, combining lots from different donations, and every document the destination's rule card requires is prepared and marked reviewed, by the lead clinician or team leader (owner, 2026-11-13). Otherwise it shows "No go" and lists each short floor item with the amount short, and each missing document. The indicator always carries the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (owner, 2026-11-10; ADR-009). With no floor items chosen, the indicator shows "No go" with that reason, never "Go" (owner, 2026-11-13). An accepted exchange for an item not on the floor list also means "No go" until it is checked (owner, 2026-11-13; ADR-023).
 
 ### SYS-113 Combining donations and showing shortages
 - Product: Prepped
 - Traces to: UN-106, RC-112
 - Safety-critical: yes
 
-For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Lots of the same medicine, formulation and strength combine directly; other formulations and strengths are handled as exchanges (SYS-115) (owner, 2026-11-11).
+For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Lots of the same medicine, formulation and strength combine directly; other formulations and strengths are handled as exchanges (SYS-115) (owner, 2026-11-11). A lot combines toward a floor item when both refer to the same catalogue entry, whoever made it, and only eligible lots count; each lot is listed with its donor and manufacturer (owner, 2026-11-13; OD-054, ADR-024). A lot that would count toward two floor items (the same product listed twice, or a lot accepted as an exchange for one item that is another item's own product) makes both items "needs review", so nothing is counted twice; the clinician resolves it, and Prepped never decides which item gets the stock (owner, 2026-11-13; ADR-023).
 
 ### SYS-114 Supplemental medicines
 - Product: Prepped
@@ -300,7 +300,7 @@ The lead clinician may add supplemental medicines beyond the floor list. Supplem
 - Traces to: UN-106, RC-114
 - Safety-critical: yes
 
-For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it, and then counts exactly the share of the target the clinician enters when accepting it. Prepped never converts doses by itself (owner, 2026-11-11; ADR-011). For example, tablets and an oral suspension of the same medicine may meet a floor item either alone or in portions of both, each counting the share entered for it (owner, 2026-11-12). Who accepts an exchange: the clinician, until OD-048 is decided.
+For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it, and then counts exactly the share of the target the clinician enters when accepting it. Prepped never converts doses by itself (owner, 2026-11-11; ADR-011). For example, tablets and an oral suspension of the same medicine may meet a floor item either alone or in portions of both, each counting the share entered for it (owner, 2026-11-12). Who accepts an exchange: the clinician, until OD-048 is decided. An accepted exchange is not counted if its lot is missing or no longer eligible (for example after the arrival date moves), with the reason shown; one that is not the same medicine, is the item's own product, or has no valid amount entered makes the item "needs review", so the entry stays visible until the clinician corrects it (owner, 2026-11-13; ADR-023).
 
 ### SYS-116 Expired lots set aside for discard
 - Product: Prepped
@@ -314,7 +314,7 @@ Lots whose expiry date has passed on the date of the check are listed separately
 - Traces to: UN-101, RC-108
 - Safety-critical: yes
 
-Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number and medicine but different expiry dates are not merged; they are marked "needs review" until a person corrects them.
+Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number, medicine and manufacturer but different expiry dates are not merged; they are marked "needs review" until a person corrects them. Lines from different manufacturers are different lots even with the same lot number (owner, 2026-11-13; OD-054). A line without a manufacturer is not treated as the same manufacturer, even where that is likely: it never merges and raises no expiry conflict, and a line sharing its lot number is flagged "Same lot number, different details: check" (owner, 2026-11-13).
 
 ### SYS-118 Controlled medicines labelled in the floor-list picker
 - Product: Prepped
@@ -415,4 +415,5 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.9 | 2026-11-12 | SYS-109: gases matched by dosage-form prefix (REV-002). | Claude, for owner review |
 | 0.10 | 2026-11-12 | SYS-105: an unreadable expiry needs review like a missing one; every unambiguous label format is read (owner, 2026-11-13; ADR-022). SYS-107: a blocking issue means "No go"; "Not ready" retired (owner, 2026-11-12; OD-052, ADR-021). SYS-102: shelf-life rule file and its WHO source, verified by the owner; WHO's exceptions not applied (OD-053). | Claude, for owner review |
 | 0.12 | 2026-11-13 | SpareWing iteration 1: SYS-301 alternates one way; SYS-302 no stock; SYS-303 availability every day; SYS-304 ETA and "unverified"; SYS-307 unknown pilots not counted; SYS-308 unknown return and ties; SYS-309 who records a decision (proposed, for owner review). Numbered 0.12 because the floor-coverage branch takes 0.11. | Claude, for owner review |
+| 0.13 | 2026-11-13 | SYS-113 lots shown with their manufacturer; SYS-117 lots are per manufacturer, and a line without one is not treated as the same (owner, 2026-11-13; OD-054, ADR-024); SYS-112 documents marked reviewed by the lead clinician or team leader (owner, 2026-11-13); SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). (prepared as 0.11 on the floor-coverage branch, renumbered after the SpareWing merge) SYS-106 meter decisions (owner, 2026-11-15). | Claude, for owner review |
 | 0.14 | 2026-11-15 | SYS-301 to SYS-309: the SpareWing interpretations decided by the owner (owner, 2026-11-15; ADR-025): alternates one way, with an interchange to confirm; SYS-304 "data missing" in place of "unknown". Numbered 0.14 because the floor-coverage branch takes 0.13. | Claude, for owner review |

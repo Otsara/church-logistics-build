@@ -31,7 +31,7 @@ effective_date:
 | Go or No go | Prepped's indicator of whether the floor list and required documents are met. An indicator only; the lead clinician or team leader decides whether to deploy (owner, 2026-11-10). |
 | Golden example | A recorded input and expected AI output used to test an AI step without calling a model. Drawn only from the development partition. |
 | Held-back set | One third of the generated data, sealed and never used for building, tuning or prompts, used once for pre-release confirmation (DAT-002). |
-| Lot | A quantity of one medicine with one lot number and expiry date, from one donor. |
+| Lot | A quantity of one medicine from one manufacturer, with one lot number and expiry date; donor lines of the same lot merge into one, keeping every donor (OD-011, OD-054). |
 | Mutation score | The share of deliberately introduced code faults that the tests detect (Stryker). |
 | Needs review (Prepped) | A lot whose data is incomplete, such as no expiry date. Never counted as usable. |
 | Open decision | A question only the owner can answer, listed in DOC-003. |
@@ -55,4 +55,5 @@ effective_date:
 | 0.2 | 2026-11-10 | Added enteral and topical scope, floor list, Go or No go, and supplement. | Claude, for owner review |
 | 0.3 | 2026-11-11 | Added discard list and exchange; updated scope and readiness. | Claude, for owner review |
 | 0.4 | 2026-11-12 | Scope entry: feeding tube dropped (OD-045). | Claude, for owner review |
+| 0.5 | 2026-11-13 | Lot: one manufacturer (OD-054). | Claude, for owner review |
 | 0.6 | 2026-11-15 | "Unknown (SpareWing)" renamed "Data missing" (owner, 2026-11-15). Numbered 0.6 because the floor-coverage branch takes 0.5. | Claude, for owner review |
