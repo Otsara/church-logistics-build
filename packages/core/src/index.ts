@@ -78,3 +78,9 @@ export {
   type DecisionInput,
   type DecisionResult,
 } from "./sparewing/decision.ts";
+export {
+  mergeDonorLines,
+  SAME_LOT_NUMBER_FLAG,
+  type DonorLine,
+  type MergedLot,
+} from "./prepped/merge.ts";

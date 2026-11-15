@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.13
+version: 0.14
 status: Draft
 effective_date:
 ---
@@ -126,3 +126,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.11 | 2026-11-13 | IT-001 status: SpareWing candidate rules built. Numbered 0.11 because the floor-coverage branch takes 0.10. | Claude, for owner review |
 | 0.12 | 2026-11-13 | IT-001 status: eligibility reviewed (REV-003); floor coverage built. (prepared as 0.10 on the floor-coverage branch, renumbered after the SpareWing merge) | Claude, for owner review |
 | 0.13 | 2026-11-15 | IT-001 status: SpareWing interpretations decided (ADR-025). Numbered 0.13 because the floor-coverage branch takes 0.12. | Claude, for owner review |
+| 0.14 | 2026-11-15 | IT-001 status: donor-line merging built. Numbered 0.14 because the SpareWing decisions branch takes 0.13. | Claude, for owner review |
