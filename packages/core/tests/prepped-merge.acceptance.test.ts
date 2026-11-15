@@ -3,6 +3,8 @@
 import { describe, expect, it } from "vitest";
 import {
   mergeDonorLines,
+  NO_LOT_NUMBER_FLAG,
+  NO_READABLE_EXPIRY_FLAG,
   SAME_LOT_NUMBER_FLAG,
   type DonorLine,
 } from "../src/prepped/merge.ts";
@@ -37,8 +39,18 @@ describe("Merging donor lines", () => {
         manufacturer: "Synthetic Maker X",
         quantity: 110,
         donors: [
-          { donorId: "D001", lineId: "D001-1", quantity: 60 },
-          { donorId: "D002", lineId: "D002-7", quantity: 50 },
+          {
+            donorId: "D001",
+            lineId: "D001-1",
+            lotNumber: "SYN-A100",
+            quantity: 60,
+          },
+          {
+            donorId: "D002",
+            lineId: "D002-7",
+            lotNumber: "SYN-A100",
+            quantity: 50,
+          },
         ],
         flags: [],
         needsReview: false,
@@ -59,6 +71,11 @@ describe("Merging donor lines", () => {
     ]);
     expect(spelled).toHaveLength(1);
     expect(spelled[0]?.quantity).toBe(120);
+    // Every line's lot number is kept exactly as entered, for recalls (owner, 2026-11-15).
+    expect(spelled[0]?.donors.map((d) => d.lotNumber)).toEqual([
+      "SYN-A100",
+      " syn-a100 ",
+    ]);
   });
 
   it('[TC-121] Given two donor lines with the same lot number and medicine but expiry dates of 2027-06-30 and 2027-09-30, then they are not merged and both are "needs review"', () => {
@@ -135,23 +152,36 @@ describe("Donor lines that never merge", () => {
     ]);
   });
 
-  it("[SYS-117] Given lines without a lot number, or without a readable expiry, then they never merge; lines without a lot number are not flagged", () => {
+  it("[SYS-117] Given lines without a lot number, or without a readable expiry, then they never merge and each needs clarification with the donor (owner, 2026-11-15)", () => {
     const noLot = mergeDonorLines([
       line({ lotNumber: null }),
       line({ lineId: "D002-7", lotNumber: " " }),
     ]);
-    expect(noLot.map((l) => [l.lineIds, l.flags])).toEqual([
-      [["D001-1"], []],
-      [["D002-7"], []],
+    expect(noLot.map((l) => [l.lineIds, l.flags, l.needsReview])).toEqual([
+      [["D001-1"], [NO_LOT_NUMBER_FLAG], true],
+      [["D002-7"], [NO_LOT_NUMBER_FLAG], true],
     ]);
     const noExpiry = mergeDonorLines([
       line({ expiry: null }),
       line({ lineId: "D002-7", expiry: "2028-02-30" }),
     ]);
-    expect(noExpiry.map((l) => [l.lineIds, l.expiry, l.flags])).toEqual([
-      [["D001-1"], null, [SAME_LOT_NUMBER_FLAG]],
-      [["D002-7"], "2028-02-30", [SAME_LOT_NUMBER_FLAG]],
+    expect(
+      noExpiry.map((l) => [l.lineIds, l.expiry, l.flags, l.needsReview]),
+    ).toEqual([
+      [["D001-1"], null, [NO_READABLE_EXPIRY_FLAG, SAME_LOT_NUMBER_FLAG], true],
+      [
+        ["D002-7"],
+        "2028-02-30",
+        [NO_READABLE_EXPIRY_FLAG, SAME_LOT_NUMBER_FLAG],
+        true,
+      ],
     ]);
+    expect(NO_LOT_NUMBER_FLAG).toBe(
+      "no lot number recorded: clarify with the donor before accepting this donation",
+    );
+    expect(NO_READABLE_EXPIRY_FLAG).toBe(
+      "no readable expiry date: clarify with the donor before accepting this donation",
+    );
   });
 
   it("[SYS-117] Given three lines of one lot and a fourth of another lot, then the three merge in entry order and the fourth stays alone, unflagged", () => {
@@ -168,13 +198,13 @@ describe("Donor lines that never merge", () => {
     expect(mergeDonorLines([])).toEqual([]);
   });
 
-  it("[SYS-117] Given two lines that both lack a lot number, or both lack a manufacturer, then they stay apart, and lines without a lot number are never flagged", () => {
+  it("[SYS-117] Given two lines that both lack a lot number, or both lack a manufacturer, then they stay apart; lines without a lot number need clarification but are never flagged as sharing a lot number", () => {
     expect(
       mergeDonorLines([
         line({ lotNumber: null }),
         line({ lineId: "D002-7", lotNumber: null }),
       ]).map((l) => l.flags),
-    ).toEqual([[], []]);
+    ).toEqual([[NO_LOT_NUMBER_FLAG], [NO_LOT_NUMBER_FLAG]]);
     const noMaker = mergeDonorLines([
       line({ manufacturer: null }),
       line({ lineId: "D002-7", manufacturer: null }),
@@ -192,7 +222,7 @@ describe("Donor lines that never merge", () => {
     ]);
     expect(lots.map((l) => [l.flags, l.needsReview])).toEqual([
       [[SAME_LOT_NUMBER_FLAG], false],
-      [[SAME_LOT_NUMBER_FLAG], false],
+      [[NO_READABLE_EXPIRY_FLAG, SAME_LOT_NUMBER_FLAG], true],
     ]);
   });
 

@@ -5,11 +5,19 @@
  * (OD-054, ADR-024). Lines sharing a lot number that do not merge stay separate, each flagged
  * "Same lot number, different details: check" (TC-127). The same medicine from the same known
  * manufacturer with different expiry dates also needs review (SYS-117, TC-121). A line without a
- * manufacturer, a lot number or a readable expiry never merges (owner, 2026-11-13).
+ * manufacturer, a lot number or a readable expiry never merges (owner, 2026-11-13); one without a
+ * lot number or a readable expiry also needs review, to be clarified with the donor before the
+ * donation is accepted (owner, 2026-11-15). Lines are matched ignoring capitals and surrounding
+ * spaces, and every line's lot number is kept as entered, for recalls (owner, 2026-11-15).
  */
 import { readExpiry } from "./expiry.ts";
 
 export const SAME_LOT_NUMBER_FLAG = "Same lot number, different details: check";
+/** Without a lot number or a readable expiry the donation's viability is in question (owner, 2026-11-15). */
+export const NO_LOT_NUMBER_FLAG =
+  "no lot number recorded: clarify with the donor before accepting this donation";
+export const NO_READABLE_EXPIRY_FLAG =
+  "no readable expiry date: clarify with the donor before accepting this donation";
 
 /** One line of a donor's list, as entered or as read by the donor-list step and checked. */
 export interface DonorLine {
@@ -38,6 +46,8 @@ export interface MergedLot {
   readonly donors: readonly {
     readonly donorId: string;
     readonly lineId: string;
+    /** As entered on the donor's line. */
+    readonly lotNumber: string | null;
     readonly quantity: number;
   }[];
   readonly flags: readonly string[];
@@ -92,8 +102,11 @@ export function mergeDonorLines(lines: readonly DonorLine[]): MergedLot[] {
       medicine,
       date,
       lines: [line],
-      flags: [],
-      needsReview: false,
+      flags: [
+        ...(lot === null ? [NO_LOT_NUMBER_FLAG] : []),
+        ...(date === null ? [NO_READABLE_EXPIRY_FLAG] : []),
+      ],
+      needsReview: lot === null || date === null,
     };
     drafts.push(draft);
     if (key !== null) byKey.set(key, draft);
@@ -133,6 +146,7 @@ export function mergeDonorLines(lines: readonly DonorLine[]): MergedLot[] {
     donors: merged.map((l) => ({
       donorId: l.donorId,
       lineId: l.lineId,
+      lotNumber: l.lotNumber,
       quantity: l.quantity,
     })),
     flags,

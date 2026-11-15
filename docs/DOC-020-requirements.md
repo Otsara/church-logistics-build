@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.15
+version: 0.16
 status: Draft
 effective_date:
 ---
@@ -314,7 +314,7 @@ Lots whose expiry date has passed on the date of the check are listed separately
 - Traces to: UN-101, RC-108
 - Safety-critical: yes
 
-Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number, medicine and manufacturer but different expiry dates are not merged; they are marked "needs review" until a person corrects them. Lines from different manufacturers are different lots even with the same lot number (owner, 2026-11-13; OD-054). A line without a manufacturer is not treated as the same manufacturer, even where that is likely: it never merges and raises no expiry conflict, and a line sharing its lot number is flagged "Same lot number, different details: check" (owner, 2026-11-13).
+Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number, medicine and manufacturer but different expiry dates are not merged; they are marked "needs review" until a person corrects them. Lines from different manufacturers are different lots even with the same lot number (owner, 2026-11-13; OD-054). A line without a manufacturer is not treated as the same manufacturer, even where that is likely: it never merges and raises no expiry conflict, and a line sharing its lot number is flagged "Same lot number, different details: check" (owner, 2026-11-13). A line without a lot number or a readable expiry never merges and needs review: the donation's viability is in question until it is clarified with the donor (owner, 2026-11-15). Lines are matched ignoring capitals and surrounding spaces, and every line's lot number is kept as entered, for recalls (owner, 2026-11-15). A lot marked for review when merging stays "needs review" at eligibility, never counted, until a person resolves it (ADR-027).
 
 ### SYS-118 Controlled medicines labelled in the floor-list picker
 - Product: Prepped
@@ -418,3 +418,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.13 | 2026-11-13 | SYS-113 lots shown with their manufacturer; SYS-117 lots are per manufacturer, and a line without one is not treated as the same (owner, 2026-11-13; OD-054, ADR-024); SYS-112 documents marked reviewed by the lead clinician or team leader (owner, 2026-11-13); SYS-110 a target of 0 confirmed by the lead clinician (owner, 2026-11-13); SYS-112 empty floor list and stray exchanges mean "No go"; SYS-113 matching by catalogue entry and no lot counted twice; SYS-115 invalid or ineligible accepted exchanges (owner, 2026-11-13; ADR-023). (prepared as 0.11 on the floor-coverage branch, renumbered after the SpareWing merge) SYS-106 meter decisions (owner, 2026-11-15). | Claude, for owner review |
 | 0.14 | 2026-11-15 | SYS-301 to SYS-309: the SpareWing interpretations decided by the owner (owner, 2026-11-15; ADR-025): alternates one way, with an interchange to confirm; SYS-304 "data missing" in place of "unknown". Numbered 0.14 because the floor-coverage branch takes 0.13. | Claude, for owner review |
 | 0.15 | 2026-11-15 | SYS-108: exchanges are not alternatives; counting a chosen alternative is open (OD-055). SYS-108: chosen alternatives count what the clinician enters (owner, 2026-11-15; OD-055, ADR-026). | Claude, for owner review |
+| 0.16 | 2026-11-15 | SYS-117: no lot number or readable expiry needs clarification; lot numbers kept as entered; merge review reasons carried into eligibility (owner, 2026-11-15; ADR-027). Numbered 0.16 because the open alternatives branch takes 0.15. | Claude, for owner review |
