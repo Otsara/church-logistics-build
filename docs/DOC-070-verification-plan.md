@@ -416,6 +416,12 @@ Given a snapshot, then only products whose every reading is in scope are kept, s
 
 Given a floor item with a target of 100 and 40 eligible tablets, when the clinician accepts an oral suspension exchange covering 30 and another tablet strength covering 30, then the item is covered, each part counting what was entered for it.
 
+### TC-134 Chosen comparable alternative counts what the clinician enters
+- Product: Prepped
+- Traces to: SYS-108, SYS-112
+
+Given a floor item with a target of 300 and 100 eligible, when the clinician chooses a comparable alternative in the same class and enters that it covers 200, then the item is covered and shows that it is covered partly by a comparable alternative the clinician chose; when the clinician enters 120, the item stays 80 short; without a choice, nothing is counted (OD-055; owner, 2026-11-15).
+
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -551,4 +557,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.15 | 2026-11-15 | TC-301 interchange note; TC-304 "data missing" (owner, 2026-11-15; ADR-025). Numbered 0.15 because the floor-coverage branch takes 0.14. | Claude, for owner review |
 | 0.16 | 2026-11-15 | Implemented: TC-107, TC-121, TC-127, with tests of lines without a manufacturer, lot number or readable expiry (SYS-117). Numbered 0.16 because the SpareWing decisions branch takes 0.15. | Claude, for owner review |
 | 0.17 | 2026-11-15 | Implemented: TC-132 picker label. Numbered 0.17 because open branches take 0.14 to 0.16. | Claude, for owner review |
-| 0.18 | 2026-11-15 | Implemented: TC-125 comparable alternatives. | Claude, for owner review |
+| 0.18 | 2026-11-15 | Implemented: TC-125 comparable alternatives. New TC-134 chosen alternatives count what the clinician enters (OD-055). | Claude, for owner review |

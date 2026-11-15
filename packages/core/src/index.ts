@@ -39,6 +39,7 @@ export {
   assessFloor,
   INDICATOR_LABEL,
   type AcceptedExchange,
+  type ChosenAlternative,
   type FloorAssessment,
   type FloorInput,
   type FloorItem,
