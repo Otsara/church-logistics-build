@@ -570,5 +570,6 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.16 | 2026-11-15 | Implemented: TC-107, TC-121, TC-127, with tests of lines without a manufacturer, lot number or readable expiry (SYS-117). Numbered 0.16 because the SpareWing decisions branch takes 0.15. | Claude, for owner review |
 | 0.17 | 2026-11-15 | Implemented: TC-132 picker label. Numbered 0.17 because open branches take 0.14 to 0.16. | Claude, for owner review |
 | 0.18 | 2026-11-15 | Implemented: TC-125 comparable alternatives. New TC-134 chosen alternatives count what the clinician enters (OD-055). | Claude, for owner review |
+| 0.19 | 2026-11-15 | Tests for SYS-117: lines without a lot number or readable expiry, lot numbers kept as entered, merge review reasons at eligibility (ADR-027). Numbered 0.19 because the open alternatives branch takes 0.18. | Claude, for owner review |
 | 0.20 | 2026-11-15 | New TC-135 alternatives bring no extra class and are offered when the item is short (ADR-028), implemented. Numbered 0.20 because the merge follow-ups branch takes 0.19. | Claude, for owner review |
 | 0.21 | 2026-11-15 | New TC-136 a chosen amount beyond the lot needs review, and an ineligible lot is reported before a missing amount (ADR-029), implemented. | Claude, for owner review |

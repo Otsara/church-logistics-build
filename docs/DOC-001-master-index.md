@@ -27,7 +27,7 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-070 | Verification and validation plan | 0.21 | Draft | `docs/DOC-070-verification-plan.md` |
 | DOC-080 | Traceability matrix | 0.1 | Draft | `docs/DOC-080-traceability-matrix.md` |
 | DOC-090 | Third-party software, services and data register | 0.7 | Draft | `docs/DOC-090-third-party-register.md` |
-| DOC-100 | Implementation plan and submission requirements | 0.14 | Draft | `docs/DOC-100-implementation-plan.md` |
+| DOC-100 | Implementation plan and submission requirements | 0.15 | Draft | `docs/DOC-100-implementation-plan.md` |
 
 Items defined, by type:
 
@@ -47,8 +47,8 @@ Items defined, by type:
 | SOUP | 18 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 28 |
-| REV | 6 |
+| ADR | 29 |
+| REV | 7 |
 <!-- END GENERATED -->
 
 ## Revision history

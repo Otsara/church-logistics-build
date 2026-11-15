@@ -502,3 +502,39 @@ describe("Expiry formats printed on labels", () => {
     }
   });
 });
+
+describe("Review reasons carried from merging donor lines", () => {
+  it("[SYS-117] Given a lot that merging marked for review, then it needs review with those reasons and is never eligible until a person resolves them", () => {
+    const conflict =
+      "one lot number with two expiry dates (2027-06-30 and 2028-01-15): check";
+    expect(checkLot(lot({ reviewReasons: [conflict] }), TRIP)).toEqual({
+      lotId: "LOT-T1",
+      status: "needs_review",
+      reasons: [conflict, "410 days remaining, 365 required"],
+      expiry: "2028-01-15",
+      expiryMonthOnly: false,
+      daysRemaining: 410,
+    });
+    // A block, a short shelf life or an expiry already passed still decides first.
+    expect(
+      checkLot(lot({ reviewReasons: [conflict], coldChain: true }), TRIP)
+        .status,
+    ).toBe("blocked");
+    expect(
+      checkLot(lot({ reviewReasons: [conflict], expiry: "2027-03-01" }), TRIP)
+        .status,
+    ).toBe("blocked");
+    expect(
+      checkLot(lot({ reviewReasons: [conflict], expiry: "2026-11-01" }), TRIP),
+    ).toMatchObject({
+      status: "discard",
+      reasons: [conflict, "Discard: expired"],
+    });
+    // With no expiry, the merge's reason and the expiry reason both show.
+    expect(
+      checkLot(lot({ reviewReasons: [conflict], expiry: null }), TRIP).reasons,
+    ).toEqual([conflict, "no expiry date recorded: check the lot"]);
+    // No review reasons: unchanged.
+    expect(checkLot(lot({ reviewReasons: [] }), TRIP).status).toBe("eligible");
+  });
+});
