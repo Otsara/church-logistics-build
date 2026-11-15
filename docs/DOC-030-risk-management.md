@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.9
+version: 0.10
 status: Draft
 effective_date:
 ---
@@ -207,7 +207,7 @@ Sequence: coverage is computed wrongly and the team leaves short of needed medic
 - Product: Prepped
 - Traces to: HAZ-107
 
-Coverage and readiness are computed by safety-critical code to the rules in SYS-106, with exact worked tests.
+Coverage and readiness are computed by safety-critical code to the rules in SYS-106, with exact worked tests. A lot that would count toward two floor items makes both "needs review" and the indicator "No go"; an empty floor list is "No go" (owner, 2026-11-13; ADR-023).
 
 ### HAZ-108 Donor lines are double-counted or wrongly merged
 - Product: Prepped
@@ -219,7 +219,7 @@ Harm: quantities overstated or understated; readiness wrong. Severity: serious. 
 - Product: Prepped
 - Traces to: HAZ-108
 
-Donor lines are merged by a deterministic rule in core, never by the AI step. Lines merge only when lot number, generic name, strength, form and expiry all match; otherwise they stay separate and are flagged "Same lot number, different details: check" (owner, 2026-11-12); ADR-017.
+Donor lines are merged by a deterministic rule in core, never by the AI step. Lines merge only when lot number, generic name, strength, form, expiry and manufacturer all match (owner, 2026-11-13; OD-054); otherwise they stay separate and are flagged "Same lot number, different details: check" (owner, 2026-11-12); ADR-017.
 
 ### HAZ-109 A medicine outside the build's scope is packed
 - Product: Prepped
@@ -291,7 +291,7 @@ Sequence: a different strength or formulation is counted as if it supplied the s
 - Product: Prepped
 - Traces to: HAZ-114
 
-Exchanges are offered, never applied; one counts only after the clinician accepts it and states how much of the target it covers. Prepped never converts doses (ADR-011).
+Exchanges are offered, never applied; one counts only after the clinician accepts it and states how much of the target it covers. Prepped never converts doses (ADR-011). An accepted exchange whose lot is missing or no longer eligible stops counting, with the reason shown; one that is not the same medicine, is the item's own product or has no valid amount makes the item "needs review" (owner, 2026-11-13; ADR-023).
 
 ### RC-115 Expired lots set aside for discard
 - Product: Prepped
@@ -410,3 +410,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.7 | 2026-11-12 | §1 severity and probability definitions and the full acceptability rule; every hazard rated (owner, 2026-11-12; OD-047, ADR-019); §1.5 residual risk. | Claude, for owner review |
 | 0.8 | 2026-11-12 | RC-103 picker label (SYS-118); RC-109 gases and missing product type (OD-051, REV-001). | Claude, for owner review |
 | 0.9 | 2026-11-12 | RC-106 and HAZ-106: a blocking issue means "No go"; "Not ready" retired; rating unchanged (owner, 2026-11-12; OD-052, ADR-021). HAZ-101 and RC-101: two-digit years read as 20YY, with the reading shown (owner, 2026-11-13; ADR-022). | Claude, for owner review |
+| 0.10 | 2026-11-13 | RC-108 merging needs the same manufacturer (OD-054); RC-107 no lot counted twice and empty floor list; RC-114 accepted exchanges that stop counting or need review (owner, 2026-11-13; ADR-023). | Claude, for owner review |
