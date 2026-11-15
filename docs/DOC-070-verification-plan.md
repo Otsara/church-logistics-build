@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.13
+version: 0.17
 status: Draft
 effective_date:
 ---
@@ -547,3 +547,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.10 | 2026-11-12 | TC-123 dosage-form prefix; TC-027 folder named with two dots (REV-002). | Claude, for owner review |
 | 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). TC-105: "No go" in place of "Not ready" (OD-052). New TC-133 expiry formats on labels (owner, 2026-11-13). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |
 | 0.13 | 2026-11-13 | Implemented: TC-301 to TC-309 and TC-313 to TC-316, with tests of the proposed rules (SYS-301, SYS-303, SYS-304, SYS-307). Numbered 0.13 because the floor-coverage branch takes 0.12. | Claude, for owner review |
+| 0.17 | 2026-11-15 | Implemented: TC-132 picker label. Numbered 0.17 because open branches take 0.14 to 0.16. | Claude, for owner review |

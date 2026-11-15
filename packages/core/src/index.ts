@@ -67,3 +67,4 @@ export {
   type DecisionInput,
   type DecisionResult,
 } from "./sparewing/decision.ts";
+export { CONTROLLED_LABEL, pickerLabel } from "./prepped/picker.ts";
