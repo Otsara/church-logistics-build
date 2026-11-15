@@ -9,8 +9,11 @@
  */
 export type PreppedStatus = "eligible" | "blocked" | "needs_review" | "discard";
 
-/** SpareWing part or pilot candidates (SYS-301 to SYS-306). */
-export type SpareWingStatus = "candidate" | "excluded" | "unknown";
+/**
+ * SpareWing part or pilot candidates (SYS-301 to SYS-306). "data_missing": something needed was
+ * not entered, and the screen says what (owner, 2026-11-15).
+ */
+export type SpareWingStatus = "candidate" | "excluded" | "data_missing";
 
 /** The outcome of applying rules to one item, with every reason a person needs to check it. */
 export interface RuleOutcome<Status extends PreppedStatus | SpareWingStatus> {

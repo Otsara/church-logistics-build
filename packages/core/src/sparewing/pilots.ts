@@ -2,7 +2,7 @@
  * SpareWing pilot candidates (ARC-301; safety-critical). A pilot is a candidate only if the entered
  * ratings meet the aircraft type's requirement plus the aircraft's own, currency holds from the
  * date needed through the expected end of the disruption, and entered availability covers every
- * day of it (SYS-303, ADR-015). Anything not entered is "unknown", never a silent pass or
+ * day of it (SYS-303, ADR-015). Anything not entered is "data missing", naming what, never a silent pass or
  * exclusion (SYS-304); something known that rules the pilot out outweighs it. Pilots are named by
  * id only (ARC-013). Fitness to fly is never judged (IU-302).
  */
@@ -31,18 +31,20 @@ export interface PilotNeed {
 
 export interface PilotResult extends RuleOutcome<SpareWingStatus> {
   readonly pilotId: string;
+  /** What was not entered, for example "availability not entered" (owner, 2026-11-15). */
+  readonly missingData: readonly string[];
   readonly baseId: string;
   readonly flag: typeof SIGN_OFF_FLAG;
 }
 
 type Check = {
   readonly reason: string;
-  readonly effect: "ok" | "unknown" | "excluded";
+  readonly effect: "ok" | "missing" | "excluded";
 };
 
 function ratings(pilot: Pilot, required: readonly string[]): Check {
   if (pilot.ratings === null)
-    return { reason: "ratings not entered", effect: "unknown" };
+    return { reason: "ratings not entered", effect: "missing" };
   const held = pilot.ratings;
   const missing = required.filter((r) => !held.includes(r));
   return missing.length > 0
@@ -53,7 +55,7 @@ function ratings(pilot: Pilot, required: readonly string[]): Check {
 function currency(pilot: Pilot, need: PilotNeed): Check {
   const until = pilot.currencyUntil;
   if (until === null)
-    return { reason: "currency not entered", effect: "unknown" };
+    return { reason: "currency not entered", effect: "missing" };
   if (daysBetween(need.neededFrom, until) < 0)
     return { reason: `currency lapsed on ${until}`, effect: "excluded" };
   if (daysBetween(need.expectedEnd, until) < 0)
@@ -67,7 +69,7 @@ function currency(pilot: Pilot, need: PilotNeed): Check {
 function availability(pilot: Pilot, need: PilotNeed): Check {
   const windows = pilot.availability;
   if (windows === null)
-    return { reason: "availability not entered", effect: "unknown" };
+    return { reason: "availability not entered", effect: "missing" };
   const days = daysBetween(need.neededFrom, need.expectedEnd);
   for (let i = 0; i <= days; i++) {
     const day = addDays(need.neededFrom, i);
@@ -96,10 +98,13 @@ export function checkPilot(pilot: Pilot, need: PilotNeed): PilotResult {
     baseId: pilot.baseId,
     status: effects.includes("excluded")
       ? "excluded"
-      : effects.includes("unknown")
-        ? "unknown"
+      : effects.includes("missing")
+        ? "data_missing"
         : "candidate",
     reasons: checks.map((c) => c.reason),
+    missingData: checks
+      .filter((c) => c.effect === "missing")
+      .map((c) => c.reason),
     flag: SIGN_OFF_FLAG,
   };
 }
