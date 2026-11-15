@@ -63,6 +63,8 @@ describe("SpareWing part candidates", () => {
           "air from B02 to B01: 3 days",
         ],
         flag: SIGN_OFF_FLAG,
+        interchange:
+          "interchange with SWP-1000-1 to be confirmed by the pilot, mechanic or flight base director before use",
       },
     ]);
     expect(SIGN_OFF_FLAG).toBe(
@@ -99,6 +101,12 @@ describe("SpareWing part candidates", () => {
     expect(result.candidates[0]?.reasons).toEqual([
       "same part number",
       "at the aircraft's base",
+    ]);
+    // A part with the needed number needs no interchange (owner, 2026-11-15; S1).
+    expect(result.candidates.map((c) => c.interchange)).toEqual([
+      null,
+      null,
+      null,
     ]);
   });
 
@@ -201,6 +209,7 @@ describe("SpareWing pilot candidates", () => {
       pilotId: "PIL01",
       baseId: "B01",
       status: "candidate",
+      missingData: [],
       reasons: [
         "holds R1, R2",
         "current until 2027-06-30",
@@ -223,13 +232,15 @@ describe("SpareWing pilot candidates", () => {
     ]);
   });
 
-  it('[TC-304] Given a pilot with no availability data, then the pilot shows as "unknown", not excluded', () => {
+  it('[TC-304] Given a pilot with no availability data, then the pilot shows as "data missing: availability not entered", not excluded', () => {
     const result = checkPilot(pilot({ availability: null }), PILOT_NEED);
-    expect(result.status).toBe("unknown");
+    expect(result.status).toBe("data_missing");
     expect(result.reasons).toContain("availability not entered");
-    // Ratings and currency not entered are unknown too, never a silent pass or exclusion.
+    expect(result.missingData).toEqual(["availability not entered"]);
+    // Ratings and currency not entered are data missing too, never a silent pass or exclusion.
     expect(checkPilot(pilot({ ratings: null }), PILOT_NEED)).toMatchObject({
-      status: "unknown",
+      status: "data_missing",
+      missingData: ["ratings not entered"],
       reasons: [
         "ratings not entered",
         "current until 2027-06-30",
@@ -239,7 +250,7 @@ describe("SpareWing pilot candidates", () => {
     expect(
       checkPilot(pilot({ currencyUntil: null }), PILOT_NEED).reasons,
     ).toContain("currency not entered");
-    // Something known that rules the pilot out outweighs something unknown.
+    // Something known that rules the pilot out outweighs data missing.
     expect(
       checkPilot(pilot({ availability: null, ratings: ["R1"] }), PILOT_NEED)
         .status,
@@ -348,6 +359,7 @@ describe("SpareWing missed community flights", () => {
           baseId: "B02",
           pilotId: "PIL02",
           pilotStatus: "candidate",
+          pilotMissingData: [],
         },
       ],
     });
@@ -364,13 +376,15 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A03",
           baseId: "B01",
           pilotId: "PIL03",
-          pilotStatus: "unknown",
+          pilotStatus: "data_missing",
+          pilotMissingData: ["availability not entered"],
         },
         {
           aircraftId: "SW-A04",
           baseId: "B01",
           pilotId: "PIL04",
           pilotStatus: "candidate",
+          pilotMissingData: [],
         },
       ],
     });
@@ -379,10 +393,48 @@ describe("SpareWing missed community flights", () => {
       missed: [],
       coveredBy: { aircraftId: "SW-A04", pilotId: "PIL04" },
       reasons: [
-        "SW-A03 with PIL03 at B01 not counted: pilot unknown",
+        "SW-A03 with PIL03 at B01 not counted: pilot data missing (availability not entered)",
         "covered by SW-A04 with PIL04 at B01",
       ],
     });
+  });
+
+  it("[SYS-307] Given an excluded pilot at a listed base, then the cover is not counted, saying so", () => {
+    const result = missedFlights({
+      ...window,
+      cover: [
+        {
+          aircraftId: "SW-A07",
+          baseId: "B01",
+          pilotId: "PIL07",
+          pilotStatus: "excluded",
+          pilotMissingData: [],
+        },
+      ],
+    });
+    expect(result.reasons).toEqual([
+      "SW-A07 with PIL07 at B01 not counted: pilot excluded",
+      "no aircraft and pilot at a listed base can cover",
+    ]);
+    // Everything missing is named.
+    const twoMissing = missedFlights({
+      ...window,
+      cover: [
+        {
+          aircraftId: "SW-A08",
+          baseId: "B01",
+          pilotId: "PIL08",
+          pilotStatus: "data_missing",
+          pilotMissingData: [
+            "currency not entered",
+            "availability not entered",
+          ],
+        },
+      ],
+    });
+    expect(twoMissing.reasons[0]).toBe(
+      "SW-A08 with PIL08 at B01 not counted: pilot data missing (currency not entered; availability not entered)",
+    );
   });
 
   it("[SYS-307] Given two aircraft and pilots able to cover, then the first entered is used and the flights are covered once", () => {
@@ -394,12 +446,14 @@ describe("SpareWing missed community flights", () => {
           baseId: "B01",
           pilotId: "PIL05",
           pilotStatus: "candidate",
+          pilotMissingData: [],
         },
         {
           aircraftId: "SW-A06",
           baseId: "B01",
           pilotId: "PIL06",
           pilotStatus: "candidate",
+          pilotMissingData: [],
         },
       ],
     });

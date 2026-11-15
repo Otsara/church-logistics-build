@@ -433,7 +433,7 @@ Given a catalogue with a controlled medicine, when the lead clinician picks floo
 - Traces to: SYS-301, SYS-305
 - Formerly: S-1
 
-Given a grounded aircraft needing part A, a listed alternate B, and one B at base 2, then B appears as a candidate with source base, transfer mode, ETA and the sign-off flag.
+Given a grounded aircraft needing part A, a listed alternate B, and one B at base 2, then B appears as a candidate with source base, transfer mode, ETA, the sign-off flag, and the interchange to be confirmed by the pilot, mechanic or flight base director (owner, 2026-11-15).
 
 ### TC-302 No candidates
 - Product: SpareWing
@@ -454,7 +454,7 @@ Given a pilot whose entered currency lapsed, then the pilot is excluded with the
 - Traces to: SYS-303, SYS-304
 - Formerly: S-4
 
-Given a pilot with no availability data, then the pilot shows as "unknown", not excluded.
+Given a pilot with no availability data, then the pilot shows as "data missing: availability not entered", not excluded (owner, 2026-11-15).
 
 ### TC-305 Missed community flights
 - Product: SpareWing
@@ -548,4 +548,5 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.11 | 2026-11-12 | TC-104 covers an unreadable expiry (SYS-105). TC-105: "No go" in place of "Not ready" (OD-052). New TC-133 expiry formats on labels (owner, 2026-11-13). Implemented: TC-101 to TC-104, TC-108 to TC-111, TC-118, TC-120, TC-128, TC-129. | Claude, for owner review |
 | 0.13 | 2026-11-13 | Implemented: TC-301 to TC-309 and TC-313 to TC-316, with tests of the proposed rules (SYS-301, SYS-303, SYS-304, SYS-307). Numbered 0.13 because the floor-coverage branch takes 0.12. | Claude, for owner review |
 | 0.14 | 2026-11-13 | TC-107, TC-121, TC-127: manufacturer (OD-054); TC-112 lots shown with their maker. Implemented: TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131, with tests of the proposed safety rules (SYS-106, SYS-112, SYS-113, SYS-115). TC-105 waits for the document draft (AIC-102, iteration 2). (prepared as 0.12 on the floor-coverage branch, renumbered after the SpareWing merge) | Claude, for owner review |
+| 0.15 | 2026-11-15 | TC-301 interchange note; TC-304 "data missing" (owner, 2026-11-15; ADR-025). Numbered 0.15 because the floor-coverage branch takes 0.14. | Claude, for owner review |
 | 0.17 | 2026-11-15 | Implemented: TC-132 picker label. Numbered 0.17 because open branches take 0.14 to 0.16. | Claude, for owner review |
