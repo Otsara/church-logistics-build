@@ -4,6 +4,9 @@
  * the tool never decides that two parts are interchangeable (SYS-301). Parts marked not
  * serviceable, or with none in stock, never appear (SYS-302). Every candidate carries the sign-off
  * flag (SYS-305), and an alternate also the interchange a person must confirm (owner, 2026-11-15). ETAs come only from entered lead times; otherwise "unverified" (SYS-304).
+ * Part numbers match ignoring leading and trailing spaces and letter case; every other character,
+ * dashes included, must match. A base holding fewer than needed is still listed, marked with how
+ * many it holds (owner, 2026-11-15; ADR-030).
  */
 import { addDays, type IsoDate } from "../dates.ts";
 
@@ -36,6 +39,8 @@ export interface PartNeed {
   readonly asOf: IsoDate;
   /** The local order lead time, if the program entered one (SYS-306). */
   readonly orderLeadTimeDays: number | null;
+  /** How many of the part are needed; null when not entered (owner, 2026-11-15; ADR-030). */
+  readonly quantityNeeded: number | null;
 }
 
 export interface PartCandidate {
@@ -51,6 +56,8 @@ export interface PartCandidate {
   readonly flag: typeof SIGN_OFF_FLAG;
   /** For a listed alternate: the interchange a person must confirm (owner, 2026-11-15; S1). */
   readonly interchange: string | null;
+  /** Whether the base holds the quantity needed; null when the quantity needed is not entered. */
+  readonly holdsEnough: boolean | null;
 }
 
 export interface PartSearch {
@@ -62,6 +69,14 @@ export interface PartSearch {
   } | null;
 }
 
+/** A whole number of days, 0 or more; anything else counts as not entered (SYS-304, SYS-306). */
+const isDays = (n: number | null): n is number =>
+  n !== null && Number.isInteger(n) && n >= 0;
+
+/** A part number as compared: no leading or trailing spaces, letter case ignored (ADR-030). */
+const comparable = (partNumber: string): string =>
+  partNumber.trim().toUpperCase();
+
 /** Finds the part candidates for a need. Never throws. */
 export function findPartCandidates(
   need: PartNeed,
@@ -69,10 +84,28 @@ export function findPartCandidates(
   transferModes: readonly TransferMode[],
 ): PartSearch {
   const candidates: PartCandidate[] = [];
+  const needed = need.partNumber.trim();
+  const alternates = need.alternates.map(comparable);
+  const quantityNeeded =
+    need.quantityNeeded !== null &&
+    Number.isInteger(need.quantityNeeded) &&
+    need.quantityNeeded > 0
+      ? need.quantityNeeded
+      : null;
   for (const part of parts) {
     if (!part.serviceable || !(part.quantity > 0)) continue;
-    const same = part.partNumber === need.partNumber;
-    if (!same && !need.alternates.includes(part.partNumber)) continue;
+    const same = comparable(part.partNumber) === comparable(needed);
+    if (!same && !alternates.includes(comparable(part.partNumber))) continue;
+    const holdsEnough =
+      quantityNeeded === null ? null : part.quantity >= quantityNeeded;
+    const quantityNote =
+      quantityNeeded === null
+        ? ["quantity needed not entered: check the base holds enough"]
+        : holdsEnough === true
+          ? []
+          : [
+              `holds ${String(part.quantity)} of ${String(quantityNeeded)} needed`,
+            ];
     const base: Omit<
       PartCandidate,
       "transferMode" | "leadTimeDays" | "eta" | "reasons"
@@ -85,20 +118,21 @@ export function findPartCandidates(
       sourceBaseId: part.baseId,
       quantity: part.quantity,
       flag: SIGN_OFF_FLAG,
+      holdsEnough,
       interchange: same
         ? null
-        : `interchange with ${need.partNumber} to be confirmed by the pilot, mechanic or flight base director before use`,
+        : `interchange with ${needed} to be confirmed by the pilot, mechanic or flight base director before use`,
     };
     const matchReason = same
       ? "same part number"
-      : `listed by the program as an alternate for ${need.partNumber}`;
+      : `listed by the program as an alternate for ${needed}`;
     if (part.baseId === need.aircraftBaseId) {
       candidates.push({
         ...base,
         transferMode: "on site",
         leadTimeDays: 0,
         eta: need.asOf,
-        reasons: [matchReason, "at the aircraft's base"],
+        reasons: [matchReason, "at the aircraft's base", ...quantityNote],
       });
       continue;
     }
@@ -115,15 +149,13 @@ export function findPartCandidates(
         reasons: [
           matchReason,
           `no transfer mode entered ${route}: ETA unverified`,
+          ...quantityNote,
         ],
       });
       continue;
     }
     for (const t of modes) {
-      const known =
-        t.leadTimeDays !== null &&
-        Number.isInteger(t.leadTimeDays) &&
-        t.leadTimeDays >= 0;
+      const known = isDays(t.leadTimeDays);
       candidates.push({
         ...base,
         transferMode: t.mode,
@@ -134,6 +166,7 @@ export function findPartCandidates(
           known
             ? `${t.mode} ${route}: ${String(t.leadTimeDays)} days`
             : `${t.mode} ${route}: no lead time entered, ETA unverified`,
+          ...quantityNote,
         ],
       });
     }
@@ -146,10 +179,9 @@ export function findPartCandidates(
         : {
             message:
               "No candidates found: ask a person (the mechanic or another base) before deciding",
-            orderLeadTime:
-              need.orderLeadTimeDays === null
-                ? "no order lead time entered"
-                : `order lead time entered: ${String(need.orderLeadTimeDays)} days`,
+            orderLeadTime: isDays(need.orderLeadTimeDays)
+              ? `order lead time entered: ${String(need.orderLeadTimeDays)} days`
+              : "no order lead time entered",
           },
   };
 }

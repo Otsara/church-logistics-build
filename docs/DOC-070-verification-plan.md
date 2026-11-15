@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.21
+version: 0.22
 status: Draft
 effective_date:
 ---
@@ -458,7 +458,7 @@ Given a grounded aircraft needing part A, a listed alternate B, and one B at bas
 - Traces to: SYS-306
 - Formerly: S-2
 
-Given no stock and no alternate, then the result says no candidates were found, to ask a human, and shows any entered order lead time.
+Given no stock and no alternate, then the result says no candidates were found, to ask a human, and shows any entered order lead time. A negative, fractional or missing order lead time reads "no order lead time entered"; 0 days is shown (owner, 2026-11-15; ADR-030).
 
 ### TC-303 Lapsed pilot excluded
 - Product: SpareWing
@@ -549,6 +549,18 @@ Given a community whose rule file lists only base 1, and an available aircraft w
 
 Given two options with the same number of missed flights, then the one with the earlier return to service ranks first; given two with the same missed flights and return date, then the one with fewer transfers ranks first; every option stays visible with its reasons (OD-023).
 
+
+### TC-317 Part numbers matched without stray spaces or letter case
+- Product: SpareWing
+- Traces to: SYS-301
+
+Given a needed part number and stock entered with leading or trailing spaces or in another letter case, then they match, as the same part number or a listed alternate; a part number differing by a dash or any other character does not (owner, 2026-11-15; ADR-030).
+
+### TC-318 Quantity of a part needed
+- Product: SpareWing
+- Traces to: SYS-311
+
+Given two of a part needed, then a base holding one is still listed and marked "holds 1 of 2 needed", and a base holding two is not marked; given no valid quantity needed, every candidate says "quantity needed not entered: check the base holds enough" (owner, 2026-11-15; ADR-030).
 ## Revision history
 
 | Version | Date | Change | By |
@@ -573,3 +585,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.19 | 2026-11-15 | Tests for SYS-117: lines without a lot number or readable expiry, lot numbers kept as entered, merge review reasons at eligibility (ADR-027). Numbered 0.19 because the open alternatives branch takes 0.18. | Claude, for owner review |
 | 0.20 | 2026-11-15 | New TC-135 alternatives bring no extra class and are offered when the item is short (ADR-028), implemented. Numbered 0.20 because the merge follow-ups branch takes 0.19. | Claude, for owner review |
 | 0.21 | 2026-11-15 | New TC-136 a chosen amount beyond the lot needs review, and an ineligible lot is reported before a missing amount (ADR-029), implemented. | Claude, for owner review |
+| 0.22 | 2026-11-15 | New TC-317 part numbers matched without stray spaces or letter case, TC-318 quantity of a part needed; TC-302 invalid order lead time, all implemented (ADR-030). | Claude, for owner review |

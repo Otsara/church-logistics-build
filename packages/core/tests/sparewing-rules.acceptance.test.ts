@@ -26,6 +26,7 @@ const NEED: PartNeed = {
   aircraftBaseId: "B01",
   asOf: d("2026-11-16"),
   orderLeadTimeDays: 14,
+  quantityNeeded: 1,
 };
 
 const part = (overrides: Partial<StockPart> = {}): StockPart => ({
@@ -63,6 +64,7 @@ describe("SpareWing part candidates", () => {
           "air from B02 to B01: 3 days",
         ],
         flag: SIGN_OFF_FLAG,
+        holdsEnough: true,
         interchange:
           "interchange with SWP-1000-1 to be confirmed by the pilot, mechanic or flight base director before use",
       },
@@ -174,6 +176,111 @@ describe("SpareWing part candidates", () => {
       ["road", 0, "2026-11-16"],
       ["mail", null, "unverified"],
     ]);
+  });
+
+  it("[TC-317] Given part numbers entered with stray spaces or in another letter case, then they still match; a different dash or character does not", () => {
+    const result = findPartCandidates(
+      { ...NEED, partNumber: " swp-1000-1", alternates: ["swp-2000-2 "] },
+      [
+        part({ id: "P-SAME", partNumber: "SWP-1000-1 ", baseId: "B01" }),
+        part({ id: "P-ALT", partNumber: "  Swp-2000-2", baseId: "B01" }),
+        part({ id: "P-DASH", partNumber: "SWP-10001", baseId: "B01" }),
+        part({ id: "P-OTHER", partNumber: "SWP-1000-2", baseId: "B01" }),
+      ],
+      [],
+    );
+    expect(result.candidates.map((c) => [c.partId, c.match])).toEqual([
+      ["P-SAME", "same part number"],
+      ["P-ALT", "listed alternate"],
+    ]);
+    // The stock part number is shown as entered; the needed number without its stray spaces.
+    expect(result.candidates[1]).toMatchObject({
+      partNumber: "  Swp-2000-2",
+      interchange:
+        "interchange with swp-1000-1 to be confirmed by the pilot, mechanic or flight base director before use",
+    });
+  });
+
+  it("[TC-318] Given two parts needed, then a base holding one is still listed, marked as holding 1 of 2 needed; a base holding enough is not marked; with no valid quantity needed, every candidate says so", () => {
+    const result = findPartCandidates(
+      { ...NEED, quantityNeeded: 2 },
+      [
+        part({ id: "P-ONE", baseId: "B01" }),
+        part({ id: "P-TWO", baseId: "B01", quantity: 2 }),
+      ],
+      [],
+    );
+    expect(
+      result.candidates.map((c) => [c.partId, c.holdsEnough, c.reasons]),
+    ).toEqual([
+      [
+        "P-ONE",
+        false,
+        [
+          "listed by the program as an alternate for SWP-1000-1",
+          "at the aircraft's base",
+          "holds 1 of 2 needed",
+        ],
+      ],
+      [
+        "P-TWO",
+        true,
+        [
+          "listed by the program as an alternate for SWP-1000-1",
+          "at the aircraft's base",
+        ],
+      ],
+    ]);
+    for (const quantityNeeded of [null, 0, -1, 1.5, Number.NaN]) {
+      const unknown = findPartCandidates(
+        { ...NEED, quantityNeeded },
+        [part({ baseId: "B01" })],
+        [],
+      );
+      expect(unknown.candidates[0], String(quantityNeeded)).toMatchObject({
+        holdsEnough: null,
+        reasons: [
+          "listed by the program as an alternate for SWP-1000-1",
+          "at the aircraft's base",
+          "quantity needed not entered: check the base holds enough",
+        ],
+      });
+    }
+    // The note follows each transfer mode's candidate too.
+    const away = findPartCandidates(
+      { ...NEED, quantityNeeded: 3 },
+      [part({ quantity: 2 })],
+      [AIR],
+    );
+    expect(away.candidates[0]?.reasons).toEqual([
+      "listed by the program as an alternate for SWP-1000-1",
+      "air from B02 to B01: 3 days",
+      "holds 2 of 3 needed",
+    ]);
+    const unrouted = findPartCandidates(
+      { ...NEED, quantityNeeded: 3 },
+      [part({ quantity: 2 })],
+      [],
+    );
+    expect(unrouted.candidates[0]?.reasons).toEqual([
+      "listed by the program as an alternate for SWP-1000-1",
+      "no transfer mode entered from B02 to B01: ETA unverified",
+      "holds 2 of 3 needed",
+    ]);
+  });
+
+  it("[TC-302] Given no candidates and an order lead time that is negative, fractional or not a number, then it reads as not entered; 0 days is shown", () => {
+    for (const orderLeadTimeDays of [-3, 2.5, Number.NaN]) {
+      expect(
+        findPartCandidates({ ...NEED, orderLeadTimeDays }, [], []).noCandidates
+          ?.orderLeadTime,
+        String(orderLeadTimeDays),
+      ).toBe("no order lead time entered");
+    }
+    expect(
+      findPartCandidates({ ...NEED, orderLeadTimeDays: 0 }, [], []).noCandidates
+        ?.orderLeadTime,
+    ).toBe("order lead time entered: 0 days");
   });
 
   it("[TC-307] Given a part marked not serviceable, then it never appears", () => {

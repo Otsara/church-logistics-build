@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.19
+version: 0.20
 status: Draft
 effective_date:
 ---
@@ -330,7 +330,7 @@ When the lead clinician picks floor items, a controlled medicine in the catalogu
 - Safety-critical: yes
 - Formerly: SC-1
 
-A part is a candidate only if it has the same part number or a listed alternate that the program entered. The tool never decides two parts are interchangeable. An alternate counts only when the program lists it as an alternate for the needed part, not the other way round, since interchangeability can run one way only, even where in practice it runs both ways. A listed alternate also carries the note "interchange with … to be confirmed by the pilot, mechanic or flight base director before use" (owner, 2026-11-15; ADR-025).
+A part is a candidate only if it has the same part number or a listed alternate that the program entered. The tool never decides two parts are interchangeable. An alternate counts only when the program lists it as an alternate for the needed part, not the other way round, since interchangeability can run one way only, even where in practice it runs both ways. A listed alternate also carries the note "interchange with … to be confirmed by the pilot, mechanic or flight base director before use" (owner, 2026-11-15; ADR-025). Part numbers are compared ignoring leading and trailing spaces and letter case; every other character, dashes included, must match, since a dash or suffix can mark a different part (owner, 2026-11-15; ADR-030).
 
 ### SYS-302 Unserviceable parts never appear
 - Product: SpareWing
@@ -370,7 +370,7 @@ Every candidate carries the flag "requires sign-off by a licensed mechanic or th
 - Safety-critical: yes
 - Formerly: SC-6
 
-If no candidates exist, the result says so and shows the local order lead time, if one was entered.
+If no candidates exist, the result says so and shows the local order lead time, if one was entered. A negative, fractional or missing order lead time reads "no order lead time entered", as transfer lead times do (owner, 2026-11-15; ADR-030).
 
 ### SYS-307 Missed community flights
 - Product: SpareWing
@@ -393,6 +393,13 @@ SpareWing ranks the candidate options and proposes the best plan for the directo
 - Safety-critical: yes
 
 SpareWing never approves a schedule change and never states that an aircraft is flightworthy. A proposal becomes a decision only when the flight base director, mechanic or pilot records it (owner, 2026-11-10; ADR-002), identified by name or id in the audit log; anyone else, or an AI step, is refused (owner, 2026-11-15; ADR-025).
+
+### SYS-311 Quantity of a part needed
+- Product: SpareWing
+- Traces to: UN-301, RC-304
+- Safety-critical: yes
+
+A part need says how many are needed. A base holding fewer is still listed, since parts from two bases can be combined, and is marked "holds 1 of 2 needed"; a base holding enough is not marked. With no valid quantity entered (a whole number of 1 or more), every candidate says "quantity needed not entered: check the base holds enough" (owner, 2026-11-15; ADR-030).
 
 ### SYS-310 Draft messages to bases and communities
 - Product: SpareWing
@@ -422,3 +429,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.17 | 2026-11-15 | SYS-108: an alternative brings no class the floor item lacks; alternatives listed for every item and marked as offered when the item is short (owner, 2026-11-15; ADR-028). Numbered 0.17 because the merge follow-ups branch takes 0.16. | Claude, for owner review |
 | 0.18 | 2026-11-15 | SYS-108: a chosen alternative entered beyond its lot's quantity needs review; an ineligible lot is reported before a missing amount, for alternatives and exchanges (SYS-115) (owner, 2026-11-15; ADR-029); OD-056 open. | Claude, for owner review |
 | 0.19 | 2026-11-15 | SYS-115: an accepted exchange is not checked against its lot's count (owner, 2026-11-15; OD-056, ADR-029). | Claude, for owner review |
+| 0.20 | 2026-11-15 | SYS-301 part numbers compared ignoring spaces and letter case; SYS-306 invalid order lead time reads as not entered; new SYS-311 quantity of a part needed (owner, 2026-11-15; ADR-030). | Claude, for owner review |
