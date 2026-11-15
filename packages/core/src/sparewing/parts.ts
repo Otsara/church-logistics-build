@@ -3,7 +3,7 @@
  * has the needed part number, or a number the program entered as an alternate for the needed part;
  * the tool never decides that two parts are interchangeable (SYS-301). Parts marked not
  * serviceable, or with none in stock, never appear (SYS-302). Every candidate carries the sign-off
- * flag (SYS-305). ETAs come only from entered lead times; otherwise "unverified" (SYS-304).
+ * flag (SYS-305), and an alternate also the interchange a person must confirm (owner, 2026-11-15). ETAs come only from entered lead times; otherwise "unverified" (SYS-304).
  */
 import { addDays, type IsoDate } from "../dates.ts";
 
@@ -49,6 +49,8 @@ export interface PartCandidate {
   readonly eta: IsoDate | "unverified";
   readonly reasons: readonly string[];
   readonly flag: typeof SIGN_OFF_FLAG;
+  /** For a listed alternate: the interchange a person must confirm (owner, 2026-11-15; S1). */
+  readonly interchange: string | null;
 }
 
 export interface PartSearch {
@@ -83,6 +85,9 @@ export function findPartCandidates(
       sourceBaseId: part.baseId,
       quantity: part.quantity,
       flag: SIGN_OFF_FLAG,
+      interchange: same
+        ? null
+        : `interchange with ${need.partNumber} to be confirmed by the pilot, mechanic or flight base director before use`,
     };
     const matchReason = same
       ? "same part number"

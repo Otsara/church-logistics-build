@@ -2,7 +2,7 @@
  * Missed community flights (ARC-301; safety-critical): flights scheduled from the disruption's
  * start to its expected end, inclusive, minus those another aircraft and pilot can cover. Only an
  * aircraft at a base the program's rule file lists for the community counts, with a pilot who is a
- * candidate under SYS-303; an unknown pilot is shown but not counted (SYS-307, ADR-015).
+ * candidate under SYS-303; a pilot with data missing is shown, naming what, but not counted (SYS-307, ADR-015; owner, 2026-11-15).
  */
 import {
   addDays,
@@ -19,6 +19,8 @@ export interface CoverOption {
   readonly pilotId: string;
   /** The pilot's result from `checkPilot` for this aircraft over the disruption. */
   readonly pilotStatus: SpareWingStatus;
+  /** From the same result: what was not entered. */
+  readonly pilotMissingData: readonly string[];
 }
 
 export interface MissedFlightsInput {
@@ -61,8 +63,12 @@ export function missedFlights(input: MissedFlightsInput): MissedFlights {
       reasons.push(
         `${who} not counted: ${c.baseId} is not listed to cover this community`,
       );
-    } else if (c.pilotStatus !== "candidate") {
-      reasons.push(`${who} not counted: pilot ${c.pilotStatus}`);
+    } else if (c.pilotStatus === "data_missing") {
+      reasons.push(
+        `${who} not counted: pilot data missing (${c.pilotMissingData.join("; ")})`,
+      );
+    } else if (c.pilotStatus === "excluded") {
+      reasons.push(`${who} not counted: pilot excluded`);
     } else if (coveredBy === null) {
       coveredBy = { aircraftId: c.aircraftId, pilotId: c.pilotId };
       reasons.push(`covered by ${who}`);
