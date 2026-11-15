@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.16
+version: 0.17
 status: Draft
 effective_date:
 ---
@@ -550,3 +550,4 @@ Given two options with the same number of missed flights, then the one with the 
 | 0.14 | 2026-11-13 | TC-107, TC-121, TC-127: manufacturer (OD-054); TC-112 lots shown with their maker. Implemented: TC-106, TC-112 to TC-117, TC-119, TC-122, TC-131, with tests of the proposed safety rules (SYS-106, SYS-112, SYS-113, SYS-115). TC-105 waits for the document draft (AIC-102, iteration 2). (prepared as 0.12 on the floor-coverage branch, renumbered after the SpareWing merge) | Claude, for owner review |
 | 0.15 | 2026-11-15 | TC-301 interchange note; TC-304 "data missing" (owner, 2026-11-15; ADR-025). Numbered 0.15 because the floor-coverage branch takes 0.14. | Claude, for owner review |
 | 0.16 | 2026-11-15 | Implemented: TC-107, TC-121, TC-127, with tests of lines without a manufacturer, lot number or readable expiry (SYS-117). Numbered 0.16 because the SpareWing decisions branch takes 0.15. | Claude, for owner review |
+| 0.17 | 2026-11-15 | Implemented: TC-132 picker label. Numbered 0.17 because open branches take 0.14 to 0.16. | Claude, for owner review |

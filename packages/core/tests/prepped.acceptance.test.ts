@@ -12,7 +12,4 @@ describe("Prepped acceptance", () => {
   it.todo(
     "[TC-126] Given an anticipated caseload, then any estimated quantity is labelled as an estimate and the target stays empty until the clinician accepts or changes it",
   );
-  it.todo(
-    '[TC-132] Given a catalogue with a controlled medicine, when the lead clinician picks floor items, then it is labelled "Controlled: cannot be packed in this build" with its basis',
-  );
 });
