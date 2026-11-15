@@ -29,5 +29,5 @@ For the second: report the ineligible lot first, or keep the order.
 
 - `floor.ts`: the eligibility check comes before the amount check for exchanges and alternatives; chosen alternatives also check the amount against the lot's quantity.
 - ADR-026 still holds: a chosen alternative counts exactly the amount entered, now only when that amount is no more than the lot holds.
-- Accepted exchanges are not checked against their lot's quantity. Whether they should be is open (OD-056).
+- Accepted exchanges are not checked against their lot's quantity: a strength exchange can rightly cover more of the target than its lot's count, for example 30 tablets of 500 mg standing for 60 of 250 mg (owner, 2026-11-15; OD-056 option (a), as Claude recommended).
 - SYS-108, SYS-115, RC-105 and new TC-136.

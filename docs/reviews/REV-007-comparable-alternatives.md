@@ -28,5 +28,5 @@ Findings and the owner's decisions (owner, 2026-11-15):
 
 | # | Finding | Decision |
 |---|---|---|
-| 1 | The amount entered for a chosen alternative was not checked against what its lot holds. | The lead clinician sets the floor; an alternative that falls short numerically needs further review, and the floor is redefined if further donations are not found. Built: not counted, item needs review (ADR-029, TC-136). The same question for accepted exchanges is open (OD-056). |
+| 1 | The amount entered for a chosen alternative was not checked against what its lot holds. | The lead clinician sets the floor; an alternative that falls short numerically needs further review, and the floor is redefined if further donations are not found. Built: not counted, item needs review (ADR-029, TC-136). Accepted exchanges are not checked against their lot's count (OD-056 option (a), owner, 2026-11-15). |
 | 2 | An ineligible chosen lot with no amount entered was reported as needing an amount. | Ineligible first, for alternatives and exchanges (ADR-029, TC-136). |

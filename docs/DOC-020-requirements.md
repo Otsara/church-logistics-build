@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.18
+version: 0.19
 status: Draft
 effective_date:
 ---
@@ -300,7 +300,7 @@ The lead clinician may add supplemental medicines beyond the floor list. Supplem
 - Traces to: UN-106, RC-114
 - Safety-critical: yes
 
-For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it, and then counts exactly the share of the target the clinician enters when accepting it. Prepped never converts doses by itself (owner, 2026-11-11; ADR-011). For example, tablets and an oral suspension of the same medicine may meet a floor item either alone or in portions of both, each counting the share entered for it (owner, 2026-11-12). Who accepts an exchange: the clinician, until OD-048 is decided. An accepted exchange is not counted if its lot is missing or no longer eligible (for example after the arrival date moves), with the reason shown; one that is not the same medicine, is the item's own product, or has no valid amount entered makes the item "needs review", so the entry stays visible until the clinician corrects it (owner, 2026-11-13; ADR-023). An ineligible lot is reported as not eligible before a missing amount (owner, 2026-11-15; ADR-029). Whether an amount beyond what the lot holds needs review is open (OD-056).
+For a floor item that is short, Prepped offers eligible lots of the same medicine in other formulations (for example liquid suspension, tablet, capsule, dissolvable) or strengths as exchanges (owner, 2026-11-11). An exchange counts toward the floor item only after the clinician accepts it, and then counts exactly the share of the target the clinician enters when accepting it. Prepped never converts doses by itself (owner, 2026-11-11; ADR-011). For example, tablets and an oral suspension of the same medicine may meet a floor item either alone or in portions of both, each counting the share entered for it (owner, 2026-11-12). Who accepts an exchange: the clinician, until OD-048 is decided. An accepted exchange is not counted if its lot is missing or no longer eligible (for example after the arrival date moves), with the reason shown; one that is not the same medicine, is the item's own product, or has no valid amount entered makes the item "needs review", so the entry stays visible until the clinician corrects it (owner, 2026-11-13; ADR-023). An ineligible lot is reported as not eligible before a missing amount (owner, 2026-11-15; ADR-029). An accepted exchange counts the amount entered even when it is more than the lot's count, since a strength exchange can rightly cover more of the target than its lot holds (owner, 2026-11-15; OD-056, ADR-029).
 
 ### SYS-116 Expired lots set aside for discard
 - Product: Prepped
@@ -420,3 +420,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.15 | 2026-11-15 | SYS-108: exchanges are not alternatives; counting a chosen alternative is open (OD-055). SYS-108: chosen alternatives count what the clinician enters (owner, 2026-11-15; OD-055, ADR-026). | Claude, for owner review |
 | 0.17 | 2026-11-15 | SYS-108: an alternative brings no class the floor item lacks; alternatives listed for every item and marked as offered when the item is short (owner, 2026-11-15; ADR-028). Numbered 0.17 because the merge follow-ups branch takes 0.16. | Claude, for owner review |
 | 0.18 | 2026-11-15 | SYS-108: a chosen alternative entered beyond its lot's quantity needs review; an ineligible lot is reported before a missing amount, for alternatives and exchanges (SYS-115) (owner, 2026-11-15; ADR-029); OD-056 open. | Claude, for owner review |
+| 0.19 | 2026-11-15 | SYS-115: an accepted exchange is not checked against its lot's count (owner, 2026-11-15; OD-056, ADR-029). | Claude, for owner review |
