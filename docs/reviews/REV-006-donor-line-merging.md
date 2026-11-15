@@ -6,8 +6,6 @@ date: 2026-11-15
 
 # REV-006 Line-by-line review of the Prepped donor-line merging
 
-Status: in progress. Part 2 is still to be reviewed.
-
 ## Reviewed
 
 `packages/core/src/prepped/merge.ts` (ARC-101; OD-011, OD-054, SYS-117), merged before this review, reviewed part by part in the build conversation:
@@ -15,7 +13,7 @@ Status: in progress. Part 2 is still to be reviewed.
 | Part | Unit | Verdict |
 | --- | --- | --- |
 | 1 | How lines are matched | Accepted, with F-1 to F-3 (owner, 2026-11-15) |
-| 2 | Flags and expiry conflicts | Pending |
+| 2 | Flags and expiry conflicts | Accepted (owner, 2026-11-15): every lot sharing a lot number with another unmerged lot is flagged, including different makers; the same lot number, medicine and maker with different expiries needs review and is not counted; the flag wording stands |
 
 ## Findings
 
@@ -27,6 +25,10 @@ Status: in progress. Part 2 is still to be reviewed.
 
 The same expiry written two ways (01/15/2028 and 2028-01-15) matches, as accepted by the owner (owner, 2026-11-15).
 
+## Results reviewed
+
+100% line and branch coverage; Stryker mutation scores after F-1 to F-3: `merge.ts` 97.89% (two equivalent survivors: the direction of case folding, and the placeholder for a missing strength), `eligibility.ts` 100%.
+
 ## Decision
 
-To be recorded when part 2 is reviewed.
+Accepted, with F-1 to F-3 (owner, 2026-11-15).
