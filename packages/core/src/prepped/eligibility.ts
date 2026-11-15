@@ -7,7 +7,8 @@
  * - "discard": the expiry date has passed on the date of the check (SYS-116);
  * - "blocked": controlled (SYS-103), cold chain (SYS-104), outside scope (SYS-109), or less than
  *   the minimum shelf life at arrival (SYS-101, SYS-102);
- * - "needs_review": no readable expiry date (SYS-105);
+ * - "needs_review": no readable expiry date (SYS-105), or a review reason carried from merging
+ *   donor lines, such as one lot number with two expiry dates (SYS-117);
  * - "eligible": none of the above. Still subject to the clinician's sign-off.
  * Every reason that applies is listed, so a person can see why without guessing.
  */
@@ -27,6 +28,8 @@ export interface LotFacts {
   readonly inScope: boolean;
   /** Why the catalogue entry is out of scope, when it is (SYS-109). */
   readonly scopeReason: string | null;
+  /** Reasons merging donor lines marked the lot for review, e.g. two expiry dates (SYS-117). */
+  readonly reviewReasons?: readonly string[];
 }
 
 /** The trip-specific inputs. The minimum is a placeholder pending OD-002. */
@@ -74,13 +77,15 @@ export function checkLot(
     blocks.push(controlledReason(lot.controlledBasis));
   if (lot.coldChain) blocks.push(COLD_CHAIN_REASON);
   if (!lot.inScope) blocks.push(scopeReason(lot.scopeReason));
+  // Reasons from merging donor lines: the lot needs review until a person resolves them.
+  const review = lot.reviewReasons ?? [];
 
   const reading = readExpiry(lot.expiry);
   if (!reading.ok) {
     return {
       lotId: lot.id,
       status: blocks.length > 0 ? "blocked" : "needs_review",
-      reasons: [...blocks, reading.reason],
+      reasons: [...blocks, ...review, reading.reason],
       expiry: null,
       expiryMonthOnly: false,
       daysRemaining: null,
@@ -106,15 +111,21 @@ export function checkLot(
     return {
       ...result,
       status: "discard",
-      reasons: [...blocks, DISCARD_REASON, ...note],
+      reasons: [...blocks, ...review, DISCARD_REASON, ...note],
     };
   }
   const shortShelfLife = daysRemaining < rules.minimumDaysAtArrival;
   return {
     ...result,
-    status: blocks.length > 0 || shortShelfLife ? "blocked" : "eligible",
+    status:
+      blocks.length > 0 || shortShelfLife
+        ? "blocked"
+        : review.length > 0
+          ? "needs_review"
+          : "eligible",
     reasons: [
       ...blocks,
+      ...review,
       `${String(daysRemaining)} days remaining, ${String(rules.minimumDaysAtArrival)} required`,
       ...note,
     ],

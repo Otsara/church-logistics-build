@@ -80,6 +80,8 @@ export {
 } from "./sparewing/decision.ts";
 export {
   mergeDonorLines,
+  NO_LOT_NUMBER_FLAG,
+  NO_READABLE_EXPIRY_FLAG,
   SAME_LOT_NUMBER_FLAG,
   type DonorLine,
   type MergedLot,

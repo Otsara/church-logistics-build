@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.10
+version: 0.12
 status: Draft
 effective_date:
 ---
@@ -219,7 +219,7 @@ Harm: quantities overstated or understated; readiness wrong. Severity: serious. 
 - Product: Prepped
 - Traces to: HAZ-108
 
-Donor lines are merged by a deterministic rule in core, never by the AI step. Lines merge only when lot number, generic name, strength, form, expiry and manufacturer all match (owner, 2026-11-13; OD-054); otherwise they stay separate and are flagged "Same lot number, different details: check" (owner, 2026-11-12); ADR-017.
+Donor lines are merged by a deterministic rule in core, never by the AI step. Lines merge only when lot number, generic name, strength, form, expiry and manufacturer all match (owner, 2026-11-13; OD-054); a lot marked for review when merging stays "needs review" at eligibility until resolved, and a line without a lot number or readable expiry needs clarification with the donor (owner, 2026-11-15; ADR-027); otherwise they stay separate and are flagged "Same lot number, different details: check" (owner, 2026-11-12); ADR-017.
 
 ### HAZ-109 A medicine outside the build's scope is packed
 - Product: Prepped
@@ -411,3 +411,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.8 | 2026-11-12 | RC-103 picker label (SYS-118); RC-109 gases and missing product type (OD-051, REV-001). | Claude, for owner review |
 | 0.9 | 2026-11-12 | RC-106 and HAZ-106: a blocking issue means "No go"; "Not ready" retired; rating unchanged (owner, 2026-11-12; OD-052, ADR-021). HAZ-101 and RC-101: two-digit years read as 20YY, with the reading shown (owner, 2026-11-13; ADR-022). | Claude, for owner review |
 | 0.10 | 2026-11-13 | RC-108 merging needs the same manufacturer (OD-054); RC-107 no lot counted twice and empty floor list; RC-114 accepted exchanges that stop counting or need review (owner, 2026-11-13; ADR-023). | Claude, for owner review |
+| 0.12 | 2026-11-15 | RC-108: merge review reasons carried into eligibility; no lot number or expiry needs clarification (ADR-027). Numbered 0.12 because the open alternatives branch takes 0.11. | Claude, for owner review |
