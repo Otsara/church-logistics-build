@@ -104,6 +104,8 @@ export function checkDonorList(
     const expiryText = keepText(text, "expiry", item.expiry_text, reasons);
     const manufacturer = keepText(text, "maker", item.manufacturer, reasons);
     if (genericName === null) reasons.push("no medicine name read");
+    // The form is needed to match the catalogue entry and its route (owner, 2026-11-16; REV-010).
+    if (dosageForm === null) reasons.push("no dosage form read");
     if (quantity === null) reasons.push("no quantity read");
     if (lotNumber === null) reasons.push("no lot number read");
     const reading = readExpiry(expiryText);

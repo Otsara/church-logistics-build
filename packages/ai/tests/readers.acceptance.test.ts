@@ -160,7 +160,7 @@ describe("Donor-list reader (AIC-101)", () => {
     ]);
   });
 
-  it("[SYS-119] Given an answer for a line that does not exist or does not match its text, or a line answered twice, then it is set aside with the reason and the line stays unread", () => {
+  it("[SYS-119] Given an answer for a line that does not exist or does not match its text, then it is set aside; given a line answered more than once, then every answer for it is set aside and the line is entered by hand", () => {
     const result = checkDonorList(
       { lines: LINES },
       {
@@ -175,10 +175,10 @@ describe("Donor-list reader (AIC-101)", () => {
     expect(result.problems).toEqual([
       "the AI answered for line 9, which is not in the list: set aside",
       "the AI's copy of line 3 does not match the line: set aside",
-      "the AI answered line 2 twice: the second answer set aside",
+      "line 2 has more than one item: all answers for it set aside, enter it by hand",
     ]);
-    expect(result.lines.map((l) => l.line)).toEqual([2]);
-    expect(result.unread.map((u) => u.line)).toEqual([1, 3, 4]);
+    expect(result.lines).toEqual([]);
+    expect(result.unread.map((u) => u.line)).toEqual([1, 2, 3, 4]);
   });
 
   it("[TC-017] Given the lines, then the prompt carries only the numbered lines and the instructions, and asks for copies, never conversions", () => {
@@ -253,6 +253,7 @@ describe("Reader edge cases (SYS-119, SYS-313)", () => {
     expect(result.lines[0]?.reasons).toEqual([
       'dosage form "TABLET" is not written in the line: left empty',
       'lot number "  " is not written in the line: left empty',
+      "no dosage form read",
       "no lot number read",
     ]);
   });
@@ -270,6 +271,50 @@ describe("Reader edge cases (SYS-119, SYS-313)", () => {
     expect(partsEmailStep.outputSchema.safeParse(answer(-0.1)).success).toBe(
       false,
     );
+  });
+});
+
+describe("Donor-list review decisions (REV-010 part 2)", () => {
+  it("[SYS-119] Given a line read with no dosage form, then it needs review, because the form is needed to match the catalogue; a missing strength alone does not", () => {
+    const noForm = checkDonorList(
+      { lines: ["Amoxicillin 500 mg x120 lot A1 exp 06/2028"] },
+      {
+        lots: [
+          lot({
+            line: 1,
+            source_line: "Amoxicillin 500 mg x120 lot A1 exp 06/2028",
+            dosage_form: null,
+            lot_number: "A1",
+            manufacturer: null,
+          }),
+        ],
+      },
+    );
+    expect(noForm.lines[0]).toMatchObject({
+      needsReview: true,
+      reasons: ["no dosage form read"],
+    });
+    const noStrength = checkDonorList(
+      { lines: ["Oral rehydration salts POWDER x40 lot R1 exp 06/2028"] },
+      {
+        lots: [
+          lot({
+            line: 1,
+            source_line: "Oral rehydration salts POWDER x40 lot R1 exp 06/2028",
+            generic_name: "Oral rehydration salts",
+            strength: null,
+            dosage_form: "POWDER",
+            quantity: 40,
+            lot_number: "R1",
+            manufacturer: null,
+          }),
+        ],
+      },
+    );
+    expect(noStrength.lines[0]).toMatchObject({
+      needsReview: false,
+      reasons: [],
+    });
   });
 });
 
@@ -341,7 +386,7 @@ describe("Parts-email reader (AIC-301)", () => {
     ]);
   });
 
-  it("[SYS-313] Given an answer for a missing or mismatched line, or a line answered twice, then it is set aside with the reason", () => {
+  it("[SYS-313] Given an answer for a missing or mismatched line, then it is set aside; given a line with more than one part, then every answer for it is set aside and the line is entered by hand", () => {
     const result = checkPartsEmail(
       { lines: EMAIL },
       {
@@ -356,9 +401,9 @@ describe("Parts-email reader (AIC-301)", () => {
     expect(result.problems).toEqual([
       "the AI answered for line 0, which is not in the list: set aside",
       "the AI's copy of line 2 does not match the line: set aside",
-      "the AI answered line 2 twice: the second answer set aside",
+      "line 2 has more than one item: all answers for it set aside, enter it by hand",
     ]);
-    expect(result.lines).toHaveLength(1);
+    expect(result.lines).toEqual([]);
   });
 
   it("[TC-017] Given the email lines, then the prompt carries only the numbered lines and the instructions, and the schema has no base or serviceability field", () => {

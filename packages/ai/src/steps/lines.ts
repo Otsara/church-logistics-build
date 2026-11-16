@@ -56,14 +56,18 @@ export interface Matched<T> {
   readonly problems: readonly string[];
 }
 
-/** Keeps each answer that names a real line and copies it exactly; lists unread lines. */
+/**
+ * Keeps each answer that names a real line and copies it exactly. A line answered more than once
+ * (for example two medicines on one line) has every answer set aside and is entered by hand, so
+ * one item is never kept while another is dropped (owner, 2026-11-16; REV-010). Lists unread lines.
+ */
 export function matchLines<T extends Answered>(
   lines: readonly string[],
   answers: readonly T[],
 ): Matched<T> {
-  const accepted: T[] = [];
+  const valid: T[] = [];
   const problems: string[] = [];
-  const seen = new Set<number>();
+  const counted = new Map<number, number>();
   for (const answer of answers) {
     const text = lines[answer.line - 1];
     if (text === undefined) {
@@ -74,17 +78,21 @@ export function matchLines<T extends Answered>(
       problems.push(
         `the AI's copy of line ${String(answer.line)} does not match the line: set aside`,
       );
-    } else if (seen.has(answer.line)) {
-      problems.push(
-        `the AI answered line ${String(answer.line)} twice: the second answer set aside`,
-      );
     } else {
-      seen.add(answer.line);
-      accepted.push(answer);
+      const count = (counted.get(answer.line) ?? 0) + 1;
+      counted.set(answer.line, count);
+      if (count === 2) {
+        problems.push(
+          `line ${String(answer.line)} has more than one item: all answers for it set aside, enter it by hand`,
+        );
+      }
+      valid.push(answer);
     }
   }
+  const accepted = valid.filter((a) => counted.get(a.line) === 1);
+  const kept = new Set(accepted.map((a) => a.line));
   const unread = lines.flatMap((sourceLine, i) =>
-    seen.has(i + 1) ? [] : [{ line: i + 1, sourceLine }],
+    kept.has(i + 1) ? [] : [{ line: i + 1, sourceLine }],
   );
   return { accepted, unread, problems };
 }

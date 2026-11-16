@@ -22,7 +22,13 @@ Claude tested deliberately wrong copies against a sample line before presenting 
 
 ## Part 2: the donor-list reader (`donor-list.ts`)
 
-Pending.
+Claude walked through the prompt, the schema and the checks, and noted that text in a pasted line that tries to instruct the AI can at most produce copies of text in the lines, which code checks and a person confirms. Findings and the owner's decisions (owner, 2026-11-16; ADR-037):
+
+| # | Finding | Decision |
+|---|---|---|
+| 1 | A line with no dosage form did not need review, though the form is needed to match the catalogue and its route. | Yes: a missing form sends the line to review; a missing strength alone does not. |
+| 2 | With two medicines on one line, the first answer was kept and the second set aside. | Yes: every answer for that line is set aside and the line is entered by hand (applies to parts emails too). |
+| — | A quantity printed with a comma ("1,200") does not match the AI's 1200, so the line goes to review. | Left as is: a comma can be a decimal mark. |
 
 ## Part 3: the parts-email reader (`parts-email.ts`)
 
