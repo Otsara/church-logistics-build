@@ -1,0 +1,816 @@
+{
+  "synthetic": true,
+  "partition": "development",
+  "examples": [
+    {
+      "id": "AIC-101-01",
+      "source": {
+        "scenario": "P001",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D001",
+        "Glycerin Suppository GLYCERIN 1800 mg/1 SUPPOSITORY x18 lot L539862 exp 2028-05-23",
+        "Broad Spectrum ZINC OXIDE 8.1 g/100mL; TITANIUM DIOXIDE 8 g/100mL LOTION - qty 93 - Lot: L458928 - Exp: see box",
+        "Hydrocortisone acetate 1% RELIEF Cream FOR ECZEMA CREAM HYDROCORTISONE ACETATE 1 g/100g, 384 units, batch L577896, EXP MAR 2029",
+        "psyllium huskpowder PSYLLIUM HUSK 2168 mg/3.5g; SENNA PODS 496 mg/3.5g GRANULE x170, expiry 2029-02-21"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Glycerin Suppository",
+          "quantity": 18,
+          "lotNumber": "L539862",
+          "expiry": "2028-05-23",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Broad Spectrum",
+          "quantity": 93,
+          "lotNumber": "L458928",
+          "expiry": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "genericName": "Hydrocortisone acetate 1% RELIEF Cream FOR ECZEMA",
+          "quantity": 384,
+          "lotNumber": "L577896",
+          "expiry": "2029-03-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "psyllium huskpowder",
+          "quantity": 170,
+          "lotNumber": null,
+          "expiry": "2029-02-21",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-02",
+      "source": {
+        "scenario": "P002",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D005",
+        "IPECAC IPECAC 30 [hp_C]/30[hp_C] PELLET x353 lot L877630 exp 2026-09-26",
+        "SPF 30 Suncare Citrus Crush OCTOCRYLENE 10 mg/100mL; AVOBENZONE 3 mg/100mL; OCTISALATE 5 mg/100mL CREAM - qty 260 - Lot: L805995 - Exp: 09/2026",
+        "methocarbamol TABLET METHOCARBAMOL 750 mg/1, 398 units, batch L584868, EXP DEC 2027",
+        "Spirudio LAPINE S-100 IMMUNE GLOBULIN 30 [hp_C]/U TABLET x28, expiry 2028-11-23"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "IPECAC",
+          "quantity": 353,
+          "lotNumber": "L877630",
+          "expiry": "2026-09-26",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "SPF 30 Suncare Citrus Crush",
+          "quantity": 260,
+          "lotNumber": "L805995",
+          "expiry": "2026-09-30",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "methocarbamol",
+          "quantity": 398,
+          "lotNumber": "L584868",
+          "expiry": "2027-12-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Spirudio",
+          "quantity": 28,
+          "lotNumber": null,
+          "expiry": "2028-11-23",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-03",
+      "source": {
+        "scenario": "P003",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D004",
+        "Skin Protectant PETROLATUM 44.28 g/100g OINTMENT x90 lot L082736 exp 2027-11-29",
+        "Menthol 1.00% MENTHOL 1.15 g/115g CREAM - qty 126 - Lot: L173886 - Exp: 12/2027",
+        "Tetrahydrozoline HCl 0.05% Hypromellose 0.3% Dr. Shitong Photon Energy Eye Care Liquid LIQUID TETRAHYDROZOLINE HYDROCHLORIDE .05 g/100mL; HYPROMELLOSES .3 g/100mL, 481 units, batch L356305, EXP DEC 2028",
+        "Simethicone 180 MG DIMETHICONE 180 mg/1 CAPSULE, LIQUID FILLED x426, expiry 2027-06-18"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Skin Protectant",
+          "quantity": 90,
+          "lotNumber": "L082736",
+          "expiry": "2027-11-29",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Menthol 1.00%",
+          "quantity": 126,
+          "lotNumber": "L173886",
+          "expiry": "2027-12-31",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "Tetrahydrozoline HCl 0.05% Hypromellose 0.3% Dr. Shitong Photon Energy Eye Care Liquid",
+          "quantity": 481,
+          "lotNumber": "L356305",
+          "expiry": "2028-12-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Simethicone 180 MG",
+          "quantity": 426,
+          "lotNumber": null,
+          "expiry": "2027-06-18",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-04",
+      "source": {
+        "scenario": "P005",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D004",
+        "Lithium Fluoratum LITHIUM FLUORIDE 6 [hp_C]/1 PELLET x297 lot L759291 exp 2028-03-04",
+        "Ropinirole ROPINIROLE HYDROCHLORIDE 12 mg/1 TABLET, FILM COATED, EXTENDED RELEASE - qty 410 - Lot: L385025 - Exp: see box",
+        "Diphenhydramine HCl 2%, Zinc Acetate 0.1% SPRAY DIPHENHYDRAMINE HYDROCHLORIDE 2 g/100g; ZINC ACETATE .1 g/100g, 271 units, batch L996998, EXP MAY 2028",
+        "Acid Reducer FAMOTIDINE 20 mg/1 TABLET x303, expiry 2026-12-07"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Lithium Fluoratum",
+          "quantity": 297,
+          "lotNumber": "L759291",
+          "expiry": "2028-03-04",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Ropinirole",
+          "quantity": 410,
+          "lotNumber": "L385025",
+          "expiry": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "genericName": "Diphenhydramine HCl 2%, Zinc Acetate 0.1%",
+          "quantity": 271,
+          "lotNumber": "L996998",
+          "expiry": "2028-05-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Acid Reducer",
+          "quantity": 303,
+          "lotNumber": null,
+          "expiry": "2026-12-07",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-05",
+      "source": {
+        "scenario": "P007",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D001",
+        "Arnica Montana, Belladonna, Cortisone Aceticum, Hypericum Perforatum, Symphytum Officinale ARNICA MONTANA 12 [hp_X]/mL; ATROPA BELLADONNA 6 [hp_X]/mL; CORTISONE ACETATE 24 [hp_X]/mL; HYPERICUM PERFORATUM 12 [hp_X]/mL; COMFREY ROOT 12 [hp_X]/mL LIQUID x123 lot L656472 exp 2028-11-17",
+        "ANTIMONY POTASSIUM TARTRATE ANTIMONY POTASSIUM TARTRATE 30 [hp_X]/30[hp_X] PELLET - qty 323 - Lot: L930893 - Exp: 04/2027",
+        "GELSEMIUM SEMPERVIRENS ROOT PELLET GELSEMIUM SEMPERVIRENS ROOT 6 [hp_X]/1, 19 units, batch L417587, EXP NOV 2026",
+        "Titanium Dioxide, Octinoxate, Octisalate OCTINOXATE 2.1 mg/30mL; OCTISALATE .9 mg/30mL; TITANIUM DIOXIDE 2.5215 mg/30mL CREAM x418, expiry 2028-03-29"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Arnica Montana, Belladonna, Cortisone Aceticum, Hypericum Perforatum, Symphytum Officinale",
+          "quantity": 123,
+          "lotNumber": "L656472",
+          "expiry": "2028-11-17",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "ANTIMONY POTASSIUM TARTRATE",
+          "quantity": 323,
+          "lotNumber": "L930893",
+          "expiry": "2027-04-30",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "GELSEMIUM SEMPERVIRENS ROOT",
+          "quantity": 19,
+          "lotNumber": "L417587",
+          "expiry": "2026-11-30",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Titanium Dioxide, Octinoxate, Octisalate",
+          "quantity": 418,
+          "lotNumber": null,
+          "expiry": "2028-03-29",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-06",
+      "source": {
+        "scenario": "P008",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D004",
+        "Octisalate, Octocrylene, Titanium Dioxide, Zinc Oxide ZINC OXIDE 8.73 g/50mL; OCTISALATE 2.5 g/50mL; TITANIUM DIOXIDE 1.53 g/50mL; OCTOCRYLENE 4 g/50mL CREAM x442 lot L890333 exp 2029-02-14",
+        "2% Miconazole Nitrate Cream MICONAZOLE NITRATE 20 g/1000g CREAM - qty 303 - Lot: L310374 - Exp: 11/2026",
+        "Menthol and Camphor CREAM CAMPHOR (SYNTHETIC) 4 g/100g; MENTHOL 4 g/100g, 246 units, batch L774869, EXP MAR 2027",
+        "Formica Rufa FORMICA RUFA 12 [hp_C]/1 PELLET x446, expiry 2028-02-28"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Octisalate, Octocrylene, Titanium Dioxide, Zinc Oxide",
+          "quantity": 442,
+          "lotNumber": "L890333",
+          "expiry": "2029-02-14",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "2% Miconazole Nitrate Cream",
+          "quantity": 303,
+          "lotNumber": "L310374",
+          "expiry": "2026-11-30",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "Menthol and Camphor",
+          "quantity": 246,
+          "lotNumber": "L774869",
+          "expiry": "2027-03-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Formica Rufa",
+          "quantity": 446,
+          "lotNumber": null,
+          "expiry": "2028-02-28",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-07",
+      "source": {
+        "scenario": "P009",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D001",
+        "CAUSTICUM CAUSTICUM 6 [hp_C]/6[hp_C] PELLET x148 lot L268445 exp 2028-05-11",
+        "Calcitriol Capsules 0.5 mcg CALCITRIOL .5 ug/1 CAPSULE - qty 294 - Lot: L535266 - Exp: see box",
+        "Lidocaine GEL LIDOCAINE 40 mg/g, 291 units, batch L906181, EXP FEB 2029",
+        "Instant Hand Sanitizer ALCOHOL 62 g/100g GEL x216, expiry 2028-06-23"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "CAUSTICUM",
+          "quantity": 148,
+          "lotNumber": "L268445",
+          "expiry": "2028-05-11",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Calcitriol Capsules 0.5 mcg",
+          "quantity": 294,
+          "lotNumber": "L535266",
+          "expiry": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "genericName": "Lidocaine",
+          "quantity": 291,
+          "lotNumber": "L906181",
+          "expiry": "2029-02-28",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Instant Hand Sanitizer",
+          "quantity": 216,
+          "lotNumber": null,
+          "expiry": "2028-06-23",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-08",
+      "source": {
+        "scenario": "P010",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D005",
+        "ACETAMINOPHEN ACETAMINOPHEN 500 mg/1 GRANULE, FOR SOLUTION x49 lot L435131 exp 2027-12-04",
+        "Diltiazem Hydrochloride DILTIAZEM HYDROCHLORIDE 120 mg/1 CAPSULE, COATED, EXTENDED RELEASE - qty 46 - Lot: L763617 - Exp: 10/2027",
+        "COMFREY ROOT, TRIBASIC CALCIUM PHOSPHATE PELLET TRIBASIC CALCIUM PHOSPHATE 30 [hp_C]/1; COMFREY ROOT 6 [hp_C]/1, 321 units, batch L153451, EXP DEC 2028",
+        "SODIUM SULFATE SODIUM SULFATE 6 [hp_X]/1 PELLET x247, expiry 2027-12-08"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "ACETAMINOPHEN",
+          "quantity": 49,
+          "lotNumber": "L435131",
+          "expiry": "2027-12-04",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Diltiazem Hydrochloride",
+          "quantity": 46,
+          "lotNumber": "L763617",
+          "expiry": "2027-10-31",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "COMFREY ROOT, TRIBASIC CALCIUM PHOSPHATE",
+          "quantity": 321,
+          "lotNumber": "L153451",
+          "expiry": "2028-12-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "SODIUM SULFATE",
+          "quantity": 247,
+          "lotNumber": null,
+          "expiry": "2027-12-08",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-09",
+      "source": {
+        "scenario": "P013",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D004",
+        "petrolatum PETROLATUM 988.49 mg/g OINTMENT x351 lot L591979 exp 2028-08-26",
+        "Bromoethanum BROMOETHANE 1 [hp_M]/1 PELLET - qty 168 - Lot: L787627 - Exp: 08/2028",
+        "Atropa belladonna, Iodine, Lycopus virginicus, Sodium chloride, Hekla lava, and Calcium Hexafluorosilicate SOLUTION ATROPA BELLADONNA 30 [hp_X]/mL; IODINE 30 [hp_X]/mL; LYCOPUS VIRGINICUS 12 [hp_X]/mL; SODIUM CHLORIDE 30 [hp_X]/mL; HEKLA LAVA 12 [hp_X]/mL; CALCIUM HEXAFLUOROSILICATE 12 [hp_X]/mL, 482 units, batch L188931, EXP NOV 2026",
+        "Lidocaine HCI LIDOCAINE 4 g/mL LIQUID x444, expiry 2027-01-08"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "petrolatum",
+          "quantity": 351,
+          "lotNumber": "L591979",
+          "expiry": "2028-08-26",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Bromoethanum",
+          "quantity": 168,
+          "lotNumber": "L787627",
+          "expiry": "2028-08-31",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "Atropa belladonna, Iodine, Lycopus virginicus, Sodium chloride, Hekla lava, and Calcium Hexafluorosilicate",
+          "quantity": 482,
+          "lotNumber": "L188931",
+          "expiry": "2026-11-30",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Lidocaine HCI",
+          "quantity": 444,
+          "lotNumber": null,
+          "expiry": "2027-01-08",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-10",
+      "source": {
+        "scenario": "P014",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D002",
+        "Antiseptic Towelettes BENZALKONIUM CHLORIDE 1 mg/1000mg CLOTH x26 lot L773041 exp 2028-10-24",
+        "Lithium Sulphuratum LITHIUM SULFATE 6 [hp_C]/1 PELLET - qty 306 - Lot: L404309 - Exp: see box",
+        "CR-371059 Tolnaftate 1% CREAM TOLNAFTATE 1 g/100g, 260 units, batch L594413, EXP JUL 2028",
+        "Dextromethorphan HBr Doxylamine Succinate DEXTROMETHORPHAN HYDROBROMIDE 10 mg/1; DOXYLAMINE SUCCINATE 6.25 mg/1 CHEWABLE GEL x166, expiry 2028-09-12"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Antiseptic Towelettes",
+          "quantity": 26,
+          "lotNumber": "L773041",
+          "expiry": "2028-10-24",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Lithium Sulphuratum",
+          "quantity": 306,
+          "lotNumber": "L404309",
+          "expiry": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "genericName": "CR-371059 Tolnaftate 1%",
+          "quantity": 260,
+          "lotNumber": "L594413",
+          "expiry": "2028-07-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Dextromethorphan HBr Doxylamine Succinate",
+          "quantity": 166,
+          "lotNumber": null,
+          "expiry": "2028-09-12",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-11",
+      "source": {
+        "scenario": "P015",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D003",
+        "Aluminium Fluoratum ALUMINUM FLUORIDE 500 [hp_C]/1 PELLET x239 lot L165233 exp 2027-12-29",
+        "ANEMONE PULSATILLA ANEMONE PULSATILLA 12 [hp_C]/12[hp_C] PELLET - qty 57 - Lot: L748921 - Exp: 02/2028",
+        "Prazosin CAPSULE PRAZOSIN HYDROCHLORIDE 5 mg/1, 84 units, batch L918529, EXP FEB 2027",
+        "Aurum Olibanum Myrrha MYRRH 7 [hp_X]/mL; FRANKINCENSE 7 [hp_X]/mL; GOLD 10 [hp_X]/mL LIQUID x145, expiry 2026-10-28"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Aluminium Fluoratum",
+          "quantity": 239,
+          "lotNumber": "L165233",
+          "expiry": "2027-12-29",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "ANEMONE PULSATILLA",
+          "quantity": 57,
+          "lotNumber": "L748921",
+          "expiry": "2028-02-29",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "Prazosin",
+          "quantity": 84,
+          "lotNumber": "L918529",
+          "expiry": "2027-02-28",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Aurum Olibanum Myrrha",
+          "quantity": 145,
+          "lotNumber": null,
+          "expiry": "2026-10-28",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-12",
+      "source": {
+        "scenario": "P016",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D001",
+        "Antipersisperant Deodorant ALUMINUM ZIRCONIUM TETRACHLOROHYDREX GLY 15 g/100g STICK x446 lot L204786 exp 2028-01-09",
+        "CANIS LUPUS FAMILIARIS MILK CANIS LUPUS FAMILIARIS MILK 8 [hp_X]/8[hp_X] PELLET - qty 285 - Lot: L661045 - Exp: 02/2027",
+        "Cough Drops Creamy Strawberry LOZENGE MENTHOL 2.5 mg/1; PECTIN 7 mg/1, 259 units, batch L125423, EXP MAY 2027",
+        "SPONGIA OFFICINALIS SKELETON, ROASTED SPONGIA OFFICINALIS SKELETON, ROASTED 30 [hp_C]/30[hp_C] PELLET x330, expiry 2028-08-21"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "Antipersisperant Deodorant",
+          "quantity": 446,
+          "lotNumber": "L204786",
+          "expiry": "2028-01-09",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "CANIS LUPUS FAMILIARIS MILK",
+          "quantity": 285,
+          "lotNumber": "L661045",
+          "expiry": "2027-02-28",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "Cough Drops Creamy Strawberry",
+          "quantity": 259,
+          "lotNumber": "L125423",
+          "expiry": "2027-05-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "SPONGIA OFFICINALIS SKELETON, ROASTED",
+          "quantity": 330,
+          "lotNumber": null,
+          "expiry": "2028-08-21",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-13",
+      "source": {
+        "scenario": "P018",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D002",
+        "jujube, acetaminophen, chlorheniramine maleate JUJUBE FRUIT 1 g/3g; ACETAMINOPHEN .05 g/3g; CHLORPHENIRAMINE MALEATE .00067 g/3g GRANULE x221 lot L583751 exp 2027-05-21",
+        "Boldo Leaf, Ricinus communis Seed, Combretum raimbaultii Leaf, Jateorhiza palmata Root, Argentum metallicum SILVER 12 [hp_X]/20mL; PEUMUS BOLDUS LEAF 4 [hp_X]/20mL; RICINUS COMMUNIS SEED 4 [hp_X]/20mL; COMBRETUM MICRANTHUM LEAF 4 [hp_X]/20mL; JATEORHIZA CALUMBA ROOT 4 [hp_X]/20mL LIQUID - qty 227 - Lot: L606081 - Exp: see box",
+        "LEFLUNOMIDE TABLET LEFLUNOMIDE 10 mg/1, 266 units, batch L795281, EXP JUN 2028",
+        "ciclesonide CICLESONIDE 160 ug/1 AEROSOL, METERED x175, expiry 2027-10-14"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "jujube, acetaminophen, chlorheniramine maleate",
+          "quantity": 221,
+          "lotNumber": "L583751",
+          "expiry": "2027-05-21",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Boldo Leaf, Ricinus communis Seed, Combretum raimbaultii Leaf, Jateorhiza palmata Root, Argentum metallicum",
+          "quantity": 227,
+          "lotNumber": "L606081",
+          "expiry": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "genericName": "LEFLUNOMIDE",
+          "quantity": 266,
+          "lotNumber": "L795281",
+          "expiry": "2028-06-30",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "ciclesonide",
+          "quantity": 175,
+          "lotNumber": null,
+          "expiry": "2027-10-14",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-14",
+      "source": {
+        "scenario": "P021",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D004",
+        "FLUOROURACIL FLUOROURACIL .04 g/g CREAM x63 lot L399120 exp 2026-11-27",
+        "PODOPHYLLUM PODOPHYLLUM 1 [hp_M]/[hp_M] PELLET - qty 238 - Lot: L489903 - Exp: 01/2029",
+        "ZINC UNDECYLENATE, UNDECYLENIC ACID CREAM UNDECYLENIC ACID .1 g/g; ZINC UNDECYLENATE .12 g/g, 390 units, batch L672489, EXP AUG 2028",
+        "SALICYLIC ACID SALICYLIC ACID 20 mg/g CREAM x470, expiry 2027-08-16"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "FLUOROURACIL",
+          "quantity": 63,
+          "lotNumber": "L399120",
+          "expiry": "2026-11-27",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "PODOPHYLLUM",
+          "quantity": 238,
+          "lotNumber": "L489903",
+          "expiry": "2029-01-31",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "ZINC UNDECYLENATE, UNDECYLENIC ACID",
+          "quantity": 390,
+          "lotNumber": "L672489",
+          "expiry": "2028-08-31",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "SALICYLIC ACID",
+          "quantity": 470,
+          "lotNumber": null,
+          "expiry": "2027-08-16",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-101-15",
+      "source": {
+        "scenario": "P022",
+        "records": [
+          "LOT0001",
+          "LOT0002",
+          "LOT0003",
+          "LOT0004"
+        ]
+      },
+      "lines": [
+        "Donor list from D002",
+        "POVIDONE-IODINE POVIDONE-IODINE 10 mg/g CLOTH x320 lot L140983 exp 2028-05-28",
+        "Pramoxine HCl, Zinc acetate PRAMOXINE HYDROCHLORIDE 10 mg/mL; ZINC ACETATE 1 mg/mL LOTION - qty 452 - Lot: L000948 - Exp: 12/2026",
+        "Alfalfa, Avena Sativa, Fucus Vesiculosus, Aralia Quinquefolia, Natrum Carbonicum, Thyroidinum (Suis), Cerebrum Suis, Pineal Gland (Suis), Rhododendron Chrysanthum, Agate, Argentum Nitricum, Cadmium Iodatum, Calcarea Phosphorica, Coffea Cruda, Cuprum Metallicum, Mercurius Corrosivus, Phosphoricum Acidum, Phosphorus, Quartz, Silicea, Strontium Carbonicum, Radium Bromatum, Carcinosin, Tarentula Cubensis, X-Ray, Holmium Metallicum, Uranium Nitricum. LIQUID MEDICAGO SATIVA WHOLE 3 [hp_X]/mL; AVENA SATIVA FLOWERING TOP 3 [hp_X]/mL; FUCUS VESICULOSUS 3 [hp_X]/mL; AMERICAN GINSENG 6 [hp_X]/mL; SODIUM CARBONATE 6 [hp_X]/mL; THYROID 6 [hp_X]/mL; SUS SCROFA CEREBRUM 8 [hp_X]/mL; SUS SCROFA PINEAL GLAND 8 [hp_X]/mL; RHODODENDRON AUREUM LEAF 10 [hp_X]/mL; SILICON DIOXIDE 12 [hp_X]/mL; SILVER NITRATE 12 [hp_X]/mL; CADMIUM IODIDE 12 [hp_X]/mL; TRIBASIC CALCIUM PHOSPHATE 12 [hp_X]/mL; ARABICA COFFEE BEAN 12 [hp_X]/mL; COPPER 12 [hp_X]/mL; MERCURIC CHLORIDE 12 [hp_X]/mL; PHOSPHORIC ACID 12 [hp_X]/mL; PHOSPHORUS 12 [hp_X]/mL; STRONTIUM CARBONATE 12 [hp_X]/mL; RADIUM BROMIDE 16 [hp_X]/mL; HUMAN BREAST TUMOR CELL 30 [hp_X]/mL; CITHARACANTHUS SPINICRUS 30 [hp_X]/mL; ALCOHOL, X-RAY EXPOSED (1000 RAD) 30 [hp_X]/mL; HOLMIUM 12 [hp_C]/mL; URANYL NITRATE HEXAHYDRATE 15 [hp_C]/mL, 263 units, batch L559620, EXP APR 2028",
+        "Laurocerasus PRUNUS LAUROCERASUS LEAF 1 [hp_Q]/1 PELLET x272, expiry 2029-03-27"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "genericName": "POVIDONE-IODINE",
+          "quantity": 320,
+          "lotNumber": "L140983",
+          "expiry": "2028-05-28",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "genericName": "Pramoxine HCl, Zinc acetate",
+          "quantity": 452,
+          "lotNumber": "L000948",
+          "expiry": "2026-12-31",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "genericName": "Alfalfa, Avena Sativa, Fucus Vesiculosus, Aralia Quinquefolia, Natrum Carbonicum, Thyroidinum (Suis), Cerebrum Suis, Pineal Gland (Suis), Rhododendron Chrysanthum, Agate, Argentum Nitricum, Cadmium Iodatum, Calcarea Phosphorica, Coffea Cruda, Cuprum Metallicum, Mercurius Corrosivus, Phosphoricum Acidum, Phosphorus, Quartz, Silicea, Strontium Carbonicum, Radium Bromatum, Carcinosin, Tarentula Cubensis, X-Ray, Holmium Metallicum, Uranium Nitricum.",
+          "quantity": 263,
+          "lotNumber": "L559620",
+          "expiry": "2028-04-30",
+          "needsReview": false
+        },
+        {
+          "line": 5,
+          "genericName": "Laurocerasus",
+          "quantity": 272,
+          "lotNumber": null,
+          "expiry": "2029-03-27",
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    }
+  ]
+}

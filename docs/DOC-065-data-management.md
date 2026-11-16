@@ -1,7 +1,7 @@
 ---
 id: DOC-065
 title: Data management plan
-version: 0.8
+version: 0.9
 status: Draft
 effective_date:
 ---
@@ -39,7 +39,7 @@ Building and testing use synthetic data only, never real personal or health data
 - Product: Shared
 - Traces to: UN-005, RC-002
 
-Golden examples for the AI steps (AIC-101 to AIC-303) are drawn only from the development two thirds.
+Golden examples for the AI steps (AIC-101 to AIC-303) are drawn only from the development two thirds. They live in `packages/ai/golden/`, each naming the development scenario and records it came from, and a test checks none comes from a held-back record (TC-022).
 
 ### DAT-101 Prepped medicine catalogue
 - Product: Prepped
@@ -78,3 +78,4 @@ Fully synthetic: bases, aircraft, part numbers and alternates, parts stock, pilo
 | 0.6 | 2026-11-12 | DAT-001 seed custody; DAT-002 corpus built and held-back package handed to the owner (OD-036); DAT-101 catalogue imported. | Claude, for owner review |
 | 0.7 | 2026-11-12 | DAT-002 corpus rebuilt after OD-049; DAT-101 counts without biologics; DAT-102 WHO list not used (OD-046). | Claude, for owner review |
 | 0.8 | 2026-11-12 | DAT-002 third package; DAT-101 catalogue without gases (OD-051, REV-001). | Claude, for owner review |
+| 0.9 | 2026-11-16 | DAT-004: where the golden examples live and how their source is checked. | Claude, for owner review |

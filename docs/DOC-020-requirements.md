@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.23
+version: 0.24
 status: Draft
 effective_date:
 ---
@@ -316,6 +316,13 @@ Lots whose expiry date has passed on the date of the check are listed separately
 
 Each lot number corresponds to one expiry date (owner, 2026-11-11). Donor lines with the same lot number, medicine and manufacturer but different expiry dates are not merged; they are marked "needs review" until a person corrects them. Lines from different manufacturers are different lots even with the same lot number (owner, 2026-11-13; OD-054). A line without a manufacturer is not treated as the same manufacturer, even where that is likely: it never merges and raises no expiry conflict, and a line sharing its lot number is flagged "Same lot number, different details: check" (owner, 2026-11-13). A line without a lot number or a readable expiry never merges and needs review: the donation's viability is in question until it is clarified with the donor (owner, 2026-11-15). Lines are matched ignoring capitals and surrounding spaces, and every line's lot number is kept as entered, for recalls (owner, 2026-11-15). A lot marked for review when merging stays "needs review" at eligibility, never counted, until a person resolves it (ADR-027).
 
+### SYS-119 Donor lines read by AI are checked and confirmed
+- Product: Prepped
+- Traces to: UN-005, RC-002
+- Safety-critical: yes
+
+When the AI reads a pasted donor list (AIC-101), it copies each value exactly as written in the line, or gives none; it never converts or guesses. Code keeps a value only if it is written in that line as whole words, ignoring only letter case and spacing, stores it as printed in the line, and reads the expiry with the same label reader as eligibility (SYS-105). A quantity that is also written as a strength (for example 500 in "500 mg") is kept but the line needs review (owner, 2026-11-16; ADR-036). A lot number must match a whole code in the line, so a copy that stops at a dash, slash or dot inside the code is refused; a quantity of 0 is accepted but the line needs review (owner, 2026-11-16; ADR-038). A value not in the line is left empty with the reason, and a line with no name, dosage form, quantity, lot number or readable expiry needs review; a missing strength alone does not, since some medicines print none (owner, 2026-11-16; ADR-037). An answer for a line that does not exist or does not match its text is set aside with the reason, and a line answered more than once (for example two medicines on one line) has every answer set aside and is entered by hand (owner, 2026-11-16; ADR-037). Every line read this way waits for a person to confirm it before it becomes a lot; the confidence is shown but skips nothing (owner, 2026-11-16; ADR-035).
+
 ### SYS-118 Controlled medicines labelled in the floor-list picker
 - Product: Prepped
 - Traces to: UN-106, RC-103
@@ -408,6 +415,13 @@ A part need says how many are needed. A base holding fewer is still listed, sinc
 
 Every SpareWing result that relies on a rule file whose status is "placeholder" shows "Placeholder rules: not for real flight decisions" beside it, so a demo or prototype result is never taken as a real program's rules (owner, 2026-11-16; ADR-034). Rule files are read from their text: a file that names an aircraft type, a community or any field twice is refused, naming each repeat, and aircraft types are matched ignoring leading and trailing spaces and letter case.
 
+### SYS-313 Parts read by AI are checked and confirmed
+- Product: SpareWing
+- Traces to: UN-301, RC-002, RC-302
+- Safety-critical: yes
+
+When the AI reads a parts email or inventory list (AIC-301), it copies only the part number, quantity and description, exactly as written, or gives none. Code keeps a value only if it is written in the line, as for donor lines (SYS-119), a line with no part number or quantity needs review, and a line with more than one part has every answer set aside and is entered by hand (ADR-037). A part number must match a whole code in the line, so "SWP-1155" is not taken from "SWP-1155-6"; a quantity of 0 is accepted as read, and such a part never appears as a candidate (SYS-302) (owner, 2026-11-16; ADR-038). The base and whether a part is serviceable are never read by the AI: a person enters them when confirming each line, so the AI can never make a part serviceable (owner, 2026-11-16; ADR-035).
+
 ### SYS-310 Draft messages to bases and communities
 - Product: SpareWing
 - Traces to: UN-304, RC-001
@@ -440,3 +454,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.21 | 2026-11-16 | SpareWing review decisions (owner, 2026-11-16; ADR-032): SYS-303 ratings compared without spaces or case, no required ratings or swapped dates are data missing, duty and rest limits wanted in the MVP (OD-059); SYS-307 cover aircraft availability, swapped dates and no schedule leave missed flights unknown; SYS-308 unknown missed flights rank last; SYS-309 decision time and option checked. | Claude, for owner review |
 | 0.22 | 2026-11-16 | SYS-303: duty and rest limits deferred until after the hackathon (owner, 2026-11-16; OD-059, ADR-033). | Claude, for owner review |
 | 0.23 | 2026-11-16 | New SYS-312 placeholder rules shown as placeholders; rule files refused when they name a key twice; aircraft types matched without spaces or case (owner, 2026-11-16; ADR-034). | Claude, for owner review |
+| 0.24 | 2026-11-16 | New SYS-119 donor lines read by AI are checked and confirmed, and SYS-313 parts read by AI are checked and confirmed (owner, 2026-11-16; ADR-035); SYS-119 copies as whole words, kept as printed, strength-like quantities reviewed (owner, 2026-11-16; ADR-036, REV-010); missing dosage form reviewed and a line with more than one item entered by hand, SYS-119 and SYS-313 (owner, 2026-11-16; ADR-037); part and lot numbers as whole codes, zero quantities accepted (owner, 2026-11-16; ADR-038). | Claude, for owner review |
