@@ -19,7 +19,7 @@ All as Claude recommended (owner, 2026-11-16), except duty and rest limits, whic
 1. Ratings: compared ignoring leading and trailing spaces and letter case, as part numbers are (ADR-030).
 2. No required ratings entered for the aircraft: every pilot is "data missing: required ratings not entered for this aircraft", never a candidate.
 3. Expected end before the date needed: every pilot is "data missing: expected end is before the date needed: check the dates". A known reason to rule a pilot out still excludes them.
-4. Duty time and rest limits: the owner first preferred them checked in the MVP; once the published sources were set out, the owner deferred them until after the hackathon (owner, 2026-11-16; OD-059). Until then they stay with the person signing off.
+4. Duty time and rest limits: the owner prefers them checked in the MVP rather than after the hackathon. The limits and their source are owed by the owner (OD-059); until given, they stay with the person signing off.
 5. Missed flights with an expected end before the start: "data missing: expected end is before the start: check the dates", missed flights unknown; no longer an error thrown.
 6. No flight days entered: "data missing: flight schedule not entered", missed flights unknown, never zero; cover is still listed.
 7. A cover aircraft counts only when entered as available over the disruption; not entered or not available, it is not counted, saying which.

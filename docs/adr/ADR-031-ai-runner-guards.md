@@ -2,6 +2,7 @@
 id: ADR-031
 title: The AI runner refuses a prompt that still holds a name, logs no model text, and takes its time limit as an input
 status: Accepted
+version: 1.0
 date: 2026-11-16
 decided: owner, 2026-11-16
 ---

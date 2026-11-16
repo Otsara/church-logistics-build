@@ -450,7 +450,7 @@ SYS-108 and ADR-003 say comparable alternatives (another medicine in the same cl
 - Status: Open
 - Blocks: none
 - Affects: SYS-303, RC-303, HAZ-303
-- Decision: Deferred until after the hackathon (owner, 2026-11-16). For the MVP, duty time and rest are checked by the person signing off (SYS-305). After the hackathon, the owner names the regulation or operations manual that applies, its limits are quoted from the official text for the owner to verify, and the check is built as described below.
+- Decision: Deferred until after the hackathon (owner, 2026-11-16; ADR-033). For the MVP, duty time and rest are checked by the person signing off (SYS-305). After the hackathon, the owner names the regulation or operations manual that applies, its limits are quoted from the official text for the owner to verify, and the check is built as described below.
 
 The owner prefers duty time and rest limits to be checked in the MVP rather than after the hackathon (owner, 2026-11-16). The limits and their source are the owner's to give; none is invented. Needed from the owner: (1) which limits apply, for example the longest duty period in a day, the shortest rest before a duty, and the most flying in a set number of days; (2) the value of each; (3) the source of each, such as the program's own operations manual or the regulation it flies under, with a verified date. Once given, they go in a rule file (`rules/sparewing/`), each pilot's recent duty and rest is entered, and a pilot who would break a limit during the disruption is excluded with the reason, while one with no duty record entered is "data missing" (SYS-304). Until then, duty and rest stay with the person signing off (SYS-305). Raised in the SpareWing review (REV-008, 2026-11-16).
 
