@@ -4,6 +4,7 @@ import type { AuditEntry } from "@church-logistics/core";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { containsName, replaceNames } from "../src/names.ts";
+import { AI_CALL_TIME_LIMIT_MS } from "../src/limits.ts";
 import { runAiStep } from "../src/runner.ts";
 import type { AiDependencies, AiStep, ModelClient } from "../src/step.ts";
 
@@ -205,6 +206,12 @@ describe("AI step runner", () => {
         after: { result: "names_present" },
       },
     ]);
+  });
+});
+
+describe("AI call time limit", () => {
+  it("[TC-002] Given the owner's decision, then each AI call attempt may take 30 seconds before it counts as timed out (OD-058)", () => {
+    expect(AI_CALL_TIME_LIMIT_MS).toBe(30_000);
   });
 });
 

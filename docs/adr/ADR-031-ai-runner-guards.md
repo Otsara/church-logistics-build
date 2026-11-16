@@ -1,9 +1,9 @@
 ---
 id: ADR-031
 title: The AI runner refuses a prompt that still holds a name, logs no model text, and takes its time limit as an input
-status: Proposed
+status: Accepted
 date: 2026-11-16
-decided:
+decided: owner, 2026-11-16
 ---
 
 # ADR-031 The AI runner refuses a prompt that still holds a name, logs no model text, and takes its time limit as an input
@@ -22,11 +22,13 @@ Iteration 2 builds the AI step runner (ARC-008) and name replacement (ARC-013). 
 2. Log the model's text; or log only the outcome and, for invalid output, where the schema failed (field path and message).
 3. A built-in default; or an input with no default, its value an open decision.
 
-## Decision (proposed by Claude, for the owner)
+## Decision
+
+Accepted as Claude proposed (owner, 2026-11-16):
 
 1. The runner checks the prompt, whole-word and ignoring letter case, against every known name it is given. If one is found, no call is made, the person is sent to manual entry (attempts 0) and the refusal is logged without the name.
 2. The log holds the tier, the outcome and, for invalid output, the failing field paths and messages; never the prompt or the model's text.
-3. The time limit is an input with no default; its value is OD-058.
+3. The time limit is an input with no default in the runner; the owner set it at 30 seconds per attempt (owner, 2026-11-16; OD-058), held in `packages/ai/src/limits.ts`.
 
 ## Consequences
 
