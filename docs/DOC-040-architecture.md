@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.25
+version: 0.26
 status: Draft
 effective_date:
 ---
@@ -115,7 +115,7 @@ Built: `names.ts` replaces known names by their ids, whole-word and ignoring let
 
 The app calls the AI service only through a Supabase Edge Function that holds the key as a secret and checks that the user is signed in (owner, 2026-11-12); OD-027.
 
-Built: `packages/ai/src/gateway.ts` answers only a signed-in user's POST of a known step, tier and non-empty prompt (401, 405 or 400 otherwise) and passes no detail of an AI service failure back (502). `anthropic.ts` calls Claude Haiku 5.5 for every step and tier (ADR-008) at low effort, with the SDK's own retries off and the 30-second limit (OD-058), and fails on any answer that was cut off, refused or paused. `gateway-client.ts` is the browser's model client: it sends the user's token, never the key. `supabase/functions/ai-gateway/` is the Deno wiring: the key comes from the function's secret `ANTHROPIC_API_KEY`, sign-in is checked with Supabase Auth, and browsers may call it only from origins listed in `ALLOWED_ORIGINS`, none by default, set when the apps are hosted (OD-018). For upload, `tools/gateway-upload.mjs` copies the gateway code into the function's folder unchanged, rewriting only import paths (Supabase uploads only files inside the folder); the result is type-checked with Deno before deploying. Not yet deployed: the owner entered the key as a secret (owner, 2026-11-16) and asked for this pull request to be merged first.
+Built: `packages/ai/src/gateway.ts` answers only a signed-in user's POST of a known step, tier and non-empty prompt (401, 405 or 400 otherwise) and passes no detail of an AI service failure back (502). `anthropic.ts` calls Claude Haiku 5.5 for every step and tier (ADR-008) at low effort, with the SDK's own retries off and the 30-second limit (OD-058), and fails on any answer that was cut off, refused or paused. `gateway-client.ts` is the browser's model client: it sends the user's token, never the key. `supabase/functions/ai-gateway/` is the Deno wiring: the key comes from the function's secret `ANTHROPIC_API_KEY`, sign-in is checked with Supabase Auth, and browsers may call it only from origins listed in `ALLOWED_ORIGINS`, none by default, set when the apps are hosted (OD-018). For upload, `tools/gateway-upload.mjs` copies the gateway code into the function's folder unchanged, rewriting only import paths (Supabase uploads only files inside the folder); the result is type-checked with Deno before deploying. Deployed on 2026-11-16 from main (owner, 2026-11-16) as `ai-gateway` version 1 in the `prepped-sparewing` project, with Supabase's own sign-in check on, after the owner entered the key as a secret. Checked the same day, with no AI call: a request without sign-in was refused by Supabase (401); one with only the public app key reached the gateway, which started with its secrets in place and refused it (401, "sign in to use the AI steps"); a browser preflight from an unlisted website got no permission to call. A call with a signed-in user, and its timing, waits for sign-in in the apps (iteration 3).
 
 ### ARC-015 openFDA importer
 - Product: Shared
@@ -286,3 +286,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.23 | 2026-11-16 | ARC-301: rule files read from text with duplicate keys refused; aircraft types matched without spaces or case (ADR-034). | Claude, for owner review |
 | 0.24 | 2026-11-16 | ARC-014 AI gateway built (not yet deployed). Numbered 0.24 because the rule-files review branch takes 0.23. | Claude, for owner review |
 | 0.25 | 2026-11-16 | ARC-014: upload packaging script; key entered by the owner. | Claude, for owner review |
+| 0.26 | 2026-11-16 | ARC-014: AI gateway deployed and checked without an AI call (owner, 2026-11-16). | Claude, for owner review |
