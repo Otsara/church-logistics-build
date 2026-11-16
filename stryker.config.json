@@ -13,7 +13,9 @@
     "!packages/core/src/index.ts",
     "packages/synth/src/fda.ts",
     "packages/synth/src/snapshot.ts",
-    "packages/synth/src/data-checks.ts"
+    "packages/synth/src/data-checks.ts",
+    "packages/ai/src/runner.ts",
+    "packages/ai/src/names.ts"
   ],
   "coverageAnalysis": "perTest",
   "thresholds": {
