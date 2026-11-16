@@ -10,26 +10,27 @@ import {
   readCoverBases,
 } from "../src/sparewing/rule-files.ts";
 
-const load = (name: string): unknown =>
-  JSON.parse(
-    readFileSync(
-      join(import.meta.dirname, `../../../rules/sparewing/${name}.json`),
-      "utf8",
-    ),
+const load = (name: string): string =>
+  readFileSync(
+    join(import.meta.dirname, `../../../rules/sparewing/${name}.json`),
+    "utf8",
   );
 
-const envelope = (id: string, data: unknown) => ({
-  id,
-  product: "sparewing",
-  title: "t",
-  status: "placeholder",
-  source: {
-    url: "https://example.org/x",
-    verified_date: null,
-    verified_by: null,
-  },
-  data,
-});
+const text = (value: unknown): string => JSON.stringify(value, null, 2);
+
+const envelope = (id: string, data: unknown): string =>
+  text({
+    id,
+    product: "sparewing",
+    title: "t",
+    status: "placeholder",
+    source: {
+      url: "https://example.org/x",
+      verified_date: null,
+      verified_by: null,
+    },
+    data,
+  });
 
 describe("SpareWing rule files", () => {
   it("[TC-325] Given the aircraft-type ratings file, then it is a placeholder citing the synthetic data, each synthetic type requires its rating, and a type not listed requires nothing, which the pilot check shows as data missing", () => {
@@ -54,17 +55,18 @@ describe("SpareWing rule files", () => {
   });
 
   it("[TC-325] Given a ratings file with the wrong id, product or data, then every problem is listed and nothing is read", () => {
-    expect(readAircraftTypeRatings({})).toMatchObject({ ok: false });
+    expect(readAircraftTypeRatings("{}")).toMatchObject({ ok: false });
     expect(
       readAircraftTypeRatings(
         envelope("cover-bases", { ratings_by_aircraft_type: {} }),
       ),
     ).toEqual({ ok: false, errors: ['id: must be "aircraft-type-ratings"'] });
     expect(
-      readAircraftTypeRatings({
-        ...envelope("aircraft-type-ratings", { ratings_by_aircraft_type: {} }),
-        product: "prepped",
-      }),
+      readAircraftTypeRatings(
+        envelope("aircraft-type-ratings", {
+          ratings_by_aircraft_type: {},
+        }).replace('"sparewing"', '"prepped"'),
+      ),
     ).toEqual({ ok: false, errors: ['product: must be "sparewing"'] });
     const bad = readAircraftTypeRatings(
       envelope("aircraft-type-ratings", {
@@ -113,12 +115,14 @@ describe("SpareWing rule files", () => {
       readCoverBases(envelope("aircraft-type-ratings", { scenarios: {} })),
     ).toEqual({ ok: false, errors: ['id: must be "cover-bases"'] });
     expect(
-      readCoverBases({
-        ...envelope("cover-bases", { scenarios: {} }),
-        product: "shared",
-      }),
+      readCoverBases(
+        envelope("cover-bases", { scenarios: {} }).replace(
+          '"sparewing"',
+          '"shared"',
+        ),
+      ),
     ).toEqual({ ok: false, errors: ['product: must be "sparewing"'] });
-    expect(readCoverBases({ id: 1 })).toMatchObject({ ok: false });
+    expect(readCoverBases('{"id": 1}')).toMatchObject({ ok: false });
     const bad = readCoverBases(
       envelope("cover-bases", { scenarios: { S1: { C1: [] } }, extra: 1 }),
     );
@@ -127,4 +131,53 @@ describe("SpareWing rule files", () => {
       expect.stringMatching(/^data: /) as string,
     ]);
   });
+
+  it("[TC-327] Given an aircraft type asked for with stray spaces or in another letter case, then its ratings are found; two entries naming the same type that way refuse the file", () => {
+    const reading = readAircraftTypeRatings(load("aircraft-type-ratings"));
+    if (!reading.ok) throw new Error("unreadable");
+    expect(ratingsForType(reading, "  type k1 (SYNTHETIC) ")).toEqual([
+      "Type K1 (synthetic)",
+    ]);
+    expect(
+      readAircraftTypeRatings(
+        envelope("aircraft-type-ratings", {
+          ratings_by_aircraft_type: { "Type K1": ["R1"], " type k1": ["R2"] },
+        }),
+      ),
+    ).toEqual({
+      ok: false,
+      errors: [
+        'data.ratings_by_aircraft_type: "Type K1" and " type k1" name the same aircraft type',
+      ],
+    });
+  });
+
+  it("[TC-328] Given a rule file that names a type, community or field twice, then the file is refused naming each duplicate, instead of the later entry silently replacing the earlier", () => {
+    const ratings = envelope("aircraft-type-ratings", {
+      ratings_by_aircraft_type: { "Type K1": ["R1"] },
+    }).replace('"Type K1": [', '"Type K1": ["R9"], "Type K1": [');
+    expect(readAircraftTypeRatings(ratings)).toEqual({
+      ok: false,
+      errors: [
+        'duplicate key "Type K1" in data.ratings_by_aircraft_type: the later entry would silently replace the earlier one',
+      ],
+    });
+    const cover = envelope("cover-bases", {
+      scenarios: { S1: { C1: ["B01"] } },
+    }).replace('"C1": [', '"C1": ["B02"], "C1": [');
+    expect(readCoverBases(cover)).toEqual({
+      ok: false,
+      errors: [
+        'duplicate key "C1" in data.scenarios.S1: the later entry would silently replace the earlier one',
+      ],
+    });
+    expect(readCoverBases("{ not json")).toEqual({
+      ok: false,
+      errors: ["not valid JSON"],
+    });
+  });
+
+  it.todo(
+    '[TC-329] Given a SpareWing result that relies on a placeholder rule file, then the screen shows "Placeholder rules: not for real flight decisions" beside it (built with the screens, iteration 3)',
+  );
 });

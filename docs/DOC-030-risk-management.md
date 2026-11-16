@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.16
+version: 0.17
 status: Draft
 effective_date:
 ---
@@ -397,6 +397,18 @@ Sequence: the "best" proposal favours speed over safety, or pushes other options
 
 Ranking follows a fixed order, shown with each proposal: fewest missed community flights, earliest return to service, fewest transfers (owner, 2026-11-12); ranking never removes a candidate from view (OD-023).
 
+
+### HAZ-309 Placeholder rules taken as a real program's rules
+- Product: SpareWing
+- Traces to: IU-301
+
+Sequence: a prototype result built on placeholder rule files (ratings per aircraft type, cover bases per community, derived from synthetic data) is read as if a program's real rules stood behind it. Harm: a pilot without the ratings a real aircraft needs, or cover from a base that cannot serve a community, is relied on. Severity and probability: TBD; Claude proposes critical, and unlikely with controls (OD-061). Control in code: the placeholder status is shown with every result that relies on it; person's check: sign-off (SYS-305).
+
+### RC-309 Placeholder rules labelled, duplicates refused
+- Product: SpareWing
+- Traces to: HAZ-309
+
+Every result that relies on a placeholder rule file says "Placeholder rules: not for real flight decisions" (SYS-312); a rule file naming a type, community or field twice is refused rather than silently keeping the later entry (owner, 2026-11-16; ADR-034).
 ## Revision history
 
 | Version | Date | Change | By |
@@ -417,3 +429,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.14 | 2026-11-15 | RC-105: an amount entered beyond the chosen lot's quantity needs review (owner, 2026-11-15; ADR-029). | Claude, for owner review |
 | 0.15 | 2026-11-15 | RC-301: only spaces and letter case ignored when comparing part numbers (owner, 2026-11-15; ADR-030). | Claude, for owner review |
 | 0.16 | 2026-11-16 | RC-303 no required ratings means no candidate; RC-307 unknown missed flights never zero, cover aircraft availability (owner, 2026-11-16; ADR-032). | Claude, for owner review |
+| 0.17 | 2026-11-16 | New HAZ-309 placeholder rules taken as real, rating TBD (OD-061), and RC-309 (owner, 2026-11-16; ADR-034). | Claude, for owner review |
