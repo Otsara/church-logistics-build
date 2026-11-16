@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.8
+version: 0.9
 status: Draft
 effective_date:
 ---
@@ -100,7 +100,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-013 Supabase
 - Version: service
 - Terms: Supabase terms. Free plan, with Edge Function invocations limited per month and projects paused after inactivity; Pro plan billed monthly (third-party summaries, to confirm on supabase.com/pricing).
-- Use: team sync and sign-in (ARC-006, SEC-008) and the AI gateway holding the key (ARC-014) (owner, 2026-11-12); OD-001, OD-027. A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds nothing yet. Free projects pause after a week without activity, which matters for a live demo during judging.
+- Use: team sync and sign-in (ARC-006, SEC-008) and the AI gateway holding the key (ARC-014) (owner, 2026-11-12); OD-001, OD-027. A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds the Edge Function `ai-gateway`, deployed on 2026-11-16, and the AI key as its secret, entered by the owner; no data yet. Free projects pause after a week without activity, which matters for a live demo during judging.
 - Safety relevance: indirect.
 
 ### SOUP-014 Stryker
@@ -165,3 +165,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.6 | 2026-11-12 | SOUP-102 retired: the WHO list is not used (OD-046). | Claude, for owner review |
 | 0.7 | 2026-11-12 | New SOUP-016 marked 12.0.2 for the review-copy builder. | Claude, for owner review |
 | 0.8 | 2026-11-16 | New SOUP-017 Anthropic SDK, SOUP-018 Supabase client and SOUP-019 Deno, for the AI gateway (ARC-014), registered before first use. | Claude, for owner review |
+| 0.9 | 2026-11-16 | SOUP-013: the `ai-gateway` function deployed to the Supabase project (owner, 2026-11-16). | Claude, for owner review |

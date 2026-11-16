@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.18
+version: 0.19
 status: Draft
 effective_date:
 ---
@@ -46,7 +46,7 @@ Status on 2026-11-15: Prepped lot eligibility (TC-101 to TC-104, TC-108 to TC-11
 
 `shared/ai-wrapper`: ARC-008, ARC-013, ARC-014, AIC-101 to AIC-103 and AIC-301 to AIC-303 on Claude Haiku 5.5 (ADR-008), golden examples from the development partition, TC-002 to TC-004.
 
-Status on 2026-11-16: started with the owner's go-ahead (owner, 2026-11-16), in parallel with the SpareWing review. Built: the step runner and name replacement (ARC-008, ARC-013; TC-002 to TC-004), with ADR-031 accepted and the AI call time limit set at 30 seconds per attempt (owner, 2026-11-16; OD-058). The server-side gateway (ARC-014, TC-028 to TC-030) is built and tested, not yet deployed: deploying needs the owner to enter the AI key as a Supabase secret. Next: the six steps with their golden examples.
+Status on 2026-11-16: started with the owner's go-ahead (owner, 2026-11-16), in parallel with the SpareWing review. Built: the step runner and name replacement (ARC-008, ARC-013; TC-002 to TC-004), with ADR-031 accepted and the AI call time limit set at 30 seconds per attempt (owner, 2026-11-16; OD-058). The server-side gateway (ARC-014, TC-028 to TC-030) is built, tested and deployed (owner, 2026-11-16), and checked without an AI call; a signed-in call waits for sign-in in the apps (iteration 3). Next: the six steps with their golden examples.
 
 ### IT-003 Iteration 3: screens, offline and live demo
 - Dates: November 18 to 23
@@ -133,3 +133,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.16 | 2026-11-16 | IT-002 started (owner, 2026-11-16): step runner and name replacement built. | Claude, for owner review |
 | 0.17 | 2026-11-16 | IT-002: ADR-031 accepted, AI time limit 30 seconds (OD-058). | Claude, for owner review |
 | 0.18 | 2026-11-16 | IT-002: AI gateway built, not yet deployed. | Claude, for owner review |
+| 0.19 | 2026-11-16 | IT-002: AI gateway deployed. | Claude, for owner review |
