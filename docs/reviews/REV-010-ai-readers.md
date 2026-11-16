@@ -32,4 +32,13 @@ Claude walked through the prompt, the schema and the checks, and noted that text
 
 ## Part 3: the parts-email reader (`parts-email.ts`)
 
-Pending.
+Claude walked through the prompt, the schema (no base or serviceability field) and the checks, and tested two suspected gaps before presenting them. Findings and the owner's decisions (owner, 2026-11-16; ADR-038):
+
+| # | Finding | Decision |
+|---|---|---|
+| 1 | A part or lot number cut short at a dash was accepted ("SWP-1155" from "SWP-1155-6", "L-12" from "L-12-B"), because the whole-word rule treats a dash as a word's end. | Yes: part and lot numbers must match a whole code. |
+| 2 | One line with quantity 0 made the whole answer invalid, sending every line to manual entry. | Yes: 0 is accepted; a part with 0 is kept as read, a donor line with 0 needs review. |
+
+## Results after the fixes
+
+100% line and branch coverage on `packages/ai/src/steps/`. Stryker mutation score 98.61% (`donor-list.ts` and `parts-email.ts` 100%, `lines.ts` 97.50%); the two survivors are equivalent: folding to upper case instead of lower case, and splitting on single spaces where empty pieces are dropped anyway. The review of #27 is complete.

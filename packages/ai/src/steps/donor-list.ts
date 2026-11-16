@@ -8,7 +8,7 @@
 import { readExpiry, type IsoDate } from "@church-logistics/core";
 import { z } from "zod";
 import type { AiStep } from "../step.ts";
-import { keepNumber, keepText, matchLines } from "./lines.ts";
+import { keepCode, keepNumber, keepText, matchLines } from "./lines.ts";
 
 export interface DonorListInput {
   /** The pasted lines, names already replaced by ids. */
@@ -23,7 +23,8 @@ const lotSchema = z.strictObject({
   generic_name: copied,
   strength: copied,
   dosage_form: copied,
-  quantity: z.number().int().positive().nullable(),
+  // 0 is valid, so one empty line does not throw out the whole answer (ADR-038).
+  quantity: z.number().int().nonnegative().nullable(),
   lot_number: copied,
   expiry_text: copied,
   manufacturer: copied,
@@ -100,13 +101,14 @@ export function checkDonorList(
     const strength = keepText(text, "strength", item.strength, reasons);
     const dosageForm = keepText(text, "dosage form", item.dosage_form, reasons);
     const quantity = keepNumber(text, item.quantity, reasons);
-    const lotNumber = keepText(text, "lot number", item.lot_number, reasons);
+    const lotNumber = keepCode(text, "lot number", item.lot_number, reasons);
     const expiryText = keepText(text, "expiry", item.expiry_text, reasons);
     const manufacturer = keepText(text, "maker", item.manufacturer, reasons);
     if (genericName === null) reasons.push("no medicine name read");
     // The form is needed to match the catalogue entry and its route (owner, 2026-11-16; REV-010).
     if (dosageForm === null) reasons.push("no dosage form read");
     if (quantity === null) reasons.push("no quantity read");
+    if (quantity === 0) reasons.push("quantity 0: check");
     if (lotNumber === null) reasons.push("no lot number read");
     const reading = readExpiry(expiryText);
     if (!reading.ok) reasons.push(reading.reason);

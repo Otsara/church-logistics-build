@@ -150,7 +150,7 @@ describe("Donor-list reader (AIC-101)", () => {
       'medicine name "Amoxycillin" is not written in the line: left empty',
       'strength "500mg " is not written in the line: left empty',
       'quantity "12" is not written in the line: left empty',
-      'lot number "A124" is not written in the line: left empty',
+      'lot number "A124" is not written in the line as a whole code: left empty',
       'expiry "2028-06-30" is not written in the line: left empty',
       'maker "Real Pharma" is not written in the line: left empty',
       "no medicine name read",
@@ -252,7 +252,7 @@ describe("Reader edge cases (SYS-119, SYS-313)", () => {
     });
     expect(result.lines[0]?.reasons).toEqual([
       'dosage form "TABLET" is not written in the line: left empty',
-      'lot number "  " is not written in the line: left empty',
+      'lot number "  " is not written in the line as a whole code: left empty',
       "no dosage form read",
       "no lot number read",
     ]);
@@ -318,6 +318,100 @@ describe("Donor-list review decisions (REV-010 part 2)", () => {
   });
 });
 
+describe("Zero quantities (REV-010 part 3)", () => {
+  it("[SYS-313] Given a part line with quantity 0, then the answer is valid and the part is kept with 0, so one empty shelf does not throw out the whole email", () => {
+    const lines = ["SWP-1155-6 qty 0", "SWP-9506-7 qty 2"];
+    const answer = {
+      parts: [
+        part({
+          line: 1,
+          source_line: lines[0] as string,
+          quantity: 0,
+          description: null,
+        }),
+        part({
+          line: 2,
+          source_line: lines[1] as string,
+          part_number: "SWP-9506-7",
+          quantity: 2,
+          description: null,
+        }),
+      ],
+    };
+    expect(partsEmailStep.outputSchema.safeParse(answer).success).toBe(true);
+    const result = checkPartsEmail({ lines }, answer);
+    expect(result.lines.map((l) => [l.quantity, l.needsReview])).toEqual([
+      [0, false],
+      [2, false],
+    ]);
+    expect(
+      partsEmailStep.outputSchema.safeParse({ parts: [part({ quantity: -1 })] })
+        .success,
+    ).toBe(false);
+  });
+
+  it("[SYS-119] Given a donor line with quantity 0, then the answer is valid, and the line is kept but needs review", () => {
+    const line = "Amoxicillin 500 mg CAPSULE x0 lot A123 exp 06/2028";
+    const answer = {
+      lots: [
+        lot({ line: 1, source_line: line, quantity: 0, manufacturer: null }),
+      ],
+    };
+    expect(donorListStep.outputSchema.safeParse(answer).success).toBe(true);
+    expect(checkDonorList({ lines: [line] }, answer).lines[0]).toMatchObject({
+      quantity: 0,
+      needsReview: true,
+      reasons: ["quantity 0: check"],
+    });
+    expect(
+      donorListStep.outputSchema.safeParse({ lots: [lot({ quantity: -2 })] })
+        .success,
+    ).toBe(false);
+  });
+
+  it("[SYS-119, SYS-313] Given a lot or part number that stops inside a longer code, then it is left empty and the line needs review", () => {
+    const donor = checkDonorList(
+      { lines: ["Amoxicillin 500 mg CAPSULE x120 lot A123-X exp 06/2028"] },
+      {
+        lots: [
+          lot({
+            line: 1,
+            source_line:
+              "Amoxicillin 500 mg CAPSULE x120 lot A123-X exp 06/2028",
+            lot_number: "A123",
+            manufacturer: null,
+          }),
+        ],
+      },
+    );
+    expect(donor.lines[0]).toMatchObject({
+      lotNumber: null,
+      needsReview: true,
+    });
+    expect(donor.lines[0]?.reasons).toEqual([
+      'lot number "A123" is not written in the line as a whole code: left empty',
+      "no lot number read",
+    ]);
+    const parts = checkPartsEmail(
+      { lines: ["We have 2 x SWP-1155-6 on the shelf"] },
+      {
+        parts: [
+          part({
+            line: 1,
+            source_line: "We have 2 x SWP-1155-6 on the shelf",
+            part_number: "SWP-1155",
+            description: null,
+          }),
+        ],
+      },
+    );
+    expect(parts.lines[0]?.reasons).toEqual([
+      'part number "SWP-1155" is not written in the line as a whole code: left empty',
+      "no part number read",
+    ]);
+  });
+});
+
 describe("Parts-email reader (AIC-301)", () => {
   it("[SYS-313] Given a part read correctly, then the part number, quantity and description are kept as copied; the base and serviceability are left for a person to enter, and the line waits for confirmation", () => {
     const result = checkPartsEmail({ lines: EMAIL }, { parts: [part()] });
@@ -375,7 +469,7 @@ describe("Parts-email reader (AIC-301)", () => {
         null,
         true,
         [
-          'part number "SWP-1155-5" is not written in the line: left empty',
+          'part number "SWP-1155-5" is not written in the line as a whole code: left empty',
           'quantity "3" is not written in the line: left empty',
           'description "a pump" is not written in the line: left empty',
           "no part number read",

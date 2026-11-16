@@ -3,7 +3,9 @@
 // line, and a quantity also written as a strength sends the line to review.
 import { describe, expect, it } from "vitest";
 import {
+  findCode,
   findIn,
+  keepCode,
   keepNumber,
   keepText,
   matchLines,
@@ -101,6 +103,43 @@ describe("Line checks after review", () => {
     );
     expect(result.problems).toEqual([
       "the AI's copy of line 1 does not match the line: set aside",
+    ]);
+  });
+
+  it("[SYS-119, SYS-313] Given a part or lot number, then it must match a whole code: a copy that stops at a dash, slash or dot inside the code is refused", () => {
+    const line =
+      "We have 2 x SWP-1155-6 (Synthetic part) at B03; lot L-12-B, ref A1.5, see SWP-9506-7.";
+    for (const short of ["SWP-1155", "L-12", "1155-6", "A1", "SWP-9506"]) {
+      expect(findCode(line, short), short).toBeNull();
+    }
+    for (const whole of [
+      "SWP-1155-6",
+      "L-12-B",
+      "A1.5",
+      "SWP-9506-7",
+      "swp-1155-6",
+    ]) {
+      expect(findCode(line, whole), whole).toBe(
+        whole.toUpperCase() === whole ? whole : "SWP-1155-6",
+      );
+    }
+    expect(findCode("P/N:SWP-1-1,qty 2", "SWP-1-1")).toBe("SWP-1-1");
+    expect(findCode("(lot#Q7)", "Q7")).toBe("Q7");
+    expect(findCode("lot Q7", "  ")).toBeNull();
+    // A blank copy finds nothing, even in a line that contains the word "null".
+    expect(findCode("lot null exp", "  ")).toBeNull();
+    expect(findIn("value null here", " ")).toBeNull();
+    // A code printed with a space is matched with any spacing, and spaces around a copy are dropped.
+    expect(findCode("lot A 12 exp 2028", "a  12")).toBe("A 12");
+    expect(findCode("lot A12 exp 2028", " A12 ")).toBe("A12");
+    const reasons: string[] = [];
+    expect(keepCode(line, "part number", "SWP-1155", reasons)).toBeNull();
+    expect(keepCode(line, "part number", "swp-1155-6", reasons)).toBe(
+      "SWP-1155-6",
+    );
+    expect(keepCode(line, "lot number", null, reasons)).toBeNull();
+    expect(reasons).toEqual([
+      'part number "SWP-1155" is not written in the line as a whole code: left empty',
     ]);
   });
 });

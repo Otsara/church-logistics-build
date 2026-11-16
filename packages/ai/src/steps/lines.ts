@@ -12,16 +12,38 @@ const normal = (text: string): string =>
 const escape = (text: string): string =>
   text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+/** A copy's words as a pattern that allows any spacing between them; null when it is blank. */
+function wordsPattern(value: string): string | null {
+  const words = value.split(/\s+/).filter((w) => w !== "");
+  return words.length === 0 ? null : words.map(escape).join("\\s+");
+}
+
 /**
  * Finds a copy in the line as whole words, ignoring letter case and spacing, and returns the
  * line's own text for it; null when it is not there or is only part of a word or number
  * (owner, 2026-11-16; ADR-036).
  */
 export function findIn(line: string, value: string): string | null {
-  const words = value.split(/\s+/).filter((w) => w !== "");
-  if (words.length === 0) return null;
+  const words = wordsPattern(value);
+  if (words === null) return null;
   const pattern = new RegExp(
-    `(?<![\\p{L}\\p{N}])${words.map(escape).join("\\s+")}(?![\\p{L}\\p{N}])`,
+    `(?<![\\p{L}\\p{N}])${words}(?![\\p{L}\\p{N}])`,
+    "iu",
+  );
+  return pattern.exec(line)?.[0] ?? null;
+}
+
+/**
+ * Finds a part or lot number in the line as a whole code, ignoring letter case, and returns the
+ * line's own text. The code must start and end where the line's code does: at a space, a comma,
+ * semicolon or colon, a bracket, "#" before it, a full stop that ends a sentence after it, or the
+ * ends of the line; so "SWP-1155" is not found in "SWP-1155-6" (owner, 2026-11-16; ADR-038).
+ */
+export function findCode(line: string, value: string): string | null {
+  const words = wordsPattern(value);
+  if (words === null) return null;
+  const pattern = new RegExp(
+    `(?<=^|[\\s,;:()\\[\\]#])${words}(?=$|[\\s,;:()\\[\\]]|\\.(?:\\s|$))`,
     "iu",
   );
   return pattern.exec(line)?.[0] ?? null;
@@ -108,6 +130,23 @@ export function keepText(
   const found = findIn(line, value);
   if (found === null) {
     reasons.push(`${label} "${value}" is not written in the line: left empty`);
+  }
+  return found;
+}
+
+/** Keeps a part or lot number, as printed in the line, only if it is written there as a whole code. */
+export function keepCode(
+  line: string,
+  label: string,
+  value: string | null,
+  reasons: string[],
+): string | null {
+  if (value === null) return null;
+  const found = findCode(line, value);
+  if (found === null) {
+    reasons.push(
+      `${label} "${value}" is not written in the line as a whole code: left empty`,
+    );
   }
   return found;
 }

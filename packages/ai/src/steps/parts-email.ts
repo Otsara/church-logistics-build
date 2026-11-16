@@ -6,7 +6,7 @@
  */
 import { z } from "zod";
 import type { AiStep } from "../step.ts";
-import { keepNumber, keepText, matchLines } from "./lines.ts";
+import { keepCode, keepNumber, keepText, matchLines } from "./lines.ts";
 
 export interface PartsEmailInput {
   /** The email's lines, names already replaced by ids. */
@@ -17,7 +17,8 @@ const partSchema = z.strictObject({
   line: z.number().int(),
   source_line: z.string(),
   part_number: z.string().nullable(),
-  quantity: z.number().int().positive().nullable(),
+  // 0 is valid: a part with none in stock is kept as read and never appears (SYS-302, ADR-038).
+  quantity: z.number().int().nonnegative().nullable(),
   description: z.string().nullable(),
   confidence: z.number().min(0).max(1),
 });
@@ -76,7 +77,7 @@ export function checkPartsEmail(
   const lines = accepted.map((item): ReadPartLine => {
     const text = item.source_line;
     const reasons: string[] = [];
-    const partNumber = keepText(text, "part number", item.part_number, reasons);
+    const partNumber = keepCode(text, "part number", item.part_number, reasons);
     const quantity = keepNumber(text, item.quantity, reasons);
     const description = keepText(
       text,
