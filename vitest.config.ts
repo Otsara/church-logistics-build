@@ -24,6 +24,10 @@ export default defineConfig({
         "packages/synth/src/snapshot.ts": FULL,
         // The data scripts' checks guard the snapshot and the held-back set (ARC-018, DAT-002).
         "packages/synth/src/data-checks.ts": FULL,
+        // The AI runner is the guard on every AI output (ARC-008, safety-critical).
+        "packages/ai/src/runner.ts": FULL,
+        // Names are replaced before any AI call (ARC-013).
+        "packages/ai/src/names.ts": FULL,
       },
     },
   },

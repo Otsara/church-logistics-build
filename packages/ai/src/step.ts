@@ -1,8 +1,8 @@
 /**
  * The contract every AI step follows (ARC-008, ARC-009, SYS-001 to SYS-006).
  *
- * This file fixes the interface only. The runner that implements it (schema validation, one
- * retry, manual fallback, audit logging) is built by the AI wrapper stream against TC-002 to TC-004.
+ * The runner that implements it (schema validation, one retry, manual fallback, audit logging)
+ * is `runner.ts`, built against TC-002 to TC-004.
  */
 import type { AuditEntry } from "@church-logistics/core";
 import type { z } from "zod";
@@ -39,6 +39,8 @@ export interface AiDependencies {
   readonly timeoutMs: number;
   /** Supplies the audit time; the runner never reads the clock itself. */
   readonly now: () => string;
+  /** Names that must never reach the model; a prompt containing one is refused (ARC-013). */
+  readonly names: readonly string[];
 }
 
 /** Either a validated value, or the reason the person is sent to manual entry (TC-002, TC-003). */
@@ -46,13 +48,7 @@ export type AiOutcome<Output> =
   | { readonly kind: "ok"; readonly value: Output; readonly attempts: 1 | 2 }
   | {
       readonly kind: "manual_entry";
-      readonly reason: "timeout" | "invalid_output" | "error";
-      readonly attempts: 1 | 2;
+      readonly reason: "timeout" | "invalid_output" | "error" | "names_present";
+      /** 0 when the call was refused before it was made. */
+      readonly attempts: 0 | 1 | 2;
     };
-
-/** Validate, retry once, then fall back to manual entry. A failed step never blocks work. */
-export type RunAiStep = <Input, Output>(
-  step: AiStep<Input, Output>,
-  input: Input,
-  dependencies: AiDependencies,
-) => Promise<AiOutcome<Output>>;
