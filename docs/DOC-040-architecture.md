@@ -217,7 +217,7 @@ Every step follows SYS-001 to SYS-006 and SYS-009, and runs through ARC-008, ARC
 
 Input: pasted text or spreadsheet rows. Output: JSON array of lots, each with the source line and a confidence. Tier: cheap. If it fails: manual entry form. Example output: `{"lots": [{"generic_name": "amoxicillin", "strength": "500 mg", "form": "capsule", "quantity": 1200, "lot_number": null, "expiry": "2027-06-30", "source_line": "Amoxicillin 500mg caps x1200 exp 6/2027", "confidence": 0.9}]}`
 
-Built: `packages/ai/src/steps/donor-list.ts` with `lines.ts` (SYS-119, ADR-035): the prompt numbers the lines and asks for exact copies; the output schema has a field for each copied value and the confidence; `checkDonorList` keeps only copies written in the line, reads the expiry with `readExpiry`, marks what needs review and lists unread lines. Golden examples: `packages/ai/golden/aic-101-donor-list.json` (15, development partition), built by `packages/ai/scripts/make-golden.ts`; recordings pending (OD-062).
+Built: `packages/ai/src/steps/donor-list.ts` with `lines.ts` (SYS-119, ADR-035): the prompt numbers the lines and asks for exact copies; the output schema has a field for each copied value and the confidence; `checkDonorList` keeps only copies written in the line, reads the expiry with `readExpiry`, marks what needs review and lists unread lines. Golden examples: `packages/ai/golden/aic-101-donor-list.json` (15, development partition), built by `packages/ai/scripts/make-golden.ts`; recorded through the gateway once sign-in exists, iteration 3 (OD-062).
 
 ### AIC-102 Draft a cover letter and checklist
 - Product: Prepped
@@ -240,7 +240,7 @@ Input: computed readiness JSON. Output: plain-language summary of gaps only. Tie
 
 Input: pasted text. Output: JSON array of parts with the source line and a confidence. Tier: cheap. If it fails: manual entry form.
 
-Built: `packages/ai/src/steps/parts-email.ts` (SYS-313, ADR-035): part number, quantity and description only; base and serviceability are left for a person. Golden examples: `packages/ai/golden/aic-301-parts-email.json` (15); recordings pending (OD-062). Both readers are part of the guard on AI output (ARC-008) and held to full coverage and mutation testing.
+Built: `packages/ai/src/steps/parts-email.ts` (SYS-313, ADR-035): part number, quantity and description only; base and serviceability are left for a person. Golden examples: `packages/ai/golden/aic-301-parts-email.json` (15); recorded through the gateway once sign-in exists, iteration 3 (OD-062). Both readers are part of the guard on AI output (ARC-008) and held to full coverage and mutation testing.
 
 ### AIC-302 Draft a message to a base or community
 - Product: SpareWing
