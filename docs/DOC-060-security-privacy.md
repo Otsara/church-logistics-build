@@ -1,7 +1,7 @@
 ---
 id: DOC-060
 title: Security and privacy
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -16,7 +16,7 @@ What protects the people, data and services behind Prepped and SpareWing. During
 - Product: Shared
 - Traces to: UN-002, RC-007
 
-AI service keys never appear in front-end code, the repository, logs or review copies. They are held as server-side secrets and used only by the AI gateway (ARC-014). Store: a Supabase Edge Function secret, entered by the owner (owner, 2026-11-12); OD-027.
+AI service keys never appear in front-end code, the repository, logs or review copies. They are held as server-side secrets and used only by the AI gateway (ARC-014). Store: a Supabase Edge Function secret, entered by the owner (owner, 2026-11-12); OD-027. Built: only the Edge Function reads the key, from its secret `ANTHROPIC_API_KEY`; the browser's client sends the user's token and never holds the key; failures from the AI service are not passed back (ARC-014, TC-028, TC-030).
 
 ### SEC-002 Synthetic data only in the build
 - Product: Shared
@@ -58,7 +58,7 @@ Protection of data kept in the browser if a device is lost or shared: TBD (OD-03
 - Product: Shared
 - Traces to: UN-002, RC-008
 
-Sync uses Supabase Auth with one account per person. Database rules let each team read and write only its own records, and every synced edit records who made it. Signing in is needed only to sync; a device that has signed in keeps working offline. Sign-in details are never logged or committed (owner, 2026-11-12); OD-001.
+Sync uses Supabase Auth with one account per person. Database rules let each team read and write only its own records, and every synced edit records who made it. Signing in is needed only to sync; a device that has signed in keeps working offline. Sign-in details are never logged or committed (owner, 2026-11-12); OD-001. The AI gateway answers only a request carrying a signed-in user's token, checked with Supabase Auth; a failed check counts as not signed in (TC-028).
 
 ## Revision history
 
@@ -66,3 +66,4 @@ Sync uses Supabase Auth with one account per person. Database rules let each tea
 | --- | --- | --- | --- |
 | 0.1 | 2026-11-10 | First draft. | Claude, for owner review |
 | 0.2 | 2026-11-12 | SEC-001 key store decided (OD-027); SEC-003 header set follows hosting (OD-018); new SEC-008 team sign-in (OD-001) (owner, 2026-11-12). | Claude, for owner review |
+| 0.3 | 2026-11-16 | SEC-001 and SEC-008: the AI gateway built; key read only by the Edge Function, sign-in checked on every AI request. | Claude, for owner review |
