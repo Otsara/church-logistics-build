@@ -137,7 +137,8 @@ describe("Donor-list reader (AIC-101)", () => {
     expect(result.lines[0]).toMatchObject({
       genericName: null,
       strength: null,
-      dosageForm: "capsule",
+      // Kept as printed in the line, not as the AI spelled it (ADR-036).
+      dosageForm: "CAPSULE",
       quantity: null,
       lotNumber: null,
       expiryText: null,
@@ -226,7 +227,7 @@ describe("Reader edge cases (SYS-119, SYS-313)", () => {
     }
   });
 
-  it("[SYS-119] Given a copy that differs only in letter case or extra spaces, then it is accepted; an empty copy or a different dosage form is left empty with the reason", () => {
+  it("[SYS-119] Given a copy that differs only in letter case or extra spaces, then it is accepted and kept as printed in the line; an empty copy or a different dosage form is left empty with the reason", () => {
     const spaced = "Amoxicillin  500 mg   CAPSULE x120 lot A123 exp 06/2028";
     const result = checkDonorList(
       { lines: [spaced] },
@@ -245,7 +246,7 @@ describe("Reader edge cases (SYS-119, SYS-313)", () => {
     );
     expect(result.problems).toEqual([]);
     expect(result.lines[0]).toMatchObject({
-      strength: "500  mg",
+      strength: "500 mg",
       dosageForm: null,
       lotNumber: null,
     });

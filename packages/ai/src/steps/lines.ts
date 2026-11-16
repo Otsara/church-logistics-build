@@ -1,22 +1,48 @@
 /**
  * Checking an AI reader's answer against the lines it was given (ARC-008; owner, 2026-11-16;
- * ADR-035). The AI copies text; the code checks every copy is written in the line, ignoring only
- * letter case and extra spaces, and empties any value that is not. Each answer must name a line
+ * ADR-035). The AI copies text; the code checks every copy is written in the line as whole words,
+ * ignoring only letter case and spacing, keeps the line's own text, and empties any value that is
+ * not (owner, 2026-11-16; ADR-036). Each answer must name a line
  * that exists and copy it exactly; a line is answered at most once. Never throws.
  */
 
 const normal = (text: string): string =>
   text.replace(/\s+/g, " ").trim().toLowerCase();
 
-/** True when the value is written in the line, ignoring letter case and extra spaces. */
-export function writtenIn(line: string, value: string): boolean {
-  const wanted = normal(value);
-  return wanted !== "" && normal(line).includes(wanted);
+const escape = (text: string): string =>
+  text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Finds a copy in the line as whole words, ignoring letter case and spacing, and returns the
+ * line's own text for it; null when it is not there or is only part of a word or number
+ * (owner, 2026-11-16; ADR-036).
+ */
+export function findIn(line: string, value: string): string | null {
+  const words = value.split(/\s+/).filter((w) => w !== "");
+  if (words.length === 0) return null;
+  const pattern = new RegExp(
+    `(?<![\\p{L}\\p{N}])${words.map(escape).join("\\s+")}(?![\\p{L}\\p{N}])`,
+    "iu",
+  );
+  return pattern.exec(line)?.[0] ?? null;
 }
 
 /** True when the number appears in the line as a whole number, not part of another. */
 export function numberIn(line: string, value: number): boolean {
   return new RegExp(`(?<![\\d.])${String(value)}(?!\\d|\\.\\d)`).test(line);
+}
+
+/** Units that mark a number as a strength, not a count (ADR-036). */
+const STRENGTH_UNIT =
+  "(?:(?:mg|mcg|µg|ug|g|kg|ml|l|iu|meq|mmol)(?!\\p{L})|%|\\[hp_\\w*\\])";
+
+/** The strength text a quantity is also written as, or null. */
+function asStrength(line: string, value: number): string | null {
+  const pattern = new RegExp(
+    `(?<![\\d.])${String(value)}\\s*${STRENGTH_UNIT}`,
+    "iu",
+  );
+  return pattern.exec(line)?.[0] ?? null;
 }
 
 export interface Answered {
@@ -63,7 +89,7 @@ export function matchLines<T extends Answered>(
   return { accepted, unread, problems };
 }
 
-/** Keeps a copied text value only if it is written in the line; otherwise records why not. */
+/** Keeps a copied text value, as printed in the line, only if it is written there as whole words. */
 export function keepText(
   line: string,
   label: string,
@@ -71,21 +97,34 @@ export function keepText(
   reasons: string[],
 ): string | null {
   if (value === null) return null;
-  if (writtenIn(line, value)) return value;
-  reasons.push(`${label} "${value}" is not written in the line: left empty`);
-  return null;
+  const found = findIn(line, value);
+  if (found === null) {
+    reasons.push(`${label} "${value}" is not written in the line: left empty`);
+  }
+  return found;
 }
 
-/** Keeps a quantity only if it is written in the line as a whole number. */
+/**
+ * Keeps a quantity only if it is written in the line as a whole number. One also written as a
+ * strength (for example "500 mg") is kept but sent to review (owner, 2026-11-16; ADR-036).
+ */
 export function keepNumber(
   line: string,
   value: number | null,
   reasons: string[],
 ): number | null {
   if (value === null) return null;
-  if (numberIn(line, value)) return value;
-  reasons.push(
-    `quantity "${String(value)}" is not written in the line: left empty`,
-  );
-  return null;
+  if (!numberIn(line, value)) {
+    reasons.push(
+      `quantity "${String(value)}" is not written in the line: left empty`,
+    );
+    return null;
+  }
+  const strength = asStrength(line, value);
+  if (strength !== null) {
+    reasons.push(
+      `quantity "${String(value)}" is also written as a strength ("${strength}"): check`,
+    );
+  }
+  return value;
 }
