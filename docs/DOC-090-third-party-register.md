@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.7
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -109,6 +109,24 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Use: mutation testing of safety-critical code (ADR-006), `pnpm mutation`, in CI on every pull request.
 - Safety relevance: indirect.
 
+### SOUP-017 Anthropic TypeScript SDK
+- Version: @anthropic-ai/sdk 1.3.0 (published 2026-10-23)
+- Licence: Apache-2.0 (npm package metadata, 2026-11-16)
+- Use: the AI gateway's call to the AI service (`packages/ai/src/anthropic.ts`, ARC-014), run in the Supabase Edge Function; its own retries are off and its time limit is 30 seconds (OD-058). Not used in the browser.
+- Safety relevance: indirect. Output is still validated by the runner (ARC-008).
+
+### SOUP-018 Supabase JavaScript client
+- Version: @supabase/supabase-js 2.118.0 (published 2026-10-15)
+- Licence: MIT (npm package metadata, 2026-11-16)
+- Use: the AI gateway's sign-in check (`supabase/functions/ai-gateway`, SEC-008); later, team sync and sign-in in the apps (ARC-006). Loaded by the Edge Function from npm, pinned in its `deno.json` and `deno.lock`.
+- Safety relevance: indirect.
+
+### SOUP-019 Deno (Supabase Edge Runtime)
+- Version: the runtime Supabase provides for Edge Functions; the wiring was type-checked locally with Deno 2.9.6 (published 2026-08-27).
+- Licence: MIT (npm package metadata for `deno`, 2026-11-16)
+- Use: runs the AI gateway (ARC-014). Deno is not part of the build or the tests.
+- Safety relevance: indirect.
+
 ### SOUP-101 FDA drug directory (openFDA NDC)
 - Version: NDC export of 2026-11-11 (`drug-ndc-0001-of-0001.json.zip`, 138,327 records, SHA-256 df68fd940abd2bb1737b0bbc6beaa7dbd78bafdd49a31ffdd50b24b6620f69b3), downloaded 2026-11-12 (OD-034)
 - Terms: openFDA states its data is public domain under CC0 1.0 unless otherwise noted, asks for attribution, and says results should be assumed unvalidated (open.fda.gov/license, open.fda.gov/terms). The licence page states CC0 1.0 for openFDA data (read 2026-11-12); the file's own metadata links to that page.
@@ -146,3 +164,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.5 | 2026-11-12 | SOUP-002 funding (OD-028); SOUP-012 hosting (OD-018); SOUP-013 in use for sync, sign-in and AI gateway (OD-001, OD-027); SOUP-101 snapshot, CC0 confirmed and safety relevance (OD-034, OD-044); SOUP-102 licence moves to OD-046 (owner, 2026-11-12). | Claude, for owner review |
 | 0.6 | 2026-11-12 | SOUP-102 retired: the WHO list is not used (OD-046). | Claude, for owner review |
 | 0.7 | 2026-11-12 | New SOUP-016 marked 12.0.2 for the review-copy builder. | Claude, for owner review |
+| 0.8 | 2026-11-16 | New SOUP-017 Anthropic SDK, SOUP-018 Supabase client and SOUP-019 Deno, for the AI gateway (ARC-014), registered before first use. | Claude, for owner review |

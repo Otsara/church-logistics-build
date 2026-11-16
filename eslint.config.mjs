@@ -25,6 +25,8 @@ export default tseslint.config(
       "**/node_modules/**",
       "**/coverage/**",
       "**/dist/**",
+      // Deno, not Node: the Edge Function wiring is checked by Deno when deployed (ARC-014).
+      "supabase/functions/**",
     ],
   },
   js.configs.recommended,

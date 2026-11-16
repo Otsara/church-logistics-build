@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.25
+version: 0.26
 status: Draft
 effective_date:
 ---
@@ -217,6 +217,24 @@ Given the committed development data and the held-back manifest, then one third 
 
 Given the snapshot file, then it is read only when its SHA-256 and export date match `data/fda/source.json`; given the route rule file, then it is used only when valid and verified, with every problem listed; given a path for the held-back package, then any path inside the repository, including a folder inside it whose name starts with two dots, or the repository itself, is refused (REV-002).
 
+
+### TC-028 AI gateway answers only signed-in, valid requests
+- Product: Shared
+- Traces to: ARC-014, SEC-001, SEC-008
+
+Given a request without a signed-in user's token, by a method other than POST, or with a body that is not a known step, tier and non-empty prompt, then it is refused (401, 405 or 400) and the AI service is never called; given a valid request, the AI service is called once and its text returned; given an AI service failure, then 502 is returned with no detail of the failure.
+
+### TC-029 AI gateway calls the lowest-cost model once
+- Product: Shared
+- Traces to: ARC-014, ARC-009
+
+Given a prompt, then Claude Haiku 5.5 is called once at low effort with the SDK's own retries off, and only the answer's text is returned; given an answer cut off, refused or paused, or a server error, then the call fails once without retrying.
+
+### TC-030 Browser client sends the user's token, never the key
+- Product: Shared
+- Traces to: ARC-014, SEC-001
+
+Given a signed-in user, then the browser's client posts the step to the gateway with the user's token and returns the text; given no sign-in, a refusal or an answer without text, then it fails, and the runner sends the person to manual entry.
 ### TC-101 Lot blocked below minimum shelf life
 - Product: Prepped
 - Traces to: SYS-101, SYS-102, ARC-005
@@ -655,3 +673,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.23 | 2026-11-16 | New TC-319 to TC-324 from the SpareWing review decisions (ADR-032), implemented. | Claude, for owner review |
 | 0.24 | 2026-11-16 | New TC-325 and TC-326 for the SpareWing rule files, implemented. Numbered 0.24 because the SpareWing review branch takes 0.23. | Claude, for owner review |
 | 0.25 | 2026-11-16 | New TC-327 and TC-328, implemented; TC-329 placeholder rules on screen, a placeholder test until the screens (ADR-034). | Claude, for owner review |
+| 0.26 | 2026-11-16 | New TC-028 to TC-030 for the AI gateway, implemented. Numbered 0.26 because the rule-files review branch takes 0.25. | Claude, for owner review |
