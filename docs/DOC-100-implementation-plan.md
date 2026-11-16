@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.15
+version: 0.16
 status: Draft
 effective_date:
 ---
@@ -45,6 +45,8 @@ Status on 2026-11-15: Prepped lot eligibility (TC-101 to TC-104, TC-108 to TC-11
 - Dates: November 16 to 20
 
 `shared/ai-wrapper`: ARC-008, ARC-013, ARC-014, AIC-101 to AIC-103 and AIC-301 to AIC-303 on Claude Haiku 5.5 (ADR-008), golden examples from the development partition, TC-002 to TC-004.
+
+Status on 2026-11-16: started with the owner's go-ahead (owner, 2026-11-16), in parallel with the SpareWing review. Built: the step runner and name replacement (ARC-008, ARC-013; TC-002 to TC-004), with ADR-031 proposed and the AI call time limit open (OD-058). Next: the server-side gateway (ARC-014), then the six steps with their golden examples.
 
 ### IT-003 Iteration 3: screens, offline and live demo
 - Dates: November 18 to 23
@@ -128,3 +130,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.13 | 2026-11-15 | IT-001 status: SpareWing interpretations decided (ADR-025). Numbered 0.13 because the floor-coverage branch takes 0.12. | Claude, for owner review |
 | 0.14 | 2026-11-15 | IT-001 status: donor-line merging built. Numbered 0.14 because the SpareWing decisions branch takes 0.13. | Claude, for owner review |
 | 0.15 | 2026-11-15 | IT-001 status: donor-line merging reviewed (REV-006), picker label reviewed by the owner; SpareWing rule files to cite the synthetic data file (owner, 2026-11-15). | Claude, for owner review |
+| 0.16 | 2026-11-16 | IT-002 started (owner, 2026-11-16): step runner and name replacement built. | Claude, for owner review |

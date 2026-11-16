@@ -5,5 +5,6 @@ export type {
   AiStepId,
   ModelClient,
   ModelTier,
-  RunAiStep,
 } from "./step.ts";
+export { runAiStep } from "./runner.ts";
+export { containsName, replaceNames, type KnownName } from "./names.ts";
