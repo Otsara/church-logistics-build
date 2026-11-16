@@ -1,7 +1,7 @@
 ---
 id: DOC-003
 title: Open decisions and release blockers
-version: 0.17
+version: 0.20
 status: Draft
 effective_date:
 ---
@@ -67,7 +67,7 @@ Only Honduras has a placeholder note. Cards for Ethiopia, the Philippines and Ni
 - Formerly: Q-5
 - Affects: SYS-303, SYS-306
 
-Placeholders until a program supplies real ones.
+Placeholders until a program supplies real ones. The two SpareWing rule files, `rules/sparewing/aircraft-type-ratings.json` and `rules/sparewing/cover-bases.json`, are placeholders derived from the synthetic data and cite the synthetic data file as their source (owner, 2026-11-15).
 
 ### OD-006 Reviewers for the prototype
 - Status: Closed
@@ -489,3 +489,4 @@ A chosen comparable alternative entered as covering more than its lot holds now 
 | 0.15 | 2026-11-15 | New OD-056 whether an accepted exchange entered beyond its lot needs review, open (REV-007, ADR-029). | Claude, for owner review |
 | 0.16 | 2026-11-15 | OD-056 closed: option (a), no amount check for accepted exchanges (owner, 2026-11-15; ADR-029). | Claude, for owner review |
 | 0.17 | 2026-11-15 | New OD-057 life-limited and shelf-life parts, deferred until after the hackathon (owner, 2026-11-15; REV-008). | Claude, for owner review |
+| 0.20 | 2026-11-16 | OD-005: the two SpareWing rule files written as placeholders citing the synthetic data (owner, 2026-11-15). Numbered 0.20 because open branches take 0.18 and 0.19. | Claude, for owner review |
