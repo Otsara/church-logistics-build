@@ -80,6 +80,14 @@ export {
   type DecisionResult,
 } from "./sparewing/decision.ts";
 export {
+  coverBasesFor,
+  ratingsForType,
+  readAircraftTypeRatings,
+  readCoverBases,
+  type AircraftTypeRatings,
+  type CoverBases,
+} from "./sparewing/rule-files.ts";
+export {
   mergeDonorLines,
   NO_LOT_NUMBER_FLAG,
   NO_READABLE_EXPIRY_FLAG,

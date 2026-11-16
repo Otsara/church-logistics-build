@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.23
+version: 0.24
 status: Draft
 effective_date:
 ---
@@ -597,6 +597,18 @@ Given a cover aircraft at a listed base whose availability is not entered, or is
 - Traces to: SYS-309
 
 Given a decision whose time is not a valid UTC date and time, or whose option is not in the ranked list, then it is refused with the reason; a valid one is recorded (owner, 2026-11-16; ADR-032).
+
+### TC-325 Aircraft-type ratings rule file
+- Product: SpareWing
+- Traces to: SYS-303, ARC-004
+
+Given `rules/sparewing/aircraft-type-ratings.json`, then it is a placeholder citing the synthetic data, each synthetic aircraft type requires the rating named after it, a type not listed requires nothing (shown by the pilot check as data missing), and a file with the wrong id, product or data is refused with every problem listed.
+
+### TC-326 Cover-bases rule file
+- Product: SpareWing
+- Traces to: SYS-307, ARC-004, DAT-002
+
+Given `rules/sparewing/cover-bases.json`, then it is a placeholder citing the synthetic data, lists each development scenario's communities with the base serving them, lists no held-back scenario, gives nothing for a scenario or community not listed, and a file with the wrong id, product or data is refused with every problem listed.
 ## Revision history
 
 | Version | Date | Change | By |
@@ -623,3 +635,4 @@ Given a decision whose time is not a valid UTC date and time, or whose option is
 | 0.21 | 2026-11-15 | New TC-136 a chosen amount beyond the lot needs review, and an ineligible lot is reported before a missing amount (ADR-029), implemented. | Claude, for owner review |
 | 0.22 | 2026-11-15 | New TC-317 part numbers matched without stray spaces or letter case, TC-318 quantity of a part needed; TC-302 invalid order lead time, all implemented (ADR-030). | Claude, for owner review |
 | 0.23 | 2026-11-16 | New TC-319 to TC-324 from the SpareWing review decisions (ADR-032), implemented. | Claude, for owner review |
+| 0.24 | 2026-11-16 | New TC-325 and TC-326 for the SpareWing rule files, implemented. Numbered 0.24 because the SpareWing review branch takes 0.23. | Claude, for owner review |

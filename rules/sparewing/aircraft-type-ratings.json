@@ -1,0 +1,19 @@
+{
+  "id": "aircraft-type-ratings",
+  "product": "sparewing",
+  "title": "Pilot ratings required for each aircraft type",
+  "status": "placeholder",
+  "source": {
+    "url": "https://github.com/Otsara/church-logistics-build/blob/main/data/synthetic/development/sparewing.json",
+    "verified_date": null,
+    "verified_by": null
+  },
+  "notes": "Synthetic, for the prototype only: not a real program's rules (OD-005). Derived from the synthetic SpareWing data, where each made-up aircraft type is flown by pilots holding the rating named after it (packages/synth/src/sparewing.ts). A real program replaces this file with its own requirements and their source. Extra ratings for one aircraft are entered on that aircraft (SYS-303).",
+  "data": {
+    "ratings_by_aircraft_type": {
+      "Type K1 (synthetic)": ["Type K1 (synthetic)"],
+      "Type K2 (synthetic)": ["Type K2 (synthetic)"],
+      "Type K3 (synthetic)": ["Type K3 (synthetic)"]
+    }
+  }
+}
