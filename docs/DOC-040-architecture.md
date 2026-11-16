@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.19
+version: 0.20
 status: Draft
 effective_date:
 ---
@@ -163,7 +163,7 @@ Lovable-generated screens in `apps/prepped/ui`, calling ARC-101 for every decisi
 
 Candidates, missed-flight impact and plan ranking, as pure functions in `packages/core/src/sparewing/`. No AI, network or clock.
 
-Built so far: part candidates (`parts.ts`; part numbers compared without spaces or letter case, and the quantity needed noted, ADR-030), pilot candidates (`pilots.ts`), missed community flights (`missed.ts`), the ranked proposal (`rank.ts`) and recording a person's decision (`decision.ts`). The required ratings and the cover bases are inputs until the program's two rule files (ratings per aircraft type, cover bases per community) are written (ADR-015, OD-005). `dates.ts` adds `addDays` and `weekday` (ARC-005).
+Built so far: part candidates (`parts.ts`; part numbers compared without spaces or letter case, and the quantity needed noted, ADR-030), pilot candidates (`pilots.ts`), missed community flights (`missed.ts`; data missing and cover aircraft per ADR-032), the ranked proposal (`rank.ts`) and recording a person's decision (`decision.ts`). The required ratings and the cover bases are inputs until the program's two rule files (ratings per aircraft type, cover bases per community) are written (ADR-015, OD-005). `dates.ts` adds `addDays` and `weekday` (ARC-005).
 
 ### ARC-302 SpareWing screens
 - Product: SpareWing
@@ -278,3 +278,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.17 | 2026-11-15 | ARC-101: alternatives listed for every floor item and marked as offered when short; no extra classes (ADR-028). | Claude, for owner review |
 | 0.18 | 2026-11-15 | ARC-301: part numbers compared without spaces or letter case; quantity needed (SYS-311, ADR-030). | Claude, for owner review |
 | 0.19 | 2026-11-16 | ARC-008 runner and ARC-013 name replacement built (ADR-031 proposed; OD-058). | Claude, for owner review |
+| 0.20 | 2026-11-16 | ARC-301: SpareWing review decisions built (ADR-032). Numbered 0.20 because the AI runner branch takes 0.19. | Claude, for owner review |

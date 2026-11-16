@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.20
+version: 0.21
 status: Draft
 effective_date:
 ---
@@ -346,7 +346,7 @@ Parts marked not serviceable never appear, and neither do parts with none in sto
 - Safety-critical: yes
 - Formerly: SC-3
 
-A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. The requirement is the aircraft type's rule file in `/rules` plus any extra requirements entered on the individual aircraft. Currency is checked on the date the pilot is needed and must hold until the expected end of the disruption; otherwise the pilot is not a candidate and the reason is shown (owner, 2026-11-12); ADR-015. Entered availability must cover every day from the date needed to the expected end; a known reason to rule a pilot out outweighs data not entered (owner, 2026-11-15; ADR-025).
+A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. The requirement is the aircraft type's rule file in `/rules` plus any extra requirements entered on the individual aircraft. Currency is checked on the date the pilot is needed and must hold until the expected end of the disruption; otherwise the pilot is not a candidate and the reason is shown (owner, 2026-11-12); ADR-015. Entered availability must cover every day from the date needed to the expected end; a known reason to rule a pilot out outweighs data not entered (owner, 2026-11-15; ADR-025). Ratings are compared ignoring leading and trailing spaces and letter case. An aircraft with no required ratings entered, or an expected end before the date needed, makes every pilot "data missing" ("required ratings not entered for this aircraft"; "expected end is before the date needed: check the dates"), never a candidate; a known reason to rule a pilot out still excludes them. Duty time and rest limits are to be checked in the MVP once the owner gives them and their source (owner, 2026-11-16; ADR-032, OD-059).
 
 ### SYS-304 Missing data is shown, never silent
 - Product: SpareWing
@@ -378,21 +378,21 @@ If no candidates exist, the result says so and shows the local order lead time, 
 - Safety-critical: yes
 - Formerly: SI-1
 
-Missed community flights = flights scheduled between the disruption start and expected end for communities served by the grounded aircraft, minus flights another aircraft or pilot can cover. Only aircraft and pilots at bases that the program's rule file lists for that community count, and the candidate rules (SYS-303) still apply (owner, 2026-11-12); ADR-015. A pilot with data missing is shown as possible cover, naming what is missing, but not counted until it is entered; the start and expected end days both count (owner, 2026-11-15; ADR-025).
+Missed community flights = flights scheduled between the disruption start and expected end for communities served by the grounded aircraft, minus flights another aircraft or pilot can cover. Only aircraft and pilots at bases that the program's rule file lists for that community count, and the candidate rules (SYS-303) still apply (owner, 2026-11-12); ADR-015. A pilot with data missing is shown as possible cover, naming what is missing, but not counted until it is entered; the start and expected end days both count (owner, 2026-11-15; ADR-025). The cover aircraft counts only when entered as available over the disruption; not entered or not available, it is not counted, saying why. An expected end before the start ("expected end is before the start: check the dates") or no flight days entered ("flight schedule not entered") leaves missed flights unknown, shown as data missing, never as zero (owner, 2026-11-16; ADR-032).
 
 ### SYS-308 Proposed plan for review
 - Product: SpareWing
 - Traces to: UN-305, RC-308
 - Safety-critical: yes
 
-SpareWing ranks the candidate options and proposes the best plan for the director, mechanic and pilot to review and verify (owner, 2026-11-10). Ranking never removes a candidate from view, and the reasons for the ranking are shown. Options are ranked in strict order, with no weights: fewest missed community flights, then earliest return to service, then fewest transfers between bases; cost is shown but not ranked (owner, 2026-11-12); ADR-015. An unknown return to service ranks after a known one, and options tied on every criterion keep the order entered, saying so (owner, 2026-11-15; ADR-025).
+SpareWing ranks the candidate options and proposes the best plan for the director, mechanic and pilot to review and verify (owner, 2026-11-10). Ranking never removes a candidate from view, and the reasons for the ranking are shown. Options are ranked in strict order, with no weights: fewest missed community flights, then earliest return to service, then fewest transfers between bases; cost is shown but not ranked (owner, 2026-11-12); ADR-015. An unknown return to service ranks after a known one, and options tied on every criterion keep the order entered, saying so (owner, 2026-11-15; ADR-025). Missed flights that are unknown (data missing) rank after every known count, saying so (owner, 2026-11-16; ADR-032).
 
 ### SYS-309 Never approves schedules or airworthiness
 - Product: SpareWing
 - Traces to: UN-305, RC-305
 - Safety-critical: yes
 
-SpareWing never approves a schedule change and never states that an aircraft is flightworthy. A proposal becomes a decision only when the flight base director, mechanic or pilot records it (owner, 2026-11-10; ADR-002), identified by name or id in the audit log; anyone else, or an AI step, is refused (owner, 2026-11-15; ADR-025).
+SpareWing never approves a schedule change and never states that an aircraft is flightworthy. A proposal becomes a decision only when the flight base director, mechanic or pilot records it (owner, 2026-11-10; ADR-002), identified by name or id in the audit log; anyone else, or an AI step, is refused (owner, 2026-11-15; ADR-025). A decision is refused if its time is not a valid UTC date and time, or its option is not in the ranked list (owner, 2026-11-16; ADR-032).
 
 ### SYS-311 Quantity of a part needed
 - Product: SpareWing
@@ -430,3 +430,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.18 | 2026-11-15 | SYS-108: a chosen alternative entered beyond its lot's quantity needs review; an ineligible lot is reported before a missing amount, for alternatives and exchanges (SYS-115) (owner, 2026-11-15; ADR-029); OD-056 open. | Claude, for owner review |
 | 0.19 | 2026-11-15 | SYS-115: an accepted exchange is not checked against its lot's count (owner, 2026-11-15; OD-056, ADR-029). | Claude, for owner review |
 | 0.20 | 2026-11-15 | SYS-301 part numbers compared ignoring spaces and letter case; SYS-306 invalid order lead time reads as not entered; new SYS-311 quantity of a part needed (owner, 2026-11-15; ADR-030). | Claude, for owner review |
+| 0.21 | 2026-11-16 | SpareWing review decisions (owner, 2026-11-16; ADR-032): SYS-303 ratings compared without spaces or case, no required ratings or swapped dates are data missing, duty and rest limits wanted in the MVP (OD-059); SYS-307 cover aircraft availability, swapped dates and no schedule leave missed flights unknown; SYS-308 unknown missed flights rank last; SYS-309 decision time and option checked. | Claude, for owner review |

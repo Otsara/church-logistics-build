@@ -4,7 +4,9 @@
  * date needed through the expected end of the disruption, and entered availability covers every
  * day of it (SYS-303, ADR-015). Anything not entered is "data missing", naming what, never a silent pass or
  * exclusion (SYS-304); something known that rules the pilot out outweighs it. Pilots are named by
- * id only (ARC-013). Fitness to fly is never judged (IU-302).
+ * id only (ARC-013). Fitness to fly is never judged (IU-302). Ratings match ignoring leading and
+ * trailing spaces and letter case; an aircraft with no required ratings entered, or an expected end
+ * before the date needed, is data missing for every pilot (owner, 2026-11-16; ADR-032).
  */
 import { addDays, daysBetween, type IsoDate } from "../dates.ts";
 import type { RuleOutcome, SpareWingStatus } from "../result.ts";
@@ -42,11 +44,30 @@ type Check = {
   readonly effect: "ok" | "missing" | "excluded";
 };
 
+/** A rating as compared: no leading or trailing spaces, letter case ignored (ADR-032). */
+const comparable = (rating: string): string => rating.trim().toUpperCase();
+
+/** The required ratings, trimmed, each once whatever its letter case; blanks dropped. */
+function requiredRatings(need: PilotNeed): string[] {
+  const byKey = new Map<string, string>();
+  for (const r of [...need.typeRatings, ...need.aircraftRatings]) {
+    const text = r.trim();
+    if (text !== "" && !byKey.has(comparable(text)))
+      byKey.set(comparable(text), text);
+  }
+  return [...byKey.values()];
+}
+
 function ratings(pilot: Pilot, required: readonly string[]): Check {
+  if (required.length === 0)
+    return {
+      reason: "required ratings not entered for this aircraft",
+      effect: "missing",
+    };
   if (pilot.ratings === null)
     return { reason: "ratings not entered", effect: "missing" };
-  const held = pilot.ratings;
-  const missing = required.filter((r) => !held.includes(r));
+  const held = pilot.ratings.map(comparable);
+  const missing = required.filter((r) => !held.includes(comparable(r)));
   return missing.length > 0
     ? { reason: `missing ${missing.join(", ")}`, effect: "excluded" }
     : { reason: `holds ${required.join(", ")}`, effect: "ok" };
@@ -86,11 +107,17 @@ function availability(pilot: Pilot, need: PilotNeed): Check {
 
 /** Checks one pilot against the need. Never throws for any pilot. */
 export function checkPilot(pilot: Pilot, need: PilotNeed): PilotResult {
-  const required = [...new Set([...need.typeRatings, ...need.aircraftRatings])];
-  const checks = [
-    ratings(pilot, required),
-    currency(pilot, need),
-    availability(pilot, need),
+  const swapped = daysBetween(need.neededFrom, need.expectedEnd) < 0;
+  const checks: Check[] = [
+    ratings(pilot, requiredRatings(need)),
+    ...(swapped
+      ? [
+          {
+            reason: "expected end is before the date needed: check the dates",
+            effect: "missing" as const,
+          },
+        ]
+      : [currency(pilot, need), availability(pilot, need)]),
   ];
   const effects = checks.map((c) => c.effect);
   return {

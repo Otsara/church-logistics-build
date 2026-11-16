@@ -9,7 +9,8 @@ import { daysBetween, type IsoDate } from "../dates.ts";
 
 export interface PlanOption {
   readonly id: string;
-  readonly missedFlights: number;
+  /** Null when unknown (data missing); ranks after every known count (owner, 2026-11-16; ADR-032). */
+  readonly missedFlights: number | null;
   readonly returnToService: IsoDate | null;
   readonly transfers: number;
   readonly cost: string | null;
@@ -32,9 +33,16 @@ function byReturn(a: IsoDate | null, b: IsoDate | null): number {
   return daysBetween(b, a);
 }
 
+/** Negative when a misses fewer flights; an unknown count comes last. */
+function byMissed(a: number | null, b: number | null): number {
+  if (a === null || b === null)
+    return (a === null ? 1 : 0) - (b === null ? 1 : 0);
+  return a - b;
+}
+
 function compare(a: PlanOption, b: PlanOption): number {
   return (
-    a.missedFlights - b.missedFlights ||
+    byMissed(a.missedFlights, b.missedFlights) ||
     byReturn(a.returnToService, b.returnToService) ||
     a.transfers - b.transfers
   );
@@ -42,8 +50,10 @@ function compare(a: PlanOption, b: PlanOption): number {
 
 function why(option: PlanOption, above: PlanOption): string {
   const below = `ranked below ${above.id}`;
-  if (option.missedFlights !== above.missedFlights) {
-    return `${below}: more missed flights (${String(option.missedFlights)} against ${String(above.missedFlights)})`;
+  if (byMissed(option.missedFlights, above.missedFlights) !== 0) {
+    return option.missedFlights === null
+      ? `${below}: missed flights unknown (data missing)`
+      : `${below}: more missed flights (${String(option.missedFlights)} against ${String(above.missedFlights)})`;
   }
   if (byReturn(option.returnToService, above.returnToService) !== 0) {
     return option.returnToService === null
@@ -60,7 +70,11 @@ function why(option: PlanOption, above: PlanOption): string {
 export function rankOptions(options: readonly PlanOption[]): RankedOption[] {
   const sorted = [...options].sort(compare);
   return sorted.map((option, index) => {
-    const facts = `${count(option.missedFlights, "missed flight")}, return to service ${option.returnToService ?? "unknown"}, ${count(option.transfers, "transfer")}`;
+    const missed =
+      option.missedFlights === null
+        ? "missed flights unknown"
+        : count(option.missedFlights, "missed flight");
+    const facts = `${missed}, return to service ${option.returnToService ?? "unknown"}, ${count(option.transfers, "transfer")}`;
     const above = sorted[index - 1];
     const place =
       above === undefined
