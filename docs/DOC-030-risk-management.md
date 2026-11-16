@@ -402,7 +402,7 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 - Product: SpareWing
 - Traces to: IU-301
 
-Sequence: a prototype result built on placeholder rule files (ratings per aircraft type, cover bases per community, derived from synthetic data) is read as if a program's real rules stood behind it. Harm: a pilot without the ratings a real aircraft needs, or cover from a base that cannot serve a community, is relied on. Severity and probability: TBD; Claude proposes critical, and unlikely with controls (OD-061). Control in code: the placeholder status is shown with every result that relies on it; person's check: sign-off (SYS-305).
+Sequence: a prototype result built on placeholder rule files (ratings per aircraft type, cover bases per community, derived from synthetic data) is read as if a program's real rules stood behind it. Harm: a pilot without the ratings a real aircraft needs, or cover from a base that cannot serve a community, is relied on. Severity: critical. Probability with controls: unlikely (owner, 2026-11-16; OD-061). Control in code: the placeholder status is shown with every result that relies on it; person's check: sign-off (SYS-305).
 
 ### RC-309 Placeholder rules labelled, duplicates refused
 - Product: SpareWing
@@ -429,4 +429,4 @@ Every result that relies on a placeholder rule file says "Placeholder rules: not
 | 0.14 | 2026-11-15 | RC-105: an amount entered beyond the chosen lot's quantity needs review (owner, 2026-11-15; ADR-029). | Claude, for owner review |
 | 0.15 | 2026-11-15 | RC-301: only spaces and letter case ignored when comparing part numbers (owner, 2026-11-15; ADR-030). | Claude, for owner review |
 | 0.16 | 2026-11-16 | RC-303 no required ratings means no candidate; RC-307 unknown missed flights never zero, cover aircraft availability (owner, 2026-11-16; ADR-032). | Claude, for owner review |
-| 0.17 | 2026-11-16 | New HAZ-309 placeholder rules taken as real, rating TBD (OD-061), and RC-309 (owner, 2026-11-16; ADR-034). | Claude, for owner review |
+| 0.17 | 2026-11-16 | New HAZ-309 placeholder rules taken as real, rated critical and unlikely with controls (owner, 2026-11-16; OD-061), and RC-309 (owner, 2026-11-16; ADR-034). | Claude, for owner review |
