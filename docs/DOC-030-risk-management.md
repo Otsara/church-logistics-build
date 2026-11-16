@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.15
+version: 0.16
 status: Draft
 effective_date:
 ---
@@ -335,7 +335,7 @@ Harm: a flight is assigned to a pilot not qualified for it. Severity: critical. 
 - Product: SpareWing
 - Traces to: HAZ-303
 
-A pilot is a candidate only when entered ratings and currency meet the requirement and availability is known; a lapsed pilot is excluded with the reason shown.
+A pilot is a candidate only when entered ratings and currency meet the requirement and availability is known; a lapsed pilot is excluded with the reason shown. With no required ratings entered for the aircraft, no pilot is a candidate (owner, 2026-11-16; ADR-032).
 
 ### HAZ-304 Missing data passes or hides an option silently
 - Product: SpareWing
@@ -383,7 +383,7 @@ Harm: a community loses service without warning. Severity: serious. Probability 
 - Product: SpareWing
 - Traces to: HAZ-307
 
-Missed community flights are computed by safety-critical code to SYS-307, with exact worked tests.
+Missed community flights are computed by safety-critical code to SYS-307, with exact worked tests. Missing dates or schedule leave the count unknown and ranked last, never zero; a cover aircraft counts only when entered as available (owner, 2026-11-16; ADR-032).
 
 ### HAZ-308 Ranking hides a safer option
 - Product: SpareWing
@@ -416,3 +416,4 @@ Ranking follows a fixed order, shown with each proposal: fewest missed community
 | 0.13 | 2026-11-15 | RC-105: an alternative brings no class the floor item lacks (owner, 2026-11-15; ADR-028). Numbered 0.13 because the merge follow-ups branch takes 0.12. | Claude, for owner review |
 | 0.14 | 2026-11-15 | RC-105: an amount entered beyond the chosen lot's quantity needs review (owner, 2026-11-15; ADR-029). | Claude, for owner review |
 | 0.15 | 2026-11-15 | RC-301: only spaces and letter case ignored when comparing part numbers (owner, 2026-11-15; ADR-030). | Claude, for owner review |
+| 0.16 | 2026-11-16 | RC-303 no required ratings means no candidate; RC-307 unknown missed flights never zero, cover aircraft availability (owner, 2026-11-16; ADR-032). | Claude, for owner review |
