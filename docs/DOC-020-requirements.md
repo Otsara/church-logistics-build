@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.21
+version: 0.22
 status: Draft
 effective_date:
 ---
@@ -346,7 +346,7 @@ Parts marked not serviceable never appear, and neither do parts with none in sto
 - Safety-critical: yes
 - Formerly: SC-3
 
-A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. The requirement is the aircraft type's rule file in `/rules` plus any extra requirements entered on the individual aircraft. Currency is checked on the date the pilot is needed and must hold until the expected end of the disruption; otherwise the pilot is not a candidate and the reason is shown (owner, 2026-11-12); ADR-015. Entered availability must cover every day from the date needed to the expected end; a known reason to rule a pilot out outweighs data not entered (owner, 2026-11-15; ADR-025). Ratings are compared ignoring leading and trailing spaces and letter case. An aircraft with no required ratings entered, or an expected end before the date needed, makes every pilot "data missing" ("required ratings not entered for this aircraft"; "expected end is before the date needed: check the dates"), never a candidate; a known reason to rule a pilot out still excludes them. Duty time and rest limits are to be checked in the MVP once the owner gives them and their source (owner, 2026-11-16; ADR-032, OD-059).
+A pilot is a candidate only if the entered ratings and currency dates meet the aircraft's requirement and availability is known. The requirement is the aircraft type's rule file in `/rules` plus any extra requirements entered on the individual aircraft. Currency is checked on the date the pilot is needed and must hold until the expected end of the disruption; otherwise the pilot is not a candidate and the reason is shown (owner, 2026-11-12); ADR-015. Entered availability must cover every day from the date needed to the expected end; a known reason to rule a pilot out outweighs data not entered (owner, 2026-11-15; ADR-025). Ratings are compared ignoring leading and trailing spaces and letter case. An aircraft with no required ratings entered, or an expected end before the date needed, makes every pilot "data missing" ("required ratings not entered for this aircraft"; "expected end is before the date needed: check the dates"), never a candidate; a known reason to rule a pilot out still excludes them. Duty time and rest limits are deferred until after the hackathon; for the MVP the person signing off checks them (owner, 2026-11-16; OD-059, ADR-033).
 
 ### SYS-304 Missing data is shown, never silent
 - Product: SpareWing
@@ -431,3 +431,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.19 | 2026-11-15 | SYS-115: an accepted exchange is not checked against its lot's count (owner, 2026-11-15; OD-056, ADR-029). | Claude, for owner review |
 | 0.20 | 2026-11-15 | SYS-301 part numbers compared ignoring spaces and letter case; SYS-306 invalid order lead time reads as not entered; new SYS-311 quantity of a part needed (owner, 2026-11-15; ADR-030). | Claude, for owner review |
 | 0.21 | 2026-11-16 | SpareWing review decisions (owner, 2026-11-16; ADR-032): SYS-303 ratings compared without spaces or case, no required ratings or swapped dates are data missing, duty and rest limits wanted in the MVP (OD-059); SYS-307 cover aircraft availability, swapped dates and no schedule leave missed flights unknown; SYS-308 unknown missed flights rank last; SYS-309 decision time and option checked. | Claude, for owner review |
+| 0.22 | 2026-11-16 | SYS-303: duty and rest limits deferred until after the hackathon (owner, 2026-11-16; OD-059, ADR-033). | Claude, for owner review |

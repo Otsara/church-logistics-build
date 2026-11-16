@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.21
+version: 0.22
 status: Draft
 effective_date:
 ---
@@ -70,7 +70,7 @@ Installable web app that queues changes and syncs later. Matches MARC's connecti
 
 One typed function per task, JSON validated against a schema, one retry, then a manual fallback. A bad or missing AI answer never blocks work. The wrapper is the guard on every AI output.
 
-Built: `packages/ai/src/runner.ts` runs a step with a time limit given as an input (OD-058), retries once on a timeout, an error or invalid output, then sends the person to manual entry, logging every call without the prompt or the model's text (ADR-031, proposed).
+Built: `packages/ai/src/runner.ts` runs a step with a time limit given as an input, 30 seconds per attempt in the app (`limits.ts`; owner, 2026-11-16; OD-058), retries once on a timeout, an error or invalid output, then sends the person to manual entry, logging every call without the prompt or the model's text (ADR-031).
 
 ### ARC-009 Model tiers
 - Product: Shared
@@ -107,7 +107,7 @@ Seeded random generator: the same seed gives the same data, for a reproducible d
 
 Before any AI call, names are replaced by ids and only the fields the step needs are sent. Lives in `packages/ai`.
 
-Built: `names.ts` replaces known names by their ids, whole-word and ignoring letter case, longest first; the runner refuses a prompt that still contains a known name and makes no call (ADR-031, proposed).
+Built: `names.ts` replaces known names by their ids, whole-word and ignoring letter case, longest first; the runner refuses a prompt that still contains a known name and makes no call (ADR-031).
 
 ### ARC-014 Server-side AI gateway
 - Product: Shared
@@ -280,3 +280,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.19 | 2026-11-16 | ARC-008 runner and ARC-013 name replacement built (ADR-031 proposed; OD-058). | Claude, for owner review |
 | 0.20 | 2026-11-16 | ARC-301: SpareWing review decisions built (ADR-032). Numbered 0.20 because the AI runner branch takes 0.19. | Claude, for owner review |
 | 0.21 | 2026-11-16 | ARC-301: the two SpareWing rule files written as placeholders from the synthetic data (OD-005). Numbered 0.21 because open branches take 0.19 and 0.20. | Claude, for owner review |
+| 0.22 | 2026-11-16 | ARC-008: ADR-031 accepted; AI call time limit 30 seconds per attempt (OD-058). | Claude, for owner review |
