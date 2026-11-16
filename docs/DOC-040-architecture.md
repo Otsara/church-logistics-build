@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.22
+version: 0.23
 status: Draft
 effective_date:
 ---
@@ -158,16 +158,16 @@ Lovable-generated screens in `apps/prepped/ui`, calling ARC-101 for every decisi
 
 ### ARC-301 SpareWing rules engine
 - Product: SpareWing
-- Traces to: SYS-301, SYS-302, SYS-303, SYS-304, SYS-305, SYS-306, SYS-307, SYS-308, SYS-309, SYS-310, SYS-311
+- Traces to: SYS-301, SYS-302, SYS-303, SYS-304, SYS-305, SYS-306, SYS-307, SYS-308, SYS-309, SYS-310, SYS-311, SYS-312
 - Safety-critical: yes
 
 Candidates, missed-flight impact and plan ranking, as pure functions in `packages/core/src/sparewing/`. No AI, network or clock.
 
-Built so far: part candidates (`parts.ts`; part numbers compared without spaces or letter case, and the quantity needed noted, ADR-030), pilot candidates (`pilots.ts`), missed community flights (`missed.ts`; data missing and cover aircraft per ADR-032), the ranked proposal (`rank.ts`) and recording a person's decision (`decision.ts`). The required ratings and the cover bases come from the program's two rule files, read by `rule-files.ts`: `rules/sparewing/aircraft-type-ratings.json` (ratings per aircraft type) and `rules/sparewing/cover-bases.json` (cover bases per community, per scenario). For the prototype both are placeholders derived from the synthetic data and citing it as their source (owner, 2026-11-15; OD-005, ADR-015). A type not listed requires no ratings, which the pilot check shows as data missing; a community not listed has no cover bases (null). `dates.ts` adds `addDays` and `weekday` (ARC-005).
+Built so far: part candidates (`parts.ts`; part numbers compared without spaces or letter case, and the quantity needed noted, ADR-030), pilot candidates (`pilots.ts`), missed community flights (`missed.ts`; data missing and cover aircraft per ADR-032), the ranked proposal (`rank.ts`) and recording a person's decision (`decision.ts`). The required ratings and the cover bases come from the program's two rule files, read by `rule-files.ts`: `rules/sparewing/aircraft-type-ratings.json` (ratings per aircraft type) and `rules/sparewing/cover-bases.json` (cover bases per community, per scenario). For the prototype both are placeholders derived from the synthetic data and citing it as their source (owner, 2026-11-15; OD-005, ADR-015). A type not listed requires no ratings, which the pilot check shows as data missing; a community not listed has no cover bases (null). The readers take the file's text through `json-text.ts`, which refuses a key named twice; aircraft types match ignoring spaces and letter case (ADR-034). For a real program the cover file will list bases per community rather than per scenario (OD-060). `dates.ts` adds `addDays` and `weekday` (ARC-005).
 
 ### ARC-302 SpareWing screens
 - Product: SpareWing
-- Traces to: SYS-010
+- Traces to: SYS-010, SYS-312
 
 Lovable-generated screens in `apps/sparewing/ui`, calling ARC-301 for every decision and recording sign-offs.
 
@@ -281,3 +281,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.20 | 2026-11-16 | ARC-301: SpareWing review decisions built (ADR-032). Numbered 0.20 because the AI runner branch takes 0.19. | Claude, for owner review |
 | 0.21 | 2026-11-16 | ARC-301: the two SpareWing rule files written as placeholders from the synthetic data (OD-005). Numbered 0.21 because open branches take 0.19 and 0.20. | Claude, for owner review |
 | 0.22 | 2026-11-16 | ARC-008: ADR-031 accepted; AI call time limit 30 seconds per attempt (OD-058). | Claude, for owner review |
+| 0.23 | 2026-11-16 | ARC-301: rule files read from text with duplicate keys refused; aircraft types matched without spaces or case (ADR-034). | Claude, for owner review |

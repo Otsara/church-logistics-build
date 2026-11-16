@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.22
+version: 0.23
 status: Draft
 effective_date:
 ---
@@ -401,6 +401,13 @@ SpareWing never approves a schedule change and never states that an aircraft is 
 
 A part need says how many are needed. A base holding fewer is still listed, since parts from two bases can be combined, and is marked "holds 1 of 2 needed"; a base holding enough is not marked. With no valid quantity entered (a whole number of 1 or more), every candidate says "quantity needed not entered: check the base holds enough" (owner, 2026-11-15; ADR-030).
 
+### SYS-312 Placeholder rules shown as placeholders
+- Product: SpareWing
+- Traces to: UN-305, RC-309
+- Safety-critical: yes
+
+Every SpareWing result that relies on a rule file whose status is "placeholder" shows "Placeholder rules: not for real flight decisions" beside it, so a demo or prototype result is never taken as a real program's rules (owner, 2026-11-16; ADR-034). Rule files are read from their text: a file that names an aircraft type, a community or any field twice is refused, naming each repeat, and aircraft types are matched ignoring leading and trailing spaces and letter case.
+
 ### SYS-310 Draft messages to bases and communities
 - Product: SpareWing
 - Traces to: UN-304, RC-001
@@ -432,3 +439,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.20 | 2026-11-15 | SYS-301 part numbers compared ignoring spaces and letter case; SYS-306 invalid order lead time reads as not entered; new SYS-311 quantity of a part needed (owner, 2026-11-15; ADR-030). | Claude, for owner review |
 | 0.21 | 2026-11-16 | SpareWing review decisions (owner, 2026-11-16; ADR-032): SYS-303 ratings compared without spaces or case, no required ratings or swapped dates are data missing, duty and rest limits wanted in the MVP (OD-059); SYS-307 cover aircraft availability, swapped dates and no schedule leave missed flights unknown; SYS-308 unknown missed flights rank last; SYS-309 decision time and option checked. | Claude, for owner review |
 | 0.22 | 2026-11-16 | SYS-303: duty and rest limits deferred until after the hackathon (owner, 2026-11-16; OD-059, ADR-033). | Claude, for owner review |
+| 0.23 | 2026-11-16 | New SYS-312 placeholder rules shown as placeholders; rule files refused when they name a key twice; aircraft types matched without spaces or case (owner, 2026-11-16; ADR-034). | Claude, for owner review |

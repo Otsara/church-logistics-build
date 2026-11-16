@@ -3,9 +3,13 @@
  * type requires (`rules/sparewing/aircraft-type-ratings.json`, SYS-303) and the bases able to
  * cover each community's flights (`rules/sparewing/cover-bases.json`, SYS-307, ADR-015). Both are
  * placeholders derived from the synthetic data until a program supplies its own (OD-005). Lookups
- * use maps, so a name such as "constructor" is never mistaken for an entry.
+ * use maps, so a name such as "constructor" is never mistaken for an entry. The readers take the
+ * file's text, so a type or community named twice is refused rather than silently replaced, and
+ * aircraft types are matched ignoring leading and trailing spaces and letter case (owner,
+ * 2026-11-16; ADR-034).
  */
 import { z } from "zod";
+import { readJsonText } from "../json-text.ts";
 import { parseRuleFile } from "../rule-file.ts";
 
 const names = z.array(z.string().trim().min(1)).min(1);
@@ -37,13 +41,18 @@ export type CoverBases =
     })
   | Failed;
 
-/** Checks the envelope, id and product, then the data against its schema. */
+/** An aircraft type as compared: no leading or trailing spaces, letter case ignored (ADR-034). */
+const comparable = (type: string): string => type.trim().toUpperCase();
+
+/** Checks the text, the envelope, id and product, then the data against its schema. */
 function read<T>(
-  json: unknown,
+  text: string,
   id: string,
   schema: z.ZodType<T>,
 ): { readonly ok: true; readonly data: T; readonly head: Read } | Failed {
-  const envelope = parseRuleFile(json);
+  const parsed = readJsonText(text);
+  if (!parsed.ok) return parsed;
+  const envelope = parseRuleFile(parsed.json);
   if (!envelope.ok) return envelope;
   const { file } = envelope;
   if (file.id !== id) return { ok: false, errors: [`id: must be "${id}"`] };
@@ -67,14 +76,27 @@ function read<T>(
   };
 }
 
-/** Reads parsed JSON from the aircraft-type ratings file. Never throws; every problem is listed. */
-export function readAircraftTypeRatings(json: unknown): AircraftTypeRatings {
-  const result = read(json, "aircraft-type-ratings", ratingsSchema);
+/** Reads the aircraft-type ratings file's text. Never throws; every problem is listed. */
+export function readAircraftTypeRatings(text: string): AircraftTypeRatings {
+  const result = read(text, "aircraft-type-ratings", ratingsSchema);
   if (!result.ok) return result;
-  return {
-    ...result.head,
-    byType: new Map(Object.entries(result.data.ratings_by_aircraft_type)),
-  };
+  const byType = new Map<string, readonly string[]>();
+  const named = new Map<string, string>();
+  const errors: string[] = [];
+  for (const [type, ratings] of Object.entries(
+    result.data.ratings_by_aircraft_type,
+  )) {
+    const key = comparable(type);
+    const earlier = named.get(key);
+    if (earlier !== undefined) {
+      errors.push(
+        `data.ratings_by_aircraft_type: "${earlier}" and "${type}" name the same aircraft type`,
+      );
+    }
+    named.set(key, type);
+    byType.set(key, ratings);
+  }
+  return errors.length > 0 ? { ok: false, errors } : { ...result.head, byType };
 }
 
 /** The ratings a type requires; none when the type is not listed (then pilots are data missing). */
@@ -82,12 +104,12 @@ export function ratingsForType(
   rules: AircraftTypeRatings & { readonly ok: true },
   aircraftType: string,
 ): readonly string[] {
-  return rules.byType.get(aircraftType) ?? [];
+  return rules.byType.get(comparable(aircraftType)) ?? [];
 }
 
-/** Reads parsed JSON from the cover-bases file. Never throws; every problem is listed. */
-export function readCoverBases(json: unknown): CoverBases {
-  const result = read(json, "cover-bases", coverSchema);
+/** Reads the cover-bases file's text. Never throws; every problem is listed. */
+export function readCoverBases(text: string): CoverBases {
+  const result = read(text, "cover-bases", coverSchema);
   if (!result.ok) return result;
   return {
     ...result.head,
