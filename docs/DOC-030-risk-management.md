@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.17
+version: 0.18
 status: Draft
 effective_date:
 ---
@@ -49,7 +49,7 @@ Sequence: an AI step misreads a medicine, strength, quantity, expiry or part num
 - Product: Shared
 - Traces to: HAZ-002
 
-AI output must pass a schema; unknown values stay null; every parsed line shows its source line and confidence for the user to check; all eligibility, candidate and readiness decisions are computed by code.
+AI output must pass a schema; unknown values stay null; every parsed line shows its source line and confidence for the user to check; all eligibility, candidate and readiness decisions are computed by code. Readers copy, code interprets: a value the AI gives that is not written in the line is left empty, and every line read by AI is confirmed by a person; the AI never reads a part's base or serviceability (owner, 2026-11-16; ADR-035).
 
 ### HAZ-003 A regulation is stated that is not from a verified source
 - Product: Shared
@@ -430,3 +430,4 @@ Every result that relies on a placeholder rule file says "Placeholder rules: not
 | 0.15 | 2026-11-15 | RC-301: only spaces and letter case ignored when comparing part numbers (owner, 2026-11-15; ADR-030). | Claude, for owner review |
 | 0.16 | 2026-11-16 | RC-303 no required ratings means no candidate; RC-307 unknown missed flights never zero, cover aircraft availability (owner, 2026-11-16; ADR-032). | Claude, for owner review |
 | 0.17 | 2026-11-16 | New HAZ-309 placeholder rules taken as real, rated critical and unlikely with controls (owner, 2026-11-16; OD-061), and RC-309 (owner, 2026-11-16; ADR-034). | Claude, for owner review |
+| 0.18 | 2026-11-16 | RC-002: readers copy, code interprets, a person confirms (owner, 2026-11-16; ADR-035). | Claude, for owner review |

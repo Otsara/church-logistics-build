@@ -15,7 +15,8 @@
     "packages/synth/src/snapshot.ts",
     "packages/synth/src/data-checks.ts",
     "packages/ai/src/runner.ts",
-    "packages/ai/src/names.ts"
+    "packages/ai/src/names.ts",
+    "packages/ai/src/steps/**/*.ts"
   ],
   "coverageAnalysis": "perTest",
   "thresholds": {

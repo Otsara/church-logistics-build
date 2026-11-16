@@ -9,3 +9,5 @@ reports/
 # Generated data files (scripts in packages/synth/scripts); one element per line.
 data/fda/catalog-*.json
 data/synthetic/
+# Golden examples are written by packages/ai/scripts (make-golden.ts, record-golden.ts).
+packages/ai/golden/

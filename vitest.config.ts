@@ -28,6 +28,8 @@ export default defineConfig({
         "packages/ai/src/runner.ts": FULL,
         // Names are replaced before any AI call (ARC-013).
         "packages/ai/src/names.ts": FULL,
+        // The readers' checks are part of the guard on AI output (ARC-008, ADR-035).
+        "packages/ai/src/steps/**": FULL,
       },
     },
   },
