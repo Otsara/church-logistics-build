@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.19
+version: 0.20
 status: Draft
 effective_date:
 ---
@@ -112,6 +112,13 @@ Project name, written description, track, demo video link, and a live demo link 
 
 One project in one track, the Open Track. The description and demo address its four criteria: a clear ministry problem and who it serves; original thinking and fresh approaches; responsible and faithful use of AI; a working demo that shows real potential. Prepped fits the track's "missions and global church tools" idea.
 
+## 5. Future work after submission
+
+These ideas are not part of this build. No requirements, tests or code exist for them, and nothing in the submission claims them. Both reuse parts of the shared core and are to be revisited after the submission (owner, 2026-11-16).
+
+- **Food pantry stock sharing between churches** (owner, 2026-11-07). Reuses expiry-aware matching, the messy-list parser, offline storage, and draft messages that a person reviews.
+- **Pastoral visit scheduling** (owner, 2026-11-14), for shut-ins, hospital patients and others who need a visit outside Sunday, for a solo pastor, two pastors, or a congregation with a dedicated pastoral minister. Reuses the rule files, results that keep "unknown" apart from pass or fail, offline storage, the audit log and name replacement, and follows SpareWing's coverage model. New work it would need: stronger privacy for pastoral and health information, urgency flagged only by a person, calendar sync, and a check of church management tools that already offer care features.
+
 ## Revision history
 
 | Version | Date | Change | By |
@@ -134,3 +141,4 @@ One project in one track, the Open Track. The description and demo address its f
 | 0.17 | 2026-11-16 | IT-002: ADR-031 accepted, AI time limit 30 seconds (OD-058). | Claude, for owner review |
 | 0.18 | 2026-11-16 | IT-002: AI gateway built, not yet deployed. | Claude, for owner review |
 | 0.19 | 2026-11-16 | IT-002: AI gateway deployed. | Claude, for owner review |
+| 0.20 | 2026-11-16 | Section 5: future work after submission, food pantry stock sharing and pastoral visit scheduling (owner, 2026-11-16). | Claude, for owner review |
