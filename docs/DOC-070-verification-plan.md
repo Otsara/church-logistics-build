@@ -627,6 +627,24 @@ Given `rules/sparewing/aircraft-type-ratings.json`, then it is a placeholder cit
 - Traces to: SYS-307, ARC-004, DAT-002
 
 Given `rules/sparewing/cover-bases.json`, then it is a placeholder citing the synthetic data, lists each development scenario's communities with the base serving them, lists no held-back scenario, gives nothing for a scenario or community not listed, and a file with the wrong id, product or data is refused with every problem listed.
+
+### TC-327 Aircraft types matched without stray spaces or letter case
+- Product: SpareWing
+- Traces to: SYS-303, SYS-312
+
+Given an aircraft type asked for with leading or trailing spaces or in another letter case, then its ratings are found; given a ratings file with two entries that name the same type that way, then the file is refused naming both (owner, 2026-11-16; ADR-034).
+
+### TC-328 Rule file naming a key twice refused
+- Product: SpareWing
+- Traces to: SYS-312, ARC-004
+
+Given a rule file's text that names an aircraft type, a community or any field twice in one object, then the file is refused, listing each repeat and where it is, instead of the later entry silently replacing the earlier; text that is not JSON is refused (owner, 2026-11-16; ADR-034).
+
+### TC-329 Placeholder rules shown on screen
+- Product: SpareWing
+- Traces to: SYS-312
+
+Given a SpareWing result that relies on a placeholder rule file, then the screen shows "Placeholder rules: not for real flight decisions" beside it (owner, 2026-11-16; ADR-034). Built with the screens in iteration 3.
 ## Revision history
 
 | Version | Date | Change | By |
@@ -654,4 +672,5 @@ Given `rules/sparewing/cover-bases.json`, then it is a placeholder citing the sy
 | 0.22 | 2026-11-15 | New TC-317 part numbers matched without stray spaces or letter case, TC-318 quantity of a part needed; TC-302 invalid order lead time, all implemented (ADR-030). | Claude, for owner review |
 | 0.23 | 2026-11-16 | New TC-319 to TC-324 from the SpareWing review decisions (ADR-032), implemented. | Claude, for owner review |
 | 0.24 | 2026-11-16 | New TC-325 and TC-326 for the SpareWing rule files, implemented. Numbered 0.24 because the SpareWing review branch takes 0.23. | Claude, for owner review |
+| 0.25 | 2026-11-16 | New TC-327 and TC-328, implemented; TC-329 placeholder rules on screen, a placeholder test until the screens (ADR-034). | Claude, for owner review |
 | 0.26 | 2026-11-16 | New TC-028 to TC-030 for the AI gateway, implemented. Numbered 0.26 because the rule-files review branch takes 0.25. | Claude, for owner review |
