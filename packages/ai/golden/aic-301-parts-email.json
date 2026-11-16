@@ -1,0 +1,621 @@
+{
+  "synthetic": true,
+  "partition": "development",
+  "examples": [
+    {
+      "id": "AIC-301-01",
+      "source": {
+        "scenario": "S002",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S002)",
+        "We have 3 x SWP-1155-6 (Synthetic part Sanurul) at B03.",
+        "P/N SWP-9506-7, qty 3",
+        "SWP-0420-8 - Synthetic part Lolo - 3 on the shelf"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-1155-6",
+          "quantity": 3,
+          "description": "Synthetic part Sanurul",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-9506-7",
+          "quantity": 3,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-0420-8",
+          "quantity": 3,
+          "description": "Synthetic part Lolo",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-02",
+      "source": {
+        "scenario": "S003",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S003)",
+        "P/N SWP-6059-8, qty 2",
+        "SWP-9958-1 - Synthetic part Kadredei - 4 on the shelf",
+        "We have 2 x SWP-7088-0 (Synthetic part Ponriqua) at B01."
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-6059-8",
+          "quantity": 2,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-9958-1",
+          "quantity": 4,
+          "description": "Synthetic part Kadredei",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-7088-0",
+          "quantity": 2,
+          "description": "Synthetic part Ponriqua",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-03",
+      "source": {
+        "scenario": "S004",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S004)",
+        "Still waiting on SWP-3075-4, none here",
+        "We have 1 x SWP-0471-5 (Synthetic part Quamo) at B03.",
+        "Still waiting on SWP-0156-6, none here"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-3075-4",
+          "quantity": null,
+          "description": null,
+          "needsReview": true
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-0471-5",
+          "quantity": 1,
+          "description": "Synthetic part Quamo",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-0156-6",
+          "quantity": null,
+          "description": null,
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-04",
+      "source": {
+        "scenario": "S005",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S005)",
+        "We have 3 x SWP-0219-4 (Synthetic part Vexridei) at B02.",
+        "P/N SWP-5540-0, qty 1",
+        "SWP-5191-2 - Synthetic part Dreliarul - 4 on the shelf"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-0219-4",
+          "quantity": 3,
+          "description": "Synthetic part Vexridei",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-5540-0",
+          "quantity": 1,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-5191-2",
+          "quantity": 4,
+          "description": "Synthetic part Dreliarul",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-05",
+      "source": {
+        "scenario": "S006",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S006)",
+        "P/N SWP-6483-6, qty 1",
+        "Still waiting on SWP-9428-6, none here",
+        "Still waiting on SWP-0621-8, none here"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-6483-6",
+          "quantity": 1,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-9428-6",
+          "quantity": null,
+          "description": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-0621-8",
+          "quantity": null,
+          "description": null,
+          "needsReview": true
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-06",
+      "source": {
+        "scenario": "S008",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S008)",
+        "SWP-6914-0 - Synthetic part Dregor - 3 on the shelf",
+        "Still waiting on SWP-8376-2, none here",
+        "P/N SWP-3835-4, qty 4"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-6914-0",
+          "quantity": 3,
+          "description": "Synthetic part Dregor",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-8376-2",
+          "quantity": null,
+          "description": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-3835-4",
+          "quantity": 4,
+          "description": null,
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-07",
+      "source": {
+        "scenario": "S009",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S009)",
+        "We have 3 x SWP-7811-4 (Synthetic part Rulri) at B03.",
+        "P/N SWP-7152-4, qty 2",
+        "SWP-8187-1 - Synthetic part Zensatri - 1 on the shelf"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-7811-4",
+          "quantity": 3,
+          "description": "Synthetic part Rulri",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-7152-4",
+          "quantity": 2,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-8187-1",
+          "quantity": 1,
+          "description": "Synthetic part Zensatri",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-08",
+      "source": {
+        "scenario": "S010",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S010)",
+        "P/N SWP-2904-1, qty 4",
+        "SWP-9884-0 - Synthetic part Liaqua - 4 on the shelf",
+        "We have 3 x SWP-9729-9 (Synthetic part Gordeizen) at B03."
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-2904-1",
+          "quantity": 4,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-9884-0",
+          "quantity": 4,
+          "description": "Synthetic part Liaqua",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-9729-9",
+          "quantity": 3,
+          "description": "Synthetic part Gordeizen",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-09",
+      "source": {
+        "scenario": "S011",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S011)",
+        "SWP-9543-9 - Synthetic part Moquagor - 2 on the shelf",
+        "We have 4 x SWP-8045-7 (Synthetic part Loponzen) at B03.",
+        "P/N SWP-2092-1, qty 3"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-9543-9",
+          "quantity": 2,
+          "description": "Synthetic part Moquagor",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-8045-7",
+          "quantity": 4,
+          "description": "Synthetic part Loponzen",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-2092-1",
+          "quantity": 3,
+          "description": null,
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-10",
+      "source": {
+        "scenario": "S012",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S012)",
+        "We have 3 x SWP-6338-5 (Synthetic part Kakasa) at B03.",
+        "Still waiting on SWP-5575-1, none here",
+        "SWP-8826-8 - Synthetic part Bonuish - 3 on the shelf"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-6338-5",
+          "quantity": 3,
+          "description": "Synthetic part Kakasa",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-5575-1",
+          "quantity": null,
+          "description": null,
+          "needsReview": true
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-8826-8",
+          "quantity": 3,
+          "description": "Synthetic part Bonuish",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-11",
+      "source": {
+        "scenario": "S014",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S014)",
+        "P/N SWP-0086-1, qty 2",
+        "SWP-7161-8 - Synthetic part Vensa - 2 on the shelf",
+        "We have 3 x SWP-3980-0 (Synthetic part Triri) at B03."
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-0086-1",
+          "quantity": 2,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-7161-8",
+          "quantity": 2,
+          "description": "Synthetic part Vensa",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-3980-0",
+          "quantity": 3,
+          "description": "Synthetic part Triri",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-12",
+      "source": {
+        "scenario": "S017",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S017)",
+        "SWP-8981-9 - Synthetic part Dregortal - 2 on the shelf",
+        "We have 2 x SWP-6627-0 (Synthetic part Nuven) at B03.",
+        "P/N SWP-4183-0, qty 1"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-8981-9",
+          "quantity": 2,
+          "description": "Synthetic part Dregortal",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-6627-0",
+          "quantity": 2,
+          "description": "Synthetic part Nuven",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-4183-0",
+          "quantity": 1,
+          "description": null,
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-13",
+      "source": {
+        "scenario": "S018",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S018)",
+        "We have 3 x SWP-4471-7 (Synthetic part Trika) at B01.",
+        "P/N SWP-8654-6, qty 2",
+        "SWP-4336-7 - Synthetic part Taldei - 3 on the shelf"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-4471-7",
+          "quantity": 3,
+          "description": "Synthetic part Trika",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-8654-6",
+          "quantity": 2,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-4336-7",
+          "quantity": 3,
+          "description": "Synthetic part Taldei",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-14",
+      "source": {
+        "scenario": "S020",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S020)",
+        "P/N SWP-7652-4, qty 1",
+        "SWP-0145-3 - Synthetic part Nuven - 3 on the shelf",
+        "We have 1 x SWP-2923-8 (Synthetic part Vexlo) at B03."
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-7652-4",
+          "quantity": 1,
+          "description": null,
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-0145-3",
+          "quantity": 3,
+          "description": "Synthetic part Nuven",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-2923-8",
+          "quantity": 1,
+          "description": "Synthetic part Vexlo",
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    },
+    {
+      "id": "AIC-301-15",
+      "source": {
+        "scenario": "S022",
+        "records": [
+          "P001",
+          "P002",
+          "P003"
+        ]
+      },
+      "lines": [
+        "Subject: parts stock update (S022)",
+        "SWP-7747-4 - Synthetic part Liavexgor - 2 on the shelf",
+        "We have 1 x SWP-6320-8 (Synthetic part Deisa) at B02.",
+        "P/N SWP-0105-6, qty 2"
+      ],
+      "expected": [
+        {
+          "line": 2,
+          "partNumber": "SWP-7747-4",
+          "quantity": 2,
+          "description": "Synthetic part Liavexgor",
+          "needsReview": false
+        },
+        {
+          "line": 3,
+          "partNumber": "SWP-6320-8",
+          "quantity": 1,
+          "description": "Synthetic part Deisa",
+          "needsReview": false
+        },
+        {
+          "line": 4,
+          "partNumber": "SWP-0105-6",
+          "quantity": 2,
+          "description": null,
+          "needsReview": false
+        }
+      ],
+      "recorded": null
+    }
+  ]
+}

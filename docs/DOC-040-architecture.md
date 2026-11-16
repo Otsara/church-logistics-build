@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.25
+version: 0.27
 status: Draft
 effective_date:
 ---
@@ -212,10 +212,12 @@ Every step follows SYS-001 to SYS-006 and SYS-009, and runs through ARC-008, ARC
 
 ### AIC-101 Parse a donor list
 - Product: Prepped
-- Traces to: SYS-001, SYS-002
+- Traces to: SYS-001, SYS-002, SYS-119
 - Formerly: AI-P1
 
 Input: pasted text or spreadsheet rows. Output: JSON array of lots, each with the source line and a confidence. Tier: cheap. If it fails: manual entry form. Example output: `{"lots": [{"generic_name": "amoxicillin", "strength": "500 mg", "form": "capsule", "quantity": 1200, "lot_number": null, "expiry": "2027-06-30", "source_line": "Amoxicillin 500mg caps x1200 exp 6/2027", "confidence": 0.9}]}`
+
+Built: `packages/ai/src/steps/donor-list.ts` with `lines.ts` (SYS-119, ADR-035): the prompt numbers the lines and asks for exact copies; the output schema has a field for each copied value and the confidence; `checkDonorList` keeps only copies written in the line, reads the expiry with `readExpiry`, marks what needs review and lists unread lines. Golden examples: `packages/ai/golden/aic-101-donor-list.json` (15, development partition), built by `packages/ai/scripts/make-golden.ts`; recordings pending (OD-062).
 
 ### AIC-102 Draft a cover letter and checklist
 - Product: Prepped
@@ -233,10 +235,12 @@ Input: computed readiness JSON. Output: plain-language summary of gaps only. Tie
 
 ### AIC-301 Parse a parts email or inventory list
 - Product: SpareWing
-- Traces to: SYS-001, SYS-002
+- Traces to: SYS-001, SYS-002, SYS-313
 - Formerly: AI-S1
 
 Input: pasted text. Output: JSON array of parts with the source line and a confidence. Tier: cheap. If it fails: manual entry form.
+
+Built: `packages/ai/src/steps/parts-email.ts` (SYS-313, ADR-035): part number, quantity and description only; base and serviceability are left for a person. Golden examples: `packages/ai/golden/aic-301-parts-email.json` (15); recordings pending (OD-062). Both readers are part of the guard on AI output (ARC-008) and held to full coverage and mutation testing.
 
 ### AIC-302 Draft a message to a base or community
 - Product: SpareWing
@@ -286,3 +290,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.23 | 2026-11-16 | ARC-301: rule files read from text with duplicate keys refused; aircraft types matched without spaces or case (ADR-034). | Claude, for owner review |
 | 0.24 | 2026-11-16 | ARC-014 AI gateway built (not yet deployed). Numbered 0.24 because the rule-files review branch takes 0.23. | Claude, for owner review |
 | 0.25 | 2026-11-16 | ARC-014: upload packaging script; key entered by the owner. | Claude, for owner review |
+| 0.27 | 2026-11-16 | AIC-101 and AIC-301 built with golden examples (ADR-035; recordings pending, OD-062). Numbered 0.27 because the deployment-record branch takes 0.26. | Claude, for owner review |

@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.26
+version: 0.27
 status: Draft
 effective_date:
 ---
@@ -452,6 +452,12 @@ Given a single-agent floor item in the penicillin class, then a combination prod
 
 Given a floor item of 300 with 100 eligible, when the clinician chooses a comparable alternative whose lot holds 50 and enters that it covers 200, then the item needs review, the choice is not counted, and the reason says to find further donations or have the lead clinician redefine the floor; entered as 50, it counts. Given a chosen alternative or an accepted exchange whose lot is not eligible and has no amount entered, then it is reported as not eligible and not counted, not as needing an amount (owner, 2026-11-15; ADR-029).
 
+
+### TC-137 Donor lists read against golden examples
+- Product: Prepped
+- Traces to: AIC-101, SYS-119
+
+Given the recorded golden donor lists, then each expected line is read with its quantity, lot number, expiry and review flag, its name starting with the expected word, after the same runner and checks as in the app; an invalid recorded answer leads to manual entry.
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -533,7 +539,7 @@ Given a disruption and a chosen candidate, then the drafted message is marked as
 
 ### TC-311 Parts emails parsed against golden examples
 - Product: SpareWing
-- Traces to: AIC-301
+- Traces to: AIC-301, SYS-313
 
 Given the recorded golden parts emails, then the parsed parts match the expected results, each with its source line and confidence, and an invalid output leads to manual entry.
 
@@ -674,3 +680,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.24 | 2026-11-16 | New TC-325 and TC-326 for the SpareWing rule files, implemented. Numbered 0.24 because the SpareWing review branch takes 0.23. | Claude, for owner review |
 | 0.25 | 2026-11-16 | New TC-327 and TC-328, implemented; TC-329 placeholder rules on screen, a placeholder test until the screens (ADR-034). | Claude, for owner review |
 | 0.26 | 2026-11-16 | New TC-028 to TC-030 for the AI gateway, implemented. Numbered 0.26 because the rule-files review branch takes 0.25. | Claude, for owner review |
+| 0.27 | 2026-11-16 | New TC-137 donor lists read against golden examples; TC-022 and TC-311 implemented except the recordings (OD-062). | Claude, for owner review |
