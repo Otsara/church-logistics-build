@@ -562,6 +562,42 @@ Given a needed part number and stock entered with leading or trailing spaces or 
 
 Given two of a part needed, then a base holding one is still listed and marked "holds 1 of 2 needed", and a base holding two is not marked; given no valid quantity needed, every candidate says "quantity needed not entered: check the base holds enough" (owner, 2026-11-15; ADR-030).
 
+### TC-319 Ratings matched without stray spaces or letter case
+- Product: SpareWing
+- Traces to: SYS-303
+
+Given required ratings and a pilot's ratings entered with leading or trailing spaces or in another letter case, then they match; a rating differing by any other character does not (owner, 2026-11-16; ADR-032).
+
+### TC-320 No required ratings entered
+- Product: SpareWing
+- Traces to: SYS-303, SYS-304
+
+Given an aircraft with no required ratings entered, then every pilot shows "data missing: required ratings not entered for this aircraft", never "candidate"; a pilot ruled out on another ground is still excluded (owner, 2026-11-16; ADR-032).
+
+### TC-321 Expected end before the start
+- Product: SpareWing
+- Traces to: SYS-303, SYS-304, SYS-307
+
+Given an expected end before the date needed, then every pilot shows "data missing: expected end is before the date needed: check the dates", and missed flights are unknown with "expected end is before the start: check the dates"; nothing is thrown (owner, 2026-11-16; ADR-032).
+
+### TC-322 Flight schedule not entered
+- Product: SpareWing
+- Traces to: SYS-307, SYS-308
+
+Given a community with no flight days entered, then missed flights are unknown, shown as "data missing: flight schedule not entered", never zero, and such an option ranks after every option with a known count, saying so (owner, 2026-11-16; ADR-032).
+
+### TC-323 Cover aircraft availability
+- Product: SpareWing
+- Traces to: SYS-307
+
+Given a cover aircraft at a listed base whose availability is not entered, or is entered as not available, then it does not reduce missed flights, and the reason says which (owner, 2026-11-16; ADR-032).
+
+### TC-324 Decision time and option checked
+- Product: SpareWing
+- Traces to: SYS-309
+
+Given a decision whose time is not a valid UTC date and time, or whose option is not in the ranked list, then it is refused with the reason; a valid one is recorded (owner, 2026-11-16; ADR-032).
+
 ### TC-325 Aircraft-type ratings rule file
 - Product: SpareWing
 - Traces to: SYS-303, ARC-004
@@ -598,4 +634,5 @@ Given `rules/sparewing/cover-bases.json`, then it is a placeholder citing the sy
 | 0.20 | 2026-11-15 | New TC-135 alternatives bring no extra class and are offered when the item is short (ADR-028), implemented. Numbered 0.20 because the merge follow-ups branch takes 0.19. | Claude, for owner review |
 | 0.21 | 2026-11-15 | New TC-136 a chosen amount beyond the lot needs review, and an ineligible lot is reported before a missing amount (ADR-029), implemented. | Claude, for owner review |
 | 0.22 | 2026-11-15 | New TC-317 part numbers matched without stray spaces or letter case, TC-318 quantity of a part needed; TC-302 invalid order lead time, all implemented (ADR-030). | Claude, for owner review |
+| 0.23 | 2026-11-16 | New TC-319 to TC-324 from the SpareWing review decisions (ADR-032), implemented. | Claude, for owner review |
 | 0.24 | 2026-11-16 | New TC-325 and TC-326 for the SpareWing rule files, implemented. Numbered 0.24 because the SpareWing review branch takes 0.23. | Claude, for owner review |

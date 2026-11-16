@@ -434,6 +434,65 @@ describe("SpareWing pilot candidates", () => {
   });
 });
 
+describe("SpareWing pilot review decisions (owner, 2026-11-16; ADR-032)", () => {
+  it("[TC-319] Given ratings entered with stray spaces or in another letter case, then they still match; a different character does not", () => {
+    expect(
+      checkPilot(pilot({ ratings: [" r1", "R2 "] }), {
+        ...PILOT_NEED,
+        typeRatings: ["R1 "],
+        aircraftRatings: [" r2", "r1"],
+      }),
+    ).toMatchObject({
+      status: "candidate",
+      reasons: [
+        "holds R1, r2",
+        "current until 2027-06-30",
+        "available 2026-11-16 to 2026-11-20",
+      ],
+    });
+    expect(
+      checkPilot(pilot({ ratings: ["R1", "R-2"] }), PILOT_NEED).reasons[0],
+    ).toBe("missing R2");
+  });
+
+  it('[TC-320] Given an aircraft with no required ratings entered, then every pilot shows "data missing: required ratings not entered for this aircraft", never "candidate"', () => {
+    const none = { ...PILOT_NEED, typeRatings: [" "], aircraftRatings: [] };
+    expect(checkPilot(pilot(), none)).toMatchObject({
+      status: "data_missing",
+      missingData: ["required ratings not entered for this aircraft"],
+      reasons: [
+        "required ratings not entered for this aircraft",
+        "current until 2027-06-30",
+        "available 2026-11-16 to 2026-11-20",
+      ],
+    });
+    // A pilot ruled out on another ground is still excluded.
+    expect(
+      checkPilot(pilot({ currencyUntil: d("2026-11-01") }), none).status,
+    ).toBe("excluded");
+  });
+
+  it('[TC-321] Given an expected end before the date needed, then every pilot shows "data missing: expected end is before the date needed: check the dates"; a pilot missing a rating is still excluded', () => {
+    const swapped = { ...PILOT_NEED, expectedEnd: d("2026-11-15") };
+    expect(checkPilot(pilot(), swapped)).toMatchObject({
+      status: "data_missing",
+      missingData: ["expected end is before the date needed: check the dates"],
+      reasons: [
+        "holds R1, R2",
+        "expected end is before the date needed: check the dates",
+      ],
+    });
+    expect(checkPilot(pilot({ ratings: ["R1"] }), swapped).status).toBe(
+      "excluded",
+    );
+    // The same day for both is a one-day need, not swapped.
+    expect(
+      checkPilot(pilot(), { ...PILOT_NEED, expectedEnd: d("2026-11-16") })
+        .status,
+    ).toBe("candidate");
+  });
+});
+
 describe("SpareWing missed community flights", () => {
   // 2026-11-16 is a Monday; Monday to Friday is five days inclusive.
   const window = {
@@ -448,6 +507,7 @@ describe("SpareWing missed community flights", () => {
       scheduled: ["2026-11-17", "2026-11-20"],
       missed: ["2026-11-17", "2026-11-20"],
       coveredBy: null,
+      missingData: [],
       reasons: ["no aircraft and pilot at a listed base can cover"],
     });
     // A flight on the first and the last day both count.
@@ -465,6 +525,7 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A02",
           baseId: "B02",
           pilotId: "PIL02",
+          aircraftAvailable: true,
           pilotStatus: "candidate",
           pilotMissingData: [],
         },
@@ -483,6 +544,7 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A03",
           baseId: "B01",
           pilotId: "PIL03",
+          aircraftAvailable: true,
           pilotStatus: "data_missing",
           pilotMissingData: ["availability not entered"],
         },
@@ -490,6 +552,7 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A04",
           baseId: "B01",
           pilotId: "PIL04",
+          aircraftAvailable: true,
           pilotStatus: "candidate",
           pilotMissingData: [],
         },
@@ -499,6 +562,7 @@ describe("SpareWing missed community flights", () => {
       scheduled: ["2026-11-17", "2026-11-20"],
       missed: [],
       coveredBy: { aircraftId: "SW-A04", pilotId: "PIL04" },
+      missingData: [],
       reasons: [
         "SW-A03 with PIL03 at B01 not counted: pilot data missing (availability not entered)",
         "covered by SW-A04 with PIL04 at B01",
@@ -514,6 +578,7 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A07",
           baseId: "B01",
           pilotId: "PIL07",
+          aircraftAvailable: true,
           pilotStatus: "excluded",
           pilotMissingData: [],
         },
@@ -531,6 +596,7 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A08",
           baseId: "B01",
           pilotId: "PIL08",
+          aircraftAvailable: true,
           pilotStatus: "data_missing",
           pilotMissingData: [
             "currency not entered",
@@ -552,6 +618,7 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A05",
           baseId: "B01",
           pilotId: "PIL05",
+          aircraftAvailable: true,
           pilotStatus: "candidate",
           pilotMissingData: [],
         },
@@ -559,6 +626,7 @@ describe("SpareWing missed community flights", () => {
           aircraftId: "SW-A06",
           baseId: "B01",
           pilotId: "PIL06",
+          aircraftAvailable: true,
           pilotStatus: "candidate",
           pilotMissingData: [],
         },
@@ -582,16 +650,76 @@ describe("SpareWing missed community flights", () => {
     ).toEqual(["2026-11-17"]);
   });
 
-  it("[SYS-307] Given an expected end before the start, then it is refused", () => {
-    expect(() =>
+  it('[TC-321] Given an expected end before the start, then missed flights are unknown: "data missing: expected end is before the start: check the dates"', () => {
+    expect(
       missedFlights({ ...window, expectedEnd: d("2026-11-15"), cover: [] }),
-    ).toThrow("expected end 2026-11-15 is before the start 2026-11-16");
+    ).toEqual({
+      scheduled: null,
+      missed: null,
+      coveredBy: null,
+      missingData: ["expected end is before the start: check the dates"],
+      reasons: ["expected end is before the start: check the dates"],
+    });
+  });
+
+  it('[TC-322] Given a community with no flight days entered, then missed flights are unknown: "data missing: flight schedule not entered", and cover is still listed', () => {
+    const cover = {
+      aircraftId: "SW-A09",
+      baseId: "B01",
+      pilotId: "PIL09",
+      aircraftAvailable: true,
+      pilotStatus: "candidate" as const,
+      pilotMissingData: [],
+    };
+    expect(
+      missedFlights({ ...window, flightDays: [], cover: [cover] }),
+    ).toEqual({
+      scheduled: null,
+      missed: null,
+      coveredBy: { aircraftId: "SW-A09", pilotId: "PIL09" },
+      missingData: ["flight schedule not entered"],
+      reasons: [
+        "covered by SW-A09 with PIL09 at B01",
+        "flight schedule not entered: missed flights unknown",
+      ],
+    });
+  });
+
+  it("[TC-323] Given a cover aircraft at a listed base whose availability is not entered or is unavailable, then it is not counted, saying why", () => {
+    const base = {
+      baseId: "B01",
+      pilotStatus: "candidate" as const,
+      pilotMissingData: [],
+    };
+    const result = missedFlights({
+      ...window,
+      cover: [
+        {
+          ...base,
+          aircraftId: "SW-A10",
+          pilotId: "PIL10",
+          aircraftAvailable: null,
+        },
+        {
+          ...base,
+          aircraftId: "SW-A11",
+          pilotId: "PIL11",
+          aircraftAvailable: false,
+        },
+      ],
+    });
+    expect(result.missed).toEqual(["2026-11-17", "2026-11-20"]);
+    expect(result.reasons).toEqual([
+      "SW-A10 with PIL10 at B01 not counted: aircraft availability not entered",
+      "SW-A11 with PIL11 at B01 not counted: aircraft not available",
+      "no aircraft and pilot at a listed base can cover",
+    ]);
   });
 });
 
 const option = (
   id: string,
-  missed: number,
+  missed: number | null,
   ret: string | null,
   transfers: number,
   cost: string | null = null,
@@ -679,6 +807,29 @@ describe("SpareWing proposed plan", () => {
     expect(rankOptions([])).toEqual([]);
   });
 
+  it("[TC-322] Given an option whose missed flights are unknown, then it ranks after every option with a known count, saying so; two unknowns tie on it", () => {
+    const ranked = rankOptions([
+      option("U1", null, "2026-11-17", 2),
+      option("K", 4, "2026-12-30", 3),
+      option("U2", null, "2026-11-17", 1),
+    ]);
+    expect(ranked.map((r) => r.option.id)).toEqual(["K", "U2", "U1"]);
+    expect(ranked.map((r) => r.reasons.slice(0, 2))).toEqual([
+      [
+        "4 missed flights, return to service 2026-12-30, 3 transfers",
+        "proposed plan, for the flight base director, mechanic and pilot to review and verify",
+      ],
+      [
+        "missed flights unknown, return to service 2026-11-17, 1 transfer",
+        "ranked below K: missed flights unknown (data missing)",
+      ],
+      [
+        "missed flights unknown, return to service 2026-11-17, 2 transfers",
+        "ranked below U2: same missed flights and return to service, more transfers (2 against 1)",
+      ],
+    ]);
+  });
+
   it("[TC-309] Given any proposal, then nothing approves a schedule change or states that an aircraft is flightworthy, and a decision is recorded only when the flight base director, mechanic or pilot records it", () => {
     const texts = [
       ...rankOptions([
@@ -703,6 +854,7 @@ describe("SpareWing proposed plan", () => {
     for (const role of DECIDING_ROLES) {
       const result = recordDecision({
         optionId: "A",
+        optionIds: ["A", "B"],
         decision: "chosen",
         role,
         personId: "PER-1",
@@ -723,6 +875,7 @@ describe("SpareWing proposed plan", () => {
       expect(
         recordDecision({
           optionId: "A",
+          optionIds: ["A"],
           decision: "rejected",
           role,
           personId: "PER-1",
@@ -737,6 +890,7 @@ describe("SpareWing proposed plan", () => {
     expect(
       recordDecision({
         optionId: "A",
+        optionIds: ["A"],
         decision: "chosen",
         role: "mechanic",
         personId: " ",
@@ -745,6 +899,45 @@ describe("SpareWing proposed plan", () => {
     ).toEqual({
       ok: false,
       reason: "the person recording the decision is not identified",
+    });
+  });
+
+  it("[TC-324] Given a decision with a time that is not a valid UTC date and time, or an option not in the ranked list, then it is refused; a valid one is recorded", () => {
+    const valid = {
+      optionId: "B",
+      optionIds: ["A", "B"],
+      decision: "chosen" as const,
+      role: "pilot",
+      personId: "PER-2",
+      time: "2026-11-16T14:00:00.123Z",
+    };
+    expect(recordDecision(valid).ok).toBe(true);
+    // The last second of the day, and a time without fractions, are valid.
+    expect(recordDecision({ ...valid, time: "2026-11-16T23:59:59Z" }).ok).toBe(
+      true,
+    );
+    for (const time of [
+      "2026-11-16",
+      "2026-11-16T14:00:00",
+      "2026-11-16T14:00:00+01:00",
+      "2026-02-30T14:00:00Z",
+      "2026-11-16T24:00:00Z",
+      "2026-11-16T14:60:00Z",
+      "2026-11-16T14:00:60Z",
+      " 2026-11-16T14:00:00Z",
+      "2026-11-16T14:00:00ZZ",
+      "2026-11-16T14:00:00Z2026-11-16T14:00:00Z",
+      "",
+    ]) {
+      expect(recordDecision({ ...valid, time }), time).toEqual({
+        ok: false,
+        reason:
+          "the time is not a valid UTC date and time (YYYY-MM-DDTHH:MM:SSZ)",
+      });
+    }
+    expect(recordDecision({ ...valid, optionId: "C" })).toEqual({
+      ok: false,
+      reason: "option C is not in the ranked list",
     });
   });
 });
