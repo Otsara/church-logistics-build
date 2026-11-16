@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.22
+version: 0.24
 status: Draft
 effective_date:
 ---
@@ -561,6 +561,18 @@ Given a needed part number and stock entered with leading or trailing spaces or 
 - Traces to: SYS-311
 
 Given two of a part needed, then a base holding one is still listed and marked "holds 1 of 2 needed", and a base holding two is not marked; given no valid quantity needed, every candidate says "quantity needed not entered: check the base holds enough" (owner, 2026-11-15; ADR-030).
+
+### TC-325 Aircraft-type ratings rule file
+- Product: SpareWing
+- Traces to: SYS-303, ARC-004
+
+Given `rules/sparewing/aircraft-type-ratings.json`, then it is a placeholder citing the synthetic data, each synthetic aircraft type requires the rating named after it, a type not listed requires nothing (shown by the pilot check as data missing), and a file with the wrong id, product or data is refused with every problem listed.
+
+### TC-326 Cover-bases rule file
+- Product: SpareWing
+- Traces to: SYS-307, ARC-004, DAT-002
+
+Given `rules/sparewing/cover-bases.json`, then it is a placeholder citing the synthetic data, lists each development scenario's communities with the base serving them, lists no held-back scenario, gives nothing for a scenario or community not listed, and a file with the wrong id, product or data is refused with every problem listed.
 ## Revision history
 
 | Version | Date | Change | By |
@@ -586,3 +598,4 @@ Given two of a part needed, then a base holding one is still listed and marked "
 | 0.20 | 2026-11-15 | New TC-135 alternatives bring no extra class and are offered when the item is short (ADR-028), implemented. Numbered 0.20 because the merge follow-ups branch takes 0.19. | Claude, for owner review |
 | 0.21 | 2026-11-15 | New TC-136 a chosen amount beyond the lot needs review, and an ineligible lot is reported before a missing amount (ADR-029), implemented. | Claude, for owner review |
 | 0.22 | 2026-11-15 | New TC-317 part numbers matched without stray spaces or letter case, TC-318 quantity of a part needed; TC-302 invalid order lead time, all implemented (ADR-030). | Claude, for owner review |
+| 0.24 | 2026-11-16 | New TC-325 and TC-326 for the SpareWing rule files, implemented. Numbered 0.24 because the SpareWing review branch takes 0.23. | Claude, for owner review |
