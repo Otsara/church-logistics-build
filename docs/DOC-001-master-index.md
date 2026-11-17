@@ -16,7 +16,7 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-000 | Document control procedure | 0.1 | Draft | `docs/DOC-000-document-control.md` |
 | DOC-001 | Master document index | 0.1 | Draft | `docs/DOC-001-master-index.md` |
 | DOC-002 | Glossary | 0.6 | Draft | `docs/DOC-002-glossary.md` |
-| DOC-003 | Open decisions and release blockers | 0.23 | Draft | `docs/DOC-003-open-decisions.md` |
+| DOC-003 | Open decisions and release blockers | 0.24 | Draft | `docs/DOC-003-open-decisions.md` |
 | DOC-010 | Intended use, users and regulatory position | 0.4 | Draft | `docs/DOC-010-intended-use.md` |
 | DOC-020 | User needs and system requirements | 0.28 | Draft | `docs/DOC-020-requirements.md` |
 | DOC-030 | Risk management file | 0.18 | Draft | `docs/DOC-030-risk-management.md` |
