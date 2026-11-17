@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.27
+version: 0.28
 status: Draft
 effective_date:
 ---
@@ -329,6 +329,13 @@ When the AI reads a pasted donor list (AIC-101), it copies each value exactly as
 
 When the lead clinician picks floor items, a controlled medicine in the catalogue is labelled "Controlled: cannot be packed in this build" with its basis (for example "FDA drug directory: DEA schedule CII"), so a floor item is never chosen without knowing it cannot be met (owner, 2026-11-12); REV-001, ADR-020.
 
+### SYS-120 Destination rule cards and the paperwork checklist
+- Product: Prepped
+- Traces to: UN-104, RC-003
+- Safety-critical: yes
+
+Each destination has a rule card in `rules/prepped/` listing what it asks of a medicine shipment, item by item, each with an id and the document it asks for. Code builds the paperwork checklist from the card word for word, with each item's id, and each document marked prepared or missing. For the demo, the cards for Honduras, Ethiopia, Nigeria and the Philippines are synthetic placeholders: every item and the checklist say "Synthetic example for the demo: not a real import rule", and a placeholder card with an unlabelled item is refused (owner, 2026-11-16; ADR-039; OD-003). The covering letter (AIC-102) is written by the AI, and every sentence in it that states a requirement must cite a card item on the card; otherwise the blank template is shown with the same checklist (ADR-042, proposed).
+
 ## 4. SpareWing requirements
 
 ### SYS-301 Parts by entered part numbers only
@@ -458,3 +465,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.25 | 2026-11-16 | SYS-003, SYS-005, SYS-309, SYS-310: AI explanations and drafts checked against computed results, labelled until reviewed, never claiming an approval (ADR-039). | Claude, for owner review |
 | 0.26 | 2026-11-17 | SYS-003, SYS-005, SYS-309, SYS-310 after the owner's review (REV-011, ADR-040): claims in any spelling, reviews and edits recorded, one item per sentence, no relative dates, invented people or promises. | Claude, for owner review |
 | 0.27 | 2026-11-17 | SYS-003, SYS-310: the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
+| 0.28 | 2026-11-17 | New SYS-120 destination rule cards and the paperwork checklist (ADR-039, ADR-042). | Claude, for owner review |

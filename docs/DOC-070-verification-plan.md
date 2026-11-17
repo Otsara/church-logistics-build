@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.30
+version: 0.31
 status: Draft
 effective_date:
 ---
@@ -458,6 +458,12 @@ Given a floor item of 300 with 100 eligible, when the clinician chooses a compar
 - Traces to: AIC-101, SYS-119
 
 Given the recorded golden donor lists, then each expected line is read with its quantity, lot number, expiry and review flag, its name starting with the expected word, after the same runner and checks as in the app; an invalid recorded answer leads to manual entry.
+### TC-138 Destination rule cards labelled as synthetic
+- Product: Prepped
+- Traces to: SYS-120, DAT-103
+
+Given the destination rule cards for Honduras, Ethiopia, Nigeria and the Philippines, then each reads as a placeholder whose every item is labelled "Synthetic example for the demo: not a real import rule"; a placeholder card with an unlabelled item, an item named twice, a badly formed item or a key named twice is refused, listing each problem.
+
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -684,3 +690,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.28 | 2026-11-16 | TC-010 and TC-310 implemented; TC-008 implemented for AIC-302, AIC-102 to follow (ADR-039). | Claude, for owner review |
 | 0.29 | 2026-11-17 | TC-008, TC-010, TC-310: tests added for the owner's review decisions (REV-011, ADR-040). | Claude, for owner review |
 | 0.30 | 2026-11-17 | TC-010, TC-310: tests that the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
+| 0.31 | 2026-11-17 | New TC-138 destination rule cards labelled as synthetic, implemented. TC-007, TC-008 for AIC-102 and the draft part of TC-105 implemented (SYS-120, ADR-042). | Claude, for owner review |

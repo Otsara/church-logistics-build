@@ -1,0 +1,41 @@
+{
+  "id": "destination-ethiopia",
+  "product": "prepped",
+  "title": "Destination rule card: Ethiopia (synthetic example)",
+  "status": "placeholder",
+  "source": {
+    "url": "https://example.org/synthetic/destination-ethiopia",
+    "verified_date": null,
+    "verified_by": null
+  },
+  "notes": "Synthetic example for the demo, written for this build: not a real import rule for Ethiopia, and not to be relied on. The source link is a placeholder (example.org). Real cards, checked against official sources by a qualified person, come after the hackathon (owner, 2026-11-16; OD-003, ADR-039, ADR-042).",
+  "data": {
+    "country": "Ethiopia",
+    "items": [
+      {
+        "id": "ET-01",
+        "requirement": "An import permit for donated medicines is prepared before shipping.",
+        "document": "Import permit",
+        "label": "Synthetic example for the demo: not a real import rule"
+      },
+      {
+        "id": "ET-02",
+        "requirement": "A letter from the ministry of health acknowledging the donation is prepared.",
+        "document": "Ministry letter",
+        "label": "Synthetic example for the demo: not a real import rule"
+      },
+      {
+        "id": "ET-03",
+        "requirement": "A packing list names each medicine by generic name, strength, quantity and expiry date.",
+        "document": "Packing list",
+        "label": "Synthetic example for the demo: not a real import rule"
+      },
+      {
+        "id": "ET-04",
+        "requirement": "Each medicine's expiry date is printed on its outer pack.",
+        "document": null,
+        "label": "Synthetic example for the demo: not a real import rule"
+      }
+    ]
+  }
+}

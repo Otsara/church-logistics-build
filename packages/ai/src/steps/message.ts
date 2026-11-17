@@ -14,7 +14,7 @@ import {
   newDraft,
   type Draft,
 } from "./drafts.ts";
-import { ungrounded, type Value } from "./grounding.ts";
+import { ungrounded, valuesIn } from "./grounding.ts";
 import { WORDING_RULES, wordingProblems } from "./wording.ts";
 
 export interface MessageInput {
@@ -51,12 +51,6 @@ Facts:
 ${JSON.stringify(input)}`,
 };
 
-/** Every value in the input, for grounding the message. */
-const valuesOf = (v: unknown): Value[] =>
-  typeof v === "object" && v !== null
-    ? Object.values(v).flatMap(valuesOf)
-    : [String(v)];
-
 export interface MessageResult {
   readonly accepted: boolean;
   readonly problems: readonly string[];
@@ -77,7 +71,7 @@ export function checkMessage(
     ...wordingProblems(output.message).map(
       (problem) => `the message ${problem}`,
     ),
-    ...ungrounded(output.message, valuesOf(input)).map(
+    ...ungrounded(output.message, valuesIn(input)).map(
       (token) =>
         `the message mentions "${token}", which is not in the disruption`,
     ),
