@@ -6,3 +6,11 @@ overrides:
   "minimatch@>=7.0.0 <11.0.1": "11.0.5"
   # qs before 6.16.1 has denial-of-service advisories; reached only through Stryker's report-upload client.
   "qs@<6.16.1": "6.17.1"
+
+# Temporary audit exception (owner, 2026-11-17; ADR-043, SEC-004): picomatch <=4.0.7 has a high
+# ReDoS advisory with no patched version yet. It is reached only through development tools
+# (vitest, vite, typescript-eslint), on glob patterns from our own configuration. Remove this as
+# soon as a patched picomatch is released; a scheduled task checks twice a day.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-fc5q-39xc-vjpf
