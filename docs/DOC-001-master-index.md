@@ -22,11 +22,11 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-030 | Risk management file | 0.18 | Draft | `docs/DOC-030-risk-management.md` |
 | DOC-040 | Architecture and AI step contracts | 0.29 | Draft | `docs/DOC-040-architecture.md` |
 | DOC-050 | Decision record index | 0.1 | Draft | `docs/DOC-050-decision-records.md` |
-| DOC-060 | Security and privacy | 0.3 | Draft | `docs/DOC-060-security-privacy.md` |
+| DOC-060 | Security and privacy | 0.4 | Draft | `docs/DOC-060-security-privacy.md` |
 | DOC-065 | Data management plan | 0.9 | Draft | `docs/DOC-065-data-management.md` |
 | DOC-070 | Verification and validation plan | 0.29 | Draft | `docs/DOC-070-verification-plan.md` |
 | DOC-080 | Traceability matrix | 0.1 | Draft | `docs/DOC-080-traceability-matrix.md` |
-| DOC-090 | Third-party software, services and data register | 0.9 | Draft | `docs/DOC-090-third-party-register.md` |
+| DOC-090 | Third-party software, services and data register | 0.10 | Draft | `docs/DOC-090-third-party-register.md` |
 | DOC-100 | Implementation plan and submission requirements | 0.20 | Draft | `docs/DOC-100-implementation-plan.md` |
 
 Items defined, by type:
@@ -44,10 +44,10 @@ Items defined, by type:
 | SEC | 8 |
 | DAT | 7 |
 | TC | 94 |
-| SOUP | 21 |
+| SOUP | 22 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 40 |
+| ADR | 41 |
 | REV | 11 |
 <!-- END GENERATED -->
 

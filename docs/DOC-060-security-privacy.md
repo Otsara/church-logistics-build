@@ -1,7 +1,7 @@
 ---
 id: DOC-060
 title: Security and privacy
-version: 0.3
+version: 0.4
 status: Draft
 effective_date:
 ---
@@ -34,7 +34,7 @@ Every connection uses HTTPS. Published apps send security headers that block fra
 - Product: Shared
 - Traces to: UN-002, RC-007
 
-CI runs a dependency audit on every pull request and fails on high or critical advisories. New dependencies are registered in DOC-090 before use.
+CI runs a dependency audit on every pull request and fails on high or critical advisories. New dependencies are registered in DOC-090 before use. Temporary exception: GHSA-fc5q-39xc-vjpf, a ReDoS in `picomatch` 4.0.7 and earlier, reached only through development tools and with no patched version yet, is ignored until a patched version exists; a scheduled task checks twice a day, and the exception is removed before the submission (owner, 2026-11-17; ADR-043).
 
 ### SEC-005 Least data to AI services
 - Product: Shared
@@ -67,3 +67,4 @@ Sync uses Supabase Auth with one account per person. Database rules let each tea
 | 0.1 | 2026-11-10 | First draft. | Claude, for owner review |
 | 0.2 | 2026-11-12 | SEC-001 key store decided (OD-027); SEC-003 header set follows hosting (OD-018); new SEC-008 team sign-in (OD-001) (owner, 2026-11-12). | Claude, for owner review |
 | 0.3 | 2026-11-16 | SEC-001 and SEC-008: the AI gateway built; key read only by the Edge Function, sign-in checked on every AI request. | Claude, for owner review |
+| 0.4 | 2026-11-17 | SEC-004: temporary exception for GHSA-fc5q-39xc-vjpf (picomatch, development tools only, no patch yet) until a patched version exists (ADR-043). | Claude, for owner review |
