@@ -1,8 +1,9 @@
 ---
 id: ADR-042
 title: Destination rule cards as synthetic placeholders, a checklist built by code, and a covering letter whose requirements cite the card
-status: Proposed
+status: Accepted
 date: 2026-11-17
+decided: owner, 2026-11-17
 ---
 
 # ADR-042 Destination rule cards as synthetic placeholders, a checklist built by code, and a covering letter whose requirements cite the card
@@ -14,7 +15,7 @@ The owner chose the shape of the covering letter (AIC-102) and the rule cards on
 - 1 (a): code builds the checklist word for word from the rule card, with ids, and the AI writes only the covering letter. Any sentence stating a requirement must cite a card item, or the draft is not accepted.
 - 2 (a): synthetic placeholder cards for Honduras, Ethiopia, Nigeria and the Philippines, every item labelled "Synthetic example for the demo: not a real import rule". Real cards come after the hackathon (OD-003).
 
-Building them took design choices that the owner has not yet reviewed. They are recorded here and proposed for the owner's line-by-line review.
+Building them took design choices that the owner has not yet reviewed. They are recorded here. The owner reviewed them line by line (REV-012) and accepted them with the changes in ADR-044 (owner, 2026-11-17).
 
 ## Options and choices
 

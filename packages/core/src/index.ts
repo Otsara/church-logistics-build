@@ -116,3 +116,8 @@ export {
   type DestinationCard,
   type DestinationCardResult,
 } from "./prepped/destination-card.ts";
+export {
+  FORBIDDEN_CLAIMS,
+  FORBIDDEN_IN_WORDS,
+  forbiddenClaims,
+} from "./claims.ts";

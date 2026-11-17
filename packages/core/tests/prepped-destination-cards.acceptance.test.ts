@@ -18,7 +18,11 @@ const readCard = (country: string) =>
     readFileSync(join(rulesDir, `destination-${country}.json`), "utf8"),
   );
 
-const card = (overrides: Record<string, unknown> = {}, items?: unknown[]) =>
+const card = (
+  overrides: Record<string, unknown> = {},
+  items?: unknown[],
+  data: Record<string, unknown> = {},
+) =>
   JSON.stringify({
     id: "destination-testland",
     product: "prepped",
@@ -31,6 +35,7 @@ const card = (overrides: Record<string, unknown> = {}, items?: unknown[]) =>
     },
     data: {
       country: "Testland",
+      synthetic: true,
       items: items ?? [
         {
           id: "TL-01",
@@ -45,6 +50,7 @@ const card = (overrides: Record<string, unknown> = {}, items?: unknown[]) =>
           label: SYNTHETIC_CARD_LABEL,
         },
       ],
+      ...data,
     },
     ...overrides,
   });
@@ -106,7 +112,7 @@ describe("Destination rule cards (SYS-120)", () => {
     ).toEqual({
       ok: false,
       errors: [
-        `item TL-01 is not labelled "${SYNTHETIC_CARD_LABEL}", as every item on a placeholder card must be`,
+        `item TL-01 is not labelled "${SYNTHETIC_CARD_LABEL}", as every item on a synthetic card must be`,
       ],
     });
   });
@@ -130,6 +136,7 @@ describe("Destination rule cards (SYS-120)", () => {
             label: null,
           },
         ],
+        { synthetic: false },
       ),
     );
     expect(verified.status).toBe("verified");
@@ -160,7 +167,7 @@ describe("Destination rule cards (SYS-120)", () => {
       expect(bad.errors.join("\n")).toMatch(/data\.items\.0\.requirement/);
       expect(bad.errors.join("\n")).toMatch(/data\.items\.0\.document/);
     }
-    for (const id of ["XHN-01", "HN-012", "hn-01"]) {
+    for (const id of ["ABCD-01", "HN-012", "hn-01"]) {
       expect(readDestinationCard(card({}, [{ ...twice, id }])), id).toEqual({
         ok: false,
         errors: ["data.items.0.id: must be like HN-01"],
@@ -232,11 +239,121 @@ describe("Destination rule cards (SYS-120)", () => {
             label: null,
           },
         ],
+        { synthetic: false },
       ),
     );
     expect(checklist(verified, new Set())).toEqual([
       "Checklist from rule card destination-testland (Testland).",
       "TL-01: Controlled medicines are not shipped.",
     ]);
+  });
+});
+
+describe("Rule cards after the owner's review (REV-012 part 1)", () => {
+  const item = (id: string, extra: Record<string, unknown> = {}) => ({
+    id,
+    requirement: "An import permit is prepared before shipping.",
+    document: "Import permit",
+    label: SYNTHETIC_CARD_LABEL,
+    ...extra,
+  });
+
+  it("[TC-138] Given a card whose id does not match its country, then it is refused; a country of several words is written with hyphens", () => {
+    expect(
+      readDestinationCard(card({}, undefined, { country: "Nigeria" })),
+    ).toEqual({
+      ok: false,
+      errors: [
+        "the card's id destination-testland does not match its country Nigeria: it must be destination-nigeria",
+      ],
+    });
+    expect(
+      readDestinationCard(
+        card({ id: "destination-south-testland" }, undefined, {
+          country: "South  Testland",
+        }),
+      ).ok,
+    ).toBe(true);
+  });
+
+  it("[TC-138] Given an item whose prefix differs from the card's first item, then it is refused", () => {
+    expect(
+      readDestinationCard(card({}, [item("TL-01"), item("NG-02")])),
+    ).toEqual({
+      ok: false,
+      errors: ["item NG-02 does not share the card's prefix TL"],
+    });
+  });
+
+  it("[SYS-309, TC-138] Given a card whose item or document makes a forbidden claim, then it is refused", () => {
+    expect(
+      readDestinationCard(
+        card({}, [
+          item("TL-01", {
+            requirement: "An approved import permit is prepared.",
+            document: "Clearance certificate",
+          }),
+        ]),
+      ),
+    ).toEqual({
+      ok: false,
+      errors: [
+        'item TL-01 says "approved": a rule card never claims an approval',
+        'item TL-01 says "clearance": a rule card never claims an approval',
+      ],
+    });
+  });
+
+  it("[TC-138] Given a card for every destination, then its id must not name a destination, and on a placeholder each item still needs a label", () => {
+    const general = { country: null, synthetic: false };
+    expect(readDestinationCard(card({}, undefined, general))).toEqual({
+      ok: false,
+      errors: [
+        "the card applies to every destination, so its id must not start with destination- (destination-testland)",
+      ],
+    });
+    expect(
+      readDestinationCard(
+        card(
+          { id: "testland-guidelines" },
+          [item("TL-01", { label: null })],
+          general,
+        ),
+      ),
+    ).toEqual({
+      ok: false,
+      errors: [
+        "item TL-01 has no label, as every item on a placeholder card must",
+      ],
+    });
+    const ok = read(card({ id: "testland-guidelines" }, undefined, general));
+    expect(ok.country).toBeNull();
+    expect(checklist(ok, new Set())[0]).toBe(
+      "Checklist from rule card testland-guidelines (every destination).",
+    );
+  });
+
+  it("[TC-138] Given the WHO donation guidelines card, then it applies to every destination, cites the source's articles, and every item says it is not yet verified", () => {
+    const result = readDestinationCard(
+      readFileSync(join(rulesDir, "who-donation-guidelines.json"), "utf8"),
+    );
+    expect(result).toMatchObject({
+      ok: true,
+      card: {
+        id: "who-donation-guidelines",
+        country: null,
+        status: "placeholder",
+        sourceUrl: "https://www.who.int/publications/i/item/9789241501989",
+      },
+    });
+    if (!result.ok) return;
+    expect(result.card.items.length).toBeGreaterThanOrEqual(9);
+    for (const each of result.card.items) {
+      expect(each.id).toMatch(/^WHO-\d{2}$/);
+      expect(each.requirement, each.id).toMatch(
+        /\((?:articles? \d+|section 4)/,
+      );
+      expect(each.label, each.id).toMatch(/not yet verified/);
+    }
   });
 });

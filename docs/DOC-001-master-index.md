@@ -43,12 +43,12 @@ Items defined, by type:
 | AIC | 6 |
 | SEC | 8 |
 | DAT | 8 |
-| TC | 95 |
+| TC | 96 |
 | SOUP | 22 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 43 |
-| REV | 11 |
+| ADR | 44 |
+| REV | 12 |
 <!-- END GENERATED -->
 
 ## Revision history

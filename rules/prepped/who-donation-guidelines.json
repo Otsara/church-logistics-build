@@ -1,0 +1,72 @@
+{
+  "id": "who-donation-guidelines",
+  "product": "prepped",
+  "title": "WHO Guidelines for medicine donations: what applies to every destination",
+  "status": "placeholder",
+  "source": {
+    "url": "https://www.who.int/publications/i/item/9789241501989",
+    "verified_date": null,
+    "verified_by": null
+  },
+  "notes": "WHO, Guidelines for medicine donations, revised 2010 (ISBN 978 92 4 150198 9), section 3, articles 1, 2, 4, 5, 6, 7, 9, 10, 11 and 12, and section 4 (roles and responsibilities agreed in writing). Read by Claude on 2026-11-17 from the PDF linked on the publication page (SHA-256 cb41c017c38714425150f3e82f7d12b72667ae3c5192207b996723dc088cb89b, the same file as the shelf-life rule). Each item restates its article closely; 'approved for use' in article 2 is written 'authorised for use', and 'port clearance' in article 12 as 'port and customs storage and handling', because rule cards never use those words (SYS-309, ADR-044). Placeholder until the owner verifies each item against the PDF (owner, 2026-11-17; REV-012, ADR-044). Country-specific rules from each national regulator are still needed before real-world use (OD-003).",
+  "data": {
+    "country": null,
+    "synthetic": false,
+    "items": [
+      {
+        "id": "WHO-01",
+        "requirement": "The recipient has asked for these medicines and agreed the quantities, and has consented to the shipment before it is sent (articles 1 and 10).",
+        "document": "Recipient's written consent",
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-02",
+        "requirement": "Each medicine, or its generic equivalent, is authorised for use in the recipient country and is on its national list of essential medicines or in its national standard treatment guidelines (article 2).",
+        "document": null,
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-03",
+        "requirement": "Each medicine comes from a quality-ensured source and meets quality standards in both the donor and the recipient country, using the WHO Certification Scheme on the Quality of Pharmaceutical Products Moving in International Commerce (article 4).",
+        "document": "Quality documents",
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-04",
+        "requirement": "No medicine has been issued to patients and then returned, or given to health professionals as a free sample (article 5).",
+        "document": null,
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-05",
+        "requirement": "After arrival, each medicine has a remaining shelf life of at least one year (article 6).",
+        "document": null,
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-06",
+        "requirement": "Each container is labelled in a language easily understood by health professionals in the recipient country, with at least the generic name, batch number, dosage form, strength, name of manufacturer, country of manufacture, quantity in the container, storage conditions and expiry date (article 7).",
+        "document": null,
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-07",
+        "requirement": "The shipment is packed to international shipping requirements with a detailed packing list of the contents; each carton preferably weighs no more than 30 kilograms, and medicines are not mixed with other supplies (article 9).",
+        "document": null,
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-08",
+        "requirement": "The declared value is based on the wholesale price of the generic equivalent in the recipient country, or else the wholesale world-market price (article 11).",
+        "document": null,
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      },
+      {
+        "id": "WHO-09",
+        "requirement": "Who pays for transport, warehousing, port and customs storage and handling, and who is responsible for getting the shipment through customs, is agreed in writing with the recipient before shipping (article 12 and section 4).",
+        "document": "Written agreement on responsibilities and costs",
+        "label": "From the WHO Guidelines for medicine donations (2010): not yet verified by the owner"
+      }
+    ]
+  }
+}

@@ -11,6 +11,7 @@
   "notes": "Synthetic example for the demo, written for this build: not a real import rule for Ethiopia, and not to be relied on. The source link is a placeholder (example.org). Real cards, checked against official sources by a qualified person, come after the hackathon (owner, 2026-11-16; OD-003, ADR-039, ADR-042).",
   "data": {
     "country": "Ethiopia",
+    "synthetic": true,
     "items": [
       {
         "id": "ET-01",

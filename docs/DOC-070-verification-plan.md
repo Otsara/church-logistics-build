@@ -464,6 +464,12 @@ Given the recorded golden donor lists, then each expected line is read with its 
 
 Given the destination rule cards for Honduras, Ethiopia, Nigeria and the Philippines, then each reads as a placeholder whose every item is labelled "Synthetic example for the demo: not a real import rule"; a placeholder card with an unlabelled item, an item named twice, a badly formed item or a key named twice is refused, listing each problem.
 
+### TC-139 Covering letter names only the shipment's medicines and the items it cites
+- Product: Prepped
+- Traces to: AIC-102, SYS-120
+
+Given a covering letter that names a medicine from the catalogue that is not in the shipment, or cites a card item without mentioning what it asks for, or names a document without citing an item, then it is not accepted and the blank template is shown with the medicine list and the checklists.
+
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -690,4 +696,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.28 | 2026-11-16 | TC-010 and TC-310 implemented; TC-008 implemented for AIC-302, AIC-102 to follow (ADR-039). | Claude, for owner review |
 | 0.29 | 2026-11-17 | TC-008, TC-010, TC-310: tests added for the owner's review decisions (REV-011, ADR-040). | Claude, for owner review |
 | 0.30 | 2026-11-17 | TC-010, TC-310: tests that the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
-| 0.31 | 2026-11-17 | New TC-138 destination rule cards labelled as synthetic, implemented. TC-007, TC-008 for AIC-102 and the draft part of TC-105 implemented (SYS-120, ADR-042). | Claude, for owner review |
+| 0.31 | 2026-11-17 | New TC-138 rule cards checked and labelled, and TC-139 covering letter names only the shipment's medicines and the items it cites, both implemented. TC-007, TC-008 for AIC-102 and the draft part of TC-105 implemented (SYS-120, ADR-042, ADR-044). | Claude, for owner review |
