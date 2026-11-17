@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.27
+version: 0.28
 status: Draft
 effective_date:
 ---
@@ -681,3 +681,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.25 | 2026-11-16 | New TC-327 and TC-328, implemented; TC-329 placeholder rules on screen, a placeholder test until the screens (ADR-034). | Claude, for owner review |
 | 0.26 | 2026-11-16 | New TC-028 to TC-030 for the AI gateway, implemented. Numbered 0.26 because the rule-files review branch takes 0.25. | Claude, for owner review |
 | 0.27 | 2026-11-16 | New TC-137 donor lists read against golden examples; TC-022 and TC-311 implemented except the recordings (OD-062). | Claude, for owner review |
+| 0.28 | 2026-11-16 | TC-010 and TC-310 implemented; TC-008 implemented for AIC-302, AIC-102 to follow (ADR-039). | Claude, for owner review |

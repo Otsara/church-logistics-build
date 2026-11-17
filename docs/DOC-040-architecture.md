@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.27
+version: 0.28
 status: Draft
 effective_date:
 ---
@@ -233,6 +233,8 @@ Input: trip, rule card, matched lots. Output: draft text citing the rule card id
 
 Input: computed readiness JSON. Output: plain-language summary of gaps only. Tier: stronger (see ADR-008). If it fails: show the computed list.
 
+Built: `packages/ai/src/steps/explain.ts` (ADR-039): `readinessFacts` turns the floor assessment into facts with refs; the AI answers in sentences, each with the refs it is about; `checkExplanation` rejects a sentence that adds a code, date, number or status not in those facts, or says a forbidden claim (`drafts.ts`), and the computed list is shown instead. The code, date and number check is `grounding.ts`.
+
 ### AIC-301 Parse a parts email or inventory list
 - Product: SpareWing
 - Traces to: SYS-001, SYS-002, SYS-313
@@ -249,12 +251,16 @@ Built: `packages/ai/src/steps/parts-email.ts` (SYS-313, ADR-035): part number, q
 
 Input: disruption and chosen candidate. Output: draft text. Tier: stronger (see ADR-008). If it fails: show the blank template.
 
+Built: `packages/ai/src/steps/message.ts` (ADR-039): ids only go to the AI; `checkMessage` refuses a forbidden claim or a code, date or number not in the input, and returns an accepted message as a draft (`drafts.ts`: "Draft, human review required" until a person marks it reviewed, which is audit logged). Nothing sends it.
+
 ### AIC-303 Explain the disruption plan
 - Product: SpareWing
 - Traces to: SYS-003, SYS-005
 - Formerly: AI-S3
 
 Input: computed candidates JSON. Output: plain-language summary of the candidates. Tier: stronger (see ADR-008). If it fails: show the computed list.
+
+Built: `packages/ai/src/steps/explain.ts` with AIC-103: `planFacts` gives each ranked option its rank, whether it is proposed, missed flights, return to service, transfers and cost, with "unknown" where code could not compute them. These steps are part of the guard on AI output (ARC-008) and held to full coverage and mutation testing.
 
 Each step gets 10–20 recorded golden examples drawn from the development partition (DAT-004). A change that breaks them fails the tests.
 
@@ -292,3 +298,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.25 | 2026-11-16 | ARC-014: upload packaging script; key entered by the owner. | Claude, for owner review |
 | 0.26 | 2026-11-16 | ARC-014: AI gateway deployed and checked without an AI call (owner, 2026-11-16). | Claude, for owner review |
 | 0.27 | 2026-11-16 | AIC-101 and AIC-301 built with golden examples (ADR-035; recordings pending, OD-062). Numbered 0.27 because the deployment-record branch takes 0.26. | Claude, for owner review |
+| 0.28 | 2026-11-16 | AIC-103, AIC-302, AIC-303 built (ADR-039); AIC-102 follows with the synthetic rule cards. | Claude, for owner review |
