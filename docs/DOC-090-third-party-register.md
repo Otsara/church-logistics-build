@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.9
+version: 0.10
 status: Draft
 effective_date:
 ---
@@ -78,6 +78,13 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Licence: BSD-3-Clause
 - Use: pinned by override in `pnpm-workspace.yaml` to fix denial-of-service advisories in versions before 6.16.1, reached only through Stryker's report-upload client.
 - Safety relevance: no.
+
+### SOUP-020 picomatch (transitive)
+- Version: 4.0.7
+- Licence: MIT
+- Use: glob matching inside the development tools (vitest, vite, typescript-eslint, Stryker's runner); not part of either app.
+- Safety relevance: no.
+- Known issue: GHSA-fc5q-39xc-vjpf, a high ReDoS advisory with no patched version yet. It is ignored in the audit until a patched version exists, then upgraded and the exception removed (owner, 2026-11-17; ADR-043).
 
 ### SOUP-016 marked
 - Version: 12.0.2
@@ -166,3 +173,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.7 | 2026-11-12 | New SOUP-016 marked 12.0.2 for the review-copy builder. | Claude, for owner review |
 | 0.8 | 2026-11-16 | New SOUP-017 Anthropic SDK, SOUP-018 Supabase client and SOUP-019 Deno, for the AI gateway (ARC-014), registered before first use. | Claude, for owner review |
 | 0.9 | 2026-11-16 | SOUP-013: the `ai-gateway` function deployed to the Supabase project (owner, 2026-11-16). | Claude, for owner review |
+| 0.10 | 2026-11-17 | New SOUP-020 picomatch, with its temporary audit exception (ADR-043). | Claude, for owner review |
