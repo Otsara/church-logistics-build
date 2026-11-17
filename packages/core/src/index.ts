@@ -2,6 +2,7 @@ export {
   addDays,
   daysBetween,
   isIsoDate,
+  isUtcDateTime,
   lastDayOfMonth,
   parseIsoDate,
   weekday,

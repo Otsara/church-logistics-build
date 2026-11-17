@@ -140,7 +140,11 @@ describe("Explanations restate only computed results (TC-010)", () => {
       },
       {
         ref: "DOC-1",
-        values: { name: "Packing list", reason: "not prepared" },
+        values: {
+          name: "Packing list",
+          status: "missing",
+          reason: "not prepared",
+        },
       },
       {
         ref: "problem-1",
@@ -249,11 +253,9 @@ describe("Drafts are marked until a person reviews them (TC-008)", () => {
       reviewed: null,
     });
     expect(DRAFT_LABEL).toBe("Draft, human review required");
-    const { draft: done, entry } = markReviewed(
-      draft,
-      "PER-7",
-      "2026-11-16T20:00:00Z",
-    );
+    const marked = markReviewed(draft, "PER-7", "2026-11-16T20:00:00Z");
+    if (!marked.ok) throw new Error(marked.reason);
+    const { draft: done, entry } = marked;
     expect(done).toEqual({
       ...draft,
       label: null,
@@ -403,7 +405,8 @@ describe("Grounding details (TC-010)", () => {
       problems: [],
     });
     expect(item?.values.coverage).toBe(75);
-    const words = "approved, airworthy, flightworthy, safe to fly or cleared";
+    const words =
+      "approved, airworthy, flightworthy, safe to fly, cleared, ready to fly or fit to fly";
     expect(explainReadinessStep.buildPrompt({ facts: FACTS })).toContain(words);
     expect(explainPlanStep.buildPrompt({ facts: FACTS })).toContain(words);
     expect(explainPlanStep.buildPrompt({ facts: FACTS })).toMatch(/ranked/);

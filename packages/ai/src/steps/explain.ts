@@ -8,7 +8,7 @@
 import { z } from "zod";
 import type { AiStep } from "../step.ts";
 import { FORBIDDEN_IN_WORDS, forbiddenClaims } from "./drafts.ts";
-import { ungrounded, type Value } from "./grounding.ts";
+import { ungrounded, wordsIn, type Value } from "./grounding.ts";
 
 export interface Fact {
   readonly ref: string;
@@ -27,12 +27,17 @@ const outputSchema = z.strictObject({
 
 export type ExplainOutput = z.infer<typeof outputSchema>;
 
-/** Status words checked against the facts; longer phrases first, so "no go" is not read as "go". */
+/**
+ * Status words checked against the facts; phrases first, so "no go" is not read as "go". The
+ * apps' own status words are all here, so a status the code never computed is refused (owner,
+ * 2026-11-17; REV-011, ADR-040).
+ */
 const STATUSES = [
   "no go",
   "needs review",
   "data missing",
   "not proposed",
+  "not ready",
   "go",
   "covered",
   "short",
@@ -40,12 +45,75 @@ const STATUSES = [
   "excluded",
   "proposed",
   "eligible",
+  "ineligible",
   "blocked",
   "discard",
+  "expired",
+  "ready",
+  "missing",
+  "unknown",
 ] as const;
 
+/** Words that negate a status: "not short" says the opposite of "short". */
+const NEGATION = new RegExp(
+  `(?<![\\p{L}])(?:not|no|never|(?:is|are|was|were)n['’]t)\\s+(?:${STATUSES.join("|")})(?![\\p{L}])`,
+  "gu",
+);
+
+/** Numbers written in words, which the figures check cannot read. */
+const NUMBER_WORDS = [
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+  "thirteen",
+  "fourteen",
+  "fifteen",
+  "sixteen",
+  "seventeen",
+  "eighteen",
+  "nineteen",
+  "twenty",
+  "thirty",
+  "forty",
+  "fifty",
+  "sixty",
+  "seventy",
+  "eighty",
+  "ninety",
+  "hundred",
+  "thousand",
+  "million",
+  "dozen",
+  "half",
+  "quarter",
+  "twice",
+  "double",
+  "triple",
+];
+
+/** Judgements that belong to code (the ranking) and to the people who decide, never to the AI. */
+const JUDGEMENTS = [
+  "safest",
+  "safe",
+  "best",
+  "worst",
+  "recommend\\p{L}*",
+  "should",
+  "must",
+];
+
 const instructions = (task: string): string => `${task}
-Use only the facts below. Every sentence names, in "refs", the ref of each fact it is about, and may mention only the codes, dates, numbers and statuses in those facts. Do not add advice, causes or anything not in the facts. Never say that anything is ${FORBIDDEN_IN_WORDS}: people decide.
+Use only the facts below. One sentence names exactly one ref, in "refs": the fact it is about. It may mention only the codes, dates, numbers and statuses in that fact, and never another fact's ref or name. Write numbers in digits. Do not add advice, causes, judgements of which is best or safe, or anything not in the facts. Never say that anything is ${FORBIDDEN_IN_WORDS}: people decide.
 Answer with JSON only, with no other text and no code fences, in this form:
 {"sentences":[{"text":"<one plain sentence>","refs":["<ref>"]}]}`;
 
@@ -72,52 +140,86 @@ export interface ExplanationResult {
   readonly text: string | null;
 }
 
-/** Checks an explanation against the facts. Never throws. */
+/** The names and plain refs of other facts, which a sentence must not mention; its own are left out. */
+function othersOf(facts: readonly Fact[], named: Fact): string[] {
+  const own = [named.ref, ...Object.values(named.values)].map((v) =>
+    String(v).toLowerCase(),
+  );
+  return facts
+    .flatMap((f) => [
+      ...(typeof f.values.name === "string" ? [f.values.name] : []),
+      // A ref with digits is a code, checked as one; a lowercase word ("indicator") is not a name.
+      ...(/\d|^\p{Ll}/u.test(f.ref) ? [] : [f.ref]),
+    ])
+    .filter((token) => !own.includes(token.toLowerCase()));
+}
+
+const escape = (text: string): string =>
+  text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Checks an explanation against the facts. Each sentence is about exactly one fact, and may
+ * mention only its codes, dates, numbers (in digits) and status, with no negated status, no
+ * other item and no judgement (owner, 2026-11-16 and 2026-11-17; ADR-039, ADR-040). Never throws.
+ */
 export function checkExplanation(
   facts: readonly Fact[],
   output: ExplainOutput,
 ): ExplanationResult {
-  const known = new Set(facts.map((f) => f.ref));
+  const byRef = new Map(facts.map((f) => [f.ref, f]));
   const problems: string[] = [];
   if (output.sentences.length === 0) problems.push("the explanation is empty");
   for (const [i, sentence] of output.sentences.entries()) {
     const n = String(i + 1);
+    const say = (problem: string): void => {
+      problems.push(`sentence ${n} ${problem}`);
+    };
     for (const word of forbiddenClaims(sentence.text)) {
-      problems.push(
-        `sentence ${n} says "${word}": nothing here approves anything`,
-      );
+      say(`says "${word}": nothing here approves anything`);
     }
-    const unknown = sentence.refs.filter((r) => !known.has(r));
-    for (const ref of unknown) {
-      problems.push(
-        `sentence ${n} names ${ref}, which is not in the computed results`,
-      );
+    const unknown = sentence.refs.filter((r) => !byRef.has(r));
+    for (const ref of unknown)
+      say(`names ${ref}, which is not in the computed results`);
+    if (sentence.refs.length === 0) say("names no computed item");
+    if (sentence.refs.length > 1) say("names more than one computed item");
+    const [only, ...more] = sentence.refs;
+    const fact =
+      only !== undefined && more.length === 0 ? byRef.get(only) : undefined;
+    if (fact === undefined) continue;
+    const text = sentence.text;
+    for (const word of wordsIn(text, NUMBER_WORDS)) {
+      say(`writes "${word}" in words: numbers are written in digits`);
     }
-    if (sentence.refs.length === 0)
-      problems.push(`sentence ${n} names no computed item`);
-    if (unknown.length > 0) continue;
-    const named = facts
-      .filter((f) => sentence.refs.includes(f.ref))
-      .flatMap((f) => [f.ref, ...Object.values(f.values)]);
-    for (const token of ungrounded(sentence.text, named)) {
-      problems.push(
-        `sentence ${n} mentions "${token}", which is not in the items it names`,
-      );
+    const values = [fact.ref, ...Object.values(fact.values)];
+    for (const token of ungrounded(text, values)) {
+      say(`mentions "${token}", which is not in the items it names`);
     }
-    const states = named.map((v) => String(v).toLowerCase());
+    for (const other of othersOf(facts, fact)) {
+      if (wordsIn(text, [escape(other)]).length > 0) {
+        say(`mentions "${other}", which belongs to another item`);
+      }
+    }
     // An amount written as "75% covered" or "75 short" is a figure, already checked above,
     // not a status.
-    let rest = sentence.text
+    let rest = text
       .toLowerCase()
-      .replace(/\d\s*%?\s+(?:covered|short)(?![\p{L}])/gu, " ");
+      .replace(/\s+/gu, " ")
+      .replace(/\d ?%? (?:covered|short)(?![\p{L}])/gu, " ");
+    for (const [phrase] of rest.matchAll(NEGATION)) {
+      if (!(STATUSES as readonly string[]).includes(phrase)) {
+        say(`says "${phrase}", which negates a status`);
+      }
+    }
+    const states = values.map((v) => String(v).toLowerCase());
     for (const status of STATUSES) {
       const pattern = new RegExp(`(?<![\\p{L}])${status}(?![\\p{L}])`, "gu");
       if (pattern.test(rest) && !states.includes(status)) {
-        problems.push(
-          `sentence ${n} says "${status}", which is not the status of the items it names`,
-        );
+        say(`says "${status}", which is not the status of the items it names`);
       }
       rest = rest.replace(pattern, " ");
+    }
+    for (const word of wordsIn(text, JUDGEMENTS)) {
+      say(`says "${word}", a judgement that is not in the computed results`);
     }
   }
   return problems.length > 0
@@ -163,7 +265,7 @@ export function readinessFacts(assessment: {
     })),
     ...assessment.missingDocuments.map((d) => ({
       ref: d.documentId,
-      values: { name: d.name, reason: d.reason },
+      values: { name: d.name, status: "missing", reason: d.reason },
     })),
     ...assessment.problems.map((problem, i) => ({
       ref: `problem-${String(i + 1)}`,
