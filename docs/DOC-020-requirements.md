@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.26
+version: 0.27
 status: Draft
 effective_date:
 ---
@@ -138,7 +138,7 @@ Unknown values are null, never guessed.
 - Safety-critical: yes
 - Formerly: AR-3
 
-The model never decides eligibility, airworthiness, medical suitability or legal status. Code does that. An AI explanation of computed results (AIC-103, AIC-303) is shown only if every sentence names the computed items it is about and mentions only codes, dates, numbers and statuses found in those items; otherwise the computed list is shown instead (owner, 2026-11-16; ADR-039). Each sentence is about exactly one item and may not mention another; figures must be whole values, written in digits; a negated status, a status the code never computed and a judgement (safe, best, should and the like) are refused (owner, 2026-11-17; ADR-040).
+The model never decides eligibility, airworthiness, medical suitability or legal status. Code does that. An AI explanation of computed results (AIC-103, AIC-303) is shown only if every sentence names the computed items it is about and mentions only codes, dates, numbers and statuses found in those items; otherwise the computed list is shown instead (owner, 2026-11-16; ADR-039). Each sentence is about exactly one item and may not mention another; figures must be whole values, written in digits; a negated status, a status the code never computed and a judgement (safe, best, should and the like) are refused (owner, 2026-11-17; ADR-040). The wording rules for messages (SYS-310) apply too (owner, 2026-11-17; ADR-041).
 
 ### SYS-004 Regulations only from rule cards
 - Product: Shared
@@ -426,7 +426,7 @@ When the AI reads a parts email or inventory list (AIC-301), it copies only the 
 - Product: SpareWing
 - Traces to: UN-304, RC-001
 
-SpareWing drafts messages to bases and communities about a disruption and the chosen candidate, for a person to review, edit and send. Each draft is marked as a draft (SYS-005). SpareWing never sends a message itself (owner, 2026-11-12); OD-026. A drafted message that mentions a code, date or number not in the disruption and chosen candidate is not accepted, and the blank template is shown (owner, 2026-11-16; ADR-039). Nor is one that uses a relative date or weekday, names a person by title, or promises a date ("confirmed", "guaranteed", "definitely", "promise"): dates are expected or estimated (owner, 2026-11-17; ADR-040).
+SpareWing drafts messages to bases and communities about a disruption and the chosen candidate, for a person to review, edit and send. Each draft is marked as a draft (SYS-005). SpareWing never sends a message itself (owner, 2026-11-12); OD-026. A drafted message that mentions a code, date or number not in the disruption and chosen candidate is not accepted, and the blank template is shown (owner, 2026-11-16; ADR-039). Nor is one that uses a relative date or weekday, names a person by title, or promises a date ("confirmed", "guaranteed", "definitely", "promise"): dates are expected or estimated (owner, 2026-11-17; ADR-040). Numbers are written in digits, as in explanations (owner, 2026-11-17; ADR-041).
 
 ## Revision history
 
@@ -457,3 +457,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.24 | 2026-11-16 | New SYS-119 donor lines read by AI are checked and confirmed, and SYS-313 parts read by AI are checked and confirmed (owner, 2026-11-16; ADR-035); SYS-119 copies as whole words, kept as printed, strength-like quantities reviewed (owner, 2026-11-16; ADR-036, REV-010); missing dosage form reviewed and a line with more than one item entered by hand, SYS-119 and SYS-313 (owner, 2026-11-16; ADR-037); part and lot numbers as whole codes, zero quantities accepted (owner, 2026-11-16; ADR-038). | Claude, for owner review |
 | 0.25 | 2026-11-16 | SYS-003, SYS-005, SYS-309, SYS-310: AI explanations and drafts checked against computed results, labelled until reviewed, never claiming an approval (ADR-039). | Claude, for owner review |
 | 0.26 | 2026-11-17 | SYS-003, SYS-005, SYS-309, SYS-310 after the owner's review (REV-011, ADR-040): claims in any spelling, reviews and edits recorded, one item per sentence, no relative dates, invented people or promises. | Claude, for owner review |
+| 0.27 | 2026-11-17 | SYS-003, SYS-310: the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |

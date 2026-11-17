@@ -9,6 +9,7 @@ import { z } from "zod";
 import type { AiStep } from "../step.ts";
 import { FORBIDDEN_IN_WORDS, forbiddenClaims } from "./drafts.ts";
 import { ungrounded, wordsIn, type Value } from "./grounding.ts";
+import { WORDING_RULES, wordingProblems } from "./wording.ts";
 
 export interface Fact {
   readonly ref: string;
@@ -60,47 +61,6 @@ const NEGATION = new RegExp(
   "gu",
 );
 
-/** Numbers written in words, which the figures check cannot read. */
-const NUMBER_WORDS = [
-  "zero",
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine",
-  "ten",
-  "eleven",
-  "twelve",
-  "thirteen",
-  "fourteen",
-  "fifteen",
-  "sixteen",
-  "seventeen",
-  "eighteen",
-  "nineteen",
-  "twenty",
-  "thirty",
-  "forty",
-  "fifty",
-  "sixty",
-  "seventy",
-  "eighty",
-  "ninety",
-  "hundred",
-  "thousand",
-  "million",
-  "dozen",
-  "half",
-  "quarter",
-  "twice",
-  "double",
-  "triple",
-];
-
 /** Judgements that belong to code (the ranking) and to the people who decide, never to the AI. */
 const JUDGEMENTS = [
   "safest",
@@ -113,7 +73,7 @@ const JUDGEMENTS = [
 ];
 
 const instructions = (task: string): string => `${task}
-Use only the facts below. One sentence names exactly one ref, in "refs": the fact it is about. It may mention only the codes, dates, numbers and statuses in that fact, and never another fact's ref or name. Write numbers in digits. Do not add advice, causes, judgements of which is best or safe, or anything not in the facts. Never say that anything is ${FORBIDDEN_IN_WORDS}: people decide.
+Use only the facts below. One sentence names exactly one ref, in "refs": the fact it is about. It may mention only the codes, dates, numbers and statuses in that fact, and never another fact's ref or name. ${WORDING_RULES} Do not add advice, causes, judgements of which is best or safe, or anything not in the facts. Never say that anything is ${FORBIDDEN_IN_WORDS}: people decide.
 Answer with JSON only, with no other text and no code fences, in this form:
 {"sentences":[{"text":"<one plain sentence>","refs":["<ref>"]}]}`;
 
@@ -187,9 +147,7 @@ export function checkExplanation(
       only !== undefined && more.length === 0 ? byRef.get(only) : undefined;
     if (fact === undefined) continue;
     const text = sentence.text;
-    for (const word of wordsIn(text, NUMBER_WORDS)) {
-      say(`writes "${word}" in words: numbers are written in digits`);
-    }
+    for (const problem of wordingProblems(text)) say(problem);
     const values = [fact.ref, ...Object.values(fact.values)];
     for (const token of ungrounded(text, values)) {
       say(`mentions "${token}", which is not in the items it names`);

@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.29
+version: 0.30
 status: Draft
 effective_date:
 ---
@@ -233,7 +233,7 @@ Input: trip, rule card, matched lots. Output: draft text citing the rule card id
 
 Input: computed readiness JSON. Output: plain-language summary of gaps only. Tier: stronger (see ADR-008). If it fails: show the computed list.
 
-Built: `packages/ai/src/steps/explain.ts` (ADR-039): `readinessFacts` turns the floor assessment into facts with refs; the AI answers in sentences, each with the refs it is about; `checkExplanation` rejects a sentence that adds a code, date, number or status not in those facts, or says a forbidden claim (`drafts.ts`), and the computed list is shown instead. The code, date and number check is `grounding.ts`. After the owner's review (REV-011, ADR-040): one item per sentence, figures whole and in digits, no negated status, no judgement.
+Built: `packages/ai/src/steps/explain.ts` (ADR-039): `readinessFacts` turns the floor assessment into facts with refs; the AI answers in sentences, each with the refs it is about; `checkExplanation` rejects a sentence that adds a code, date, number or status not in those facts, or says a forbidden claim (`drafts.ts`), and the computed list is shown instead. The code, date and number check is `grounding.ts`. After the owner's review (REV-011, ADR-040): one item per sentence, figures whole and in digits, no negated status, no judgement. The wording rules (numbers in digits, dates as given, no named people, no promises) are in `wording.ts`, shared with AIC-302 (ADR-041).
 
 ### AIC-301 Parse a parts email or inventory list
 - Product: SpareWing
@@ -300,3 +300,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.27 | 2026-11-16 | AIC-101 and AIC-301 built with golden examples (ADR-035; recordings pending, OD-062). Numbered 0.27 because the deployment-record branch takes 0.26. | Claude, for owner review |
 | 0.28 | 2026-11-16 | AIC-103, AIC-302, AIC-303 built (ADR-039); AIC-102 follows with the synthetic rule cards. | Claude, for owner review |
 | 0.29 | 2026-11-17 | AIC-103, AIC-302, AIC-303: checks tightened after the owner's review (REV-011, ADR-040); `isUtcDateTime` shared in core. | Claude, for owner review |
+| 0.30 | 2026-11-17 | AIC-103, AIC-302, AIC-303: the wording rules move to the shared `wording.ts` (ADR-041). | Claude, for owner review |
