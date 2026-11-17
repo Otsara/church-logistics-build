@@ -3,6 +3,7 @@ import {
   daysBetween,
   addDays,
   isIsoDate,
+  isUtcDateTime,
   lastDayOfMonth,
   parseIsoDate,
   weekday,
@@ -137,5 +138,29 @@ describe("addDays and weekday", () => {
       ),
     ).toEqual(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]);
     expect(weekday(d("2000-01-01"))).toBe("Sat");
+  });
+});
+
+describe("isUtcDateTime", () => {
+  it("[ARC-005, TC-008] Given a UTC date and time, then it is valid only in the form YYYY-MM-DDTHH:MM:SSZ, on a real date and at a real time of day", () => {
+    for (const ok of [
+      "2026-11-17T00:00:00Z",
+      "2026-11-17T23:59:59Z",
+      "2028-02-29T12:00:00.123Z",
+    ]) {
+      expect(isUtcDateTime(ok), ok).toBe(true);
+    }
+    for (const bad of [
+      "2026-02-30T00:00:00Z",
+      "2026-11-17T24:00:00Z",
+      "2026-11-17T23:60:00Z",
+      "2026-11-17T23:59:60Z",
+      "2026-11-17T09:00:00+01:00",
+      "2026-11-17 09:00:00Z",
+      "2026-11-17",
+      "",
+    ]) {
+      expect(isUtcDateTime(bad), bad).toBe(false);
+    }
   });
 });

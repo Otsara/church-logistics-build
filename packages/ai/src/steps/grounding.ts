@@ -15,13 +15,17 @@ const NUMBER = /\d+(?:\.\d+)?/g;
 const escape = (text: string): string =>
   text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-/** True when the token is written as a whole word in one of the values, ignoring letter case. */
+/**
+ * True when the token is written whole in one of the values, ignoring letter case: not as a
+ * piece of a longer code, date or number, so 19 is not taken from 2026-11-19, nor SWP-1155 from
+ * SWP-1155-6 (owner, 2026-11-17; REV-011, ADR-040).
+ */
 function allowed(token: string, values: readonly Value[]): boolean {
-  const word = new RegExp(
-    `(?<![\\p{L}\\p{N}.])${escape(token)}(?![\\p{L}\\p{N}]|\\.\\d)`,
+  const whole = new RegExp(
+    `(?<![\\p{L}\\p{N}\\-/:.])${escape(token)}(?![\\p{L}\\p{N}\\-/:]|\\.\\d)`,
     "iu",
   );
-  return values.some((v) => word.test(String(v)));
+  return values.some((v) => whole.test(String(v)));
 }
 
 /**
@@ -39,4 +43,13 @@ export function ungrounded(text: string, values: readonly Value[]): string[] {
     rest = rest.replace(pattern, " ");
   }
   return missing;
+}
+
+/** Each match of the words in the text, as written, in the order written. */
+export function wordsIn(text: string, words: readonly string[]): string[] {
+  const pattern = new RegExp(
+    `(?<![\\p{L}])(?:${words.join("|")})(?![\\p{L}])`,
+    "giu",
+  );
+  return [...text.matchAll(pattern)].map((m) => m[0]);
 }

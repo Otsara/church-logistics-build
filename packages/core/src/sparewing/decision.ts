@@ -6,7 +6,7 @@
  * 2026-11-16; ADR-032).
  */
 import type { AuditEntry } from "../audit.ts";
-import { isIsoDate } from "../dates.ts";
+import { isUtcDateTime } from "../dates.ts";
 
 export const DECIDING_ROLES = [
   "flight base director",
@@ -30,16 +30,6 @@ export type DecisionResult =
   | { readonly ok: true; readonly entry: AuditEntry }
   | { readonly ok: false; readonly reason: string };
 
-const UTC_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
-
-/** A real UTC date and time: the right form, a date the calendar has, and a time of day. */
-const isUtcTime = (time: string): boolean =>
-  UTC_TIME.test(time) &&
-  isIsoDate(time.slice(0, 10)) &&
-  Number(time.slice(11, 13)) <= 23 &&
-  Number(time.slice(14, 16)) <= 59 &&
-  Number(time.slice(17, 19)) <= 59;
-
 /** Records a person's decision as an audit entry, or refuses it. Never throws. */
 export function recordDecision(input: DecisionInput): DecisionResult {
   if (!(DECIDING_ROLES as readonly string[]).includes(input.role)) {
@@ -55,7 +45,7 @@ export function recordDecision(input: DecisionInput): DecisionResult {
       reason: "the person recording the decision is not identified",
     };
   }
-  if (!isUtcTime(input.time)) {
+  if (!isUtcDateTime(input.time)) {
     return {
       ok: false,
       reason:
