@@ -333,7 +333,7 @@ describe("Rule cards after the owner's review (REV-012 part 1)", () => {
     );
   });
 
-  it("[TC-138] Given the WHO donation guidelines card, then it applies to every destination, cites the source's articles, and every item says it is not yet verified", () => {
+  it("[TC-138] Given the WHO donation guidelines card, then it applies to every destination, is verified by the owner, and its ten items cite the guideline, with exceptions as notes", () => {
     const result = readDestinationCard(
       readFileSync(join(rulesDir, "who-donation-guidelines.json"), "utf8"),
     );
@@ -342,18 +342,64 @@ describe("Rule cards after the owner's review (REV-012 part 1)", () => {
       card: {
         id: "who-donation-guidelines",
         country: null,
-        status: "placeholder",
+        status: "verified",
+        synthetic: false,
         sourceUrl: "https://www.who.int/publications/i/item/9789241501989",
       },
     });
     if (!result.ok) return;
-    expect(result.card.items.length).toBeGreaterThanOrEqual(9);
-    for (const each of result.card.items) {
-      expect(each.id).toMatch(/^WHO-\d{2}$/);
+    const items = result.card.items;
+    expect(items.map((i) => i.id)).toEqual(
+      Array.from(
+        { length: 10 },
+        (_, i) => `WHO-${String(i + 1).padStart(2, "0")}`,
+      ),
+    );
+    for (const each of items) {
       expect(each.requirement, each.id).toMatch(
-        /\((?:articles? \d+|section 4)/,
+        /\((?:articles? \d+|section 4)[^)]*\)\.$/,
       );
-      expect(each.label, each.id).toMatch(/not yet verified/);
+      expect(each.label, each.id).toBeNull();
     }
+    const byId = new Map(items.map((i) => [i.id, i]));
+    expect(byId.get("WHO-01")?.document).toBe("Recipient's prior consent");
+    expect(byId.get("WHO-10")?.document).toBe(
+      "Signed agreement on roles and responsibilities",
+    );
+    for (const id of ["WHO-01", "WHO-02", "WHO-03", "WHO-05", "WHO-08"]) {
+      expect(byId.get(id)?.note, id).toMatch(/^(Exception|Prepped checks)/);
+    }
+    for (const id of ["WHO-04", "WHO-06", "WHO-07", "WHO-09", "WHO-10"]) {
+      expect(byId.get(id)?.note ?? null, id).toBeNull();
+    }
+    expect(byId.get("WHO-09")?.requirement).toMatch(/^The donor pays/);
+  });
+
+  it("[TC-138] Given an item with a note, then the checklist prints the note after the document, and a note that makes a forbidden claim refuses the card", () => {
+    const noted = read(
+      card({}, [
+        item("TL-01", { note: "Exception: not needed for kits." }),
+        item("TL-02", { document: null }),
+      ]),
+    );
+    expect(checklist(noted, new Set())[1]).toBe(
+      `TL-01: An import permit is prepared before shipping. Import permit: missing. Note: Exception: not needed for kits. (${SYNTHETIC_CARD_LABEL})`,
+    );
+    expect(checklist(noted, new Set())[2]).toBe(
+      `TL-02: An import permit is prepared before shipping. (${SYNTHETIC_CARD_LABEL})`,
+    );
+    expect(
+      readDestinationCard(
+        card({}, [item("TL-01", { note: "Approved by customs." })]),
+      ),
+    ).toEqual({
+      ok: false,
+      errors: [
+        'item TL-01 says "approved": a rule card never claims an approval',
+      ],
+    });
+    expect(
+      readDestinationCard(card({}, [item("TL-01", { note: "  " })])).ok,
+    ).toBe(false);
   });
 });

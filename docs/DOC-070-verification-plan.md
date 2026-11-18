@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.31
+version: 0.32
 status: Draft
 effective_date:
 ---
@@ -697,3 +697,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.29 | 2026-11-17 | TC-008, TC-010, TC-310: tests added for the owner's review decisions (REV-011, ADR-040). | Claude, for owner review |
 | 0.30 | 2026-11-17 | TC-010, TC-310: tests that the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
 | 0.31 | 2026-11-17 | New TC-138 rule cards checked and labelled, and TC-139 covering letter names only the shipment's medicines and the items it cites, both implemented. TC-007, TC-008 for AIC-102 and the draft part of TC-105 implemented (SYS-120, ADR-042, ADR-044). | Claude, for owner review |
+| 0.32 | 2026-11-17 | TC-138: tests of the verified WHO card (ten items, notes) and of item notes in the checklist (ADR-045). | Claude, for owner review |
