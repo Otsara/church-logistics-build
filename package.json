@@ -19,7 +19,8 @@
     "docs:check": "node tools/check-docs.mjs",
     "docs:update": "node tools/check-docs.mjs --update",
     "mutation": "stryker run",
-    "docs:review-copies": "node tools/review-copies.mjs"
+    "docs:review-copies": "node tools/review-copies.mjs",
+    "rules:bundle": "node tools/rules-bundle.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",
