@@ -1,7 +1,7 @@
 ---
 id: DOC-045
 title: Screen specification
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -194,9 +194,9 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
   - The app never chooses an item or a target (IU-102).
 - **Traces to:** SYS-110, SYS-118.
 
-### P4 Donations and donor lines
+### P4 Team stock and donor lines
 
-- **Shows:** the trip's donations, each with its donor and lines.
+- **Shows:** the team's donated stock, shared by all its trips (SYS-121; ADR-049): each donation with its donor and lines, and each lot with what is left of it after other trips' signed-off packing lists.
 - **Add a donation by hand:** one form per line, with generic name, strength, dosage form, quantity, lot number, expiry as printed, and manufacturer.
 - **Add a donation by pasting a list (AI, AIC-101):**
   - The person pastes text. The AI reads it, and each line comes back for review.
@@ -282,16 +282,19 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
 ### P10 Packing list and sign-off
 
 - **Shows:**
-  - the packing list core assembles: eligible lots for the floor items, accepted exchanges and chosen alternatives, and supplements;
-  - for each lot, its quantity, lot number, expiry and donor;
+  - the packing list core builds (`buildPackingList`, SYS-121): for each floor item its own medicine, soonest expiry first and only what is needed; accepted exchanges and chosen alternatives at the amounts the lead clinician enters; and supplements;
+  - for each line, the lot number, expiry, donor, the amount packed, what the line is for, and what is left of the lot ("Not packed: 400 remain");
+  - a field for the lead clinician to enter the amount to pack for each exchange and alternative, and to change any line's amount, marked as changed;
   - every open problem.
 - **Sign-off:**
   - only the lead clinician (a pharmacist or clinician) can sign off;
   - the screen shows "Signed off by [name] on [date]", never "approved";
   - the packing list is never final without that sign-off (SYS-010, IU-102);
   - a change after sign-off clears the sign-off, and the change is recorded.
-- **Traces to:** SYS-010.
-- **Gap:** core has no sign-off function for the packing list yet. One is to be built, like `recordDecision` for SpareWing, before this screen (section 7).
+  - the list cannot be signed off while it has open problems;
+  - a lot in conflict across trips shows "Conflict: check" (OD-017).
+- **Traces to:** SYS-010, SYS-121.
+- **Core:** `buildPackingList`, `availableStock`, `stockConflicts`, `signOffPackingList` and `packingListStatus` (SYS-010, SYS-121). The status message is shown as core gives it, for example "Suggestion: the lead clinician has not signed off this packing list".
 
 ### P11 Audit log
 
@@ -325,7 +328,7 @@ Decided on 2026-11-18:
 - OD-064: demo mode has an "Acting as" selector.
 - Section 3.1: the mockups set look and feel, not scope.
 
-Still to build, with no new decision: the packing list sign-off in core, before P10. It refuses anyone but the lead clinician, and records who and when.
+Built on 2026-11-18: the packing list sign-off in core (`sign-off.ts`). It refuses anyone but the lead clinician, a lot listed twice and an empty list, records who and when, and shows any later change.
 
 ## Revision history
 
@@ -333,3 +336,4 @@ Still to build, with no new decision: the packing list sign-off in core, before 
 |---|---|---|---|
 | 0.1 | 2026-11-18 | First draft: how the screens reach the rules, rules for every screen, Prepped users and screens P1 to P12, the Lovable plan, and the decisions owed (owner, 2026-11-18; ADR-046). | Claude, for owner review |
 | 0.2 | 2026-11-18 | New section 3, look and feel: scope stays as settled, the owner's design requirements and sources, palette with checked contrast, status shapes and patterns. OD-063 (70/30) and OD-064 (a) decided. The Lovable plan uses the owner's prompt with this document's scope (owner, 2026-11-18; ADR-047). | Claude, for owner review |
+| 0.3 | 2026-11-18 | P4 becomes team stock shared by all trips; P10: the packing list built by core, with amounts the lead clinician enters or changes, what remains of each lot, no sign-off with open problems, and conflicts (SYS-010, SYS-121; ADR-049). | Claude, for owner review |
