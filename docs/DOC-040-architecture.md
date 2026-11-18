@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.33
+version: 0.34
 status: Draft
 effective_date:
 ---
@@ -145,12 +145,12 @@ Tests in `packages/policy` that check rules holding for the whole repository, su
 
 ### ARC-101 Prepped rules engine
 - Product: Prepped
-- Traces to: SYS-101, SYS-102, SYS-103, SYS-104, SYS-105, SYS-106, SYS-107, SYS-108, SYS-109, SYS-110, SYS-111, SYS-112, SYS-113, SYS-114, SYS-115, SYS-116, SYS-117
+- Traces to: SYS-101, SYS-102, SYS-103, SYS-104, SYS-105, SYS-106, SYS-107, SYS-108, SYS-109, SYS-110, SYS-111, SYS-112, SYS-113, SYS-114, SYS-115, SYS-116, SYS-117, SYS-121
 - Safety-critical: yes
 
 Eligibility, route scope, floor coverage, the Go or No go indicator, readiness, supplements and comparable alternatives, as pure functions in `packages/core/src/prepped/`. No AI, network or clock.
 
-Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`). Merging donor lines into lots (`merge.ts`: lot number, name, strength, form, expiry and manufacturer must all match; OD-011, OD-054). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Comparable alternatives for a floor item (`alternatives.ts`, SYS-108), listed and labelled, for every floor item, and marked as offered when the item is short or needs review (`alternativesForFloor`); an alternative brings no class the item lacks (ADR-028); one the clinician chooses counts in `floor.ts` only the amount entered (OD-055). Route scope and controlled status come from the lot's catalogue entry (ARC-015). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
+Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`). Merging donor lines into lots (`merge.ts`: lot number, name, strength, form, expiry and manufacturer must all match; OD-011, OD-054). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Comparable alternatives for a floor item (`alternatives.ts`, SYS-108), listed and labelled, for every floor item, and marked as offered when the item is short or needs review (`alternativesForFloor`); an alternative brings no class the item lacks (ADR-028); one the clinician chooses counts in `floor.ts` only the amount entered (OD-055). Route scope and controlled status come from the lot's catalogue entry (ARC-015). Signing off the packing list (`sign-off.ts`, SYS-010): the lead clinician only, recording who, when and exactly what was signed off; any later change shows as "changed since sign-off". Building the packing list from the team's shared stock (`packing.ts`, SYS-121): soonest expiry first, only what is needed, with what remains of each lot; exchanges, alternatives and supplements at the amounts the lead clinician enters; `availableStock` and `stockConflicts` for stock shared across trips (ADR-049). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
 
 ### ARC-102 Prepped screens
 - Product: Prepped
@@ -305,4 +305,5 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.30 | 2026-11-17 | AIC-103, AIC-302, AIC-303: the wording rules move to the shared `wording.ts` (ADR-041). | Claude, for owner review |
 | 0.31 | 2026-11-17 | AIC-102 built with the destination rule cards, after the owner's review; the forbidden-claims list moves to core (SYS-120, ADR-042, ADR-044). | Claude, for owner review |
 | 0.32 | 2026-11-18 | ARC-003: screens import a generated rules file committed into each Lovable project; screens specified in DOC-045; demo mode (ADR-046). | Claude, for owner review |
-| 0.33 | 2026-11-18 | ARC-003: the rules folder for the screens built (`tools/rules-bundle.mjs`, `packages/ai/src/client.ts`; ADR-048). | Claude, for owner review |
+| 0.33 | 2026-11-18 | ARC-101: packing list sign-off and the packing list built from shared stock (`sign-off.ts`, `packing.ts`; SYS-010, SYS-121, ADR-049). | Claude, for owner review |
+| 0.34 | 2026-11-18 | ARC-003: the rules folder for the screens built (`tools/rules-bundle.mjs`, `packages/ai/src/client.ts`; ADR-048). | Claude, for owner review |
