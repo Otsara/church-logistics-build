@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.32
+version: 0.33
 status: Draft
 effective_date:
 ---
@@ -235,6 +235,12 @@ Given a prompt, then Claude Haiku 5.5 is called once at low effort with the SDK'
 - Traces to: ARC-014, SEC-001
 
 Given a signed-in user, then the browser's client posts the step to the gateway with the user's token and returns the text; given no sign-in, a refusal or an answer without text, then it fails, and the runner sends the person to manual entry.
+### TC-031 Rules folder for the screens matches the source and holds no server code
+- Product: Shared
+- Traces to: ARC-003, SEC-001
+
+Given the generated rules folder, then it holds the core rules, the AI steps and their checks, and the rule files as text; every file is an exact, stamped copy of its source; the folder type-checks on its own with only zod from outside it; it holds no call to the AI service and no gateway handler; and the check reports any edited, missing or extra file.
+
 ### TC-101 Lot blocked below minimum shelf life
 - Product: Prepped
 - Traces to: SYS-101, SYS-102, ARC-005
@@ -698,3 +704,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.30 | 2026-11-17 | TC-010, TC-310: tests that the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
 | 0.31 | 2026-11-17 | New TC-138 rule cards checked and labelled, and TC-139 covering letter names only the shipment's medicines and the items it cites, both implemented. TC-007, TC-008 for AIC-102 and the draft part of TC-105 implemented (SYS-120, ADR-042, ADR-044). | Claude, for owner review |
 | 0.32 | 2026-11-17 | TC-138: tests of the verified WHO card (ten items, notes) and of item notes in the checklist (ADR-045). | Claude, for owner review |
+| 0.33 | 2026-11-18 | New TC-031 the rules folder for the screens, implemented (ADR-048). | Claude, for owner review |
