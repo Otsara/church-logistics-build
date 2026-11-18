@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.30
+version: 0.31
 status: Draft
 effective_date:
 ---
@@ -186,7 +186,7 @@ When an AI step times out, errors or returns invalid output, the app retries onc
 - Traces to: UN-003, RC-001
 - Safety-critical: yes
 
-Every packing list, candidate, proposal and draft stays a suggestion until the person with authority for it (IU-103, IU-303) signs it off in the app. No screen, message or export uses the word "approved" for a part, pilot, medicine or document.
+Every packing list, candidate, proposal and draft stays a suggestion until the person with authority for it (IU-103, IU-303) signs it off in the app. No screen, message or export uses the word "approved" for a part, pilot, medicine or document. In Prepped, only the lead clinician, a pharmacist or clinician, signs off the packing list; the sign-off records who and when, a list with a lot twice or no lines is refused, and any change to the list afterwards clears the sign-off until it is signed off again (owner, 2026-11-12 and 2026-11-18; IU-102, DOC-045 P10).
 
 ## 3. Prepped requirements
 
@@ -468,3 +468,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.28 | 2026-11-17 | New SYS-120 destination rule cards, the WHO card for every destination, and the paperwork checklist, after the owner's review (ADR-039, ADR-042, ADR-044, REV-012). | Claude, for owner review |
 | 0.29 | 2026-11-17 | SYS-120: the WHO card is verified by the owner, with ten items and exceptions as notes (REV-013, ADR-045). | Claude, for owner review |
 | 0.30 | 2026-11-18 | SYS-106: the meter keeps 70/30 (OD-063, ADR-047). | Claude, for owner review |
+| 0.31 | 2026-11-18 | SYS-010: the Prepped packing list is signed off by the lead clinician only, and any change afterwards clears the sign-off (DOC-045 P10). | Claude, for owner review |

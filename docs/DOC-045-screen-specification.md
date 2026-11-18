@@ -1,7 +1,7 @@
 ---
 id: DOC-045
 title: Screen specification
-version: 0.2
+version: 0.3
 status: Draft
 effective_date:
 ---
@@ -291,7 +291,7 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
   - the packing list is never final without that sign-off (SYS-010, IU-102);
   - a change after sign-off clears the sign-off, and the change is recorded.
 - **Traces to:** SYS-010.
-- **Gap:** core has no sign-off function for the packing list yet. One is to be built, like `recordDecision` for SpareWing, before this screen (section 7).
+- **Core:** `signOffPackingList` and `packingListStatus` (SYS-010). The status message is shown as core gives it, for example "Suggestion: the lead clinician has not signed off this packing list".
 
 ### P11 Audit log
 
@@ -325,7 +325,7 @@ Decided on 2026-11-18:
 - OD-064: demo mode has an "Acting as" selector.
 - Section 3.1: the mockups set look and feel, not scope.
 
-Still to build, with no new decision: the packing list sign-off in core, before P10. It refuses anyone but the lead clinician, and records who and when.
+Built on 2026-11-18: the packing list sign-off in core (`sign-off.ts`). It refuses anyone but the lead clinician, a lot listed twice and an empty list, records who and when, and shows any later change.
 
 ## Revision history
 
@@ -333,3 +333,4 @@ Still to build, with no new decision: the packing list sign-off in core, before 
 |---|---|---|---|
 | 0.1 | 2026-11-18 | First draft: how the screens reach the rules, rules for every screen, Prepped users and screens P1 to P12, the Lovable plan, and the decisions owed (owner, 2026-11-18; ADR-046). | Claude, for owner review |
 | 0.2 | 2026-11-18 | New section 3, look and feel: scope stays as settled, the owner's design requirements and sources, palette with checked contrast, status shapes and patterns. OD-063 (70/30) and OD-064 (a) decided. The Lovable plan uses the owner's prompt with this document's scope (owner, 2026-11-18; ADR-047). | Claude, for owner review |
+| 0.3 | 2026-11-18 | P10: the packing list sign-off is built in core (SYS-010). | Claude, for owner review |

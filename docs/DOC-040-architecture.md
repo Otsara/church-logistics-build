@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.32
+version: 0.33
 status: Draft
 effective_date:
 ---
@@ -150,7 +150,7 @@ Tests in `packages/policy` that check rules holding for the whole repository, su
 
 Eligibility, route scope, floor coverage, the Go or No go indicator, readiness, supplements and comparable alternatives, as pure functions in `packages/core/src/prepped/`. No AI, network or clock.
 
-Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`). Merging donor lines into lots (`merge.ts`: lot number, name, strength, form, expiry and manufacturer must all match; OD-011, OD-054). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Comparable alternatives for a floor item (`alternatives.ts`, SYS-108), listed and labelled, for every floor item, and marked as offered when the item is short or needs review (`alternativesForFloor`); an alternative brings no class the item lacks (ADR-028); one the clinician chooses counts in `floor.ts` only the amount entered (OD-055). Route scope and controlled status come from the lot's catalogue entry (ARC-015). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
+Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`). Merging donor lines into lots (`merge.ts`: lot number, name, strength, form, expiry and manufacturer must all match; OD-011, OD-054). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Comparable alternatives for a floor item (`alternatives.ts`, SYS-108), listed and labelled, for every floor item, and marked as offered when the item is short or needs review (`alternativesForFloor`); an alternative brings no class the item lacks (ADR-028); one the clinician chooses counts in `floor.ts` only the amount entered (OD-055). Route scope and controlled status come from the lot's catalogue entry (ARC-015). Signing off the packing list (`sign-off.ts`, SYS-010): the lead clinician only, recording who, when and exactly what was signed off; any later change shows as "changed since sign-off". The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
 
 ### ARC-102 Prepped screens
 - Product: Prepped
@@ -305,3 +305,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.30 | 2026-11-17 | AIC-103, AIC-302, AIC-303: the wording rules move to the shared `wording.ts` (ADR-041). | Claude, for owner review |
 | 0.31 | 2026-11-17 | AIC-102 built with the destination rule cards, after the owner's review; the forbidden-claims list moves to core (SYS-120, ADR-042, ADR-044). | Claude, for owner review |
 | 0.32 | 2026-11-18 | ARC-003: screens import a generated rules file committed into each Lovable project; screens specified in DOC-045; demo mode (ADR-046). | Claude, for owner review |
+| 0.33 | 2026-11-18 | ARC-101: packing list sign-off built (`sign-off.ts`, SYS-010). | Claude, for owner review |

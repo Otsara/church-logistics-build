@@ -121,3 +121,13 @@ export {
   FORBIDDEN_IN_WORDS,
   forbiddenClaims,
 } from "./claims.ts";
+export {
+  SIGNING_ROLE,
+  packingListStatus,
+  signOffPackingList,
+  type PackingLine,
+  type PackingListStatus,
+  type PackingSignOff,
+  type SignOffInput,
+  type SignOffResult,
+} from "./prepped/sign-off.ts";
