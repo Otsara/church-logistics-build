@@ -20,6 +20,8 @@ const itemSchema = z.strictObject({
   id: z.string().regex(/^[A-Z]{2,3}-\d{2}$/, "must be like HN-01"),
   requirement: z.string().trim().min(1),
   document: z.string().trim().min(1).nullable(),
+  /** An exception or remark from the source, shown with the item (owner, 2026-11-17; ADR-045). */
+  note: z.string().trim().min(1).nullable().optional(),
   label: z.string().min(1).nullable(),
 });
 
@@ -100,7 +102,9 @@ export function readDestinationCard(text: string): DestinationCardResult {
           `item ${item.id} does not share the card's prefix ${String(prefix)}`,
       ),
     ...items.flatMap((item) =>
-      forbiddenClaims(`${item.requirement} ${item.document ?? ""}`).map(
+      forbiddenClaims(
+        [item.requirement, item.document, item.note].join(" "),
+      ).map(
         (claim) =>
           `item ${item.id} says "${claim}": a rule card never claims an approval`,
       ),
@@ -166,6 +170,7 @@ export function checklist(
           : [
               `${item.document}: ${preparedItemIds.has(item.id) ? "prepared" : "missing"}.`,
             ]),
+        ...(item.note == null ? [] : [`Note: ${item.note}`]),
         ...(item.label === null ? [] : [`(${item.label})`]),
       ].join(" "),
     ),

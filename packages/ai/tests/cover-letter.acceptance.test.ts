@@ -78,7 +78,9 @@ describe("Covering letter (AIC-102)", () => {
       cite("We enclose the import permit, as the card asks (HN-01).", [
         "HN-01",
       ]),
-      cite("The recipient consented to this shipment (WHO-01).", ["WHO-01"]),
+      cite("The recipient gave prior consent to this shipment (WHO-01).", [
+        "WHO-01",
+      ]),
       cite("The shipment holds 120 Amoxicillin 500 mg and 300 Paracetamol."),
     ];
     const result = checkCoverLetter(INPUT, { sentences });
