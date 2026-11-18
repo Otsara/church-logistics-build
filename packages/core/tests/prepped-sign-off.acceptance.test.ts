@@ -158,6 +158,19 @@ describe("Packing list sign-off (SYS-010)", () => {
       reason:
         "lot LOT-2, LOT-1 is on the packing list more than once: correct it before signing off",
     });
+    for (const quantity of [0, -5, 2.5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      expect(
+        sign({ lines: [{ lotId: "LOT-1", quantity }] }),
+        String(quantity),
+      ).toEqual({
+        ok: false,
+        reason: `lot LOT-1 has quantity ${String(quantity)}: every quantity is a whole number of 1 or more`,
+      });
+    }
+    expect(sign({ lines: [{ lotId: "  ", quantity: 3 }] })).toEqual({
+      ok: false,
+      reason: "line 1 has no lot id: every line names its lot",
+    });
     expect(sign({ lines: [] })).toEqual({
       ok: false,
       reason: "the packing list is empty: there is nothing to sign off",

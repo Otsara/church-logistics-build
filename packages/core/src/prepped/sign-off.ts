@@ -3,7 +3,9 @@
  * list stays a suggestion until the lead clinician, a pharmacist or clinician, signs it off; the
  * sign-off records who and when in the audit log, and any change to the list afterwards clears
  * it, so the list must be signed off again (owner, 2026-11-10, 2026-11-12 and 2026-11-18;
- * DOC-045 P10). Nothing here says "approved". The time is an input: core never reads the clock.
+ * DOC-045 P10). A line must name its lot and a whole-number quantity of 1 or more, and sign-off is
+ * allowed while the indicator shows No go: deploying is the lead clinician's decision (owner,
+ * 2026-11-18; REV-014, ADR-009). Nothing here says "approved". The time is an input: core never reads the clock.
  * Never throws.
  */
 import type { AuditEntry } from "../audit.ts";
@@ -73,6 +75,22 @@ export function signOffPackingList(input: SignOffInput): SignOffResult {
     return {
       ok: false,
       reason: "the packing list is empty: there is nothing to sign off",
+    };
+  }
+  const blank = input.lines.findIndex((line) => line.lotId.trim() === "");
+  if (blank !== -1) {
+    return {
+      ok: false,
+      reason: `line ${String(blank + 1)} has no lot id: every line names its lot`,
+    };
+  }
+  const odd = input.lines.find(
+    (line) => !Number.isInteger(line.quantity) || line.quantity < 1,
+  );
+  if (odd !== undefined) {
+    return {
+      ok: false,
+      reason: `lot ${odd.lotId} has quantity ${String(odd.quantity)}: every quantity is a whole number of 1 or more`,
     };
   }
   const twice = input.lines

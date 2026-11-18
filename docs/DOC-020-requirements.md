@@ -186,7 +186,7 @@ When an AI step times out, errors or returns invalid output, the app retries onc
 - Traces to: UN-003, RC-001
 - Safety-critical: yes
 
-Every packing list, candidate, proposal and draft stays a suggestion until the person with authority for it (IU-103, IU-303) signs it off in the app. No screen, message or export uses the word "approved" for a part, pilot, medicine or document. In Prepped, only the lead clinician, a pharmacist or clinician, signs off the packing list; the sign-off records who and when, a list with a lot twice or no lines is refused, and any change to the list afterwards clears the sign-off until it is signed off again (owner, 2026-11-12 and 2026-11-18; IU-102, DOC-045 P10).
+Every packing list, candidate, proposal and draft stays a suggestion until the person with authority for it (IU-103, IU-303) signs it off in the app. No screen, message or export uses the word "approved" for a part, pilot, medicine or document. In Prepped, only the lead clinician, a pharmacist or clinician, signs off the packing list; the sign-off records who and when, a list with no lines, a lot twice, a line without a lot id or a quantity that is not a whole number of 1 or more is refused, sign-off is allowed while the indicator shows No go (owner, 2026-11-18; REV-014), and any change to the list afterwards clears the sign-off until it is signed off again (owner, 2026-11-12 and 2026-11-18; IU-102, DOC-045 P10).
 
 ## 3. Prepped requirements
 
