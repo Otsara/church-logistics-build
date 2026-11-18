@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.29
+version: 0.30
 status: Draft
 effective_date:
 ---
@@ -236,7 +236,7 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 - Safety-critical: yes
 - Formerly: PR-1
 
-Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017. A floor item that needs review counts as 0% covered; with no documents required, the document share counts as complete; the 70/30 split stays until the screens are built, when 75/25 or 80/20 may be chosen (owner, 2026-11-15).
+Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017. A floor item that needs review counts as 0% covered; with no documents required, the document share counts as complete; the 70/30 split stays until the screens are built, when 75/25 or 80/20 may be chosen (owner, 2026-11-15); with the screens specified, the owner kept 70/30 (owner, 2026-11-18; OD-063, ADR-047).
 
 ### SYS-107 Blocking issues mean No go
 - Product: Prepped
@@ -467,3 +467,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.27 | 2026-11-17 | SYS-003, SYS-310: the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
 | 0.28 | 2026-11-17 | New SYS-120 destination rule cards, the WHO card for every destination, and the paperwork checklist, after the owner's review (ADR-039, ADR-042, ADR-044, REV-012). | Claude, for owner review |
 | 0.29 | 2026-11-17 | SYS-120: the WHO card is verified by the owner, with ten items and exceptions as notes (REV-013, ADR-045). | Claude, for owner review |
+| 0.30 | 2026-11-18 | SYS-106: the meter keeps 70/30 (OD-063, ADR-047). | Claude, for owner review |
