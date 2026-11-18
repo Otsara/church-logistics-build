@@ -470,6 +470,18 @@ Given the destination rule cards for Honduras, Ethiopia, Nigeria and the Philipp
 
 Given a covering letter that names a medicine from the catalogue that is not in the shipment, or cites a card item without mentioning what it asks for, or names a document without citing an item, then it is not accepted and the blank template is shown with the medicine list and the checklists.
 
+### TC-140 Packing list built soonest expiry first, only what is needed
+- Product: Prepped
+- Traces to: SYS-121, SYS-010
+
+Given eligible stock beyond a floor item's target, then the item's own medicine is packed soonest expiry first and only as much as the target needs after exchanges and alternatives, the last lot in part, with what remains of each lot shown; exchanges and alternatives are packed only at the amounts the lead clinician enters; supplements at the amounts entered; the lead clinician's changes are used and marked; and any missing or wrong amount, a supplement not eligible, more taken than remains, or a floor item without a target is listed as a problem and stops the sign-off.
+
+### TC-141 Stock shared across brigades
+- Product: Prepped
+- Traces to: SYS-121
+
+Given another trip's signed-off packing list takes part of a lot, then only the rest is available to this trip (a 700 lot covering a target of 300 leaves 400); given signed-off lists that together take more of a lot than it holds, then the lot is in conflict, counts for neither, and both lists show "Conflict: check".
+
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -698,4 +710,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.30 | 2026-11-17 | TC-010, TC-310: tests that the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
 | 0.31 | 2026-11-17 | New TC-138 rule cards checked and labelled, and TC-139 covering letter names only the shipment's medicines and the items it cites, both implemented. TC-007, TC-008 for AIC-102 and the draft part of TC-105 implemented (SYS-120, ADR-042, ADR-044). | Claude, for owner review |
 | 0.32 | 2026-11-17 | TC-138: tests of the verified WHO card (ten items, notes) and of item notes in the checklist (ADR-045). | Claude, for owner review |
-| 0.33 | 2026-11-18 | TC-009 implemented for the Prepped packing list; the screens and SpareWing parts remain (DOC-045 P10). | Claude, for owner review |
+| 0.33 | 2026-11-18 | TC-009 implemented for the Prepped packing list sign-off; new TC-140 packing list built soonest expiry first and TC-141 stock shared across brigades, implemented (SYS-121, ADR-049). | Claude, for owner review |

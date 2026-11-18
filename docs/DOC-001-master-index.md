@@ -37,18 +37,18 @@ Items defined, by type:
 | OD | 64 |
 | IU | 9 |
 | UN | 17 |
-| SYS | 43 |
+| SYS | 44 |
 | HAZ | 31 |
 | RC | 32 |
 | ARC | 22 |
 | AIC | 6 |
 | SEC | 8 |
 | DAT | 8 |
-| TC | 96 |
+| TC | 98 |
 | SOUP | 22 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 47 |
+| ADR | 48 |
 | REV | 14 |
 <!-- END GENERATED -->
 

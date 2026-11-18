@@ -19,6 +19,7 @@ const sign = (
 ) =>
   signOffPackingList({
     lines: LINES,
+    problems: [],
     role: SIGNING_ROLE,
     personId: "PER-1",
     time: "2026-11-18T15:00:00Z",

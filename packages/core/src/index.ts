@@ -131,3 +131,16 @@ export {
   type SignOffInput,
   type SignOffResult,
 } from "./prepped/sign-off.ts";
+export {
+  availableStock,
+  buildPackingList,
+  stockConflicts,
+  type Adjustment,
+  type PackAmount,
+  type PackedLine,
+  type PackingInput,
+  type PackingList,
+  type SignedOffList,
+  type StockConflict,
+  type SupplementLine,
+} from "./prepped/packing.ts";

@@ -30,6 +30,8 @@ export interface PackingSignOff {
 
 export interface SignOffInput {
   readonly lines: readonly PackingLine[];
+  /** The packing list's open problems (`buildPackingList`); any one stops the sign-off. */
+  readonly problems: readonly string[];
   /** The role of the person signing off, as signed in. */
   readonly role: string;
   readonly personId: string;
@@ -69,6 +71,13 @@ export function signOffPackingList(input: SignOffInput): SignOffResult {
       ok: false,
       reason:
         "the time is not a valid UTC date and time (YYYY-MM-DDTHH:MM:SSZ)",
+    };
+  }
+  if (input.problems.length > 0) {
+    return {
+      ok: false,
+      reason:
+        "the packing list has open problems: resolve them before signing off",
     };
   }
   if (input.lines.length === 0) {
@@ -117,7 +126,8 @@ export function signOffPackingList(input: SignOffInput): SignOffResult {
 }
 
 export interface PackingListStatus {
-  readonly status: "not signed off" | "signed off" | "changed since sign-off";
+  readonly status:
+    "not signed off" | "signed off" | "changed since sign-off" | "conflict";
   readonly message: string;
 }
 
@@ -125,7 +135,19 @@ export interface PackingListStatus {
 export function packingListStatus(
   lines: readonly PackingLine[],
   signOff: PackingSignOff | null,
+  conflicts: readonly {
+    readonly lotId: string;
+    readonly message: string;
+  }[] = [],
 ): PackingListStatus {
+  // A lot the team's signed-off lists take more of than it holds (OD-017; `stockConflicts`).
+  const clash = conflicts.filter((c) => lines.some((l) => l.lotId === c.lotId));
+  if (clash.length > 0) {
+    return {
+      status: "conflict",
+      message: clash.map((c) => c.message).join(" "),
+    };
+  }
   if (signOff === null) {
     return {
       status: "not signed off",
