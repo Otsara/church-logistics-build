@@ -1,0 +1,42 @@
+{
+  "id": "destination-honduras",
+  "product": "prepped",
+  "title": "Destination rule card: Honduras (synthetic example)",
+  "status": "placeholder",
+  "source": {
+    "url": "https://example.org/synthetic/destination-honduras",
+    "verified_date": null,
+    "verified_by": null
+  },
+  "notes": "Synthetic example for the demo, written for this build: not a real import rule for Honduras, and not to be relied on. The source link is a placeholder (example.org). Real cards, checked against official sources by a qualified person, come after the hackathon (owner, 2026-11-16; OD-003, ADR-039, ADR-042).",
+  "data": {
+    "country": "Honduras",
+    "synthetic": true,
+    "items": [
+      {
+        "id": "HN-01",
+        "requirement": "An import permit for donated medicines is prepared before shipping.",
+        "document": "Import permit",
+        "label": "Synthetic example for the demo: not a real import rule"
+      },
+      {
+        "id": "HN-02",
+        "requirement": "A donation letter from the receiving health facility is prepared.",
+        "document": "Donation letter",
+        "label": "Synthetic example for the demo: not a real import rule"
+      },
+      {
+        "id": "HN-03",
+        "requirement": "A packing list names each medicine by generic name, strength, quantity and expiry date.",
+        "document": "Packing list",
+        "label": "Synthetic example for the demo: not a real import rule"
+      },
+      {
+        "id": "HN-04",
+        "requirement": "Controlled medicines are not shipped.",
+        "document": null,
+        "label": "Synthetic example for the demo: not a real import rule"
+      }
+    ]
+  }
+}

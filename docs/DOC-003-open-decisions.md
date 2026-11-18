@@ -1,7 +1,7 @@
 ---
 id: DOC-003
 title: Open decisions and release blockers
-version: 0.23
+version: 0.24
 status: Draft
 effective_date:
 ---
@@ -52,7 +52,7 @@ The 12-month default from WHO guidance and any per-category lowering need review
 - Formerly: Q-3
 - Affects: ARC-004, SYS-004
 
-Only Honduras has a placeholder note. Cards for Ethiopia, the Philippines and Nigeria are unwritten. For the demo, cards stay marked placeholder.
+For the demo, synthetic placeholder cards exist for Honduras, Ethiopia, Nigeria and the Philippines, every item labelled "Synthetic example for the demo: not a real import rule" (owner, 2026-11-16; ADR-039, ADR-042; DAT-103). The WHO donation guidelines apply to every destination as a sourced card, pending the owner's verification (ADR-044). Real country cards, checked against official sources by a qualified person, are still needed before real-world use: each national medicines regulator's import and donation rules (to be confirmed from official sources; the regulators are believed to be ARSA in Honduras, EFDA in Ethiopia, NAFDAC in Nigeria and FDA Philippines), the customs documents each country asks for, and import authorisation for controlled medicines.
 
 ### OD-004 Readiness meter: keep or retire
 - Status: Closed
@@ -535,3 +535,4 @@ A chosen comparable alternative entered as covering more than its lot holds now 
 | 0.21 | 2026-11-16 | OD-058 closed: 30 seconds per AI call attempt (owner, 2026-11-16; ADR-031 accepted). OD-059 deferred until after the hackathon (owner, 2026-11-16). | Claude, for owner review |
 | 0.22 | 2026-11-16 | New OD-060 cover-bases file for a real program, deferred, and OD-061 rating HAZ-309, opened and closed the same day: critical, unlikely with controls (owner, 2026-11-16; REV-009). | Claude, for owner review |
 | 0.23 | 2026-11-16 | New OD-062 how the golden AI answers are recorded, opened and closed the same day: option (a), after sign-in in iteration 3 (owner, 2026-11-16). | Claude, for owner review |
+| 0.24 | 2026-11-17 | OD-003: synthetic placeholder cards for all four destinations and a sourced WHO card exist for the demo (ADR-042, ADR-044); country-specific work for after the hackathon listed; still open for real-world use. | Claude, for owner review |

@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.27
+version: 0.28
 status: Draft
 effective_date:
 ---
@@ -329,6 +329,13 @@ When the AI reads a pasted donor list (AIC-101), it copies each value exactly as
 
 When the lead clinician picks floor items, a controlled medicine in the catalogue is labelled "Controlled: cannot be packed in this build" with its basis (for example "FDA drug directory: DEA schedule CII"), so a floor item is never chosen without knowing it cannot be met (owner, 2026-11-12); REV-001, ADR-020.
 
+### SYS-120 Destination rule cards and the paperwork checklist
+- Product: Prepped
+- Traces to: UN-104, RC-003
+- Safety-critical: yes
+
+Each destination has a rule card in `rules/prepped/` listing what it asks of a medicine shipment, item by item, each with an id and the document it asks for. Code builds the paperwork checklist from the card word for word, with each item's id, and each document marked prepared or missing. For the demo, the cards for Honduras, Ethiopia, Nigeria and the Philippines are synthetic placeholders: every item and the checklist say "Synthetic example for the demo: not a real import rule", and a placeholder card with an unlabelled item is refused (owner, 2026-11-16; ADR-039; OD-003). A card for every destination, the WHO donation guidelines (articles 1, 2, 4 to 7 and 9 to 12), is a sourced placeholder whose every item cites its article and is labelled as not yet verified; its checklist comes before the country's. A destination card's id matches its country, all items on a card share one prefix, and a card that makes a forbidden claim is refused (owner, 2026-11-17; REV-012, ADR-044). The covering letter (AIC-102) is written by the AI: every sentence that states a requirement or names a document must cite an item on the trip's cards and mention what it asks for, and the letter may name no medicine that is not in the shipment. Code adds the medicine list and the checklists after it; otherwise the blank template is shown with the same lists (ADR-042, ADR-044).
+
 ## 4. SpareWing requirements
 
 ### SYS-301 Parts by entered part numbers only
@@ -458,3 +465,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.25 | 2026-11-16 | SYS-003, SYS-005, SYS-309, SYS-310: AI explanations and drafts checked against computed results, labelled until reviewed, never claiming an approval (ADR-039). | Claude, for owner review |
 | 0.26 | 2026-11-17 | SYS-003, SYS-005, SYS-309, SYS-310 after the owner's review (REV-011, ADR-040): claims in any spelling, reviews and edits recorded, one item per sentence, no relative dates, invented people or promises. | Claude, for owner review |
 | 0.27 | 2026-11-17 | SYS-003, SYS-310: the wording rules apply to explanations and messages alike (ADR-041). | Claude, for owner review |
+| 0.28 | 2026-11-17 | New SYS-120 destination rule cards, the WHO card for every destination, and the paperwork checklist, after the owner's review (ADR-039, ADR-042, ADR-044, REV-012). | Claude, for owner review |

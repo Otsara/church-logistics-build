@@ -53,3 +53,9 @@ export function wordsIn(text: string, words: readonly string[]): string[] {
   );
   return [...text.matchAll(pattern)].map((m) => m[0]);
 }
+
+/** Every value inside an input, however deeply nested, for grounding text against it. */
+export const valuesIn = (v: unknown): Value[] =>
+  typeof v === "object" && v !== null
+    ? Object.values(v).flatMap(valuesIn)
+    : [String(v)];

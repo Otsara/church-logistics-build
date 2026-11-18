@@ -1,7 +1,7 @@
 ---
 id: DOC-065
 title: Data management plan
-version: 0.9
+version: 0.10
 status: Draft
 effective_date:
 ---
@@ -53,6 +53,12 @@ Medicine names, dosage forms and routes come from a dated snapshot of the FDA dr
 
 The catalogue the lead clinician picks floor items from is the in-scope FDA catalogue (DAT-101). The WHO Model List of Essential Medicines is not used (owner, 2026-11-12); OD-046, ADR-018. This replaces the earlier plan to recreate the in-scope part of the WHO list from FDA entries (owner, 2026-11-10 and 2026-11-11).
 
+### DAT-103 Synthetic destination rule cards
+- Product: Prepped
+- Traces to: UN-104, RC-003
+
+The destination rule cards in `rules/prepped/destination-<country>.json` for Honduras, Ethiopia, Nigeria and the Philippines are synthetic, written for this build. They are not real import rules, every item says so, and the source link is a placeholder at example.org (owner, 2026-11-16; ADR-039, ADR-042). Real cards, checked against official sources by a qualified person, come after the hackathon (OD-003). The card for every destination, `rules/prepped/who-donation-guidelines.json`, is not synthetic: it restates the WHO Guidelines for medicine donations (2010), article by article, and stays a placeholder until the owner verifies it (owner, 2026-11-17; ADR-044).
+
 ### DAT-301 SpareWing data
 - Product: SpareWing
 - Traces to: UN-301, RC-304
@@ -79,3 +85,4 @@ Fully synthetic: bases, aircraft, part numbers and alternates, parts stock, pilo
 | 0.7 | 2026-11-12 | DAT-002 corpus rebuilt after OD-049; DAT-101 counts without biologics; DAT-102 WHO list not used (OD-046). | Claude, for owner review |
 | 0.8 | 2026-11-12 | DAT-002 third package; DAT-101 catalogue without gases (OD-051, REV-001). | Claude, for owner review |
 | 0.9 | 2026-11-16 | DAT-004: where the golden examples live and how their source is checked. | Claude, for owner review |
+| 0.10 | 2026-11-17 | New DAT-103 synthetic destination rule cards, and the sourced WHO card for every destination. | Claude, for owner review |

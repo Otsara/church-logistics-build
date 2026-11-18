@@ -107,3 +107,17 @@ export {
   type ClassedLot,
   type ItemForAlternatives,
 } from "./prepped/alternatives.ts";
+export {
+  SYNTHETIC_CARD_LABEL,
+  checklist,
+  readDestinationCard,
+  requiredDocuments,
+  type CardItem,
+  type DestinationCard,
+  type DestinationCardResult,
+} from "./prepped/destination-card.ts";
+export {
+  FORBIDDEN_CLAIMS,
+  FORBIDDEN_IN_WORDS,
+  forbiddenClaims,
+} from "./claims.ts";
