@@ -1,7 +1,7 @@
 ---
 id: DOC-045
 title: Screen specification
-version: 0.1
+version: 0.2
 status: Draft
 effective_date:
 ---
@@ -51,7 +51,105 @@ Screens trace to the requirements in DOC-020 by their IDs. Screens are named P1,
 10. **Language.** English (OD-030).
 11. **Placeholder and synthetic rules say so.** Wherever a result depends on a synthetic rule card, the card's label "Synthetic example for the demo: not a real import rule" is shown with it (SYS-120).
 
-## 3. Who uses Prepped
+## 3. Look and feel
+
+### 3.1 Scope stays as settled
+
+The owner's mockups (the Prepped kit manager and the SpareWing service calendar, claude.ai design canvases of 2026-11-17) and the owner's build prompts guide **look and feel only**. They add no feature, and neither app exceeds the scope and rules already settled (owner, 2026-11-18; ADR-047). In particular, Prepped has none of the following in this build:
+
+- kits;
+- PAR levels or restock lists;
+- recall notices;
+- barcode scanning or item-by-item kit checks;
+- an "expiring soon" window;
+- a "use first" list;
+- a dispatch step;
+- reports.
+
+Cold-chain items stay blocked and shown with their reason (SYS-104). SpareWing stays disruption response (parts, pilots, missed flights, a ranked plan). It has no maintenance-due or inspection tracking (SYS-309).
+
+### 3.2 Design requirements (owner, 2026-11-18; non-negotiable)
+
+For both apps:
+
+- **NHS design principles and component patterns:** clear hierarchy; inclusive; high contrast; sentence-case labels; plain-language status and next-action messages.
+- **FAA and NASA display human factors:**
+  - luminance contrast of at least 3:1, ideally 7:1;
+  - colour never the only cue;
+  - no pure blue for text or fine detail;
+  - large touch targets;
+  - a calm visual hierarchy for safety-critical information;
+  - legible in varied lighting, and status coding that still works in greyscale.
+- **A professional medical and operational utility look,** equal to or better than commercial dashboards:
+  - clean snapshot cards and scannable lists;
+  - prominent primary actions, with subtle progressive disclosure;
+  - a muted sage and neutral palette, good whitespace, no clutter.
+- **Fully responsive and touch-optimised:** phone in the field, tablet at the packing station, desktop for planning.
+- **Strong offline indicators, local-first editing and transparent sync.**
+
+Where these and WCAG 2.2 AA (OD-035) differ, the stricter applies:
+
+- normal text at least 4.5:1, ideally 7:1;
+- large text, icons and status shapes at least 3:1.
+
+### 3.3 Sources the owner named
+
+Considered in designing the screens, not copied:
+
+- KitCheck dashboard (help article);
+- Bluesight, on RFID and medication expiry management;
+- NHS design system components;
+- NHS A to Z of health writing;
+- FAA Human Factors Criteria for Displays (2007);
+- NASA colour usage guidelines (standards bibliography);
+- Traxxall on Capterra;
+- Veryon Tracking (formerly CAMP and Traxxall);
+- DHIS2 progressive web app deep dive;
+- CommCare offline data collection.
+
+No other company's proprietary design is recreated.
+
+### 3.4 Palette, type and status shapes
+
+These are taken from the owner's mockups for their look. Contrast was checked on 2026-11-18 (WCAG formula):
+
+| Use | Colour | Contrast |
+|---|---|---|
+| Page background | #F1F3EE | — |
+| Card background | #FFFFFF | — |
+| Text | #1B2A24 | 15.0:1 on cards, 13.4:1 on page |
+| Secondary text | #4C5A53 | 7.3:1 on cards, 6.5:1 on page |
+| Primary (header, main buttons) | #2F4A3C | white text 9.7:1 |
+| Stop: blocked, discard, No go | #9B1C1C | 8.2:1 as text; white on it 8.2:1 |
+| Attention: short, needs review | #7A4B00 | 7.4:1 |
+| Good: eligible, covered, Go, signed off | #1E5B3A | 8.0:1 |
+| Table header row | #E3EAE2 | text 12.2:1 |
+| Control borders | #5B6B62 | 5.6:1 |
+| Dividers (decorative only) | #C6CFC6 | 1.6:1, never used to convey information |
+
+**Type:** Public Sans, with tabular figures for every number and date.
+
+**Status shapes:** every status carries a shape and its words, so it reads in greyscale.
+
+| Shape | Statuses |
+|---|---|
+| Filled square | Blocked, "Discard: expired", No go |
+| Diamond | Short, and every attention message |
+| Dashed circle | Needs review, "Conflict: check", not yet signed off, offline |
+| Outlined circle | Eligible, covered, Go, signed off, synced |
+
+The words always come from core.
+
+### 3.5 Patterns used
+
+- **Snapshot cards** at the top of P8 and P5, each with a count and the next action in plain words, for example "2 floor items short. Review alternatives."
+- **Lists with a "What to do" column.**
+- **One primary action per view**, for example "Review" or "Sign off".
+- **An offline and sync banner,** for example "Offline. Changes are saved on this device and will sync when you reconnect."
+- **A conflict card with two plain choices.**
+- **A bottom tab bar on phones.**
+
+## 4. Who uses Prepped
 
 From IU-103, with the decisions that name who may do what:
 
@@ -62,9 +160,9 @@ From IU-103, with the decisions that name who may do what:
 | Team leader | Mark documents reviewed (SYS-112). Decides with the lead clinician whether the team deploys; the app only shows an indicator (ADR-009). |
 | Any team member | Mark an AI draft reviewed (ADR-040). |
 
-In demo mode, a selector at the top reads "Acting as: [synthetic person, role]". It lets a viewer act as each synthetic person, and the audit log records that person (TBD: OD-064).
+In demo mode, a selector at the top reads "Acting as: [synthetic person, role]". It lets a viewer act as each synthetic person, and the audit log records that person (owner, 2026-11-18; OD-064).
 
-## 4. Prepped screens
+## 5. Prepped screens
 
 ### P1 Trips
 
@@ -156,7 +254,7 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
 - **Indicator:**
   - "Go" or "No go", large, in words, always with the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (SYS-112).
   - With no floor items: "No go", with the reason.
-- **Meter:** the readiness percentage as a graphic beside the indicator, with its parts, coverage and documents (SYS-106). The split is 70/30 now; 75/25 or 80/20 may be chosen now that the screens are being specified (TBD: OD-063).
+- **Meter:** the readiness percentage as a graphic beside the indicator, with its parts, coverage and documents (SYS-106). Coverage counts 70% and documents 30% (owner, 2026-11-18; OD-063).
 - **What stands in the way:** every short floor item with the amount short, and every missing document (SYS-107, SYS-112).
 - **Explanation (AI, AIC-103):**
   - a button "Explain the gaps";
@@ -193,7 +291,7 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
   - the packing list is never final without that sign-off (SYS-010, IU-102);
   - a change after sign-off clears the sign-off, and the change is recorded.
 - **Traces to:** SYS-010.
-- **Gap:** core has no sign-off function for the packing list yet. One is to be built, like `recordDecision` for SpareWing, before this screen (section 6).
+- **Gap:** core has no sign-off function for the packing list yet. One is to be built, like `recordDecision` for SpareWing, before this screen (section 7).
 
 ### P11 Audit log
 
@@ -208,23 +306,30 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
 - **Demo mode:** says so, and offers sign-in.
 - **Traces to:** ARC-006, SEC-008.
 
-## 5. Lovable plan for Prepped
+## 6. Lovable plan for Prepped
 
 From the credit plan in DOC-100 (IT-003): 50 credits for Prepped, with no Max mode. Every message to Lovable is sent only with the owner's go-ahead.
 
-1. One plan-mode message, to agree the approach, with this document attached.
-2. The cost of the first build message is checked before more is spent.
-3. A few batched build messages: shell and P1–P3; then P4–P7; then P8–P12.
-4. Lovable builds screens only, importing the generated rules file. It writes no business logic.
+1. **One plan-mode message**, to agree the approach, with this document attached. It opens with the owner's prompt. That prompt's design requirements are used word for word (section 3.2). Its description of the app is replaced by this document's scope:
+   - **The app:** a responsive web app (desktop, tablet, phone) for pharmacists, clinicians and trip coordinators preparing a medical mission team's pharmacy from donated medicines, as screens P1 to P12 of this document.
+   - **Primary actions:** "Review" and "Sign off". There is no dispatch step (section 3.1).
+2. **The cost of the first build message is checked** before more is spent.
+3. **A few batched build messages:** shell and P1–P3; then P4–P7; then P8–P12.
+4. **Lovable builds screens only,** importing the generated rules file. It writes no business logic.
 
-## 6. Decisions owed before the build
+## 7. Decisions owed before the build
 
-1. **Meter split** (SYS-106; OD-063): keep 70/30, or choose 75/25 or 80/20 now that the screens are being specified.
-2. **Who acts in demo mode** (OD-064): a selector "Acting as: [synthetic person, role]", recorded in the audit log, or a single synthetic lead clinician.
-3. **Packing list sign-off in core:** to be built before P10, as a core function like `recordDecision`, refusing anyone but the lead clinician and recording who and when. This needs no new decision unless the owner wants a second signer.
+Decided on 2026-11-18:
+
+- OD-063: the meter keeps 70/30.
+- OD-064: demo mode has an "Acting as" selector.
+- Section 3.1: the mockups set look and feel, not scope.
+
+Still to build, with no new decision: the packing list sign-off in core, before P10. It refuses anyone but the lead clinician, and records who and when.
 
 ## Revision history
 
 | Version | Date | Change | By |
 |---|---|---|---|
 | 0.1 | 2026-11-18 | First draft: how the screens reach the rules, rules for every screen, Prepped users and screens P1 to P12, the Lovable plan, and the decisions owed (owner, 2026-11-18; ADR-046). | Claude, for owner review |
+| 0.2 | 2026-11-18 | New section 3, look and feel: scope stays as settled, the owner's design requirements and sources, palette with checked contrast, status shapes and patterns. OD-063 (70/30) and OD-064 (a) decided. The Lovable plan uses the owner's prompt with this document's scope (owner, 2026-11-18; ADR-047). | Claude, for owner review |

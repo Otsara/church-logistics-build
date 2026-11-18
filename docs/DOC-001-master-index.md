@@ -16,12 +16,12 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-000 | Document control procedure | 0.1 | Draft | `docs/DOC-000-document-control.md` |
 | DOC-001 | Master document index | 0.1 | Draft | `docs/DOC-001-master-index.md` |
 | DOC-002 | Glossary | 0.6 | Draft | `docs/DOC-002-glossary.md` |
-| DOC-003 | Open decisions and release blockers | 0.26 | Draft | `docs/DOC-003-open-decisions.md` |
+| DOC-003 | Open decisions and release blockers | 0.27 | Draft | `docs/DOC-003-open-decisions.md` |
 | DOC-010 | Intended use, users and regulatory position | 0.4 | Draft | `docs/DOC-010-intended-use.md` |
-| DOC-020 | User needs and system requirements | 0.29 | Draft | `docs/DOC-020-requirements.md` |
+| DOC-020 | User needs and system requirements | 0.30 | Draft | `docs/DOC-020-requirements.md` |
 | DOC-030 | Risk management file | 0.18 | Draft | `docs/DOC-030-risk-management.md` |
 | DOC-040 | Architecture and AI step contracts | 0.32 | Draft | `docs/DOC-040-architecture.md` |
-| DOC-045 | Screen specification | 0.1 | Draft | `docs/DOC-045-screen-specification.md` |
+| DOC-045 | Screen specification | 0.2 | Draft | `docs/DOC-045-screen-specification.md` |
 | DOC-050 | Decision record index | 0.1 | Draft | `docs/DOC-050-decision-records.md` |
 | DOC-060 | Security and privacy | 0.4 | Draft | `docs/DOC-060-security-privacy.md` |
 | DOC-065 | Data management plan | 0.11 | Draft | `docs/DOC-065-data-management.md` |
@@ -48,7 +48,7 @@ Items defined, by type:
 | SOUP | 22 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 46 |
+| ADR | 47 |
 | REV | 13 |
 <!-- END GENERATED -->
 
