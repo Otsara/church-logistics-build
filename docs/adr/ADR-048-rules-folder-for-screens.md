@@ -1,8 +1,9 @@
 ---
 id: ADR-048
 title: The screens import one generated folder of stamped source copies, not one bundled file
-status: Proposed
+status: Accepted
 date: 2026-11-18
+decided: owner, 2026-11-18
 ---
 
 # ADR-048 The screens import one generated folder of stamped source copies
@@ -24,9 +25,9 @@ The Lovable projects use Vite with TypeScript, which compiles TypeScript source 
   - `tools/rules-bundle.mjs --check` compares a folder with a fresh build and lists any edited, missing or extra file.
 - (b) **One bundled JavaScript file,** plus generated type declarations. This needs a new bundling tool, registered first.
 
-## Proposal
+## Decision
 
-(a), proposed by Claude, for the owner to confirm.
+(a), as Claude proposed; the owner confirmed it (owner, 2026-11-18).
 
 - No new tool.
 - The types are kept.
