@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.31
+version: 0.32
 status: Draft
 effective_date:
 ---
@@ -31,7 +31,7 @@ TypeScript throughout. One language for rules, tests and screens.
 - Product: Shared
 - Formerly: F-3
 
-Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Two stand-alone Lovable projects, each published on its lovable.app address; CI runs a smoke test that the published screens load and call the core rules (owner, 2026-11-12); OD-018. Phone, tablet and laptop, phone first, WCAG 2.2 AA (OD-035).
+Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Two stand-alone Lovable projects, each published on its lovable.app address; CI runs a smoke test that the published screens load and call the core rules (owner, 2026-11-12); OD-018. Phone, tablet and laptop, phone first, WCAG 2.2 AA (OD-035). The screens reach core through one generated file, bundling core, the AI client and the offline store, committed into each Lovable project's GitHub repository and checked by CI against this repository; the app opens in a demo mode on synthetic data without sign-in, and the AI actions need an account the owner creates (owner, 2026-11-18; ADR-046). What each screen shows and does is specified in DOC-045.
 
 ### ARC-004 Rule files
 - Product: Shared
@@ -304,3 +304,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.29 | 2026-11-17 | AIC-103, AIC-302, AIC-303: checks tightened after the owner's review (REV-011, ADR-040); `isUtcDateTime` shared in core. | Claude, for owner review |
 | 0.30 | 2026-11-17 | AIC-103, AIC-302, AIC-303: the wording rules move to the shared `wording.ts` (ADR-041). | Claude, for owner review |
 | 0.31 | 2026-11-17 | AIC-102 built with the destination rule cards, after the owner's review; the forbidden-claims list moves to core (SYS-120, ADR-042, ADR-044). | Claude, for owner review |
+| 0.32 | 2026-11-18 | ARC-003: screens import a generated rules file committed into each Lovable project; screens specified in DOC-045; demo mode (ADR-046). | Claude, for owner review |

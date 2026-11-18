@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.20
+version: 0.21
 status: Draft
 effective_date:
 ---
@@ -61,7 +61,7 @@ Lovable credit plan for the 100 hackathon credits, approved (owner, 2026-11-11):
 | SpareWing screens | 20 |
 | Reserve for integration fixes and the demo | 30 |
 
-A complete screen specification is written first, outside Lovable. Each project gets one plan-mode message to agree the approach, then a few batched build messages. The cost of the first build message is checked and the plan adjusted before more is spent. Lovable builds screens only, never business logic. Max mode is not used. Every message to Lovable is sent only with the owner's go-ahead.
+A complete screen specification is written first, outside Lovable: DOC-045, Prepped first (owner, 2026-11-18; ADR-046). Each project gets one plan-mode message to agree the approach, then a few batched build messages. The cost of the first build message is checked and the plan adjusted before more is spent. Lovable builds screens only, never business logic. Max mode is not used. Every message to Lovable is sent only with the owner's go-ahead.
 
 ### IT-004 Iteration 4: release candidate and submission
 - Dates: November 23 to 26
@@ -142,3 +142,4 @@ These ideas are not part of this build. No requirements, tests or code exist for
 | 0.18 | 2026-11-16 | IT-002: AI gateway built, not yet deployed. | Claude, for owner review |
 | 0.19 | 2026-11-16 | IT-002: AI gateway deployed. | Claude, for owner review |
 | 0.20 | 2026-11-16 | Section 5: future work after submission, food pantry stock sharing and pastoral visit scheduling (owner, 2026-11-16). | Claude, for owner review |
+| 0.21 | 2026-11-18 | IT-003 status: screen specification DOC-045 drafted for Prepped (ADR-046). | Claude, for owner review |
