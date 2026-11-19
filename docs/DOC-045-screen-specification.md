@@ -1,7 +1,7 @@
 ---
 id: DOC-045
 title: Screen specification
-version: 0.4
+version: 0.5
 status: Draft
 effective_date:
 ---
@@ -254,6 +254,7 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
     - the confidence, shown but deciding nothing.
   - The person confirms, corrects or discards each line. Nothing becomes a lot until confirmed (SYS-119, ADR-035).
   - Set-aside lines say why and go to manual entry.
+- **Matching to the catalogue (owner, 2026-11-19):** when a person confirms a line, they choose the matching catalogue entry from the picker. The app never chooses or guesses the match. A confirmed line with no matching entry stays out of stock, shown with "Not in the catalogue: cannot be checked". Each match goes in the audit log with the person who made it (SYS-008).
 - **Merging:** confirmed lines merge into lots by core (`mergeDonorLines`, SYS-117). Lines that don't merge show the core flags, such as "Same lot number, different details: check".
 - **Traces to:** SYS-117, SYS-119, SYS-009, AIC-101.
 
@@ -268,6 +269,7 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
   - **every** reason core gives.
 - **Controlled status shows its basis and source** (SYS-103).
 - **Cold-chain and out-of-scope lots stay visible with their reason** (SYS-104, SYS-109).
+- **What to do for a blocked lot (owner, 2026-11-19):** "Do not pack for this trip." followed by the reasons core gave for that lot, word for word. The screen never tells the team to keep or discard a blocked lot.
 - **Traces to:** SYS-101 to SYS-105, SYS-109, SYS-116.
 
 ### P6 Floor coverage
@@ -385,3 +387,4 @@ Built on 2026-11-18: the packing list sign-off in core (`sign-off.ts`). It refus
 | 0.2 | 2026-11-18 | New section 3, look and feel: scope stays as settled, the owner's design requirements and sources, palette with checked contrast, status shapes and patterns. OD-063 (70/30) and OD-064 (a) decided. The Lovable plan uses the owner's prompt with this document's scope (owner, 2026-11-18; ADR-047). | Claude, for owner review |
 | 0.3 | 2026-11-18 | P4 becomes team stock shared by all trips; P10: the packing list built by core, with amounts the lead clinician enters or changes, what remains of each lot, no sign-off with open problems, and conflicts (SYS-010, SYS-121; ADR-049). | Claude, for owner review |
 | 0.4 | 2026-11-19 | New sections 3.6 and 3.7: the Prepped logo (option B, capsule with Chi-Rho P) with 2 Timothy 2:21, and the SpareWing logo (option C, winged gear with sparrow) with Luke 12:6; verses on start and sign-in screens only, checked contrast, no check mark or seal (owner, 2026-11-19). Section 1: the rules come from a generated folder, not one file (ADR-048). | Claude, for owner review |
+| 0.5 | 2026-11-19 | P4: a person matches each confirmed line to a catalogue entry before it becomes stock; unmatched lines stay out. P5: the "What to do" text for a blocked lot gives its reasons (owner, 2026-11-19). | Claude, for owner review |
