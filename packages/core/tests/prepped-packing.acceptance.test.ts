@@ -1,4 +1,4 @@
-// The packing list (SYS-121; TC-140, TC-141): built by core from the floor assessment and the
+// The packing list (SYS-121; TC-140, TC-141, TC-142): built by core from the floor assessment and the
 // team's stock, soonest expiry first, packing only what is needed, so the rest of a lot stays in
 // stock for another brigade; exchanges, alternatives and supplements packed at the amounts the lead
 // clinician enters; any line's amount changeable by the lead clinician (owner, 2026-11-18; REV-014,
@@ -594,5 +594,35 @@ describe("Stock shared across brigades (SYS-121)", () => {
       status: "conflict",
       message: `${conflicts[0]?.message ?? ""} ${conflicts[1]?.message ?? ""}`,
     });
+  });
+
+  it("[TC-142] Given the team's lots as recorded, not checked against any trip, and every signed-off packing list, then each lot shows what remains, and a lot the lists together overdraw is in conflict and counts for none", () => {
+    const first = pack([LATE], [item(300)]);
+    const held = [
+      { lotId: "L-LATE", quantity: 700 },
+      { lotId: "L-SOON", quantity: 200 },
+    ];
+    const lists = [{ tripId: "TRIP-A", lines: first.lines }];
+    expect(availableStock(held, lists)).toEqual([
+      { lotId: "L-LATE", quantity: 400 },
+      { lotId: "L-SOON", quantity: 200 },
+    ]);
+    expect(stockConflicts(held, lists)).toEqual([]);
+    const overdrawn = [
+      ...lists,
+      { tripId: "TRIP-B", lines: pack([LATE], [item(500)]).lines },
+    ];
+    expect(availableStock(held, overdrawn)).toEqual([
+      { lotId: "L-LATE", quantity: 0 },
+      { lotId: "L-SOON", quantity: 200 },
+    ]);
+    expect(stockConflicts(held, overdrawn)).toEqual([
+      {
+        lotId: "L-LATE",
+        tripIds: ["TRIP-A", "TRIP-B"],
+        message:
+          "Conflict: check: lot L-LATE holds 700, but the signed-off packing lists of TRIP-A and TRIP-B take 800; a person resolves it",
+      },
+    ]);
   });
 });

@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.31
+version: 0.32
 status: Draft
 effective_date:
 ---
@@ -341,7 +341,7 @@ Each destination has a rule card in `rules/prepped/` listing what it asks of a m
 - Traces to: UN-106, RC-112
 - Safety-critical: yes
 
-Prepped builds the packing list; the screens never choose its lines (CLAUDE.md rule 2). For each floor item, the item's own medicine is packed soonest expiry first, and only as much as the target needs after what accepted exchanges and chosen alternatives cover: the last lot may be packed in part, and the rest of it stays in stock for another brigade. Exchanges and alternatives are packed only at the amount the lead clinician enters, in the lot's own units, since Prepped never converts doses (SYS-115); supplements at the amount the lead clinician enters. The lead clinician may change any floor line's amount, from 1 to what remains in the lot; the change is marked and recorded. Each line shows what is left of its lot. The lead clinician or pharmacist decides at the point of care how packs are split. Donated stock is shared by the team's trips: a lot's available amount is its quantity less what other trips' signed-off packing lists take, so a target of 300 met from a lot of 700 leaves 400 for the next brigade. Signed-off lists that together take more of a lot than it holds, as after two trips signed off offline, put the lot in conflict: it counts for neither and both lists show "Conflict: check" until a person resolves it (OD-017). Any problem on the list (an amount not entered or out of range, a supplement not eligible, more taken from a lot than remains, a floor item without a target) stops the sign-off (owner, 2026-11-18; REV-014, ADR-049).
+Prepped builds the packing list; the screens never choose its lines (CLAUDE.md rule 2). For each floor item, the item's own medicine is packed soonest expiry first, and only as much as the target needs after what accepted exchanges and chosen alternatives cover: the last lot may be packed in part, and the rest of it stays in stock for another brigade. Exchanges and alternatives are packed only at the amount the lead clinician enters, in the lot's own units, since Prepped never converts doses (SYS-115); supplements at the amount the lead clinician enters. The lead clinician may change any floor line's amount, from 1 to what remains in the lot; the change is marked and recorded. Each line shows what is left of its lot. The lead clinician or pharmacist decides at the point of care how packs are split. Donated stock is shared by the team's trips: a lot's available amount is its quantity less what other trips' signed-off packing lists take, so a target of 300 met from a lot of 700 leaves 400 for the next brigade. Team stock shows what remains of each lot after every signed-off packing list, from the lots as recorded, without checking them against a trip (TC-142). Signed-off lists that together take more of a lot than it holds, as after two trips signed off offline, put the lot in conflict: it counts for neither and both lists show "Conflict: check" until a person resolves it (OD-017). Any problem on the list (an amount not entered or out of range, a supplement not eligible, more taken from a lot than remains, a floor item without a target) stops the sign-off (owner, 2026-11-18; REV-014, ADR-049).
 
 ## 4. SpareWing requirements
 
@@ -476,3 +476,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.29 | 2026-11-17 | SYS-120: the WHO card is verified by the owner, with ten items and exceptions as notes (REV-013, ADR-045). | Claude, for owner review |
 | 0.30 | 2026-11-18 | SYS-106: the meter keeps 70/30 (OD-063, ADR-047). | Claude, for owner review |
 | 0.31 | 2026-11-18 | SYS-010: the Prepped packing list is signed off by the lead clinician only, refused with open problems, and cleared by any later change; new SYS-121 packing list built from the team's shared stock (DOC-045 P10; REV-014, ADR-049). | Claude, for owner review |
+| 0.32 | 2026-11-19 | SYS-121: team stock shows what remains of each lot without checking it against a trip, so the screen takes it from core (TC-142). | Claude, for owner review |
