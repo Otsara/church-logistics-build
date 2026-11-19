@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.21
+version: 0.22
 status: Draft
 effective_date:
 ---
@@ -60,6 +60,16 @@ Lovable credit plan for the 100 hackathon credits, approved (owner, 2026-11-11):
 | Prepped screens | 50 |
 | SpareWing screens | 20 |
 | Reserve for integration fixes and the demo | 30 |
+
+Adjusted after the first build message (owner, 2026-11-19). Prepped's first build message (batch 1: shell, shared components, demo data, placeholders and P1 to P3) cost 19.1 credits, and about 21.6 of Prepped's credits were used by then. Batches 2 and 3 at that rate would need about 60 for Prepped. Up to 20 credits move from the reserve to Prepped:
+
+| Use | Credits |
+| --- | --- |
+| Prepped screens | up to 70 |
+| SpareWing screens | 20 |
+| Reserve for integration fixes and the demo | at least 10 |
+
+Fixes to built screens are folded into the next build message rather than sent alone (owner, 2026-11-19).
 
 A complete screen specification is written first, outside Lovable: DOC-045, Prepped first (owner, 2026-11-18; ADR-046). Each project gets one plan-mode message to agree the approach, then a few batched build messages. The cost of the first build message is checked and the plan adjusted before more is spent. Lovable builds screens only, never business logic. Max mode is not used. Every message to Lovable is sent only with the owner's go-ahead.
 
@@ -143,3 +153,4 @@ These ideas are not part of this build. No requirements, tests or code exist for
 | 0.19 | 2026-11-16 | IT-002: AI gateway deployed. | Claude, for owner review |
 | 0.20 | 2026-11-16 | Section 5: future work after submission, food pantry stock sharing and pastoral visit scheduling (owner, 2026-11-16). | Claude, for owner review |
 | 0.21 | 2026-11-18 | IT-003 status: screen specification DOC-045 drafted for Prepped (ADR-046). | Claude, for owner review |
+| 0.22 | 2026-11-19 | IT-003: Lovable credit plan adjusted after the first build message cost 19.1 credits; up to 20 credits move from the reserve to Prepped, and fixes are folded into build messages (owner, 2026-11-19). | Claude, for owner review |
