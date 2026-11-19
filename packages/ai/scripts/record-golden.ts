@@ -28,8 +28,8 @@ const FILES: readonly [
 type Call = (stepId: AiStepId, prompt: string) => Promise<string>;
 
 function caller(): { call: Call; mode: string } {
-  const url = process.env.GATEWAY_URL;
-  const token = process.env.ACCESS_TOKEN;
+  const url = process.env["GATEWAY_URL"];
+  const token = process.env["ACCESS_TOKEN"];
   if (url !== undefined && token !== undefined) {
     return {
       mode: "gateway",
@@ -46,7 +46,7 @@ function caller(): { call: Call; mode: string } {
         }),
     };
   }
-  const key = process.env.ANTHROPIC_API_KEY;
+  const key = process.env["ANTHROPIC_API_KEY"];
   if (key !== undefined) {
     const complete = anthropicComplete(new Anthropic({ apiKey: key }));
     return {

@@ -6,6 +6,7 @@ Why each tool and setting is here, and which spec item it serves. Supporting fil
 | --- | --- | --- |
 | Language | TypeScript, one `tsconfig.json` for the whole workspace | ARC-001 |
 | Strictness | `strict`, `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`, so a missing value is visible to the compiler | SYS-304, SYS-105 |
+| Screen-project settings | `noPropertyAccessFromIndexSignature`, `noImplicitOverride` and `noUncheckedSideEffectImports`, the stricter settings of the Lovable screen projects, so the rules folder that is compiled again there fails here first | ARC-003, ADR-048 |
 | Packages | pnpm workspace: `packages/core`, `ai`, `synth`, `store`; screens in `apps/` | ARC-002 |
 | Dates | `packages/core/src/dates.ts`: date-only `IsoDate` type, whole days in UTC | ARC-005 |
 | Rule files | Envelope checked by `parseRuleFile` (zod); every file in `/rules` is checked by a test | ARC-004 |

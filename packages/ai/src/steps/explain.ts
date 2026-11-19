@@ -107,7 +107,7 @@ function othersOf(facts: readonly Fact[], named: Fact): string[] {
   );
   return facts
     .flatMap((f) => [
-      ...(typeof f.values.name === "string" ? [f.values.name] : []),
+      ...(typeof f.values["name"] === "string" ? [f.values["name"]] : []),
       // A ref with digits is a code, checked as one; a lowercase word ("indicator") is not a name.
       ...(/\d|^\p{Ll}/u.test(f.ref) ? [] : [f.ref]),
     ])

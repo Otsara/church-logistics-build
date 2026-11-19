@@ -19,7 +19,13 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+
+    // The rules folder is compiled again inside each Lovable screen project (ADR-048), whose
+    // settings are stricter in these three ways; match them so CI catches a break here first.
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitOverride": true,
+    "noUncheckedSideEffectImports": true
   },
   "include": [
     "packages/*/src",
