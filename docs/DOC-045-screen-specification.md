@@ -173,6 +173,29 @@ The verse reference is set in the text colour, not orange: #B9501B on the page i
 
 The logo and the name use Fraunces; everything else stays Public Sans (section 3.4). Both fonts are bundled with the app, not fetched at run time, so the screens work offline (SYS-007; SOUP-021).
 
+### 3.7 SpareWing logo and verse (owner, 2026-11-19)
+
+The owner chose option C, "Winged gear + sparrow", from the SpareWing logo canvas (claude.ai design canvas "SpareWing Logo", 2026-11-01):
+
+- **Mark:** a sparrow inside a navy gear ring #14213D, with four gold wing strokes #B7790A on each side. On dark backgrounds the gear and sparrow turn cream #F6F3EA and the wings gold #F2B63D.
+- **Name:** "SPAREWING" in Barlow Condensed bold, with SPARE in navy and WING in gold.
+- **App icon:** the cream mark on a navy rounded square.
+- **Verse:** Luke 12:6, shown as the reference only, under the name on the start screen and the sign-in screen. It is not shown on printed lists, exports or any screen that shows a result. Psalm 91:4, shown on the canvas with option A, was not chosen: next to a flight decision a promise of protection could read as assurance that a flight is safe, which the app never claims (section 2, rule 1).
+- **No check mark, seal or badge** goes with the logo anywhere.
+
+Contrast, checked on 2026-11-19 (WCAG formula):
+
+| Use | Colours | Contrast |
+|---|---|---|
+| Gear, sparrow and SPARE on cream | #14213D on #F6F3EA | 14.4:1 |
+| Wings and WING on cream | #B7790A on #F6F3EA | 3.3:1 (graphic and large text, at least 3:1) |
+| Wings and WING on navy | #F2B63D on #14213D | 8.8:1 |
+| Verse reference | #14213D on #F6F3EA | 14.4:1 |
+
+WING in gold is used only at the logo's size (large text). The verse reference is set in the text colour, not gold, because gold on cream is below the 4.5:1 that normal text needs (section 3.2). SpareWing's screen palette is settled with its screens in a later version of this document.
+
+The SpareWing name uses Barlow Condensed, bundled with the app like the other fonts (SYS-007; SOUP-021).
+
 ## 4. Who uses Prepped
 
 From IU-103, with the decisions that name who may do what:
@@ -361,4 +384,4 @@ Built on 2026-11-18: the packing list sign-off in core (`sign-off.ts`). It refus
 | 0.1 | 2026-11-18 | First draft: how the screens reach the rules, rules for every screen, Prepped users and screens P1 to P12, the Lovable plan, and the decisions owed (owner, 2026-11-18; ADR-046). | Claude, for owner review |
 | 0.2 | 2026-11-18 | New section 3, look and feel: scope stays as settled, the owner's design requirements and sources, palette with checked contrast, status shapes and patterns. OD-063 (70/30) and OD-064 (a) decided. The Lovable plan uses the owner's prompt with this document's scope (owner, 2026-11-18; ADR-047). | Claude, for owner review |
 | 0.3 | 2026-11-18 | P4 becomes team stock shared by all trips; P10: the packing list built by core, with amounts the lead clinician enters or changes, what remains of each lot, no sign-off with open problems, and conflicts (SYS-010, SYS-121; ADR-049). | Claude, for owner review |
-| 0.4 | 2026-11-19 | New section 3.6: the Prepped logo (option B, capsule with Chi-Rho P) and verse (2 Timothy 2:21, start and sign-in screens only), with checked contrast and no check mark or seal (owner, 2026-11-19). Section 1: the rules come from a generated folder, not one file (ADR-048). | Claude, for owner review |
+| 0.4 | 2026-11-19 | New sections 3.6 and 3.7: the Prepped logo (option B, capsule with Chi-Rho P) with 2 Timothy 2:21, and the SpareWing logo (option C, winged gear with sparrow) with Luke 12:6; verses on start and sign-in screens only, checked contrast, no check mark or seal (owner, 2026-11-19). Section 1: the rules come from a generated folder, not one file (ADR-048). | Claude, for owner review |

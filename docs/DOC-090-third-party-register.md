@@ -137,7 +137,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-021 Fonts for the screens
 - Version: pinned when the font files are added to each Lovable project; bundled with the app, never loaded from a font service at run time.
 - Licence: SIL Open Font License 1.1 (the fonts' project repositories, 2026-11-19; to be confirmed against the licence file shipped with the font files).
-- Use: Public Sans for all screen text (DOC-045 §3.4); Fraunces for the Prepped logo and name (DOC-045 §3.6).
+- Use: Public Sans for all screen text (DOC-045 §3.4); Fraunces for the Prepped logo and name (DOC-045 §3.6); Barlow Condensed for the SpareWing name (DOC-045 §3.7).
 - Safety relevance: no. A missing font falls back to a system font; every status keeps its words and shape.
 
 ### SOUP-101 FDA drug directory (openFDA NDC)
@@ -180,4 +180,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.8 | 2026-11-16 | New SOUP-017 Anthropic SDK, SOUP-018 Supabase client and SOUP-019 Deno, for the AI gateway (ARC-014), registered before first use. | Claude, for owner review |
 | 0.9 | 2026-11-16 | SOUP-013: the `ai-gateway` function deployed to the Supabase project (owner, 2026-11-16). | Claude, for owner review |
 | 0.10 | 2026-11-17 | New SOUP-020 picomatch, with its temporary audit exception (ADR-043). | Claude, for owner review |
-| 0.11 | 2026-11-19 | New SOUP-021 fonts for the screens (Public Sans, Fraunces), bundled for offline use, registered before first use. | Claude, for owner review |
+| 0.11 | 2026-11-19 | New SOUP-021 fonts for the screens (Public Sans, Fraunces, Barlow Condensed), bundled for offline use, registered before first use. | Claude, for owner review |
