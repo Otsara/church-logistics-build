@@ -404,7 +404,7 @@ describe("Grounding details (TC-010)", () => {
       missingDocuments: [],
       problems: [],
     });
-    expect(item?.values.coverage).toBe(75);
+    expect(item?.values["coverage"]).toBe(75);
     const words =
       "approved, airworthy, flightworthy, safe to fly, cleared, ready to fly or fit to fly";
     expect(explainReadinessStep.buildPrompt({ facts: FACTS })).toContain(words);
