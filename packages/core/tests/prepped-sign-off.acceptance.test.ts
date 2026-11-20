@@ -49,7 +49,7 @@ describe("Packing list sign-off (SYS-010)", () => {
     if (!result.ok) return;
     expect(packingListStatus(LINES, result.signOff)).toEqual({
       status: "signed off",
-      message: "Signed off by PER-1 at 2026-11-18T15:00:00Z",
+      message: "Signed off",
     });
     // A lot listed twice after sign-off is a change.
     expect(
@@ -112,7 +112,7 @@ describe("Packing list sign-off (SYS-010)", () => {
       ).toEqual({
         status: "changed since sign-off",
         message:
-          "Changed since PER-1 signed it off at 2026-11-18T15:00:00Z: the lead clinician signs it off again",
+          "Changed since sign-off: the lead clinician signs it off again",
       });
     }
   });
