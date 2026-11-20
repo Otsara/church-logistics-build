@@ -250,8 +250,24 @@ export function checkCoverLetter(
       say(`mentions "${token}", which is not in the trip or the rule cards`);
     }
   }
+  const letter = output.sentences.map((s) => s.text).join(" ");
+  return {
+    accepted: problems.length === 0,
+    problems,
+    draft:
+      problems.length === 0
+        ? newDraft("AIC-102", `${letter}\n\n${listsOf(input)}`)
+        : null,
+    template: coverLetterTemplate(input),
+  };
+}
+
+/** The medicine list, then the checklists from the trip's rule cards, as built by code. */
+function listsOf(
+  input: Pick<CoverLetterInput, "medicines" | "cards" | "preparedItemIds">,
+): string {
   const prepared = new Set(input.preparedItemIds);
-  const lists = [
+  return [
     [
       "Medicines in this shipment:",
       ...input.medicines.map(
@@ -263,14 +279,15 @@ export function checkCoverLetter(
   ]
     .map((lines) => lines.join("\n"))
     .join("\n\n");
-  const letter = output.sentences.map((s) => s.text).join(" ");
-  return {
-    accepted: problems.length === 0,
-    problems,
-    draft:
-      problems.length === 0
-        ? newDraft("AIC-102", `${letter}\n\n${lists}`)
-        : null,
-    template: `[Covering letter: the team writes it here.]\n\n${lists}`,
-  };
+}
+
+/**
+ * The blank template, for when there is no accepted AI draft: a place for the team's letter, then
+ * the medicine list and the checklists (SYS-009; TC-143). The same text the check shows when a
+ * draft is not accepted.
+ */
+export function coverLetterTemplate(
+  input: Pick<CoverLetterInput, "medicines" | "cards" | "preparedItemIds">,
+): string {
+  return `[Covering letter: the team writes it here.]\n\n${listsOf(input)}`;
 }

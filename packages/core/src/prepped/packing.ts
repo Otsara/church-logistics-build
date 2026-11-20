@@ -270,9 +270,18 @@ export interface StockConflict {
   readonly message: string;
 }
 
+/**
+ * A lot as the team holds it: what any lot, checked against a trip or not, needs for what remains
+ * of it to be worked out. Team stock (P4) passes lots as recorded; a trip passes its checked lots.
+ */
+export interface HeldLot {
+  readonly lotId: string;
+  readonly quantity: number;
+}
+
 /** Lots that signed-off packing lists together take more of than they hold (OD-017). */
 export function stockConflicts(
-  lots: readonly StockLot[],
+  lots: readonly HeldLot[],
   lists: readonly SignedOffList[],
 ): StockConflict[] {
   return lots.flatMap((lot) => {
@@ -297,12 +306,13 @@ export function stockConflicts(
 
 /**
  * The stock available to one trip: each lot less what the other trips' signed-off lists take. A
- * lot in conflict counts for none of them until a person resolves it (OD-017).
+ * lot in conflict counts for none of them until a person resolves it (OD-017). Given every trip's
+ * signed-off list, it is what remains of each lot for the team (TC-142).
  */
-export function availableStock(
-  lots: readonly StockLot[],
+export function availableStock<Lot extends HeldLot>(
+  lots: readonly Lot[],
   otherTrips: readonly SignedOffList[],
-): StockLot[] {
+): Lot[] {
   const conflicted = new Set(
     stockConflicts(lots, otherTrips).map((c) => c.lotId),
   );

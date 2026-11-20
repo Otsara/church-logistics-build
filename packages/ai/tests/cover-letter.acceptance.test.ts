@@ -1,5 +1,5 @@
 // AIC-102: the covering letter for a medicine shipment (SYS-004, SYS-005, SYS-120; TC-007, TC-008,
-// TC-139). Code builds the medicine list and the checklists from the trip and its rule cards (the
+// TC-139, TC-143). Code builds the medicine list and the checklists from the trip and its rule cards (the
 // WHO card for every destination, then the country's); the AI writes only the letter, and any
 // sentence that states a requirement or names a document must cite a card item it mentions
 // (owner, 2026-11-16 and 2026-11-17; ADR-039, ADR-042, ADR-044). AI answers below are hand-written
@@ -16,6 +16,7 @@ import { describe, expect, it } from "vitest";
 import {
   checkCoverLetter,
   coverLetterStep,
+  coverLetterTemplate,
   type CoverLetterInput,
 } from "../src/steps/cover-letter.ts";
 import { DRAFT_LABEL, FORBIDDEN_IN_WORDS } from "../src/steps/drafts.ts";
@@ -270,5 +271,13 @@ describe("Covering letter after the owner's review (REV-012 part 2)", () => {
       "sentence 1 cites HN-01 but does not mention what it asks for",
     ]);
     expect(problems(cite("…"))).toEqual([]);
+  });
+
+  it("[TC-143] Given no AI draft at all, then the blank template is the same template the check shows, with the medicine list and the checklists", () => {
+    const template = coverLetterTemplate(INPUT);
+    expect(template).toBe(
+      `[Covering letter: the team writes it here.]\n\n${AFTER_LETTER}`,
+    );
+    expect(checkCoverLetter(INPUT, { sentences: [] }).template).toBe(template);
   });
 });
