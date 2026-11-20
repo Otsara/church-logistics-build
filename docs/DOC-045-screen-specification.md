@@ -1,7 +1,7 @@
 ---
 id: DOC-045
 title: Screen specification
-version: 0.5
+version: 0.6
 status: Draft
 effective_date:
 ---
@@ -156,7 +156,7 @@ The owner chose option B, "Capsule Chi-Rho", from the Prepped logo canvas (claud
 - **Mark:** a two-tone medicine capsule tilted 40 degrees, deep green #12332E with a burnt-orange half #B9501B. On dark backgrounds the mark turns cream #F5F1E8 with an orange half #F0A35E.
 - **Name:** "Prepped" in Fraunces bold, with the P drawn as a Chi-Rho (an X crossing the stem of the P).
 - **App icon:** the cream capsule on a deep green rounded square.
-- **Verse:** 2 Timothy 2:21, shown as the reference only, under the name on the start screen and the sign-in screen (P12). It is not shown on printed lists, letters, exports or any screen that shows a result.
+- **Verse:** 2 Timothy 2:21, shown as the reference only, under the name in the header on every screen (owner, 2026-11-19; it was first on the start screen and P12 only). It is not shown on printed lists, letters or exports.
 - **No check mark, seal or badge** goes with the logo anywhere: next to a medicine list it could read as the list having been passed, which the app never claims (section 2, rule 1).
 
 Contrast, checked on 2026-11-19 (WCAG formula):
@@ -167,9 +167,9 @@ Contrast, checked on 2026-11-19 (WCAG formula):
 | Mark and name in the header | #F5F1E8 on #2F4A3C | 8.6:1 |
 | Orange half in the header | #F0A35E on #2F4A3C | 4.7:1 |
 | Orange half on the page | #B9501B on #F1F3EE | 4.4:1 (graphic, at least 3:1) |
-| Verse reference | #12332E on the page | 12.2:1 |
+| Verse reference in the header | #F5F1E8 on #2F4A3C | 8.6:1 |
 
-The verse reference is set in the text colour, not orange: #B9501B on the page is 4.4:1, below the 4.5:1 that normal text needs (section 3.2).
+The verse reference is set in cream, not orange, in the header (section 3.2).
 
 The logo and the name use Fraunces; everything else stays Public Sans (section 3.4). Both fonts are bundled with the app, not fetched at run time, so the screens work offline (SYS-007; SOUP-021).
 
@@ -216,6 +216,7 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
 - **Purpose:** the list of trips, and the starting point.
 - **Shows:** each trip's destination, arrival date and indicator ("Go" or "No go", with its words), and when it last synced.
 - **Actions:** open a trip; create a trip (P2).
+- **Indicator:** each trip shows the small capsule beside its Go or No go words (owner, 2026-11-19; ADR-050).
 - **Traces to:** UN-103.
 
 ### P2 Trip details
@@ -301,7 +302,8 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
 ### P8 Readiness
 
 - **Indicator:**
-  - "Go" or "No go", large, in words, always with the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (SYS-112).
+  - the capsule from the logo, large, in one of two fixed positions set by core's Go or No go (owner, 2026-11-19; ADR-050);
+  - "Go" or "No go", large, in words beside it, always with the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (SYS-112).
   - With no floor items: "No go", with the reason.
 - **Meter:** the readiness percentage as a graphic beside the indicator, with its parts, coverage and documents (SYS-106). Coverage counts 70% and documents 30% (owner, 2026-11-18; OD-063).
 - **What stands in the way:** every short floor item with the amount short, and every missing document (SYS-107, SYS-112).
@@ -351,9 +353,10 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
 - **Rules:** read-only; filter by trip and by person.
 - **Traces to:** SYS-008.
 
-### P12 Sign-in and settings
+### P12 Settings
 
-- **Sign-in:** needed only for sync and the AI actions (ARC-006; ADR-046).
+- **Name:** "Settings" (owner, 2026-11-19; it was "Sign-in and settings").
+- **Sign-in:** a section of Settings, needed only for sync and the AI actions (ARC-006; ADR-046).
 - **Shows:** who is signed in and their role, the sync status, and a "Sign out" action.
 - **Demo mode:** says so, and offers sign-in.
 - **Traces to:** ARC-006, SEC-008.
@@ -388,3 +391,4 @@ Built on 2026-11-18: the packing list sign-off in core (`sign-off.ts`). It refus
 | 0.3 | 2026-11-18 | P4 becomes team stock shared by all trips; P10: the packing list built by core, with amounts the lead clinician enters or changes, what remains of each lot, no sign-off with open problems, and conflicts (SYS-010, SYS-121; ADR-049). | Claude, for owner review |
 | 0.4 | 2026-11-19 | New sections 3.6 and 3.7: the Prepped logo (option B, capsule with Chi-Rho P) with 2 Timothy 2:21, and the SpareWing logo (option C, winged gear with sparrow) with Luke 12:6; verses on start and sign-in screens only, checked contrast, no check mark or seal (owner, 2026-11-19). Section 1: the rules come from a generated folder, not one file (ADR-048). | Claude, for owner review |
 | 0.5 | 2026-11-19 | P4: a person matches each confirmed line to a catalogue entry before it becomes stock; unmatched lines stay out. P5: the "What to do" text for a blocked lot gives its reasons (owner, 2026-11-19). | Claude, for owner review |
+| 0.6 | 2026-11-19 | Go and No go shown as the logo's capsule on P8 and P1, in two fixed positions with the words (ADR-050). The verse moves to the header on every screen. P12 is renamed "Settings", with sign-in as a section (owner, 2026-11-19). | Claude, for owner review |
