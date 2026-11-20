@@ -47,8 +47,44 @@ jobs:
       - name: Known vulnerabilities in dependencies
         run: pnpm audit --audit-level high
 
+  changes:
+    name: Does this change touch safety-critical code? (ADR-051)
+    runs-on: ubuntu-24.04
+    outputs:
+      safety_critical: ${{ steps.diff.outputs.safety_critical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: diff
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          # Mutation testing takes 25 to 30 minutes, so it runs only when the safety-critical units
+          # in stryker.config.json, or what builds and tests them, change. A manual run, or a base
+          # that cannot be found, always runs it.
+          case "$EVENT" in
+            pull_request) base="origin/$BASE_REF" ;;
+            push) base="$BEFORE" ;;
+            *) echo "safety_critical=true" >> "$GITHUB_OUTPUT"; exit 0 ;;
+          esac
+          if ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            echo "safety_critical=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          changed="$(git diff --name-only "$(git merge-base "$base" HEAD)" HEAD)"
+          echo "$changed"
+          if echo "$changed" | grep -qE '^(packages/(core|synth|ai)/src/|stryker\.config\.json$|vitest\.config\.ts$|tsconfig\.json$|package\.json$|packages/[^/]+/package\.json$|pnpm-lock\.yaml$|pnpm-workspace\.yaml$|\.github/workflows/verify\.yml$)'; then
+            echo "safety_critical=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "safety_critical=false" >> "$GITHUB_OUTPUT"
+          fi
+
   mutation:
     name: Mutation testing of safety-critical code (ADR-006)
+    needs: changes
+    if: needs.changes.outputs.safety_critical == 'true'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4

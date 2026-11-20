@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.11
+version: 0.12
 status: Draft
 effective_date:
 ---
@@ -94,7 +94,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 
 ### SOUP-011 GitHub Actions
 - Version: actions/checkout@v4, pnpm/action-setup@v4, actions/setup-node@v4, actions/upload-artifact@v4
-- Terms: GitHub terms of service.
+- Terms: GitHub terms of service. The Otsara organisation is on the free plan, with a monthly allowance of Actions minutes for private repositories and an Actions spending limit of $5 set by the owner (owner, 2026-11-20; ADR-051).
 - Use: CI (`.github/workflows/verify.yml`).
 - Safety relevance: indirect. CI enforces the checks.
 
@@ -181,3 +181,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.9 | 2026-11-16 | SOUP-013: the `ai-gateway` function deployed to the Supabase project (owner, 2026-11-16). | Claude, for owner review |
 | 0.10 | 2026-11-17 | New SOUP-020 picomatch, with its temporary audit exception (ADR-043). | Claude, for owner review |
 | 0.11 | 2026-11-19 | New SOUP-021 fonts for the screens (Public Sans, Fraunces, Barlow Condensed), bundled for offline use, registered before first use. | Claude, for owner review |
+| 0.12 | 2026-11-20 | SOUP-011: free plan with a $5 Actions spending limit; mutation testing runs only on safety-critical changes (ADR-051). | Claude, for owner review |
