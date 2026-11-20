@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.35
+version: 0.36
 status: Draft
 effective_date:
 ---
@@ -38,7 +38,7 @@ How each requirement is shown to be met, how safety-critical code is verified, h
 A safety-critical unit (marked in DOC-020 and DOC-040) is verified only when all of these hold and are recorded:
 
 1. 100% branch, line, function and statement coverage.
-2. Mutation score of at least 80% (Stryker), measured on the changed code and critical paths (owner, 2026-11-10). `stryker.config.json` lists the safety-critical units to mutate, and CI runs `pnpm mutation` on every pull request. Incremental mode is off: on 2026-11-12 it reused stale results and under-reported the score (90.85% against 96.48% on a full run), and stale results could equally over-report.
+2. Mutation score of at least 80% (Stryker), measured on the changed code and critical paths (owner, 2026-11-10). `stryker.config.json` lists the safety-critical units to mutate, and CI runs `pnpm mutation` on every pull request or push that changes them or what builds and tests them; a manual run always runs it (owner, 2026-11-20; ADR-051). Incremental mode is off: on 2026-11-12 it reused stale results and under-reported the score (90.85% against 96.48% on a full run), and stale results could equally over-report.
 3. The owner's line-by-line review in the build conversation, written up as a review record `docs/reviews/REV-nnn-*.md` naming the commit and files reviewed (owner, 2026-11-10).
 
 ## 5. Pre-release confirmation run
@@ -731,3 +731,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.33 | 2026-11-18 | TC-009 implemented for the Prepped packing list sign-off; new TC-140 packing list built soonest expiry first and TC-141 stock shared across brigades, implemented (SYS-121, ADR-049). | Claude, for owner review |
 | 0.34 | 2026-11-18 | New TC-031 the rules folder for the screens, implemented (ADR-048). | Claude, for owner review |
 | 0.35 | 2026-11-19 | New TC-142 team stock shows what remains of each lot and TC-143 covering letter template without an AI draft, both implemented, so the screens take both from core (SYS-121, AIC-102). | Claude, for owner review |
+| 0.36 | 2026-11-20 | §4: CI runs mutation testing only when safety-critical code or what builds it changes (ADR-051). | Claude, for owner review |
