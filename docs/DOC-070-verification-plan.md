@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.34
+version: 0.35
 status: Draft
 effective_date:
 ---
@@ -488,6 +488,18 @@ Given eligible stock beyond a floor item's target, then the item's own medicine 
 
 Given another trip's signed-off packing list takes part of a lot, then only the rest is available to this trip (a 700 lot covering a target of 300 leaves 400); given signed-off lists that together take more of a lot than it holds, then the lot is in conflict, counts for neither, and both lists show "Conflict: check".
 
+### TC-142 Team stock shows what remains of each lot
+- Product: Prepped
+- Traces to: SYS-121
+
+Given the team's lots as recorded, not checked against any trip, and every signed-off packing list, then each lot shows what remains (a 700 lot after a list taking 300 shows 400); given lists that together take more of a lot than it holds, then the lot is in conflict, counts for none and shows "Conflict: check".
+
+### TC-143 Covering letter template without an AI draft
+- Product: Prepped
+- Traces to: AIC-102, SYS-009
+
+Given no AI draft at all, then the blank template is available on its own: a place for the team's letter, then the medicine list and the checklists, the same text shown when a draft is not accepted.
+
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -718,3 +730,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.32 | 2026-11-17 | TC-138: tests of the verified WHO card (ten items, notes) and of item notes in the checklist (ADR-045). | Claude, for owner review |
 | 0.33 | 2026-11-18 | TC-009 implemented for the Prepped packing list sign-off; new TC-140 packing list built soonest expiry first and TC-141 stock shared across brigades, implemented (SYS-121, ADR-049). | Claude, for owner review |
 | 0.34 | 2026-11-18 | New TC-031 the rules folder for the screens, implemented (ADR-048). | Claude, for owner review |
+| 0.35 | 2026-11-19 | New TC-142 team stock shows what remains of each lot and TC-143 covering letter template without an AI draft, both implemented, so the screens take both from core (SYS-121, AIC-102). | Claude, for owner review |

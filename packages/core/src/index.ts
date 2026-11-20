@@ -141,6 +141,7 @@ export {
   type PackingInput,
   type PackingList,
   type SignedOffList,
+  type HeldLot,
   type StockConflict,
   type SupplementLine,
 } from "./prepped/packing.ts";

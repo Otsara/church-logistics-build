@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.34
+version: 0.35
 status: Draft
 effective_date:
 ---
@@ -226,7 +226,7 @@ Built: `packages/ai/src/steps/donor-list.ts` with `lines.ts` (SYS-119, ADR-035):
 
 Input: trip, rule card, matched lots. Output: draft text citing the rule card id. Tier: stronger (see ADR-008). If it fails: show the blank template.
 
-Built: `packages/ai/src/steps/cover-letter.ts` with `packages/core/src/prepped/destination-card.ts` and `packages/core/src/claims.ts` (SYS-120; ADR-039, ADR-042, ADR-044). After the owner's review (REV-012): the input carries all the trip's cards (the WHO card, then the country's); a sentence naming a document needs a citation; a citing sentence must mention what the item asks for; a catalogue medicine not in the shipment is refused; and code adds the medicine list before the checklists. The forbidden-claims list is in core, so rule cards and AI text share it. Core reads the destination card and builds the checklist word for word. The AI gets the trip id, arrival date, the card's items with their ids and the medicines, and writes the letter as sentences, each listing the card items it cites. `checkCoverLetter` refuses a requirement stated without a citation, a citation not on the card, a forbidden claim, a wording-rule break, or a code, date or number not in the facts. An accepted letter is a draft followed by the checklist; otherwise the blank template is shown with the same checklist. Part of the guard on AI output (ARC-008), held to full coverage and mutation testing.
+Built: `packages/ai/src/steps/cover-letter.ts` with `packages/core/src/prepped/destination-card.ts` and `packages/core/src/claims.ts` (SYS-120; ADR-039, ADR-042, ADR-044). After the owner's review (REV-012): the input carries all the trip's cards (the WHO card, then the country's); a sentence naming a document needs a citation; a citing sentence must mention what the item asks for; a catalogue medicine not in the shipment is refused; and code adds the medicine list before the checklists. The forbidden-claims list is in core, so rule cards and AI text share it. Core reads the destination card and builds the checklist word for word. The AI gets the trip id, arrival date, the card's items with their ids and the medicines, and writes the letter as sentences, each listing the card items it cites. `checkCoverLetter` refuses a requirement stated without a citation, a citation not on the card, a forbidden claim, a wording-rule break, or a code, date or number not in the facts. An accepted letter is a draft followed by the checklist; otherwise the blank template is shown with the same checklist. `coverLetterTemplate` gives the same blank template when there is no AI draft at all, so the screen never builds it (TC-143). Part of the guard on AI output (ARC-008), held to full coverage and mutation testing.
 
 ### AIC-103 Explain readiness gaps
 - Product: Prepped
@@ -307,3 +307,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.32 | 2026-11-18 | ARC-003: screens import a generated rules file committed into each Lovable project; screens specified in DOC-045; demo mode (ADR-046). | Claude, for owner review |
 | 0.33 | 2026-11-18 | ARC-101: packing list sign-off and the packing list built from shared stock (`sign-off.ts`, `packing.ts`; SYS-010, SYS-121, ADR-049). | Claude, for owner review |
 | 0.34 | 2026-11-18 | ARC-003: the rules folder for the screens built (`tools/rules-bundle.mjs`, `packages/ai/src/client.ts`; ADR-048). | Claude, for owner review |
+| 0.35 | 2026-11-19 | AIC-102: `coverLetterTemplate` gives the blank template without an AI draft (TC-143). | Claude, for owner review |
