@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.35
+version: 0.36
 status: Draft
 effective_date:
 ---
@@ -61,6 +61,13 @@ Local-first in the browser (IndexedDB), with team sync through Supabase when onl
 - Formerly: F-7
 
 Installable web app that queues changes and syncs later. Matches MARC's connectivity.
+
+### ARC-019 Offline store and sync
+- Product: Shared
+- Traces to: SYS-007, SYS-008
+- Safety-critical: yes
+
+`packages/store` keeps every synced thing as a versioned record (kind, id, team, server version, data, who and when) and, on the device, an outbox of edits with the version each was based on, the conflicts held for a person, the audit entries and a pull cursor, in IndexedDB. Sync pushes each edit with its base version; the server accepts it only if that is still current, otherwise the device holds a conflict; then the device pulls every record changed since its cursor. A record in conflict is left out of what the screens and rules see ("Conflict: check") until a person chooses a version; both versions and the choice go in the audit log. The sync rules are pure functions held to full coverage and mutation testing; the Supabase calls go through a client the screens supply (owner, 2026-11-21; ADR-052).
 
 ### ARC-008 AI wrapper
 - Product: Shared
@@ -308,3 +315,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.33 | 2026-11-18 | ARC-101: packing list sign-off and the packing list built from shared stock (`sign-off.ts`, `packing.ts`; SYS-010, SYS-121, ADR-049). | Claude, for owner review |
 | 0.34 | 2026-11-18 | ARC-003: the rules folder for the screens built (`tools/rules-bundle.mjs`, `packages/ai/src/client.ts`; ADR-048). | Claude, for owner review |
 | 0.35 | 2026-11-19 | AIC-102: `coverLetterTemplate` gives the blank template without an AI draft (TC-143). | Claude, for owner review |
+| 0.36 | 2026-11-21 | New ARC-019 offline store and sync (ADR-052). | Claude, for owner review |
