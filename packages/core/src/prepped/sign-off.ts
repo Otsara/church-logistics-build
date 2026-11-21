@@ -131,7 +131,11 @@ export interface PackingListStatus {
   readonly message: string;
 }
 
-/** Whether the packing list as it now stands is signed off. */
+/**
+ * Whether the packing list as it now stands is signed off. The message carries no person or time:
+ * the screen writes "Signed off by [name] on [date]" from the sign-off record, since names stay on
+ * the device and only the screen knows them (owner, 2026-11-20; REV-016).
+ */
 export function packingListStatus(
   lines: readonly PackingLine[],
   signOff: PackingSignOff | null,
@@ -158,10 +162,11 @@ export function packingListStatus(
   return listOf(lines) === signOff.signedList
     ? {
         status: "signed off",
-        message: `Signed off by ${signOff.personId} at ${signOff.time}`,
+        message: "Signed off",
       }
     : {
         status: "changed since sign-off",
-        message: `Changed since ${signOff.personId} signed it off at ${signOff.time}: the lead clinician signs it off again`,
+        message:
+          "Changed since sign-off: the lead clinician signs it off again",
       };
 }

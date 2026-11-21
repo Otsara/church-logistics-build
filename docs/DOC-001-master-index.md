@@ -18,7 +18,7 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-002 | Glossary | 0.6 | Draft | `docs/DOC-002-glossary.md` |
 | DOC-003 | Open decisions and release blockers | 0.27 | Draft | `docs/DOC-003-open-decisions.md` |
 | DOC-010 | Intended use, users and regulatory position | 0.4 | Draft | `docs/DOC-010-intended-use.md` |
-| DOC-020 | User needs and system requirements | 0.32 | Draft | `docs/DOC-020-requirements.md` |
+| DOC-020 | User needs and system requirements | 0.33 | Draft | `docs/DOC-020-requirements.md` |
 | DOC-030 | Risk management file | 0.18 | Draft | `docs/DOC-030-risk-management.md` |
 | DOC-040 | Architecture and AI step contracts | 0.35 | Draft | `docs/DOC-040-architecture.md` |
 | DOC-045 | Screen specification | 0.6 | Draft | `docs/DOC-045-screen-specification.md` |
@@ -49,7 +49,7 @@ Items defined, by type:
 | SUB | 7 |
 | IT | 5 |
 | ADR | 51 |
-| REV | 15 |
+| REV | 16 |
 <!-- END GENERATED -->
 
 ## Revision history

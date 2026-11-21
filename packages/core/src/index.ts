@@ -18,6 +18,7 @@ export {
   type RuleFile,
   type RuleFileResult,
 } from "./rule-file.ts";
+export { readJsonText, type JsonText } from "./json-text.ts";
 export {
   checkLot,
   COLD_CHAIN_REASON,

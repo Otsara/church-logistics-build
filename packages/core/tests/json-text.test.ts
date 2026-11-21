@@ -1,5 +1,6 @@
 // Reading JSON text so that a key named twice is caught, not silently dropped (ADR-034).
 import { describe, expect, it } from "vitest";
+import * as core from "../src/index.ts";
 import { readJsonText } from "../src/json-text.ts";
 
 const dup = (key: string, path: string): string =>
@@ -60,5 +61,9 @@ describe("JSON text with duplicate keys", () => {
         errors: ["not valid JSON"],
       });
     }
+  });
+
+  it("[TC-328] Given a screen that reads a rule file, then the reader is available from core's main entry, so no screen falls back to JSON.parse", () => {
+    expect(core.readJsonText).toBe(readJsonText);
   });
 });

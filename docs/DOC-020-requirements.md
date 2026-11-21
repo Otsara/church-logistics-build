@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.32
+version: 0.33
 status: Draft
 effective_date:
 ---
@@ -188,7 +188,7 @@ When an AI step times out, errors or returns invalid output, the app retries onc
 
 Every packing list, candidate, proposal and draft stays a suggestion until the person with authority for it (IU-103, IU-303) signs it off in the app. No screen, message or export uses the word "approved" for a part, pilot, medicine or document. In Prepped, only the lead clinician, a pharmacist or clinician, signs off the packing list; the sign-off records who and when, a list with no lines, a lot twice, a line without a lot id or a quantity that is not a whole number of 1 or more is refused, as is a list with open problems (SYS-121), sign-off is allowed while the indicator shows No go (owner, 2026-11-18; REV-014), and any change to the list afterwards clears the sign-off until it is signed off again (owner, 2026-11-12 and 2026-11-18; IU-102, DOC-045 P10).
 
-## 3. Prepped requirements
+## 3. Prepped requirements The packing list's status says only "Signed off", or "Changed since sign-off: the lead clinician signs it off again"; the screen writes "Signed off by [name] on [date]" from the sign-off record, because names stay on the device (owner, 2026-11-20; REV-016).
 
 ### SYS-101 Days remaining at arrival
 - Product: Prepped
@@ -477,3 +477,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.30 | 2026-11-18 | SYS-106: the meter keeps 70/30 (OD-063, ADR-047). | Claude, for owner review |
 | 0.31 | 2026-11-18 | SYS-010: the Prepped packing list is signed off by the lead clinician only, refused with open problems, and cleared by any later change; new SYS-121 packing list built from the team's shared stock (DOC-045 P10; REV-014, ADR-049). | Claude, for owner review |
 | 0.32 | 2026-11-19 | SYS-121: team stock shows what remains of each lot without checking it against a trip, so the screen takes it from core (TC-142). | Claude, for owner review |
+| 0.33 | 2026-11-20 | SYS-010: the packing list's status carries no person or time; the screen writes the name and date from the sign-off record (owner, 2026-11-20; REV-016). | Claude, for owner review |
