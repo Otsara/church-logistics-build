@@ -32,4 +32,4 @@ The owner accepted the store code as reviewed on 2026-11-21.
 ## Outcome
 
 - Finding 3 is built in `sync.ts`, with its test.
-- Finding 1's migration `20261121000002_signed_in_person_and_roles.sql` is written and shown to the owner before it is applied; the screens' part goes into the Lovable message that brings in the store.
+- Finding 1's migration `20261121000002_signed_in_person_and_roles.sql` was applied with the owner's approval on 2026-11-21. The owner's two demo accounts were made members of one demo team: the `+lead` account as Dr Tobias Ainsley (team leader, lead clinician) and the `+pharmacist` account as Priya Castellan (lead clinician). `supabase/tests/team_separation.sql` then passed all nine checks. The screens' part goes into the Lovable message that brings in the store.

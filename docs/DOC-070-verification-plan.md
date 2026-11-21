@@ -199,6 +199,8 @@ Given the same lot's quantity changed on two devices while offline, when both sy
 
 Given a device that has signed in and then goes offline, then work continues and its edits sync at the next connection with the editor recorded; given a person from another team, then that person cannot read or change this team's records; given unsynced edits, then signing out warns and keeps them (OD-001).
 
+The team separation and the person check are tested against the database with `supabase/tests/team_separation.sql`, which acts as the demo team's accounts and rolls back. Run on 2026-11-21 after the owner approved the migrations: all nine checks as expected (new record accepted as version 1, edit as version 2, a stale edit refused with the current row, a change under another person refused, a push into another team refused, another team's records invisible by pull and by direct read, nothing deletable, only one's own membership visible and one's own roles unchangeable, and the second account pulls the first's record).
+
 ### TC-025 Corpus and held-back split
 - Product: Shared
 - Traces to: DAT-001, DAT-002
@@ -738,4 +740,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.34 | 2026-11-18 | New TC-031 the rules folder for the screens, implemented (ADR-048). | Claude, for owner review |
 | 0.35 | 2026-11-19 | New TC-142 team stock shows what remains of each lot and TC-143 covering letter template without an AI draft, both implemented, so the screens take both from core (SYS-121, AIC-102). | Claude, for owner review |
 | 0.36 | 2026-11-20 | §4: CI runs mutation testing only when safety-critical code or what builds it changes (ADR-051). | Claude, for owner review |
-| 0.37 | 2026-11-21 | New TC-032 device store survives a reload and the demo resets (ARC-019, ADR-052). | Claude, for owner review |
+| 0.37 | 2026-11-21 | New TC-032 device store survives a reload and the demo resets; TC-024 tested against the database on 2026-11-21 (ARC-019, ADR-052, ADR-053). | Claude, for owner review |

@@ -205,6 +205,7 @@ describe("Offline storage and sync acceptance", () => {
     });
   });
 
+  // Tested against the database, not here: supabase/tests/team_separation.sql (run 2026-11-21).
   it.todo(
     "[TC-024] Given two teams, then the database rules let neither read nor write the other's records",
   );

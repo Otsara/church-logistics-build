@@ -28,5 +28,5 @@ Owner, 2026-11-21: **(a)**.
 ## Consequences
 
 - Sign-off authority (SYS-010) rests on the account, not on a choice in the screen, whenever sync is on.
-- The migration `20261121000002_signed_in_person_and_roles.sql` is shown to the owner before it is applied.
+- The migration `20261121000002_signed_in_person_and_roles.sql` was shown to the owner and applied with their approval on 2026-11-21.
 - TC-024's database test also checks that a change under another person is refused.
