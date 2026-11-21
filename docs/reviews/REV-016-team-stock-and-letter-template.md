@@ -30,3 +30,4 @@ The owner accepted the recommendations on 2026-11-20 ("accept recommendations fo
 
 - Findings 2 and 3 are built in the pull request "Prepped: sign-off status without a person or time, and the rule-file reader exported" (SYS-010; TC-009, TC-328): the tests were changed first and failed, then the code.
 - Finding 1 needs no core change: the screens pass the signed-off lines.
+- The owner reviewed the code of #47 line by line (the two status messages in `sign-off.ts` and the `readJsonText` export) and merged it, confirming in the build conversation on 2026-11-21 (owner, 2026-11-21). CI passed in full on it, including mutation testing (`sign-off.ts` 100%).
