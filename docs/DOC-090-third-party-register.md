@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.13
+version: 0.14
 status: Draft
 effective_date:
 ---
@@ -146,6 +146,12 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Use: development only; an in-memory IndexedDB for the store's tests (TC-032). Never shipped in the app.
 - Safety relevance: indirect. A stand-in that behaved differently from a browser could hide a storage fault; the store's browser behaviour is also checked in the screens.
 
+### SOUP-023 vite-plugin-pwa
+- Version: 2.0.0 (published 2026-10-03), pinned exactly in the Prepped Lovable project (Otsara/prepped)
+- Licence: MIT (npm package metadata, 2026-11-21)
+- Use: build time only, in the Prepped screens; it generates the service worker that lets the app open with no network after a first visit (ARC-007). Lovable's platform requires this add-on for a service worker rather than a hand-written one; it is off in Lovable's preview and works in the published app (owner, 2026-11-21).
+- Safety relevance: indirect. A stale cached app could show an older screen; the rules and the data still come from the rules folder and the device store.
+
 ### SOUP-101 FDA drug directory (openFDA NDC)
 - Version: NDC export of 2026-11-11 (`drug-ndc-0001-of-0001.json.zip`, 138,327 records, SHA-256 df68fd940abd2bb1737b0bbc6beaa7dbd78bafdd49a31ffdd50b24b6620f69b3), downloaded 2026-11-12 (OD-034)
 - Terms: openFDA states its data is public domain under CC0 1.0 unless otherwise noted, asks for attribution, and says results should be assumed unvalidated (open.fda.gov/license, open.fda.gov/terms). The licence page states CC0 1.0 for openFDA data (read 2026-11-12); the file's own metadata links to that page.
@@ -189,3 +195,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.11 | 2026-11-19 | New SOUP-021 fonts for the screens (Public Sans, Fraunces, Barlow Condensed), bundled for offline use, registered before first use. | Claude, for owner review |
 | 0.12 | 2026-11-20 | SOUP-011: free plan with a $5 Actions spending limit; mutation testing runs only on safety-critical changes (ADR-051). | Claude, for owner review |
 | 0.13 | 2026-11-21 | New SOUP-022 fake-indexeddb for the store's tests, registered before first use; SOUP-018 also used by the apps for sync; SOUP-013 holds the sync tables, applied with the owner's approval (ADR-052). | Claude, for owner review |
+| 0.14 | 2026-11-21 | New SOUP-023 vite-plugin-pwa 2.0.0 for the Prepped screens' service worker, registered before first use (owner, 2026-11-21). | Claude, for owner review |
