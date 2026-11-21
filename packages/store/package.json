@@ -2,12 +2,16 @@
   "name": "@church-logistics/store",
   "private": true,
   "license": "UNLICENSED",
-  "description": "Offline-first storage and sync (ARC-006, ARC-007). Proposed in BUILD_SPEC v0.3; the storage choice is open (OD-001).",
+  "description": "Offline store and sync: versioned records, an outbox and conflicts held for a person (ARC-006, ARC-007, ARC-019; ADR-052).",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@church-logistics/core": "workspace:*"
+    "@church-logistics/core": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "fake-indexeddb": "6.2.6"
   }
 }

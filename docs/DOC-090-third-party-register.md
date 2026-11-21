@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.12
+version: 0.13
 status: Draft
 effective_date:
 ---
@@ -107,7 +107,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-013 Supabase
 - Version: service
 - Terms: Supabase terms. Free plan, with Edge Function invocations limited per month and projects paused after inactivity; Pro plan billed monthly (third-party summaries, to confirm on supabase.com/pricing).
-- Use: team sync and sign-in (ARC-006, SEC-008) and the AI gateway holding the key (ARC-014) (owner, 2026-11-12); OD-001, OD-027. A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds the Edge Function `ai-gateway`, deployed on 2026-11-16, and the AI key as its secret, entered by the owner; no data yet. Free projects pause after a week without activity, which matters for a live demo during judging.
+- Use: team sync and sign-in (ARC-006, SEC-008) and the AI gateway holding the key (ARC-014) (owner, 2026-11-12); OD-001, OD-027. A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds the Edge Function `ai-gateway`, deployed on 2026-11-16, and the AI key as its secret, entered by the owner. On 2026-11-21 the sync tables `team_members` and `records`, their database rules and the functions `push_record` and `pull_records` were added (owner, 2026-11-21; `supabase/migrations/`, ADR-052); no data yet. Free projects pause after a week without activity, which matters for a live demo during judging.
 - Safety relevance: indirect.
 
 ### SOUP-014 Stryker
@@ -125,7 +125,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-018 Supabase JavaScript client
 - Version: @supabase/supabase-js 2.118.0 (published 2026-10-15)
 - Licence: MIT (npm package metadata, 2026-11-16)
-- Use: the AI gateway's sign-in check (`supabase/functions/ai-gateway`, SEC-008); later, team sync and sign-in in the apps (ARC-006). Loaded by the Edge Function from npm, pinned in its `deno.json` and `deno.lock`.
+- Use: the AI gateway's sign-in check (`supabase/functions/ai-gateway`, SEC-008); team sync and sign-in in the apps, where the screens create the client and pass it to the store (ARC-006, ARC-019). Loaded by the Edge Function from npm, pinned in its `deno.json` and `deno.lock`.
 - Safety relevance: indirect.
 
 ### SOUP-019 Deno (Supabase Edge Runtime)
@@ -139,6 +139,12 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Licence: SIL Open Font License 1.1 (the fonts' project repositories, 2026-11-19; to be confirmed against the licence file shipped with the font files).
 - Use: Public Sans for all screen text (DOC-045 §3.4); Fraunces for the Prepped logo and name (DOC-045 §3.6); Barlow Condensed for the SpareWing name (DOC-045 §3.7).
 - Safety relevance: no. A missing font falls back to a system font; every status keeps its words and shape.
+
+### SOUP-022 fake-indexeddb
+- Version: 6.2.6 (published 2026-10-16)
+- Licence: Apache-2.0 (npm package metadata, 2026-11-21)
+- Use: development only; an in-memory IndexedDB for the store's tests (TC-032). Never shipped in the app.
+- Safety relevance: indirect. A stand-in that behaved differently from a browser could hide a storage fault; the store's browser behaviour is also checked in the screens.
 
 ### SOUP-101 FDA drug directory (openFDA NDC)
 - Version: NDC export of 2026-11-11 (`drug-ndc-0001-of-0001.json.zip`, 138,327 records, SHA-256 df68fd940abd2bb1737b0bbc6beaa7dbd78bafdd49a31ffdd50b24b6620f69b3), downloaded 2026-11-12 (OD-034)
@@ -182,3 +188,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.10 | 2026-11-17 | New SOUP-020 picomatch, with its temporary audit exception (ADR-043). | Claude, for owner review |
 | 0.11 | 2026-11-19 | New SOUP-021 fonts for the screens (Public Sans, Fraunces, Barlow Condensed), bundled for offline use, registered before first use. | Claude, for owner review |
 | 0.12 | 2026-11-20 | SOUP-011: free plan with a $5 Actions spending limit; mutation testing runs only on safety-critical changes (ADR-051). | Claude, for owner review |
+| 0.13 | 2026-11-21 | New SOUP-022 fake-indexeddb for the store's tests, registered before first use; SOUP-018 also used by the apps for sync; SOUP-013 holds the sync tables, applied with the owner's approval (ADR-052). | Claude, for owner review |

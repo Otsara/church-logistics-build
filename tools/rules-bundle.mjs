@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Builds the rules folder the screens import (ARC-003; owner, 2026-11-18; ADR-046, ADR-048).
+// Builds the rules folder the screens import (ARC-003; owner, 2026-11-18; ADR-046, ADR-048),
+// with the offline store under the name `store` (ARC-019; ADR-052).
 //
 //   node tools/rules-bundle.mjs <out-dir>            write the folder
 //   node tools/rules-bundle.mjs --check <dir>        exit 1 if <dir> differs from a fresh build
@@ -26,8 +27,13 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCES = {
   core: join(ROOT, "packages/core/src"),
   ai: join(ROOT, "packages/ai/src"),
+  store: join(ROOT, "packages/store/src"),
 };
-const ENTRIES = [join(SOURCES.core, "index.ts"), join(SOURCES.ai, "client.ts")];
+const ENTRIES = [
+  join(SOURCES.core, "index.ts"),
+  join(SOURCES.ai, "client.ts"),
+  join(SOURCES.store, "index.ts"),
+];
 const RULE_DIRS = ["prepped", "sparewing"];
 const ALLOWED_PACKAGES = new Set(["zod"]);
 const IMPORT = /(?:^|\n)\s*(?:import|export)\b[^;]*?\bfrom\s+"([^"]+)"/g;
@@ -116,8 +122,11 @@ export function buildFiles(sha = commit()) {
   );
   files.set(
     "index.ts",
-    header("packages/core/src/index.ts and packages/ai/src/client.ts", sha) +
-      'export * from "./core/index.ts";\nexport * from "./ai/client.ts";\nexport { RULE_FILES } from "./rule-files.ts";\n',
+    header(
+      "packages/core/src/index.ts, packages/ai/src/client.ts and packages/store/src/index.ts",
+      sha,
+    ) +
+      'export * from "./core/index.ts";\nexport * from "./ai/client.ts";\nexport { RULE_FILES } from "./rule-files.ts";\n// The offline store, kept under its own name so its exports never clash with the rules\' (ARC-019).\nexport * as store from "./store/index.ts";\n',
   );
   const manifest = {
     source: "Otsara/church-logistics-build",

@@ -30,6 +30,8 @@ export default defineConfig({
         "packages/ai/src/names.ts": FULL,
         // The readers' checks are part of the guard on AI output (ARC-008, ADR-035).
         "packages/ai/src/steps/**": FULL,
+        // The sync rules decide whether a record in conflict is counted (ARC-019, ADR-052).
+        "packages/store/src/**": FULL,
       },
     },
   },

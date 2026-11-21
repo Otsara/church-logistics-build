@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.22
+version: 0.23
 status: Draft
 effective_date:
 ---
@@ -72,6 +72,8 @@ Adjusted after the first build message (owner, 2026-11-19). Prepped's first buil
 Fixes to built screens are folded into the next build message rather than sent alone (owner, 2026-11-19).
 
 A complete screen specification is written first, outside Lovable: DOC-045, Prepped first (owner, 2026-11-18; ADR-046). Each project gets one plan-mode message to agree the approach, then a few batched build messages. The cost of the first build message is checked and the plan adjusted before more is spent. Lovable builds screens only, never business logic. Max mode is not used. Every message to Lovable is sent only with the owner's go-ahead.
+
+Offline store and sync (owner, 2026-11-21; ADR-052): full sync as ADR-012 says, with a checkpoint at the end of 2026-11-24 (Central time). If two devices do not yet sync and hold conflicts as TC-001 and TC-023 require, the build switches to device-only storage and the owner is told. The SpareWing screens move after the submission unless time allows ("should there prove bandwidth and time to work on SpareWing screens, tack it on").
 
 ### IT-004 Iteration 4: release candidate and submission
 - Dates: November 23 to 26
@@ -154,3 +156,4 @@ These ideas are not part of this build. No requirements, tests or code exist for
 | 0.20 | 2026-11-16 | Section 5: future work after submission, food pantry stock sharing and pastoral visit scheduling (owner, 2026-11-16). | Claude, for owner review |
 | 0.21 | 2026-11-18 | IT-003 status: screen specification DOC-045 drafted for Prepped (ADR-046). | Claude, for owner review |
 | 0.22 | 2026-11-19 | IT-003: Lovable credit plan adjusted after the first build message cost 19.1 credits; up to 20 credits move from the reserve to Prepped, and fixes are folded into build messages (owner, 2026-11-19). | Claude, for owner review |
+| 0.23 | 2026-11-21 | IT-003: offline store and sync with a checkpoint on 2026-11-24; SpareWing screens after the submission unless time allows (owner, 2026-11-21; ADR-052). | Claude, for owner review |

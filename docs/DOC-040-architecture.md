@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.35
+version: 0.36
 status: Draft
 effective_date:
 ---
@@ -31,7 +31,7 @@ TypeScript throughout. One language for rules, tests and screens.
 - Product: Shared
 - Formerly: F-3
 
-Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Two stand-alone Lovable projects, each published on its lovable.app address; CI runs a smoke test that the published screens load and call the core rules (owner, 2026-11-12); OD-018. Phone, tablet and laptop, phone first, WCAG 2.2 AA (OD-035). The screens reach core through one generated file, bundling core, the AI client and the offline store, committed into each Lovable project's GitHub repository and checked by CI against this repository; the app opens in a demo mode on synthetic data without sign-in, and the AI actions need an account the owner creates (owner, 2026-11-18; ADR-046). What each screen shows and does is specified in DOC-045. Built: `tools/rules-bundle.mjs` writes the folder (one generated folder of stamped source copies, the rule files as text and a manifest, ADR-048) from `packages/core/src/index.ts` and the browser-safe `packages/ai/src/client.ts`, and its `--check` mode compares a folder with the source (TC-031).
+Lovable generates the UI and exports it to the repository; Claude Code owns everything outside `apps/*/ui`. Two stand-alone Lovable projects, each published on its lovable.app address; CI runs a smoke test that the published screens load and call the core rules (owner, 2026-11-12); OD-018. Phone, tablet and laptop, phone first, WCAG 2.2 AA (OD-035). The screens reach core through one generated file, bundling core, the AI client and the offline store, committed into each Lovable project's GitHub repository and checked by CI against this repository; the app opens in a demo mode on synthetic data without sign-in, and the AI actions need an account the owner creates (owner, 2026-11-18; ADR-046). What each screen shows and does is specified in DOC-045. Built: `tools/rules-bundle.mjs` writes the folder (one generated folder of stamped source copies, the rule files as text and a manifest, ADR-048) from `packages/core/src/index.ts` and the browser-safe `packages/ai/src/client.ts`, and its `--check` mode compares a folder with the source (TC-031). The folder also carries the offline store under the name `store` (owner, 2026-11-21; ARC-019, ADR-052).
 
 ### ARC-004 Rule files
 - Product: Shared
@@ -61,6 +61,13 @@ Local-first in the browser (IndexedDB), with team sync through Supabase when onl
 - Formerly: F-7
 
 Installable web app that queues changes and syncs later. Matches MARC's connectivity.
+
+### ARC-019 Offline store and sync
+- Product: Shared
+- Traces to: SYS-007, SYS-008
+- Safety-critical: yes
+
+`packages/store` keeps every synced thing as a versioned record (kind, id, team, server version, data, who and when) and, on the device, an outbox of edits with the version each was based on, the conflicts held for a person, the audit entries and a pull cursor, in IndexedDB. Sync pushes each edit with its base version; the server accepts it only if that is still current, otherwise the device holds a conflict; then the device pulls every record changed since its cursor. A record in conflict is left out of what the screens and rules see ("Conflict: check") until a person chooses a version; both versions and the choice go in the audit log. The sync rules are pure functions held to full coverage and mutation testing; the Supabase calls go through a client the screens supply (owner, 2026-11-21; ADR-052).
 
 ### ARC-008 AI wrapper
 - Product: Shared
@@ -308,3 +315,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.33 | 2026-11-18 | ARC-101: packing list sign-off and the packing list built from shared stock (`sign-off.ts`, `packing.ts`; SYS-010, SYS-121, ADR-049). | Claude, for owner review |
 | 0.34 | 2026-11-18 | ARC-003: the rules folder for the screens built (`tools/rules-bundle.mjs`, `packages/ai/src/client.ts`; ADR-048). | Claude, for owner review |
 | 0.35 | 2026-11-19 | AIC-102: `coverLetterTemplate` gives the blank template without an AI draft (TC-143). | Claude, for owner review |
+| 0.36 | 2026-11-21 | New ARC-019 offline store and sync; ARC-003: the rules folder also carries the store (ADR-052). | Claude, for owner review |
