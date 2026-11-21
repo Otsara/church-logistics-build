@@ -33,3 +33,4 @@ export {
   type DeviceFactory,
   type DeviceStore,
 } from "./device.ts";
+export { supabaseTransport, type RpcClient } from "./supabase.ts";
