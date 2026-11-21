@@ -42,7 +42,7 @@ const record = (
 });
 
 describe("Edits on the device", () => {
-  it("[TC-024] Given a change with no person, a time that is not UTC, or no kind or id, then it is refused and nothing changes", () => {
+  it('[TC-024] Given a change with no person, a time that is not UTC, no kind or id, or a kind containing "/", then it is refused and nothing changes', () => {
     const s = emptyState(TEAM);
     const change = { kind: "lot", id: "L1", data: 1 };
     expect(edit(s, change, " ", T1)).toEqual({
@@ -65,6 +65,13 @@ describe("Edits on the device", () => {
       ok: false,
       reason: "a record needs a kind and an id",
     });
+    // A kind with "/" could make two different records share a key (REV-017).
+    expect(edit(s, { ...change, kind: "lot/x" }, "PER-A", T1)).toEqual({
+      ok: false,
+      reason: 'a record\'s kind cannot contain "/"',
+    });
+    // An id may contain "/", as lot numbers sometimes do.
+    expect(edit(s, { ...change, id: "A/12" }, "PER-A", T1).ok).toBe(true);
   });
 
   it("[TC-001] Given a record edited twice before it syncs, then one edit waits, based on the version the first was made from", () => {

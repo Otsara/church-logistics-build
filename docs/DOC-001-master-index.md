@@ -48,8 +48,8 @@ Items defined, by type:
 | SOUP | 24 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 52 |
-| REV | 16 |
+| ADR | 53 |
+| REV | 17 |
 <!-- END GENERATED -->
 
 ## Revision history

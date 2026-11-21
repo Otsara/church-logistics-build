@@ -125,6 +125,10 @@ export function edit(
   if (change.kind.trim() === "" || change.id.trim() === "") {
     return { ok: false, reason: "a record needs a kind and an id" };
   }
+  if (change.kind.includes("/")) {
+    // Keys are "kind/id", so a kind with "/" could share a key with another record (REV-017).
+    return { ok: false, reason: 'a record\'s kind cannot contain "/"' };
+  }
   const key = keyOf(change.kind, change.id);
   if (key in state.conflicts) {
     return {

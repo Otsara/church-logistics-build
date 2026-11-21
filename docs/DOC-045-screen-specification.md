@@ -18,6 +18,7 @@ Screens trace to the requirements in DOC-020 by their IDs. Screens are named P1,
   - Nobody edits it by hand.
   - `pnpm rules:bundle --check` shows whether it matches this repository's code at the commit it names.
   - It also carries the offline store, under the name `store`: the screens keep their data in it instead of the demo's in-memory store, and pass it their signed-in Supabase client to sync (owner, 2026-11-21; ARC-019, ADR-052).
+  - When signed in, "Acting as" is fixed to the person the account belongs to, with the roles in their team membership; without sign-in, the demo keeps the selector (owner, 2026-11-21; ADR-053).
 - **Screens decide nothing.** Every eligibility, coverage, indicator, checklist and AI check comes from that folder (CLAUDE.md rule 2; ARC-101).
   - A screen never computes a status, a quantity, a percentage or a date difference itself.
   - A screen never reads the clock for a rule: the date of the check is a field the user can see and change (SYS-116).
@@ -393,4 +394,4 @@ Built on 2026-11-18: the packing list sign-off in core (`sign-off.ts`). It refus
 | 0.4 | 2026-11-19 | New sections 3.6 and 3.7: the Prepped logo (option B, capsule with Chi-Rho P) with 2 Timothy 2:21, and the SpareWing logo (option C, winged gear with sparrow) with Luke 12:6; verses on start and sign-in screens only, checked contrast, no check mark or seal (owner, 2026-11-19). Section 1: the rules come from a generated folder, not one file (ADR-048). | Claude, for owner review |
 | 0.5 | 2026-11-19 | P4: a person matches each confirmed line to a catalogue entry before it becomes stock; unmatched lines stay out. P5: the "What to do" text for a blocked lot gives its reasons (owner, 2026-11-19). | Claude, for owner review |
 | 0.6 | 2026-11-19 | Go and No go shown as the logo's capsule on P8 and P1, in two fixed positions with the words (ADR-050). The verse moves to the header on every screen. P12 is renamed "Settings", with sign-in as a section (owner, 2026-11-19). | Claude, for owner review |
-| 0.7 | 2026-11-21 | Section 1: the rules folder also carries the offline store (ARC-019, ADR-052). | Claude, for owner review |
+| 0.7 | 2026-11-21 | Section 1: the rules folder also carries the offline store; when signed in, "Acting as" is fixed to the account's person (ARC-019, ADR-052, ADR-053). | Claude, for owner review |
