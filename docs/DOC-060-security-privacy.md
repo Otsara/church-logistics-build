@@ -1,7 +1,7 @@
 ---
 id: DOC-060
 title: Security and privacy
-version: 0.4
+version: 0.5
 status: Draft
 effective_date:
 ---
@@ -58,7 +58,7 @@ Protection of data kept in the browser if a device is lost or shared: TBD (OD-03
 - Product: Shared
 - Traces to: UN-002, RC-008
 
-Sync uses Supabase Auth with one account per person. Database rules let each team read and write only its own records, and every synced edit records who made it. Signing in is needed only to sync; a device that has signed in keeps working offline. Sign-in details are never logged or committed (owner, 2026-11-12); OD-001. The AI gateway answers only a request carrying a signed-in user's token, checked with Supabase Auth; a failed check counts as not signed in (TC-028).
+Sync uses Supabase Auth with one account per person. Database rules let each team read and write only its own records, and every synced edit records who made it. Signing in is needed only to sync; a device that has signed in keeps working offline. Sign-in details are never logged or committed (owner, 2026-11-12); OD-001. The AI gateway answers only a request carrying a signed-in user's token, checked with Supabase Auth; a failed check counts as not signed in (TC-028). The database rules are in `supabase/migrations/` and were applied to the project on 2026-11-21 (owner, 2026-11-21): a person reads and writes only the records of teams they belong to, memberships are set only by the owner, no record can be deleted through the app, every row records the signed-in user who wrote it, and the membership check runs with the caller's own rights; Supabase's security advisor reports no findings (ADR-052).
 
 ## Revision history
 
@@ -68,3 +68,4 @@ Sync uses Supabase Auth with one account per person. Database rules let each tea
 | 0.2 | 2026-11-12 | SEC-001 key store decided (OD-027); SEC-003 header set follows hosting (OD-018); new SEC-008 team sign-in (OD-001) (owner, 2026-11-12). | Claude, for owner review |
 | 0.3 | 2026-11-16 | SEC-001 and SEC-008: the AI gateway built; key read only by the Edge Function, sign-in checked on every AI request. | Claude, for owner review |
 | 0.4 | 2026-11-17 | SEC-004: temporary exception for GHSA-fc5q-39xc-vjpf (picomatch, development tools only, no patch yet) until a patched version exists (ADR-043). | Claude, for owner review |
+| 0.5 | 2026-11-21 | SEC-008: the sync tables' database rules applied to the Supabase project (owner, 2026-11-21; ADR-052). | Claude, for owner review |

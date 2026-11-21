@@ -107,7 +107,7 @@ Every third-party library, tool, service and data set the products depend on, wi
 ### SOUP-013 Supabase
 - Version: service
 - Terms: Supabase terms. Free plan, with Edge Function invocations limited per month and projects paused after inactivity; Pro plan billed monthly (third-party summaries, to confirm on supabase.com/pricing).
-- Use: team sync and sign-in (ARC-006, SEC-008) and the AI gateway holding the key (ARC-014) (owner, 2026-11-12); OD-001, OD-027. A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds the Edge Function `ai-gateway`, deployed on 2026-11-16, and the AI key as its secret, entered by the owner; no data yet. Free projects pause after a week without activity, which matters for a live demo during judging.
+- Use: team sync and sign-in (ARC-006, SEC-008) and the AI gateway holding the key (ARC-014) (owner, 2026-11-12); OD-001, OD-027. A free project, `prepped-sparewing` (ref `rrdozsrqveoemiqzjuya`, region us-east-1), was created on 2026-11-11 (owner, 2026-11-11), separate from every other project. It holds the Edge Function `ai-gateway`, deployed on 2026-11-16, and the AI key as its secret, entered by the owner. On 2026-11-21 the sync tables `team_members` and `records`, their database rules and the functions `push_record` and `pull_records` were added (owner, 2026-11-21; `supabase/migrations/`, ADR-052); no data yet. Free projects pause after a week without activity, which matters for a live demo during judging.
 - Safety relevance: indirect.
 
 ### SOUP-014 Stryker
@@ -188,4 +188,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.10 | 2026-11-17 | New SOUP-020 picomatch, with its temporary audit exception (ADR-043). | Claude, for owner review |
 | 0.11 | 2026-11-19 | New SOUP-021 fonts for the screens (Public Sans, Fraunces, Barlow Condensed), bundled for offline use, registered before first use. | Claude, for owner review |
 | 0.12 | 2026-11-20 | SOUP-011: free plan with a $5 Actions spending limit; mutation testing runs only on safety-critical changes (ADR-051). | Claude, for owner review |
-| 0.13 | 2026-11-21 | New SOUP-022 fake-indexeddb for the store's tests, registered before first use; SOUP-018 also used by the apps for sync (ADR-052). | Claude, for owner review |
+| 0.13 | 2026-11-21 | New SOUP-022 fake-indexeddb for the store's tests, registered before first use; SOUP-018 also used by the apps for sync; SOUP-013 holds the sync tables, applied with the owner's approval (ADR-052). | Claude, for owner review |

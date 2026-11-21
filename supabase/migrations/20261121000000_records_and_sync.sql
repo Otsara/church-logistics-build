@@ -24,6 +24,9 @@ create policy "a person sees only their own memberships"
 
 create sequence public.records_seq;
 
+-- Every write takes the next number, so a signed-in person must be able to use the sequence.
+grant usage on sequence public.records_seq to authenticated;
+
 create table public.records (
   team_id uuid not null,
   kind text not null check (char_length(kind) between 1 and 64),
