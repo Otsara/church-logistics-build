@@ -43,6 +43,28 @@ test("[TC-031, ARC-003] the folder holds the core rules, the AI steps and their 
   }
 });
 
+test("[TC-031, ARC-003, ARC-019] the folder holds the offline store under the name store, reaching core by a relative path and importing no network library", () => {
+  for (const path of [
+    "store/index.ts",
+    "store/sync.ts",
+    "store/engine.ts",
+    "store/device.ts",
+    "store/supabase.ts",
+  ]) {
+    assert.ok(files.has(path), path);
+  }
+  assert.match(
+    files.get("index.ts"),
+    /export \* as store from "\.\/store\/index\.ts";/,
+  );
+  assert.match(files.get("store/sync.ts"), /from "\.\.\/core\/index\.ts"/);
+  for (const [path, text] of files) {
+    if (path.startsWith("store/")) {
+      assert.doesNotMatch(text, /@supabase\/supabase-js|fake-indexeddb/, path);
+    }
+  }
+});
+
 test("[TC-031, SEC-001] no server-only code reaches the screens: not the call to the AI service, not the gateway handler", () => {
   for (const path of files.keys()) {
     assert.doesNotMatch(path, /anthropic|ai\/gateway\.ts|ai\/index\.ts/, path);

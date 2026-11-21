@@ -21,7 +21,7 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-020 | User needs and system requirements | 0.33 | Draft | `docs/DOC-020-requirements.md` |
 | DOC-030 | Risk management file | 0.18 | Draft | `docs/DOC-030-risk-management.md` |
 | DOC-040 | Architecture and AI step contracts | 0.36 | Draft | `docs/DOC-040-architecture.md` |
-| DOC-045 | Screen specification | 0.6 | Draft | `docs/DOC-045-screen-specification.md` |
+| DOC-045 | Screen specification | 0.7 | Draft | `docs/DOC-045-screen-specification.md` |
 | DOC-050 | Decision record index | 0.1 | Draft | `docs/DOC-050-decision-records.md` |
 | DOC-060 | Security and privacy | 0.4 | Draft | `docs/DOC-060-security-privacy.md` |
 | DOC-065 | Data management plan | 0.11 | Draft | `docs/DOC-065-data-management.md` |
