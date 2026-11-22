@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.37
+version: 0.39
 status: Draft
 effective_date:
 ---
@@ -508,6 +508,12 @@ Given no AI draft at all, then the blank template is available on its own: a pla
 
 Given records, waiting edits, conflicts and audit entries saved on a device, when the app reloads, then all of them are as they were; given demo mode, when a person resets the demo data, then the device store is empty again and nothing was sent anywhere.
 
+### TC-144 Reasons name a lot by its printed lot number
+- Product: Prepped
+- Traces to: SYS-113, SYS-121
+
+Given a lot with a printed lot number, then every reason and packing problem about it (an alternative chosen or beyond what the lot holds, a lot counted toward two floor items, an amount beyond what the lot holds, an overdrawn lot in signed-off lists) names it by that number, for example "lot AMP8820"; given a lot with no lot number, or one not in the stock list, then its id.
+
 ### TC-133 Expiry formats printed on labels
 - Product: Prepped
 - Traces to: SYS-105, SYS-102
@@ -741,3 +747,5 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.35 | 2026-11-19 | New TC-142 team stock shows what remains of each lot and TC-143 covering letter template without an AI draft, both implemented, so the screens take both from core (SYS-121, AIC-102). | Claude, for owner review |
 | 0.36 | 2026-11-20 | §4: CI runs mutation testing only when safety-critical code or what builds it changes (ADR-051). | Claude, for owner review |
 | 0.37 | 2026-11-21 | New TC-032 device store survives a reload and the demo resets; TC-024 tested against the database on 2026-11-21 (ARC-019, ADR-052, ADR-053). | Claude, for owner review |
+| 0.38 | 2026-11-22 | New TC-144 reasons name a lot by its printed lot number, implemented (SYS-113). | Claude, for owner review |
+| 0.39 | 2026-11-22 | TC-144 also covers chosen alternatives, packing problems and lots not in stock. | Claude, for owner review |

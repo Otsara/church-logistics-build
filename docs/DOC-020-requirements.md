@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.33
+version: 0.34
 status: Draft
 effective_date:
 ---
@@ -286,7 +286,7 @@ Prepped shows "Go" only when every floor item's target is covered by eligible st
 - Traces to: UN-106, RC-112
 - Safety-critical: yes
 
-For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Lots of the same medicine, formulation and strength combine directly; other formulations and strengths are handled as exchanges (SYS-115) (owner, 2026-11-11). A lot combines toward a floor item when both refer to the same catalogue entry, whoever made it, and only eligible lots count; each lot is listed with its donor and manufacturer (owner, 2026-11-13; OD-054, ADR-024). A lot that would count toward two floor items (the same product listed twice, or a lot accepted as an exchange for one item that is another item's own product) makes both items "needs review", so nothing is counted twice; the clinician resolves it, and Prepped never decides which item gets the stock (owner, 2026-11-13; ADR-023).
+For each floor item, Prepped shows which eligible lots, from which donations, combine to meet the target, and the shortage where they do not (owner, 2026-11-10). Lots of the same medicine, formulation and strength combine directly; other formulations and strengths are handled as exchanges (SYS-115) (owner, 2026-11-11). A lot combines toward a floor item when both refer to the same catalogue entry, whoever made it, and only eligible lots count; each lot is listed with its donor and manufacturer (owner, 2026-11-13; OD-054, ADR-024). A lot that would count toward two floor items (the same product listed twice, or a lot accepted as an exchange for one item that is another item's own product) makes both items "needs review", so nothing is counted twice; the clinician resolves it, and Prepped never decides which item gets the stock (owner, 2026-11-13; ADR-023). Every reason names a lot by the number printed on its label, or by its id when it has none; the id stays the key, since two makers can print the same lot number (owner, 2026-11-22; ADR-024; TC-144).
 
 ### SYS-114 Supplemental medicines
 - Product: Prepped
@@ -478,3 +478,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.31 | 2026-11-18 | SYS-010: the Prepped packing list is signed off by the lead clinician only, refused with open problems, and cleared by any later change; new SYS-121 packing list built from the team's shared stock (DOC-045 P10; REV-014, ADR-049). | Claude, for owner review |
 | 0.32 | 2026-11-19 | SYS-121: team stock shows what remains of each lot without checking it against a trip, so the screen takes it from core (TC-142). | Claude, for owner review |
 | 0.33 | 2026-11-20 | SYS-010: the packing list's status carries no person or time; the screen writes the name and date from the sign-off record (owner, 2026-11-20; REV-016). | Claude, for owner review |
+| 0.34 | 2026-11-22 | SYS-113: reasons name a lot by its printed lot number (owner, 2026-11-22; TC-144). | Claude, for owner review |
