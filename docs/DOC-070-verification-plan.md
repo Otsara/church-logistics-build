@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.39
+version: 0.40
 status: Draft
 effective_date:
 ---
@@ -749,3 +749,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.37 | 2026-11-21 | New TC-032 device store survives a reload and the demo resets; TC-024 tested against the database on 2026-11-21 (ARC-019, ADR-052, ADR-053). | Claude, for owner review |
 | 0.38 | 2026-11-22 | New TC-144 reasons name a lot by its printed lot number, implemented (SYS-113). | Claude, for owner review |
 | 0.39 | 2026-11-22 | TC-144 also covers chosen alternatives, packing problems and lots not in stock. | Claude, for owner review |
+| 0.40 | 2026-11-22 | Release-gate placeholders replaced: TC-009 (rule files and lint), TC-013 (repository and the apps' rules folder; the published bundle is checked when published), TC-014, TC-017 (cover letter and readiness prompts), TC-105 (card, assessment, meter and checklist together); stale duplicates of TC-002 to TC-008, TC-010 and TC-022 removed, their tests being implemented. | Claude, for owner review |

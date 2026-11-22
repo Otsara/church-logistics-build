@@ -280,4 +280,41 @@ describe("Covering letter after the owner's review (REV-012 part 2)", () => {
     );
     expect(checkCoverLetter(INPUT, { sentences: [] }).template).toBe(template);
   });
+
+  it("[TC-017] Given a trip, cards and medicines carrying names and extra fields, then the prompt carries only the fields the letter needs", () => {
+    // Objects from the screens can carry more than the type names; only the listed fields may go.
+    const withExtras = {
+      ...INPUT,
+      leadName: "Synthetic Person Q",
+      cards: INPUT.cards.map((card) => ({
+        ...card,
+        reviewedBy: "Synthetic Person R",
+        items: card.items.map((item) => ({
+          ...item,
+          note: "Synthetic Note S",
+        })),
+      })),
+      medicines: INPUT.medicines.map((medicine) => ({
+        ...medicine,
+        donorName: "Synthetic Donor T",
+        lotId: "LOT-SECRET-1",
+      })),
+    } as CoverLetterInput;
+    const prompt = coverLetterStep.buildPrompt(withExtras);
+    for (const extra of [
+      "Synthetic Person Q",
+      "Synthetic Person R",
+      "Synthetic Note S",
+      "Synthetic Donor T",
+      "LOT-SECRET-1",
+    ]) {
+      expect(prompt).not.toContain(extra);
+    }
+    expect(prompt).toContain(
+      '{"genericName":"Amoxicillin","strength":"500 mg","quantity":120}',
+    );
+    // What the letter needs stays, and the prepared items and catalogue never go.
+    expect(prompt).not.toContain("preparedItemIds");
+    expect(prompt).not.toContain("catalogueNames");
+  });
 });
