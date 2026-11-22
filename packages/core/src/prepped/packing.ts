@@ -17,7 +17,7 @@
  *
  * A packing list with any problem cannot be signed off (`sign-off.ts`). Never throws.
  */
-import type { FloorAssessment, StockLot } from "./floor.ts";
+import { lotName, type FloorAssessment, type StockLot } from "./floor.ts";
 import type { PackingLine } from "./sign-off.ts";
 
 /** An amount to pack from an exchange or alternative lot, entered by the lead clinician. */
@@ -276,6 +276,8 @@ export interface StockConflict {
  */
 export interface HeldLot {
   readonly lotId: string;
+  /** The lot number printed on the label, if known (TC-144). */
+  readonly lotNumber?: string | null;
   readonly quantity: number;
 }
 
@@ -298,7 +300,7 @@ export function stockConflicts(
       {
         lotId: lot.lotId,
         tripIds,
-        message: `Conflict: check: lot ${lot.lotId} holds ${String(lot.quantity)}, but the signed-off packing lists of ${tripIds.join(" and ")} take ${String(total)}; a person resolves it`,
+        message: `Conflict: check: lot ${lotName(lot)} holds ${String(lot.quantity)}, but the signed-off packing lists of ${tripIds.join(" and ")} take ${String(total)}; a person resolves it`,
       },
     ];
   });

@@ -39,6 +39,7 @@ export {
 } from "./prepped/shelf-life.ts";
 export {
   assessFloor,
+  lotName,
   INDICATOR_LABEL,
   type AcceptedExchange,
   type ChosenAlternative,

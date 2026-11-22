@@ -43,6 +43,8 @@ export interface FloorItem {
 /** A donated lot with its catalogue entry and its eligibility for this trip. */
 export interface StockLot {
   readonly lotId: string;
+  /** The lot number printed on the label; reasons name the lot by it (TC-144). */
+  readonly lotNumber?: string | null;
   readonly donorId: string;
   /** The maker, as on the label; null if not recorded. Shown beside every lot (OD-054). */
   readonly manufacturer: string | null;
@@ -156,6 +158,20 @@ export interface FloorAssessment {
 }
 
 /** A lot named by medicine, strength and form, as the reasons show it (owner, 2026-11-15). */
+/**
+ * How a reason names a lot: the number printed on its label, or its id when there is none. The id
+ * stays the key, since two makers can print the same lot number (ADR-024; TC-144).
+ */
+export const lotName = (lot: {
+  readonly lotId: string;
+  readonly lotNumber?: string | null;
+}): string =>
+  lot.lotNumber !== undefined &&
+  lot.lotNumber !== null &&
+  lot.lotNumber.trim() !== ""
+    ? lot.lotNumber
+    : lot.lotId;
+
 const product = (lot: StockLot): string =>
   [lot.genericName, lot.strength, lot.dosageForm.toLowerCase()]
     .filter((part) => part !== null)
@@ -258,12 +274,12 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       } else if (lot.catalogEntryId === item.catalogEntryId) {
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) is already counted for this item, so it cannot also be an exchange: check`,
+          `lot ${lotName(lot)} (${product(lot)}) is already counted for this item, so it cannot also be an exchange: check`,
         );
       } else if (!sameMedicine(lot.genericName, item.genericName)) {
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) is a different medicine, so it cannot be an exchange for ${item.genericName}: check`,
+          `lot ${lotName(lot)} (${product(lot)}) is a different medicine, so it cannot be an exchange for ${item.genericName}: check`,
         );
       } else if (lot.eligibility.status !== "eligible") {
         // Reported before a missing amount: an ineligible lot never counts (ADR-029).
@@ -273,7 +289,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       } else if (!isAmount(covers)) {
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
+          `lot ${lotName(lot)} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
         );
       } else {
         accepted.push({ lotId, covers });
@@ -295,17 +311,17 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       } else if (sameMedicine(lot.genericName, item.genericName)) {
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) is the same medicine, so it is an exchange, not a comparable alternative: check`,
+          `lot ${lotName(lot)} (${product(lot)}) is the same medicine, so it is an exchange, not a comparable alternative: check`,
         );
       } else if (!classesOf(lot).some((c) => itemClasses.includes(c))) {
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) shares no class with ${item.genericName}, so it cannot be a comparable alternative: check`,
+          `lot ${lotName(lot)} (${product(lot)}) shares no class with ${item.genericName}, so it cannot be a comparable alternative: check`,
         );
       } else if (extraClasses(lot, itemClasses).length > 0) {
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) brings a class ${item.genericName} does not have (${extraClasses(lot, itemClasses).join(", ")}), so it cannot be a comparable alternative: check`,
+          `lot ${lotName(lot)} (${product(lot)}) brings a class ${item.genericName} does not have (${extraClasses(lot, itemClasses).join(", ")}), so it cannot be a comparable alternative: check`,
         );
       } else if (lot.eligibility.status !== "eligible") {
         // Reported before a missing amount: an ineligible lot never counts (ADR-029).
@@ -315,13 +331,13 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       } else if (!isAmount(covers)) {
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
+          `lot ${lotName(lot)} (${product(lot)}) has no amount entered: the clinician enters how much of the target it covers`,
         );
       } else if (covers > lot.quantity) {
         // More than the lot holds needs a further review (owner, 2026-11-15; ADR-029).
         review = true;
         reasons.push(
-          `lot ${lotId} (${product(lot)}) holds ${String(lot.quantity)} but ${String(covers)} is entered as covering ${item.genericName}: review; find further donations, or the lead clinician redefines the floor`,
+          `lot ${lotName(lot)} (${product(lot)}) holds ${String(lot.quantity)} but ${String(covers)} is entered as covering ${item.genericName}: review; find further donations, or the lead clinician redefines the floor`,
         );
       } else {
         chosen.push({ lotId, covers });
@@ -357,7 +373,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       if (!ids.includes(draft.item.id)) continue;
       draft.review = true;
       draft.reasons.push(
-        `lot ${lotId} would be counted toward ${howMany(ids.length)} floor items (${ids.join(" and ")}): the clinician resolves it`,
+        `lot ${lotName(lotById.get(lotId) ?? { lotId })} would be counted toward ${howMany(ids.length)} floor items (${ids.join(" and ")}): the clinician resolves it`,
       );
     }
   }
