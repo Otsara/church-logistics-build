@@ -210,6 +210,9 @@ interface Draft {
 /** Assesses the floor list against the stock. Never throws. */
 export function assessFloor(input: FloorInput): FloorAssessment {
   const lotById = new Map(input.lots.map((lot) => [lot.lotId, lot]));
+  /** A lot as reasons name it: its printed number, or its id when it is not in stock (TC-144). */
+  const nameOf = (lotId: string): string =>
+    lotName(lotById.get(lotId) ?? { lotId });
   const eligible = input.lots.filter(
     (lot) => lot.eligibility.status === "eligible",
   );
@@ -223,7 +226,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
   for (const exchange of input.acceptedExchanges) {
     if (!itemIds.has(exchange.floorItemId)) {
       problems.push(
-        `accepted exchange ${exchange.lotId} is for ${exchange.floorItemId}, which is not on the floor list: check`,
+        `accepted exchange ${nameOf(exchange.lotId)} is for ${exchange.floorItemId}, which is not on the floor list: check`,
       );
     }
   }
@@ -231,7 +234,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
   for (const choice of chosenAlternatives) {
     if (!itemIds.has(choice.floorItemId)) {
       problems.push(
-        `chosen alternative ${choice.lotId} is for ${choice.floorItemId}, which is not on the floor list: check`,
+        `chosen alternative ${nameOf(choice.lotId)} is for ${choice.floorItemId}, which is not on the floor list: check`,
       );
     }
   }
@@ -268,7 +271,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
     );
     for (const { lotId, covers } of mine) {
       const lot = lotById.get(lotId);
-      const name = `accepted exchange ${lotId}`;
+      const name = `accepted exchange ${nameOf(lotId)}`;
       if (lot === undefined) {
         reasons.push(`${name} is not in the stock list: not counted`);
       } else if (lot.catalogEntryId === item.catalogEntryId) {
@@ -305,7 +308,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       (choice) => choice.floorItemId === item.id,
     )) {
       const lot = lotById.get(lotId);
-      const name = `chosen alternative ${lotId}`;
+      const name = `chosen alternative ${nameOf(lotId)}`;
       if (lot === undefined) {
         reasons.push(`${name} is not in the stock list: not counted`);
       } else if (sameMedicine(lot.genericName, item.genericName)) {
@@ -343,7 +346,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
         chosen.push({ lotId, covers });
         count(lotId, item.id);
         reasons.push(
-          `covered partly by a comparable alternative chosen by the clinician: lot ${lotId} (${product(lot)}), ${String(covers)}`,
+          `covered partly by a comparable alternative chosen by the clinician: lot ${nameOf(lotId)} (${product(lot)}), ${String(covers)}`,
         );
       }
     }
@@ -373,7 +376,7 @@ export function assessFloor(input: FloorInput): FloorAssessment {
       if (!ids.includes(draft.item.id)) continue;
       draft.review = true;
       draft.reasons.push(
-        `lot ${lotName(lotById.get(lotId) ?? { lotId })} would be counted toward ${howMany(ids.length)} floor items (${ids.join(" and ")}): the clinician resolves it`,
+        `lot ${nameOf(lotId)} would be counted toward ${howMany(ids.length)} floor items (${ids.join(" and ")}): the clinician resolves it`,
       );
     }
   }

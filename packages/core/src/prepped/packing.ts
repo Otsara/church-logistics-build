@@ -72,19 +72,22 @@ const fits = (quantity: number, available: number): boolean =>
   Number.isInteger(quantity) && quantity >= 1 && quantity <= available;
 
 const tooMuch = (
-  lotId: string,
+  lot: string,
   quantity: number,
   purpose: string,
   available: number,
 ): string =>
-  `lot ${lotId}: ${String(quantity)} for ${purpose} is not a whole number from 1 to ${String(available)}`;
+  `lot ${lot}: ${String(quantity)} for ${purpose} is not a whole number from 1 to ${String(available)}`;
 
-const stale = (lotId: string): string =>
-  `lot ${lotId} is in the floor assessment but not in the stock given: the assessment is out of date: check`;
+const stale = (lot: string): string =>
+  `lot ${lot} is in the floor assessment but not in the stock given: the assessment is out of date: check`;
 
 /** Builds the packing list for one trip. */
 export function buildPackingList(input: PackingInput): PackingList {
   const lotById = new Map(input.lots.map((lot) => [lot.lotId, lot]));
+  /** A lot as problems name it: its printed number, or its id when it is not in stock (TC-144). */
+  const nameOf = (lotId: string): string =>
+    lotName(lotById.get(lotId) ?? { lotId });
   /** A line before its remainder is known, with what its lot holds for this trip. */
   type Draft = Omit<PackedLine, "remains"> & { readonly held: number };
   const lines: Draft[] = [];
@@ -115,13 +118,15 @@ export function buildPackingList(input: PackingInput): PackingList {
         const purpose = `${kind} for ${name}`;
         const lot = lotById.get(lotId);
         if (lot === undefined) {
-          problems.push(stale(lotId));
+          problems.push(stale(nameOf(lotId)));
         } else if (amount === undefined) {
           problems.push(
-            `${kind} lot ${lotId} for ${name}: the lead clinician enters the amount to pack`,
+            `${kind} lot ${nameOf(lotId)} for ${name}: the lead clinician enters the amount to pack`,
           );
         } else if (!fits(amount.quantity, lot.quantity)) {
-          problems.push(tooMuch(lotId, amount.quantity, purpose, lot.quantity));
+          problems.push(
+            tooMuch(nameOf(lotId), amount.quantity, purpose, lot.quantity),
+          );
         } else {
           others.push({
             lotId,
@@ -141,7 +146,7 @@ export function buildPackingList(input: PackingInput): PackingList {
     const own = item.lots
       .flatMap((entry) => {
         const lot = lotById.get(entry.lotId);
-        if (lot === undefined) problems.push(stale(entry.lotId));
+        if (lot === undefined) problems.push(stale(nameOf(entry.lotId)));
         return lot === undefined ? [] : [lot];
       })
       // Soonest expiry first; eligible lots always have one. Same expiry: by lot id.
@@ -156,7 +161,7 @@ export function buildPackingList(input: PackingInput): PackingList {
     for (const change of mine) {
       if (!own.some((lot) => lot.lotId === change.lotId)) {
         problems.push(
-          `lot ${change.lotId} is not a lot of ${name}: its amount cannot be changed there`,
+          `lot ${nameOf(change.lotId)} is not a lot of ${name}: its amount cannot be changed there`,
         );
       }
     }
@@ -193,14 +198,14 @@ export function buildPackingList(input: PackingInput): PackingList {
   for (const change of input.adjustments) {
     if (!onList.has(change.floorItemId)) {
       problems.push(
-        `an amount change is entered for lot ${change.lotId} for ${change.floorItemId}, which is not on the floor list: check`,
+        `an amount change is entered for lot ${nameOf(change.lotId)} for ${change.floorItemId}, which is not on the floor list: check`,
       );
     }
   }
   for (const amount of input.packAmounts) {
     if (!used.has(`${amount.floorItemId} ${amount.lotId}`)) {
       problems.push(
-        `an amount is entered for lot ${amount.lotId} for ${amount.floorItemId}, but it is not an accepted exchange or a chosen alternative: check`,
+        `an amount is entered for lot ${nameOf(amount.lotId)} for ${amount.floorItemId}, but it is not an accepted exchange or a chosen alternative: check`,
       );
     }
   }
@@ -208,15 +213,17 @@ export function buildPackingList(input: PackingInput): PackingList {
   for (const supplement of input.supplements) {
     const lot = lotById.get(supplement.lotId);
     if (lot === undefined) {
-      problems.push(`supplement lot ${supplement.lotId} is not in stock`);
+      problems.push(
+        `supplement lot ${nameOf(supplement.lotId)} is not in stock`,
+      );
     } else if (lot.eligibility.status !== "eligible") {
       problems.push(
-        `supplement lot ${supplement.lotId} is not eligible (${lot.eligibility.status.replace("_", " ")}): not packed`,
+        `supplement lot ${nameOf(supplement.lotId)} is not eligible (${lot.eligibility.status.replace("_", " ")}): not packed`,
       );
     } else if (!fits(supplement.quantity, lot.quantity)) {
       problems.push(
         tooMuch(
-          supplement.lotId,
+          nameOf(supplement.lotId),
           supplement.quantity,
           "supplement",
           lot.quantity,
@@ -245,7 +252,7 @@ export function buildPackingList(input: PackingInput): PackingList {
     const total = takenFrom(line.lotId);
     if (total > line.held) {
       problems.push(
-        `lot ${line.lotId}: the packing list takes ${String(total)}, but ${String(line.held)} remain in stock: check`,
+        `lot ${nameOf(line.lotId)}: the packing list takes ${String(total)}, but ${String(line.held)} remain in stock: check`,
       );
     }
   }

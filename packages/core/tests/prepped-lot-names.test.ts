@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { parseIsoDate } from "../src/dates.ts";
 import { checkLot } from "../src/prepped/eligibility.ts";
 import { assessFloor, lotName, type StockLot } from "../src/prepped/floor.ts";
-import { stockConflicts } from "../src/prepped/packing.ts";
+import { buildPackingList, stockConflicts } from "../src/prepped/packing.ts";
 
 const TRIP = {
   arrival: parseIsoDate("2026-12-01"),
@@ -115,5 +115,66 @@ describe("Lots named by their printed number", () => {
     expect(stockConflicts(held, lists)[0]?.message).toBe(
       "Conflict: check: lot AMX4410 holds 100, but the signed-off packing lists of TRIP-A and TRIP-B take 160; a person resolves it",
     );
+  });
+
+  it("[TC-144] Given a comparable alternative within what its lot holds, then the reason names it by its printed number; a lot not in stock is named by its id", () => {
+    const ampicillin = lot("lot-7", "AMP8820", "Ampicillin", 200, [
+      "Penicillin-class",
+    ]);
+    const result = assessFloor({
+      floorItems: [
+        {
+          id: "F1",
+          catalogEntryId: "E-Amoxicillin",
+          genericName: "Amoxicillin",
+          target: 400,
+          priority: 1,
+          classes: ["Penicillin-class"],
+        },
+      ],
+      lots: [ampicillin],
+      acceptedExchanges: [{ floorItemId: "F1", lotId: "lot-99", covers: 10 }],
+      requiredDocuments: [],
+      chosenAlternatives: [{ floorItemId: "F1", lotId: "lot-7", covers: 198 }],
+    });
+    expect(result.items[0]?.reasons).toContain(
+      "covered partly by a comparable alternative chosen by the clinician: lot AMP8820 (Ampicillin 500 mg capsule), 198",
+    );
+    expect(result.items[0]?.reasons).toContain(
+      "accepted exchange lot-99 is not in the stock list: not counted",
+    );
+  });
+
+  it("[TC-144] Given packing problems, then a lot in stock is named by its printed number and a lot not in stock by its id", () => {
+    const amox = lot("lot-1", "AMX4410", "Amoxicillin", 50, []);
+    const assessment = assessFloor({
+      floorItems: [
+        {
+          id: "F1",
+          catalogEntryId: "E-Amoxicillin",
+          genericName: "Amoxicillin",
+          target: 40,
+          priority: 1,
+        },
+      ],
+      lots: [amox],
+      acceptedExchanges: [],
+      requiredDocuments: [],
+      chosenAlternatives: [],
+    });
+    const list = buildPackingList({
+      assessment,
+      lots: [amox],
+      packAmounts: [],
+      supplements: [
+        { lotId: "lot-1", quantity: 60 },
+        { lotId: "lot-99", quantity: 5 },
+      ],
+      adjustments: [],
+    });
+    expect(list.problems).toEqual([
+      "lot AMX4410: 60 for supplement is not a whole number from 1 to 50",
+      "supplement lot lot-99 is not in stock",
+    ]);
   });
 });
