@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.14
+version: 0.15
 status: Draft
 effective_date:
 ---
@@ -152,6 +152,12 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Use: build time only, in the Prepped screens; it generates the service worker that lets the app open with no network after a first visit (ARC-007). Lovable's platform requires this add-on for a service worker rather than a hand-written one; it is off in Lovable's preview and works in the published app (owner, 2026-11-21).
 - Safety relevance: indirect. A stale cached app could show an older screen; the rules and the data still come from the rules folder and the device store.
 
+### SOUP-024 Kokoro voice model, for the demo video's narration
+- Version: Kokoro-82M v1.0 weights (hexgrad/Kokoro-82M on Hugging Face, released 2025-01-27), American English male voice to be chosen from `am_michael`, `am_fenrir` or `am_puck`; Python packages `kokoro` 0.9.4 and `misaki[en]` 0.9.4 with their dependencies (torch, transformers, spaCy, num2words, phonemizer-fork, espeakng-loader), run with Python 3.12 on the build machine only
+- Licence: model weights Apache-2.0 (model card, read 2026-11-23); `kokoro` and `misaki` Apache-2.0, spaCy MIT, transformers Apache-2.0, num2words LGPL, phonemizer-fork GPL-3.0-or-later (PyPI metadata, read 2026-11-23). `espeakng-loader` 0.2.4 states no licence in its package; it bundles the eSpeak NG library, whose licence is to be confirmed. The model card says the training audio was public domain, permissively licensed or synthetic audio from closed TTS models, with two CC BY 3.0 and 4.0 data sets credited (Koniwa, SIWIS).
+- Use: build time only, on the build machine, to turn the approved narration script into a synthetic voice for the demo video (SUB-002, SUB-003; owner, 2026-11-23: V2 a, V4 male American). Nothing of it ships in either app or the repository; only the audio is used, and the opening screen says in fine print that the voice is synthetic (V6).
+- Safety relevance: none for the apps. A mispronounced word could mislead a viewer, so the owner listens to the whole narration before the video is published.
+
 ### SOUP-101 FDA drug directory (openFDA NDC)
 - Version: NDC export of 2026-11-11 (`drug-ndc-0001-of-0001.json.zip`, 138,327 records, SHA-256 df68fd940abd2bb1737b0bbc6beaa7dbd78bafdd49a31ffdd50b24b6620f69b3), downloaded 2026-11-12 (OD-034)
 - Terms: openFDA states its data is public domain under CC0 1.0 unless otherwise noted, asks for attribution, and says results should be assumed unvalidated (open.fda.gov/license, open.fda.gov/terms). The licence page states CC0 1.0 for openFDA data (read 2026-11-12); the file's own metadata links to that page.
@@ -196,3 +202,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.12 | 2026-11-20 | SOUP-011: free plan with a $5 Actions spending limit; mutation testing runs only on safety-critical changes (ADR-051). | Claude, for owner review |
 | 0.13 | 2026-11-21 | New SOUP-022 fake-indexeddb for the store's tests, registered before first use; SOUP-018 also used by the apps for sync; SOUP-013 holds the sync tables, applied with the owner's approval (ADR-052). | Claude, for owner review |
 | 0.14 | 2026-11-21 | New SOUP-023 vite-plugin-pwa 2.0.0 for the Prepped screens' service worker, registered before first use (owner, 2026-11-21). | Claude, for owner review |
+| 0.15 | 2026-11-23 | New SOUP-024 Kokoro voice model and its Python packages, for the demo video's synthetic narration, registered before first use (owner, 2026-11-23). | Claude, for owner review |
