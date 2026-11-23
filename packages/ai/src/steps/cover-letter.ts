@@ -59,7 +59,12 @@ const factsOf = (input: CoverLetterInput) => ({
       document,
     })),
   })),
-  medicines: input.medicines,
+  // Only the fields the letter uses: objects from the screens may carry more (TC-017).
+  medicines: input.medicines.map(({ genericName, strength, quantity }) => ({
+    genericName,
+    strength,
+    quantity,
+  })),
 });
 
 export const coverLetterStep: AiStep<CoverLetterInput, CoverLetterOutput> = {

@@ -36,7 +36,7 @@ const product = (
 });
 
 describe("Snapshot catalogue", () => {
-  it("[TC-130] Given a snapshot, then only in-scope products are kept, sorted, with the source and counts, and a product with any out-of-scope reading is left out", () => {
+  it("[TC-130, ARC-018] Given a snapshot, then only in-scope products are kept, sorted, with the source and counts, and a product with any out-of-scope reading is left out", () => {
     const records = [
       product("00000-0003", "Zinc oxide", ["TOPICAL"]),
       product("00000-0001", "Diazepam", ["ORAL"], {
@@ -113,7 +113,7 @@ describe("Snapshot catalogue", () => {
     expect(catalog.rejectedIds).toEqual(["00000-0005"]);
   });
 
-  it("[TC-130] counts controlled in-scope entries, sorts by strength and form within a name, and refuses a file whose record count differs from its source", () => {
+  it("[TC-130, ARC-018] counts controlled in-scope entries, sorts by strength and form within a name, and refuses a file whose record count differs from its source", () => {
     const records = [
       product("00000-0002", "Diazepam", ["ORAL"], {
         dea_schedule: "CIV",
@@ -149,7 +149,7 @@ describe("Snapshot catalogue", () => {
     );
   });
 
-  it("[TC-130] Given a source description with a malformed fingerprint or date, then it is refused", () => {
+  it("[TC-130, ARC-018] Given a source description with a malformed fingerprint or date, then it is refused", () => {
     expect(
       snapshotSourceSchema.safeParse({ ...source, zip_sha256: "abc" }).success,
     ).toBe(false);

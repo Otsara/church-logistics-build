@@ -424,3 +424,50 @@ describe("Grounding details (TC-010)", () => {
     ).toBe(true);
   });
 });
+
+describe("Only needed fields reach the explanation step", () => {
+  it("[TC-017] Given an assessment carrying reasons, lots, donors and extra fields, then the readiness prompt carries only the computed figures, statuses and document names", () => {
+    const assessment = {
+      indicator: "No go",
+      donorName: "Synthetic Donor T",
+      items: [
+        {
+          floorItemId: "F1",
+          genericName: "Amoxicillin",
+          status: "needs_review",
+          target: 200,
+          covered: 400,
+          short: null,
+          coverage: 1,
+          reasons: ["lot AMP8820 is counted by Synthetic Person Q"],
+          lots: [{ lotId: "LOT-SECRET-1", donorId: "D-SECRET-1" }],
+        },
+      ],
+      missingDocuments: [
+        {
+          documentId: "DOC-1",
+          name: "Packing list",
+          reason: "not prepared",
+          preparedBy: "Synthetic Person R",
+        },
+      ],
+      problems: [],
+    };
+    const prompt = explainReadinessStep.buildPrompt({
+      facts: readinessFacts(assessment),
+    });
+    for (const extra of [
+      "Synthetic Donor T",
+      "Synthetic Person Q",
+      "Synthetic Person R",
+      "LOT-SECRET-1",
+      "D-SECRET-1",
+      "reasons",
+    ]) {
+      expect(prompt).not.toContain(extra);
+    }
+    expect(prompt).toContain(
+      '{"ref":"F1","values":{"name":"Amoxicillin","status":"needs review","target":200,"covered":400,"short":null,"coverage":100}}',
+    );
+  });
+});
