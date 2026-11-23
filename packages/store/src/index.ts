@@ -34,3 +34,4 @@ export {
   type DeviceStore,
 } from "./device.ts";
 export { supabaseTransport, type RpcClient } from "./supabase.ts";
+export { signOutPlan, type SignOutPlan } from "./sign-out.ts";
