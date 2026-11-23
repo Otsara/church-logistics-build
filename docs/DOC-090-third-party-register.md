@@ -1,7 +1,7 @@
 ---
 id: DOC-090
 title: Third-party software, services and data register
-version: 0.15
+version: 0.16
 status: Draft
 effective_date:
 ---
@@ -153,8 +153,8 @@ Every third-party library, tool, service and data set the products depend on, wi
 - Safety relevance: indirect. A stale cached app could show an older screen; the rules and the data still come from the rules folder and the device store.
 
 ### SOUP-024 Kokoro voice model, for the demo video's narration
-- Version: Kokoro-82M v1.0 weights (hexgrad/Kokoro-82M on Hugging Face, released 2025-01-27), American English male voice to be chosen from `am_michael`, `am_fenrir` or `am_puck`; Python packages `kokoro` 0.9.4 and `misaki[en]` 0.9.4 with their dependencies (torch, transformers, spaCy, num2words, phonemizer-fork, espeakng-loader), run with Python 3.12 on the build machine only
-- Licence: model weights Apache-2.0 (model card, read 2026-11-23); `kokoro` and `misaki` Apache-2.0, spaCy MIT, transformers Apache-2.0, num2words LGPL, phonemizer-fork GPL-3.0-or-later (PyPI metadata, read 2026-11-23). `espeakng-loader` 0.2.4 states no licence in its package; it bundles the eSpeak NG library, whose licence is to be confirmed. The model card says the training audio was public domain, permissively licensed or synthetic audio from closed TTS models, with two CC BY 3.0 and 4.0 data sets credited (Koniwa, SIWIS).
+- Version: Kokoro-82M v1.0 weights (hexgrad/Kokoro-82M on Hugging Face, released 2025-01-27), American English male voice `am_michael`, chosen by the owner from three samples (owner, 2026-11-23); Python packages `kokoro` 0.9.4 and `misaki[en]` 0.9.4 with their dependencies (torch, transformers, spaCy and its small English model `en_core_web_sm` 3.8.0, which misaki downloads on first use, num2words, phonemizer-fork, espeakng-loader), run with Python 3.12 on the build machine only
+- Licence: model weights Apache-2.0 (model card, read 2026-11-23); `kokoro` and `misaki` Apache-2.0, spaCy MIT, `en_core_web_sm` MIT (package metadata; trained on OntoNotes 5, ClearNLP and WordNet 3.0), transformers Apache-2.0, num2words LGPL, phonemizer-fork GPL-3.0-or-later (PyPI metadata, read 2026-11-23). `espeakng-loader` 0.2.4 states no licence in its package; it bundles the eSpeak NG library, whose licence is to be confirmed. The model card says the training audio was public domain, permissively licensed or synthetic audio from closed TTS models, with two CC BY 3.0 and 4.0 data sets credited (Koniwa, SIWIS).
 - Use: build time only, on the build machine, to turn the approved narration script into a synthetic voice for the demo video (SUB-002, SUB-003; owner, 2026-11-23: V2 a, V4 male American). Nothing of it ships in either app or the repository; only the audio is used, and the opening screen says in fine print that the voice is synthetic (V6).
 - Safety relevance: none for the apps. A mispronounced word could mislead a viewer, so the owner listens to the whole narration before the video is published.
 
@@ -203,3 +203,4 @@ Figures as found on 2026-11-10. Third-party summaries are marked; confirm them o
 | 0.13 | 2026-11-21 | New SOUP-022 fake-indexeddb for the store's tests, registered before first use; SOUP-018 also used by the apps for sync; SOUP-013 holds the sync tables, applied with the owner's approval (ADR-052). | Claude, for owner review |
 | 0.14 | 2026-11-21 | New SOUP-023 vite-plugin-pwa 2.0.0 for the Prepped screens' service worker, registered before first use (owner, 2026-11-21). | Claude, for owner review |
 | 0.15 | 2026-11-23 | New SOUP-024 Kokoro voice model and its Python packages, for the demo video's synthetic narration, registered before first use (owner, 2026-11-23). | Claude, for owner review |
+| 0.16 | 2026-11-23 | SOUP-024: the owner chose the voice am_michael; spaCy's small English model, downloaded by misaki on first use, added. | Claude, for owner review |
