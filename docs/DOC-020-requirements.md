@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.34
+version: 0.35
 status: Draft
 effective_date:
 ---
@@ -271,8 +271,9 @@ The lead clinician chooses each mission's floor list from the essential-medicine
 - Product: Prepped
 - Traces to: UN-106, RC-111
 - Safety-critical: yes
+- Status: Deferred (owner, 2026-11-23, D4; ADR-054)
 
-From the anticipated caseload the team leader enters, Prepped may offer an estimated quantity for a floor item, labelled as an estimate, for the clinician to accept or change; it is never applied by itself (owner, 2026-11-10). Estimation method and parameters: TBD (OD-038).
+From the anticipated caseload the team leader enters, Prepped may offer an estimated quantity for a floor item, labelled as an estimate, for the clinician to accept or change; it is never applied by itself (owner, 2026-11-10). Estimation method and parameters: TBD (OD-038). Deferred beyond this build: the caseload estimate is not in the submitted prototype (owner, 2026-11-23, D4; ADR-054).
 
 ### SYS-112 Go or No go indicator
 - Product: Prepped
@@ -479,3 +480,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.32 | 2026-11-19 | SYS-121: team stock shows what remains of each lot without checking it against a trip, so the screen takes it from core (TC-142). | Claude, for owner review |
 | 0.33 | 2026-11-20 | SYS-010: the packing list's status carries no person or time; the screen writes the name and date from the sign-off record (owner, 2026-11-20; REV-016). | Claude, for owner review |
 | 0.34 | 2026-11-22 | SYS-113: reasons name a lot by its printed lot number (owner, 2026-11-22; TC-144). | Claude, for owner review |
+| 0.35 | 2026-11-23 | SYS-111 deferred beyond this build (owner, 2026-11-23, D4; ADR-054). | Claude, for owner review |

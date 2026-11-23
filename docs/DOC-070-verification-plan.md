@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.40
+version: 0.41
 status: Draft
 effective_date:
 ---
@@ -193,13 +193,15 @@ Given the golden example files and the held-back manifest, then no golden exampl
 
 Given the same lot's quantity changed on two devices while offline, when both sync, then the lot is marked "Conflict: check", is not counted toward coverage until a person chooses a version, and both versions are in the audit log (OD-017).
 
+The server's part is also checked against the database with `supabase/tests/two_account_conflict.sql`, which acts as the demo team's two accounts and rolls back. Run on 2026-11-23: all six checks as expected (the lead creates version 1; the pharmacist pulls it; the lead edits to version 2; the pharmacist's edit made from version 1 is refused, and the server answers with version 2, the lead's data and editor; the pharmacist's choice is accepted as version 3; the lead pulls version 3, edited by the pharmacist). Recorded results count as verification (owner, 2026-11-23, D2; ADR-054).
+
 ### TC-024 Sign-in and team separation
 - Product: Shared
 - Traces to: SEC-008
 
 Given a device that has signed in and then goes offline, then work continues and its edits sync at the next connection with the editor recorded; given a person from another team, then that person cannot read or change this team's records; given unsynced edits, then signing out warns and keeps them (OD-001).
 
-The team separation and the person check are tested against the database with `supabase/tests/team_separation.sql`, which acts as the demo team's accounts and rolls back. Run on 2026-11-21 after the owner approved the migrations: all nine checks as expected (new record accepted as version 1, edit as version 2, a stale edit refused with the current row, a change under another person refused, a push into another team refused, another team's records invisible by pull and by direct read, nothing deletable, only one's own membership visible and one's own roles unchangeable, and the second account pulls the first's record).
+The team separation and the person check are tested against the database with `supabase/tests/team_separation.sql`, which acts as the demo team's accounts and rolls back. Run on 2026-11-21 after the owner approved the migrations: all nine checks as expected (new record accepted as version 1, edit as version 2, a stale edit refused with the current row, a change under another person refused, a push into another team refused, another team's records invisible by pull and by direct read, nothing deletable, only one's own membership visible and one's own roles unchangeable, and the second account pulls the first's record). Recorded results count as verification (owner, 2026-11-23, D2; ADR-054); the script is rerun after any migration and in the pre-release confirmation run.
 
 ### TC-025 Corpus and held-back split
 - Product: Shared
@@ -407,6 +409,7 @@ Given a floor item that is short and eligible lots of another medicine in the sa
 ### TC-126 Caseload estimate never applied by itself
 - Product: Prepped
 - Traces to: SYS-111
+- Status: Deferred (owner, 2026-11-23, D4; ADR-054)
 
 Given an anticipated caseload, then any estimated quantity is labelled as an estimate and the target stays empty until the clinician accepts or changes it.
 
@@ -750,3 +753,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.38 | 2026-11-22 | New TC-144 reasons name a lot by its printed lot number, implemented (SYS-113). | Claude, for owner review |
 | 0.39 | 2026-11-22 | TC-144 also covers chosen alternatives, packing problems and lots not in stock. | Claude, for owner review |
 | 0.40 | 2026-11-22 | Release-gate placeholders replaced: TC-009 (rule files and lint), TC-013 (repository and the apps' rules folder; the published bundle is checked when published), TC-014, TC-017 (cover letter and readiness prompts), TC-105 (card, assessment, meter and checklist together); stale duplicates of TC-002 to TC-008, TC-010 and TC-022 removed, their tests being implemented. | Claude, for owner review |
+| 0.41 | 2026-11-23 | TC-126 deferred (D4); TC-023 and TC-024 database checks recorded as verification (D2); ADR-054. | Claude, for owner review |

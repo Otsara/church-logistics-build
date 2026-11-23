@@ -205,10 +205,8 @@ describe("Offline storage and sync acceptance", () => {
     });
   });
 
-  // Tested against the database, not here: supabase/tests/team_separation.sql (run 2026-11-21).
-  it.todo(
-    "[TC-024] Given two teams, then the database rules let neither read nor write the other's records",
-  );
+  // Team separation is checked against the database, not here: supabase/tests/team_separation.sql,
+  // with its recorded result in DOC-070 TC-024 (owner, 2026-11-23, D2; ADR-054).
 
   it.todo(
     "[TC-018] Given the protection for data stored on devices chosen in OD-033, then data at rest is protected as decided",
