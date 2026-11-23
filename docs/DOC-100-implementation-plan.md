@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.23
+version: 0.24
 status: Draft
 effective_date:
 ---
@@ -121,6 +121,7 @@ Project name, written description, track, demo video link, and a live demo link 
 
 ### SUB-007 One project, Open Track
 - Formerly: H-7
+- Submitted product: Prepped (owner, 2026-11-23, D1; ADR-054)
 
 One project in one track, the Open Track. The description and demo address its four criteria: a clear ministry problem and who it serves; original thinking and fresh approaches; responsible and faithful use of AI; a working demo that shows real potential. Prepped fits the track's "missions and global church tools" idea.
 
@@ -157,3 +158,4 @@ These ideas are not part of this build. No requirements, tests or code exist for
 | 0.21 | 2026-11-18 | IT-003 status: screen specification DOC-045 drafted for Prepped (ADR-046). | Claude, for owner review |
 | 0.22 | 2026-11-19 | IT-003: Lovable credit plan adjusted after the first build message cost 19.1 credits; up to 20 credits move from the reserve to Prepped, and fixes are folded into build messages (owner, 2026-11-19). | Claude, for owner review |
 | 0.23 | 2026-11-21 | IT-003: offline store and sync with a checkpoint on 2026-11-24; SpareWing screens after the submission unless time allows (owner, 2026-11-21; ADR-052). | Claude, for owner review |
+| 0.24 | 2026-11-23 | SUB-007 names the submitted product, Prepped, which the release gate reads (owner, 2026-11-23, D1; ADR-054). | Claude, for owner review |

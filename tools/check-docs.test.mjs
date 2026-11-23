@@ -12,6 +12,7 @@ import {
   renderGenerated,
   replaceGenerated,
   scanTests,
+  submittedProduct,
   versionBumpErrors,
 } from "./check-docs.mjs";
 
@@ -445,4 +446,86 @@ test("generated sections are deterministic and placed between the markers", () =
     replaceGenerated(page, "new"),
     "Intro\n<!-- BEGIN GENERATED -->\nnew\n<!-- END GENERATED -->\nEnd",
   );
+});
+
+test("the strict gate checks shared items and the submitted product's; the other product's are left out (owner, 2026-11-23, D1)", () => {
+  const files = SET().map((f) =>
+    f.path.includes("DOC-100")
+      ? doc("DOC-100", item("SUB-001", { "Submitted product": "SpareWing" }))
+      : f,
+  );
+  const model = buildModel(files);
+  assert.equal(submittedProduct(model), "SpareWing");
+  assert.equal(submittedProduct(buildModel(SET())), null);
+  const opts = { strict: true, submitted: "SpareWing" };
+  const coverage = checkModel(model, opts);
+  const placeholder = checkTests(
+    model,
+    scanTests([{ path: "a.test.ts", text: "it.todo('[TC-101] x')" }]),
+    opts,
+  );
+  // TC-101, SYS-101 and ARC-101 are Prepped's: not counted against a SpareWing submission.
+  assert.deepEqual(placeholder.errors, []);
+  assert.deepEqual(checkSafetyCritical(model, coverage, placeholder, opts), []);
+  // Submitting Prepped, the same items are checked as before.
+  const prepped = { strict: true, submitted: "Prepped" };
+  assert.match(
+    checkTests(
+      model,
+      scanTests([{ path: "a.test.ts", text: "it.todo('[TC-101] x')" }]),
+      prepped,
+    ).errors.join("\n"),
+    /TC-101 is still a placeholder/,
+  );
+  assert.match(
+    checkSafetyCritical(model, coverage, placeholder, prepped).join("\n"),
+    /SYS-101 is safety-critical and has no implemented test/,
+  );
+});
+
+test("a deferred item is left out of the strict gate, and its coverage gaps are warnings (owner, 2026-11-23, D4)", () => {
+  const files = SET().map((f) => {
+    if (f.path.includes("DOC-070"))
+      return doc(
+        "DOC-070",
+        item("TC-101", {
+          Product: "Prepped",
+          "Traces to": "SYS-101",
+          Status: "Deferred (owner, 2026-11-23)",
+        }),
+      );
+    if (f.path.includes("DOC-040"))
+      return doc(
+        "DOC-040",
+        item("ARC-101", {
+          Product: "Prepped",
+          "Traces to": "SYS-101",
+          "Safety-critical": "yes",
+          Status: "Deferred (owner, 2026-11-23)",
+        }),
+      );
+    if (f.path.includes("DOC-020"))
+      return doc(
+        "DOC-020",
+        item("UN-101", { Product: "Prepped", "Traces to": "IU-101" }) +
+          item("SYS-101", {
+            Product: "Prepped",
+            "Traces to": "UN-101, RC-101",
+            "Safety-critical": "yes",
+            Status: "Deferred (owner, 2026-11-23)",
+          }),
+      );
+    return f;
+  });
+  const model = buildModel(files);
+  const opts = { strict: true, submitted: "Prepped" };
+  const coverage = checkModel(model, opts);
+  const placeholder = checkTests(
+    model,
+    scanTests([{ path: "a.test.ts", text: "it.todo('[TC-101] x')" }]),
+    opts,
+  );
+  assert.deepEqual(placeholder.errors, []);
+  assert.deepEqual(checkSafetyCritical(model, coverage, placeholder, opts), []);
+  assert.ok(!coverage.errors.some((e) => /SYS-101|TC-101|ARC-101/.test(e)));
 });

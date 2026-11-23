@@ -84,6 +84,35 @@ export const PRODUCTS = {
   Prepped: [100, 299],
   SpareWing: [300, 499],
 };
+/**
+ * The product submitted to the hackathon, from the "Submitted product" field of a SUB item in
+ * DOC-100, or null when none is recorded (owner, 2026-11-23, D1; ADR-054).
+ */
+export function submittedProduct(model) {
+  for (const item of model.items.values()) {
+    if (item.type !== "SUB") continue;
+    const value = item.fields["Submitted product"];
+    if (value !== undefined) return value.split(/[\s(]/)[0];
+  }
+  return null;
+}
+
+/**
+ * Whether the strict gate leaves an item out: it is deferred (owner, 2026-11-23, D4), or it belongs
+ * to the product that is not submitted (D1). Shared items always count.
+ */
+export function outOfScope(item, submitted) {
+  if ((item.fields.Status ?? "").startsWith("Deferred")) return true;
+  const product = item.fields.Product;
+  return (
+    submitted !== null &&
+    submitted !== undefined &&
+    product !== undefined &&
+    product !== "Shared" &&
+    product !== submitted
+  );
+}
+
 const DOC_STATUSES = [
   "Draft",
   "In review",
@@ -300,7 +329,7 @@ export function buildModel(files) {
 }
 
 /** Checks references, traces, ranges, aliases and open decisions. */
-export function checkModel(model, { strict = false } = {}) {
+export function checkModel(model, { strict = false, submitted = null } = {}) {
   const { items, docs } = model;
   const errors = [...model.errors];
   const warnings = [...model.warnings];
@@ -409,6 +438,7 @@ export function checkModel(model, { strict = false } = {}) {
     for (const parent of item.traces) children.get(parent)?.push(item.id);
   }
   const gaps = [];
+  const excusedGaps = [];
   for (const rule of COVERAGE) {
     for (const item of items.values()) {
       if (!rule.types.includes(item.type) || item.fields.Status === "Retired")
@@ -416,10 +446,14 @@ export function checkModel(model, { strict = false } = {}) {
       const found = children
         .get(item.id)
         .some((c) => rule.children.includes(prefixOf(c)));
-      if (!found) gaps.push(`${item.id} ${rule.gap}`);
+      if (!found)
+        (outOfScope(item, submitted) ? excusedGaps : gaps).push(
+          `${item.id} ${rule.gap}`,
+        );
     }
   }
   (strict ? errors : warnings).push(...gaps);
+  warnings.push(...excusedGaps);
   return { errors, warnings, gaps, children };
 }
 
@@ -457,7 +491,11 @@ export function scanTests(files) {
 }
 
 /** Joins tests to items: unknown tags, TCs without tests, and (strict) unfinished safety-critical work. */
-export function checkTests(model, scanned, { strict = false } = {}) {
+export function checkTests(
+  model,
+  scanned,
+  { strict = false, submitted = null } = {},
+) {
   const errors = [...scanned.errors];
   const byId = new Map();
   for (const test of scanned.tests) {
@@ -486,7 +524,7 @@ export function checkTests(model, scanned, { strict = false } = {}) {
       errors.push(
         `${item.id} has no test (add at least an it.todo placeholder)`,
       );
-    if (strict && status === "placeholder")
+    if (strict && status === "placeholder" && !outOfScope(item, submitted))
       errors.push(`${item.id} is still a placeholder or skipped`);
   }
   return { errors, byId, statusOf };
@@ -518,10 +556,16 @@ export function checkSubmission(model, text, { strict = false } = {}) {
 }
 
 /** Strict only: every safety-critical requirement needs an implemented test case. */
-export function checkSafetyCritical(model, coverage, tests) {
+export function checkSafetyCritical(
+  model,
+  coverage,
+  tests,
+  { submitted = null } = {},
+) {
   const errors = [];
   for (const item of model.items.values()) {
     if (!item.safetyCritical || !["SYS", "ARC"].includes(item.type)) continue;
+    if (outOfScope(item, submitted)) continue;
     const tcs = coverage.children
       .get(item.id)
       .filter((c) => prefixOf(c) === "TC");
@@ -789,8 +833,9 @@ function main(args) {
     .flatMap((d) => listFiles(join(root, d), /\.test\.(?:ts|tsx|js|mjs)$/))
     .map(read);
   const scanned = scanTests(testFiles);
-  let coverage = checkModel(model, { strict });
-  let tests = checkTests(model, scanned, { strict });
+  let submitted = submittedProduct(model);
+  let coverage = checkModel(model, { strict, submitted });
+  let tests = checkTests(model, scanned, { strict, submitted });
 
   const generated = renderGenerated(model, coverage, tests);
   const errors = [];
@@ -808,8 +853,9 @@ function main(args) {
   if (update) {
     files = docPaths.map(read);
     model = buildModel(files);
-    coverage = checkModel(model, { strict });
-    tests = checkTests(model, scanned, { strict });
+    submitted = submittedProduct(model);
+    coverage = checkModel(model, { strict, submitted });
+    tests = checkTests(model, scanned, { strict, submitted });
   }
 
   errors.push(...coverage.errors, ...tests.errors);
@@ -821,7 +867,8 @@ function main(args) {
       { strict },
     ).errors,
   );
-  if (strict) errors.push(...checkSafetyCritical(model, coverage, tests));
+  if (strict)
+    errors.push(...checkSafetyCritical(model, coverage, tests, { submitted }));
 
   if (base !== null) {
     const changed = execFileSync(
