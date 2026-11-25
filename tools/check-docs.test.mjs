@@ -529,3 +529,33 @@ test("a deferred item is left out of the strict gate, and its coverage gaps are 
   assert.deepEqual(checkSafetyCritical(model, coverage, placeholder, opts), []);
   assert.ok(!coverage.errors.some((e) => /SYS-101|TC-101|ARC-101/.test(e)));
 });
+
+test("a placeholder whose test case records a dated run with its commit passes the strict gate (owner, 2026-11-25, OD-067)", () => {
+  const withRun = (run) =>
+    SET().map((f) =>
+      f.path.includes("DOC-070")
+        ? doc(
+            "DOC-070",
+            item("TC-101", {
+              Product: "Prepped",
+              "Traces to": "SYS-101",
+              ...(run === null ? {} : { "Recorded run": run }),
+            }),
+          )
+        : f,
+    );
+  const errorsFor = (run) =>
+    checkTests(
+      buildModel(withRun(run)),
+      scanTests([{ path: "a.test.mjs", text: "it.todo('[TC-101] x')" }]),
+      { strict: true, submitted: "Prepped" },
+    ).errors;
+  assert.deepEqual(
+    errorsFor("2026-11-25, Otsara/prepped 218895c: 62 passed"),
+    [],
+  );
+  for (const bad of [null, "62 passed", "2026-11-25: 62 passed", "218895c"])
+    assert.deepEqual(errorsFor(bad), [
+      "TC-101 is still a placeholder or skipped",
+    ]);
+});
