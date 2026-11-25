@@ -48,7 +48,7 @@ Items defined, by type:
 | SOUP | 26 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 56 |
+| ADR | 57 |
 | REV | 19 |
 <!-- END GENERATED -->
 

@@ -46,7 +46,7 @@ Each AI step receives only the fields it needs, after names are replaced by ids 
 - Product: Shared
 - Traces to: UN-002, RC-004
 
-Protection of data kept in the browser if a device is lost or shared: TBD (OD-033). Blocks real-world use only.
+Protection of data kept in the browser if a device is lost or shared: The device's own protection (screen lock, disk encryption) guards the data while a person is signed in, and the app clears its device store when they sign out. With edits waiting to sync or a conflict held, signing out first warns with the counts; the person either stays signed in until they sync, or signs out and discards them from the device. Nothing is encrypted by the app itself in this build, which the submission states as a known limitation (D3; ADR-055) (owner, 2026-11-23). `signOutPlan` in `packages/store/src/sign-out.ts` decides whether signing out may clear the store or must warn first (TC-018). App-level encryption of the device store remains for before real-world use.
 
 ### SEC-007 No secrets in commits
 - Product: Shared
@@ -69,4 +69,5 @@ Sync uses Supabase Auth with one account per person. Database rules let each tea
 | 0.3 | 2026-11-16 | SEC-001 and SEC-008: the AI gateway built; key read only by the Edge Function, sign-in checked on every AI request. | Claude, for owner review |
 | 0.4 | 2026-11-17 | SEC-004: temporary exception for GHSA-fc5q-39xc-vjpf (picomatch, development tools only, no patch yet) until a patched version exists (ADR-043). | Claude, for owner review |
 | 0.5 | 2026-11-21 | SEC-008: the sync tables' database rules applied to the Supabase project; the signed-in person and roles come from the membership (owner, 2026-11-21; ADR-052, ADR-053). | Claude, for owner review |
+| 0.6 | 2026-11-23 | SEC-006: data on devices protected as decided in OD-033 (owner, 2026-11-23, D3). | Claude, for owner review |
 | 0.7 | 2026-11-25 | SEC-004: picomatch exception kept through the submission as a known issue (owner, 2026-11-24); SEC-008: the two recording accounts for the demo video (owner, 2026-11-24). Numbered 0.7 because the device-store branch takes 0.6. | Claude, for owner review |

@@ -7,6 +7,7 @@ import { describe, expect, it } from "vitest";
 import { newFactory } from "./fake-device.ts";
 import { openDeviceStore } from "../src/device.ts";
 import { syncOnce, type Transport } from "../src/engine.ts";
+import { signOutPlan } from "../src/sign-out.ts";
 import {
   CONFLICT_LABEL,
   edit,
@@ -178,7 +179,7 @@ describe("Offline storage and sync acceptance", () => {
     expect(view(b).unsynced).toBe(0);
   });
 
-  it("[TC-024] Given a signed-in device that goes offline, then work continues and edits sync with the editor recorded, and unsynced edits are counted so signing out can warn and keep them", async () => {
+  it("[TC-024] Given a signed-in device that goes offline, then work continues and edits sync with the editor recorded, and unsynced edits are counted so signing out can warn before anything is cleared", async () => {
     const s = server();
     s.goOffline();
     let a = must(
@@ -208,9 +209,97 @@ describe("Offline storage and sync acceptance", () => {
   // Team separation is checked against the database, not here: supabase/tests/team_separation.sql,
   // with its recorded result in DOC-070 TC-024 (owner, 2026-11-23, D2; ADR-054).
 
-  it.todo(
-    "[TC-018] Given the protection for data stored on devices chosen in OD-033, then data at rest is protected as decided",
-  );
+  it("[TC-018] Given a signed-in device with nothing waiting to sync, when the person signs out, then the device store is cleared", async () => {
+    const factory = newFactory();
+    const s = server();
+    let a = must(
+      edit(
+        emptyState(TEAM),
+        { kind: "lot", id: "L1", data: { quantity: 700 } },
+        "PER-A",
+        T1,
+      ),
+    );
+    a = (await syncOnce(a, s.transport, "PER-A", T1)).state;
+    const device = openDeviceStore(factory, "team");
+    await device.save(a);
+    expect(signOutPlan(a)).toEqual({ action: "clear" });
+    await device.reset();
+    expect(await openDeviceStore(factory, "team").load()).toBeNull();
+  });
+
+  it("[TC-018, TC-024] Given edits waiting to sync or a conflict held on the device, when the person signs out, then the app warns with the counts and offers to stay signed in or discard them; nothing is cleared until the person chooses", () => {
+    let a = must(
+      edit(
+        emptyState(TEAM),
+        { kind: "lot", id: "L1", data: { quantity: 5 } },
+        "PER-A",
+        T1,
+      ),
+    );
+    a = must(
+      edit(
+        a,
+        { kind: "trip", id: "TR1", data: { arrival: "2026-12-01" } },
+        "PER-A",
+        T1,
+      ),
+    );
+    expect(signOutPlan(a)).toEqual({
+      action: "warn",
+      unsynced: 2,
+      conflicts: 0,
+      message:
+        "2 changes on this device have not synced yet. Stay signed in until they sync, or sign out and discard them from this device.",
+    });
+    const held = {
+      ...emptyState(TEAM),
+      conflicts: {
+        "lot/L1": {
+          mine: {
+            kind: "lot",
+            id: "L1",
+            teamId: TEAM,
+            baseVersion: 1,
+            data: { quantity: 650 },
+            editedBy: "PER-B",
+            editedAt: T2,
+          },
+          theirs: {
+            kind: "lot",
+            id: "L1",
+            teamId: TEAM,
+            version: 2,
+            data: { quantity: 400 },
+            updatedBy: "PER-A",
+            updatedAt: T2,
+          },
+        },
+      },
+    };
+    expect(signOutPlan(held)).toEqual({
+      action: "warn",
+      unsynced: 0,
+      conflicts: 1,
+      message:
+        'This device holds 1 record marked "Conflict: check". Stay signed in and choose a version, or sign out and discard this device\'s version.',
+    });
+    const one = must(
+      edit(
+        emptyState(TEAM),
+        { kind: "lot", id: "L1", data: { quantity: 5 } },
+        "PER-A",
+        T1,
+      ),
+    );
+    expect(signOutPlan({ ...one, conflicts: held.conflicts })).toEqual({
+      action: "warn",
+      unsynced: 1,
+      conflicts: 1,
+      message:
+        '1 change on this device has not synced yet, and 1 record is marked "Conflict: check". Stay signed in until they sync, or sign out and discard them from this device.',
+    });
+  });
 
   it("[TC-032] Given records, waiting edits, conflicts and audit entries saved on a device, when the app reloads, then all are as they were; when the demo is reset, the device store is empty", async () => {
     const factory = newFactory();
