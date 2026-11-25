@@ -1,7 +1,7 @@
 ---
 id: DOC-020
 title: User needs and system requirements
-version: 0.35
+version: 0.36
 status: Draft
 effective_date:
 ---
@@ -165,9 +165,9 @@ Names are replaced by ids before the call, and every call is logged.
 
 ### SYS-007 Offline work and sync
 - Product: Shared
-- Traces to: UN-001, RC-005
+- Traces to: UN-001, RC-005, RC-116
 
-Edits made offline are kept and appear after sync when the connection returns; any conflict keeps both versions in the audit log. A conflicting record is marked "Conflict: check" and treated as not settled (a lot is not counted, a pilot is not a candidate) until a person chooses a version (owner, 2026-11-12); ADR-012.
+Edits made offline are kept and appear after sync when the connection returns; any conflict keeps both versions in the audit log. A conflicting record is marked "Conflict: check" and treated as not settled (a lot is not counted, a pilot is not a candidate) until a person chooses a version (owner, 2026-11-12); ADR-012. On an open screen, a field nobody is editing shows the latest synced value; saving sends only what the person changed, and a change arriving while they edit keeps their input and names the other device's change (owner, 2026-11-25; HAZ-115, RC-116, ADR-056; TC-145, TC-147 to TC-149).
 
 ### SYS-008 Audit log
 - Product: Shared
@@ -236,7 +236,7 @@ A lot with no expiry date is "needs review" and does not count toward readiness.
 - Safety-critical: yes
 - Formerly: PR-1
 
-Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017. A floor item that needs review counts as 0% covered; with no documents required, the document share counts as complete; the 70/30 split stays until the screens are built, when 75/25 or 80/20 may be chosen (owner, 2026-11-15); with the screens specified, the owner kept 70/30 (owner, 2026-11-18; OD-063, ADR-047).
+Need coverage counts 70% and document completion 30%. Coverage per item is eligible quantity over target, capped at 100%, weighted by priority. The meter is kept as a graphic beside the Go or No go indicator (SYS-112); the documents to bring the medicines into the destination count 30%, and a 75/25 or 80/20 split is also acceptable if the screen layout favours it (owner, 2026-11-11). Priority 1 is the most important; priorities 1, 2 and 3 weigh 3, 2 and 1 (owner, 2026-11-12); ADR-017. A floor item that needs review counts as 0% covered; with no documents required, the document share counts as complete; the 70/30 split stays until the screens are built, when 75/25 or 80/20 may be chosen (owner, 2026-11-15); with the screens specified, the owner kept 70/30 (owner, 2026-11-18; OD-063, ADR-047). Screens show each meter value with core's `meterText`: 2 decimal places, rounded down, so a screen never shows more readiness than computed (owner, 2026-11-25; TC-150, ADR-056).
 
 ### SYS-107 Blocking issues mean No go
 - Product: Prepped
@@ -481,3 +481,4 @@ SpareWing drafts messages to bases and communities about a disruption and the ch
 | 0.33 | 2026-11-20 | SYS-010: the packing list's status carries no person or time; the screen writes the name and date from the sign-off record (owner, 2026-11-20; REV-016). | Claude, for owner review |
 | 0.34 | 2026-11-22 | SYS-113: reasons name a lot by its printed lot number (owner, 2026-11-22; TC-144). | Claude, for owner review |
 | 0.35 | 2026-11-23 | SYS-111 deferred beyond this build (owner, 2026-11-23, D4; ADR-054). | Claude, for owner review |
+| 0.36 | 2026-11-25 | SYS-106: meter values shown rounded down to 2 decimal places; SYS-007: open screens follow synced values unless the person is editing (owner, 2026-11-25; ADR-056). | Claude, for owner review |

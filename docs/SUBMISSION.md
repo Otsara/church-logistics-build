@@ -11,3 +11,7 @@ Submission page: https://aiforchurch.com/hackathon. Deadline: November 27, 2026,
 - [ ] SUB-005 Sample data only. Evidence: the demo data comes from `packages/synth` with a stated seed.
 - [ ] SUB-006 Submission contents. Evidence: project name, description, track, video link, live demo link, repository link or the decision not to include one.
 - [ ] SUB-007 One project, Open Track. Evidence: the track chosen on the form; where the description covers each of the four criteria.
+
+## Known issues
+
+- **picomatch advisory GHSA-fc5q-39xc-vjpf** (a slow pattern match, ReDoS). No patched version had been released by the submission; 4.0.7 is the newest. picomatch runs only inside the build and test tools, never in the app, and the weakness needs an attacker-supplied pattern. The audit exception stays, and a scheduled task checks for a fix until November 27 (owner, 2026-11-24; SEC-004, ADR-043).
