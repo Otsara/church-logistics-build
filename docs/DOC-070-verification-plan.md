@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.43
+version: 0.45
 status: Draft
 effective_date:
 ---
@@ -532,30 +532,35 @@ Given a catalogue with a controlled medicine, when the lead clinician picks floo
 ### TC-145 A synced target replaces a stale one on an open screen
 - Product: Prepped
 - Traces to: SYS-110, SYS-007
+- Recorded run: 2026-11-25, Otsara/prepped 218895c: 62 of 62 tests passed (vitest), including this test case's
 
 Given the floor list open on a device showing a target of 250, when another device's change to 300 arrives by sync, then the box shows 300 without the page being reopened; given that change, when a person clicks into the box and leaves it without typing, then nothing is saved; given a person part-way through typing 280 when 300 arrives, then 280 is kept, a note says "Changed on another device to 300. Saving will replace it.", and leaving the box saves 280 (owner, 2026-11-25; HAZ-115). Screen tests in the Prepped app; on screen with two signed-in windows, 2026-11-25: the open page showed the new target within 23 seconds, and clicking in and out saved nothing.
 
 ### TC-146 The audit log in time order
 - Product: Prepped
 - Traces to: SYS-008
+- Recorded run: 2026-11-25, Otsara/prepped 218895c: 62 of 62 tests passed (vitest), including this test case's
 
 Given audit entries that arrived on the device out of time order, as after a sync, then the audit log lists them by time, newest first, ties by id (owner, 2026-11-25).
 
 ### TC-147 Trip details keep another device's changes
 - Product: Prepped
 - Traces to: SYS-007
+- Recorded run: 2026-11-25, Otsara/prepped 218895c: 62 of 62 tests passed (vitest), including this test case's
 
 Given the trip details form open and not edited, when another device's change arrives, then the form shows it; given a person who edited one field, when another device changes a different field and the person saves, then both changes are kept; given both changed the same field, then a note names the other device's change and saving keeps the person's value (owner, 2026-11-25; HAZ-115).
 
 ### TC-148 Packing-list amounts follow sync until edited
 - Product: Prepped
 - Traces to: SYS-121, SYS-007
+- Recorded run: 2026-11-25, Otsara/prepped 218895c: 62 of 62 tests passed (vitest), including this test case's
 
 Given a packing-list amount box not edited, when another device's change arrives, then the box shows it; given an edited box, then the edited value is kept and a note names the other device's change (owner, 2026-11-25; HAZ-115).
 
 ### TC-149 Unsaved letter text is not overwritten by sync
 - Product: Prepped
 - Traces to: AIC-102, SYS-007
+- Recorded run: 2026-11-25, Otsara/prepped 218895c: 62 of 62 tests passed (vitest), including this test case's
 
 Given covering-letter text the person has typed and not saved, when a new draft arrives from another device, then the typed text is kept and a note offers "Show the new version"; given no unsaved edits, then the new draft is shown (owner, 2026-11-25).
 
@@ -791,3 +796,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.40 | 2026-11-22 | Release-gate placeholders replaced: TC-009 (rule files and lint), TC-013 (repository and the apps' rules folder; the published bundle is checked when published), TC-014, TC-017 (cover letter and readiness prompts), TC-105 (card, assessment, meter and checklist together); stale duplicates of TC-002 to TC-008, TC-010 and TC-022 removed, their tests being implemented. | Claude, for owner review |
 | 0.41 | 2026-11-23 | TC-126 deferred (D4); TC-023 and TC-024 database checks recorded as verification (D2); ADR-054. | Claude, for owner review |
 | 0.43 | 2026-11-25 | New TC-145 to TC-150 (sync on open screens, audit order, meter text); TC-023 screen run of 2026-11-24 and 2026-11-25 recorded. Numbered 0.43 because the device-store branch takes 0.42. | Claude, for owner review |
+| 0.45 | 2026-11-25 | TC-145 to TC-149: recorded run of the Prepped project's tests (owner, 2026-11-25, OD-067; ADR-058). Numbered 0.45 because the covering-letter branch takes 0.44. | Claude, for owner review |

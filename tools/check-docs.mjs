@@ -490,6 +490,13 @@ export function scanTests(files) {
   return { tests, errors };
 }
 
+/**
+ * A recorded run of tests kept outside this repository (the Prepped project's screen tests): a
+ * date and the commit tested. It counts at the strict gate in place of a test here (owner,
+ * 2026-11-25, OD-067; ADR-058).
+ */
+const RECORDED_RUN = /\b\d{4}-\d{2}-\d{2}\b.*\b[0-9a-f]{7,40}\b/;
+
 /** Joins tests to items: unknown tags, TCs without tests, and (strict) unfinished safety-critical work. */
 export function checkTests(
   model,
@@ -524,7 +531,12 @@ export function checkTests(
       errors.push(
         `${item.id} has no test (add at least an it.todo placeholder)`,
       );
-    if (strict && status === "placeholder" && !outOfScope(item, submitted))
+    if (
+      strict &&
+      status === "placeholder" &&
+      !outOfScope(item, submitted) &&
+      !RECORDED_RUN.test(item.fields["Recorded run"] ?? "")
+    )
       errors.push(`${item.id} is still a placeholder or skipped`);
   }
   return { errors, byId, statusOf };

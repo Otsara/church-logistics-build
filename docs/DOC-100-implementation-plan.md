@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.24
+version: 0.25
 status: Draft
 effective_date:
 ---
@@ -117,7 +117,7 @@ The demo, video, screenshots and live demo use synthetic data only, with no real
 ### SUB-006 Submission contents
 - Formerly: H-6
 
-Project name, written description, track, demo video link, and a live demo link on lovable.app (OD-018). The written description reuses a one-page executive summary; the repository is made public for judging and its link submitted, then returned to private (owner, 2026-11-12); OD-021. Licences and terms of the open-source code and AI tools used are followed.
+Project name, written description, track, demo video link, and a live demo link on lovable.app (OD-018). The written description reuses a one-page executive summary; the repository is made public for judging and its link submitted, then returned to private (owner, 2026-11-12); OD-021. That is `Otsara/church-logistics-build`, public from the submission until judging ends after a secret scan; `Otsara/prepped` stays private; the video's limits card names the repository (owner, 2026-11-25; OD-066, ADR-058). Licences and terms of the open-source code and AI tools used are followed.
 
 ### SUB-007 One project, Open Track
 - Formerly: H-7
@@ -159,3 +159,4 @@ These ideas are not part of this build. No requirements, tests or code exist for
 | 0.22 | 2026-11-19 | IT-003: Lovable credit plan adjusted after the first build message cost 19.1 credits; up to 20 credits move from the reserve to Prepped, and fixes are folded into build messages (owner, 2026-11-19). | Claude, for owner review |
 | 0.23 | 2026-11-21 | IT-003: offline store and sync with a checkpoint on 2026-11-24; SpareWing screens after the submission unless time allows (owner, 2026-11-21; ADR-052). | Claude, for owner review |
 | 0.24 | 2026-11-23 | SUB-007 names the submitted product, Prepped, which the release gate reads (owner, 2026-11-23, D1; ADR-054). | Claude, for owner review |
+| 0.25 | 2026-11-25 | SUB-006: which repository is made public, and for how long (owner, 2026-11-25; OD-066, ADR-058). | Claude, for owner review |
