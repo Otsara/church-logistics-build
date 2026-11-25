@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.45
+version: 0.46
 status: Draft
 effective_date:
 ---
@@ -529,6 +529,12 @@ Given expiries in label formats, then every unambiguous one is read and the read
 
 Given a catalogue with a controlled medicine, when the lead clinician picks floor items, then that medicine is labelled "Controlled: cannot be packed in this build" with its basis.
 
+### TC-033 Number words quoted from the cited rule item
+- Product: Shared
+- Traces to: SYS-004, AIC-102
+
+Given a covering-letter sentence that cites a rule card item and writes a number in words together with the word before or after it exactly as that item writes them (WHO-05: "at least one year"), then it is accepted; given the same number word next to other words ("one box"), or in a sentence that does not cite an item writing it, then it is not accepted: numbers are written in digits (owner, 2026-11-25).
+
 ### TC-145 A synced target replaces a stale one on an open screen
 - Product: Prepped
 - Traces to: SYS-110, SYS-007
@@ -798,3 +804,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.42 | 2026-11-23 | TC-018 states the expected result decided in OD-033; TC-024's sign-out wording follows it (owner, 2026-11-23, D3). | Claude, for owner review |
 | 0.43 | 2026-11-25 | New TC-145 to TC-150 (sync on open screens, audit order, meter text); TC-023 screen run of 2026-11-24 and 2026-11-25 recorded. Numbered 0.43 because the device-store branch takes 0.42. | Claude, for owner review |
 | 0.45 | 2026-11-25 | TC-145 to TC-149: recorded run of the Prepped project's tests (owner, 2026-11-25, OD-067; ADR-058). Numbered 0.45 because the covering-letter branch takes 0.44. | Claude, for owner review |
+| 0.46 | 2026-11-25 | New TC-033 number words quoted from the cited rule item (owner, 2026-11-25; ADR-057). Prepared as 0.44; renumbered 0.46 after the meter-text merge took 0.43 and 0.45. | Claude, for owner review |

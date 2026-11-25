@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.38
+version: 0.39
 status: Draft
 effective_date:
 ---
@@ -233,7 +233,7 @@ Built: `packages/ai/src/steps/donor-list.ts` with `lines.ts` (SYS-119, ADR-035):
 
 Input: trip, rule card, matched lots. Output: draft text citing the rule card id. Tier: stronger (see ADR-008). If it fails: show the blank template.
 
-Built: `packages/ai/src/steps/cover-letter.ts` with `packages/core/src/prepped/destination-card.ts` and `packages/core/src/claims.ts` (SYS-120; ADR-039, ADR-042, ADR-044). After the owner's review (REV-012): the input carries all the trip's cards (the WHO card, then the country's); a sentence naming a document needs a citation; a citing sentence must mention what the item asks for; a catalogue medicine not in the shipment is refused; and code adds the medicine list before the checklists. The forbidden-claims list is in core, so rule cards and AI text share it. Core reads the destination card and builds the checklist word for word. The AI gets the trip id, arrival date, the card's items with their ids and, for each medicine, only its name, strength and quantity, whatever else the screens pass (TC-017), and writes the letter as sentences, each listing the card items it cites. `checkCoverLetter` refuses a requirement stated without a citation, a citation not on the card, a forbidden claim, a wording-rule break, or a code, date or number not in the facts. An accepted letter is a draft followed by the checklist; otherwise the blank template is shown with the same checklist. `coverLetterTemplate` gives the same blank template when there is no AI draft at all, so the screen never builds it (TC-143). Part of the guard on AI output (ARC-008), held to full coverage and mutation testing.
+Built: `packages/ai/src/steps/cover-letter.ts` with `packages/core/src/prepped/destination-card.ts` and `packages/core/src/claims.ts` (SYS-120; ADR-039, ADR-042, ADR-044). After the owner's review (REV-012): the input carries all the trip's cards (the WHO card, then the country's); a sentence naming a document needs a citation; a citing sentence must mention what the item asks for; a catalogue medicine not in the shipment is refused; and code adds the medicine list before the checklists. The forbidden-claims list is in core, so rule cards and AI text share it. Core reads the destination card and builds the checklist word for word. The AI gets the trip id, arrival date, the card's items with their ids and, for each medicine, only its name, strength and quantity, whatever else the screens pass (TC-017), and writes the letter as sentences, each listing the card items it cites. `checkCoverLetter` refuses a requirement stated without a citation, a citation not on the card, a forbidden claim, a wording-rule break, or a code, date or number not in the facts. An accepted letter is a draft followed by the checklist; otherwise the blank template is shown with the same checklist. `coverLetterTemplate` gives the same blank template when there is no AI draft at all, so the screen never builds it (TC-143). Part of the guard on AI output (ARC-008), held to full coverage and mutation testing. A number written in words is accepted only when the sentence cites an item whose requirement writes that word with the same word before or after it, such as "at least one year" from WHO-05; otherwise numbers are written in digits (owner, 2026-11-25; ADR-057, TC-033).
 
 ### AIC-103 Explain readiness gaps
 - Product: Prepped
@@ -318,3 +318,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.36 | 2026-11-21 | New ARC-019 offline store and sync; ARC-003: the rules folder also carries the store (ADR-052). | Claude, for owner review |
 | 0.37 | 2026-11-22 | AIC-102: the cover-letter prompt carries only each medicine's name, strength and quantity (TC-017); ARC-101 purity and ARC-018 snapshot checks now tagged in tests. | Claude, for owner review |
 | 0.38 | 2026-11-25 | `meterText` in core (SYS-106, TC-150). | Claude, for owner review |
+| 0.39 | 2026-11-25 | AIC-102: number words quoted from a cited item's requirement are accepted (owner, 2026-11-25; ADR-057, TC-033). Numbered 0.39 because the meter-text branch takes 0.38. | Claude, for owner review |
