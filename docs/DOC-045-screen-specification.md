@@ -1,7 +1,7 @@
 ---
 id: DOC-045
 title: Screen specification
-version: 0.7
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -37,6 +37,7 @@ Screens trace to the requirements in DOC-020 by their IDs. Screens are named P1,
    - Every screen except the AI actions works with no connection.
    - A small status line shows "Offline: changes are kept and will sync", or "Synced", with the time.
    - A record in conflict shows "Conflict: check" and is not counted until a person chooses a version (OD-017).
+   - A field nobody is editing shows the latest synced value; a change that arrives while a person edits keeps their input and names the other device's change (owner, 2026-11-25; RC-116).
 6. **Names stay on the device.** Patient and person names are never sent to the AI (SYS-006). Screens show names; the AI gets ids.
 7. **Every sign-off and every AI call goes in the audit log** (SYS-008). The log is viewable on P11.
 8. **Demo mode** (owner, 2026-11-18; ADR-046).
@@ -307,7 +308,7 @@ In demo mode, a selector at the top reads "Acting as: [synthetic person, role]".
   - the capsule from the logo, large, in one of two fixed positions set by core's Go or No go (owner, 2026-11-19; ADR-050);
   - "Go" or "No go", large, in words beside it, always with the label "Indicator only: deploying the team is the lead clinician's or team leader's decision" (SYS-112).
   - With no floor items: "No go", with the reason.
-- **Meter:** the readiness percentage as a graphic beside the indicator, with its parts, coverage and documents (SYS-106). Coverage counts 70% and documents 30% (owner, 2026-11-18; OD-063).
+- **Meter:** the readiness percentage as a graphic beside the indicator, with its parts, coverage and documents (SYS-106). Coverage counts 70% and documents 30% (owner, 2026-11-18; OD-063). Each value is shown as core's `meterText` returns it: 2 decimal places, rounded down (owner, 2026-11-25; TC-150).
 - **What stands in the way:** every short floor item with the amount short, and every missing document (SYS-107, SYS-112).
 - **Explanation (AI, AIC-103):**
   - a button "Explain the gaps";
@@ -395,3 +396,4 @@ Built on 2026-11-18: the packing list sign-off in core (`sign-off.ts`). It refus
 | 0.5 | 2026-11-19 | P4: a person matches each confirmed line to a catalogue entry before it becomes stock; unmatched lines stay out. P5: the "What to do" text for a blocked lot gives its reasons (owner, 2026-11-19). | Claude, for owner review |
 | 0.6 | 2026-11-19 | Go and No go shown as the logo's capsule on P8 and P1, in two fixed positions with the words (ADR-050). The verse moves to the header on every screen. P12 is renamed "Settings", with sign-in as a section (owner, 2026-11-19). | Claude, for owner review |
 | 0.7 | 2026-11-21 | Section 1: the rules folder also carries the offline store; when signed in, "Acting as" is fixed to the account's person (ARC-019, ADR-052, ADR-053). | Claude, for owner review |
+| 0.8 | 2026-11-25 | Rule 5: fields follow synced values unless being edited (RC-116); P8 meter values as `meterText` returns them (owner, 2026-11-25). | Claude, for owner review |

@@ -460,6 +460,15 @@ function finish(draft: Draft): FloorItemCoverage {
   };
 }
 
+/**
+ * A meter value as the screens show it: 2 decimal places, rounded down, so the screen never shows
+ * more readiness than computed (owner, 2026-11-25; SYS-106, TC-150). Arithmetic can leave a value a
+ * hair below a whole hundredth (0.9 is 0.8999999999999999); the tiny allowance shows it as 0.90.
+ */
+export function meterText(value: number): string {
+  return (Math.floor(value * 100 + 1e-9) / 100).toFixed(2);
+}
+
 function meter(
   items: readonly FloorItemCoverage[],
   documents: readonly RequiredDocument[],

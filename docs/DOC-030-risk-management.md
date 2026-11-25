@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.18
+version: 0.19
 status: Draft
 effective_date:
 ---
@@ -301,6 +301,18 @@ Lots past their expiry on the date of the check are listed for discard and can n
 
 ## 4. SpareWing hazards and controls
 
+### HAZ-115 A stale value on an open screen undoes another device's change
+- Product: Prepped
+- Traces to: IU-101
+
+Sequence: a screen keeps showing a value that another team member has since changed on another device and synced; a person clicks into the field and out again, or saves a form, and the stale value is saved over the newer one, with no conflict shown, because it is saved from the latest version. Found in the two-device test of 2026-11-24 (TC-023, step 6) on the floor-list target. Harm: a floor target, trip detail or packing amount silently returns to an old value; the team may carry less than the clinician set. Severity: serious. Probability with controls: TBD, pending the owner's two-device rerun (owner, 2026-11-25).
+
+### RC-116 Screens follow synced values unless the person is editing
+- Product: Prepped
+- Traces to: HAZ-115
+
+A field nobody is editing shows the latest synced value; leaving a field without typing saves nothing; a form saves only the fields the person changed; a change that arrives while the person is editing keeps their input and names the other device's change (owner, 2026-11-25; ADR-056). Verified by TC-145 and TC-147 to TC-149.
+
 ### HAZ-301 A non-interchangeable part is proposed
 - Product: SpareWing
 - Traces to: IU-301
@@ -431,3 +443,4 @@ Every result that relies on a placeholder rule file says "Placeholder rules: not
 | 0.16 | 2026-11-16 | RC-303 no required ratings means no candidate; RC-307 unknown missed flights never zero, cover aircraft availability (owner, 2026-11-16; ADR-032). | Claude, for owner review |
 | 0.17 | 2026-11-16 | New HAZ-309 placeholder rules taken as real, rated critical and unlikely with controls (owner, 2026-11-16; OD-061), and RC-309 (owner, 2026-11-16; ADR-034). | Claude, for owner review |
 | 0.18 | 2026-11-16 | RC-002: readers copy, code interprets, a person confirms (owner, 2026-11-16; ADR-035). | Claude, for owner review |
+| 0.19 | 2026-11-25 | New HAZ-115 stale values on an open screen and RC-116 screens follow synced values (owner, 2026-11-25; ADR-056). | Claude, for owner review |

@@ -1,7 +1,7 @@
 ---
 id: DOC-040
 title: Architecture and AI step contracts
-version: 0.37
+version: 0.38
 status: Draft
 effective_date:
 ---
@@ -157,7 +157,7 @@ Tests in `packages/policy` that check rules holding for the whole repository, su
 
 Eligibility, route scope, floor coverage, the Go or No go indicator, readiness, supplements and comparable alternatives, as pure functions in `packages/core/src/prepped/`. No AI, network or clock.
 
-Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`). Merging donor lines into lots (`merge.ts`: lot number, name, strength, form, expiry and manufacturer must all match; OD-011, OD-054). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Comparable alternatives for a floor item (`alternatives.ts`, SYS-108), listed and labelled, for every floor item, and marked as offered when the item is short or needs review (`alternativesForFloor`); an alternative brings no class the item lacks (ADR-028); one the clinician chooses counts in `floor.ts` only the amount entered (OD-055). Route scope and controlled status come from the lot's catalogue entry (ARC-015). Signing off the packing list (`sign-off.ts`, SYS-010): the lead clinician only, recording who, when and exactly what was signed off; any later change shows as "changed since sign-off". Building the packing list from the team's shared stock (`packing.ts`, SYS-121): soonest expiry first, only what is needed, with what remains of each lot; exchanges, alternatives and supplements at the amounts the lead clinician enters; `availableStock` and `stockConflicts` for stock shared across trips (ADR-049). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
+Built so far: lot eligibility (`eligibility.ts`: discard, blocked, needs review or eligible, with every reason listed) and reading an expiry as printed on a label (`expiry.ts`: every unambiguous format, nothing guessed; ADR-022). Floor coverage, exchanges, the Go or No go indicator and the readiness meter (`floor.ts`), with `meterText` for how a meter value is shown (TC-150). Merging donor lines into lots (`merge.ts`: lot number, name, strength, form, expiry and manufacturer must all match; OD-011, OD-054). The floor-list picker's label for controlled medicines (`picker.ts`, SYS-118). Comparable alternatives for a floor item (`alternatives.ts`, SYS-108), listed and labelled, for every floor item, and marked as offered when the item is short or needs review (`alternativesForFloor`); an alternative brings no class the item lacks (ADR-028); one the clinician chooses counts in `floor.ts` only the amount entered (OD-055). Route scope and controlled status come from the lot's catalogue entry (ARC-015). Signing off the packing list (`sign-off.ts`, SYS-010): the lead clinician only, recording who, when and exactly what was signed off; any later change shows as "changed since sign-off". Building the packing list from the team's shared stock (`packing.ts`, SYS-121): soonest expiry first, only what is needed, with what remains of each lot; exchanges, alternatives and supplements at the amounts the lead clinician enters; `availableStock` and `stockConflicts` for stock shared across trips (ADR-049). The minimum shelf life is read from `rules/prepped/shelf-life.json` (`shelf-life.ts`), a placeholder citing the WHO guidelines until a pharmacist or clinician checks it (OD-002).
 
 ### ARC-102 Prepped screens
 - Product: Prepped
@@ -317,3 +317,4 @@ The toolchain, its settings and their reasons are in `docs/TOOLCHAIN.md` (suppor
 | 0.35 | 2026-11-19 | AIC-102: `coverLetterTemplate` gives the blank template without an AI draft (TC-143). | Claude, for owner review |
 | 0.36 | 2026-11-21 | New ARC-019 offline store and sync; ARC-003: the rules folder also carries the store (ADR-052). | Claude, for owner review |
 | 0.37 | 2026-11-22 | AIC-102: the cover-letter prompt carries only each medicine's name, strength and quantity (TC-017); ARC-101 purity and ARC-018 snapshot checks now tagged in tests. | Claude, for owner review |
+| 0.38 | 2026-11-25 | `meterText` in core (SYS-106, TC-150). | Claude, for owner review |
