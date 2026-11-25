@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.41
+version: 0.44
 status: Draft
 effective_date:
 ---
@@ -529,6 +529,12 @@ Given expiries in label formats, then every unambiguous one is read and the read
 
 Given a catalogue with a controlled medicine, when the lead clinician picks floor items, then that medicine is labelled "Controlled: cannot be packed in this build" with its basis.
 
+### TC-033 Number words quoted from the cited rule item
+- Product: Shared
+- Traces to: SYS-004, AIC-102
+
+Given a covering-letter sentence that cites a rule card item and writes a number in words together with the word before or after it exactly as that item writes them (WHO-05: "at least one year"), then it is accepted; given the same number word next to other words ("one box"), or in a sentence that does not cite an item writing it, then it is not accepted: numbers are written in digits (owner, 2026-11-25).
+
 ### TC-301 Alternate part found
 - Product: SpareWing
 - Traces to: SYS-301, SYS-305
@@ -754,3 +760,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.39 | 2026-11-22 | TC-144 also covers chosen alternatives, packing problems and lots not in stock. | Claude, for owner review |
 | 0.40 | 2026-11-22 | Release-gate placeholders replaced: TC-009 (rule files and lint), TC-013 (repository and the apps' rules folder; the published bundle is checked when published), TC-014, TC-017 (cover letter and readiness prompts), TC-105 (card, assessment, meter and checklist together); stale duplicates of TC-002 to TC-008, TC-010 and TC-022 removed, their tests being implemented. | Claude, for owner review |
 | 0.41 | 2026-11-23 | TC-126 deferred (D4); TC-023 and TC-024 database checks recorded as verification (D2); ADR-054. | Claude, for owner review |
+| 0.44 | 2026-11-25 | New TC-033 number words quoted from the cited rule item (owner, 2026-11-25; ADR-057). Numbered 0.44 because the device-store and meter-text branches take 0.42 and 0.43. | Claude, for owner review |

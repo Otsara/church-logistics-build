@@ -227,7 +227,11 @@ export function checkCoverLetter(
     for (const word of forbiddenClaims(text)) {
       say(`says "${word}": nothing here approves anything`);
     }
-    for (const problem of wordingProblems(text)) say(problem);
+    // A number word may be quoted with its neighbour from an item the sentence cites (TC-033).
+    const quoted = [...items.values()]
+      .filter((item) => cites.includes(item.id))
+      .map((item) => item.requirement);
+    for (const problem of wordingProblems(text, quoted)) say(problem);
     const sentenceWords = keyWords(text);
     for (const id of cites) {
       const item = items.get(id);

@@ -273,6 +273,96 @@ describe("Covering letter after the owner's review (REV-012 part 2)", () => {
     expect(problems(cite("…"))).toEqual([]);
   });
 
+  it("[TC-033] Given a sentence that cites a card item and writes a number in words together with a word next to it, as the item writes them, then it is accepted", () => {
+    expect(
+      problems(
+        cite(
+          "Each medicine has a remaining shelf life of at least one year after arrival.",
+          ["WHO-05"],
+        ),
+      ),
+    ).toEqual([]);
+    expect(
+      problems(
+        cite(
+          "Shelf life after arrival is at least ONE YEAR for each medicine.",
+          ["WHO-05"],
+        ),
+      ),
+    ).toEqual([]);
+    // The word after is enough: "of one" is not in WHO-05, but "one year" is; spaces may repeat.
+    expect(
+      problems(
+        cite(
+          "Each medicine has a remaining shelf life of one  year after arrival.",
+          ["WHO-05"],
+        ),
+      ),
+    ).toEqual([]);
+    // The word before is enough: "least one" is how WHO-05 writes it, even before two spaces.
+    expect(
+      problems(
+        cite("Each medicine keeps a remaining shelf life of at least  one.", [
+          "WHO-05",
+        ]),
+      ),
+    ).toEqual([]);
+    expect(
+      problems(
+        cite("Each medicine keeps a remaining shelf life of at least one.", [
+          "WHO-05",
+        ]),
+      ),
+    ).toEqual([]);
+  });
+
+  it("[TC-033] Given a number word with other words, at the start or end of a sentence, or in a sentence that does not cite an item writing it, then it is not accepted: numbers are written in digits", () => {
+    const inWords =
+      'sentence 1 writes "one" in words: numbers are written in digits';
+    // The same word next to other words: "one box" and "we one" are not in WHO-05.
+    expect(
+      problems(
+        cite(
+          "We send one box, and each medicine has a remaining shelf life of at least one year.",
+          ["WHO-05"],
+        ),
+      ),
+    ).toEqual([inWords]);
+    expect(
+      problems(
+        cite("One shelf life rule applies to each medicine.", ["WHO-05"]),
+      ),
+    ).toEqual([inWords.replace('"one"', '"One"')]);
+    expect(
+      problems(
+        cite("Each medicine has a remaining shelf life of one", ["WHO-05"]),
+      ),
+    ).toEqual([inWords]);
+    // Punctuation between the words breaks the phrase: "of one, year" is not "one year".
+    expect(
+      problems(
+        cite(
+          "Each medicine has a remaining shelf life of one, year after arrival.",
+          ["WHO-05"],
+        ),
+      ),
+    ).toEqual([inWords]);
+    // Cited item without those words, or no citation at all.
+    expect(
+      problems(
+        cite(
+          "The recipient gave prior consent, and each medicine has at least one year.",
+          ["WHO-01"],
+        ),
+      ),
+    ).toContain(inWords);
+    expect(
+      problems(
+        cite("Each medicine has a remaining shelf life of at least one year."),
+      ),
+    ).toContain(inWords);
+  });
+
   it("[TC-143] Given no AI draft at all, then the blank template is the same template the check shows, with the medicine list and the checklists", () => {
     const template = coverLetterTemplate(INPUT);
     expect(template).toBe(
