@@ -49,7 +49,7 @@ Items defined, by type:
 | SUB | 7 |
 | IT | 5 |
 | ADR | 58 |
-| REV | 19 |
+| REV | 21 |
 <!-- END GENERATED -->
 
 ## Revision history
