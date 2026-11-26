@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.46
+version: 0.48
 status: Draft
 effective_date:
 ---
@@ -43,7 +43,7 @@ A safety-critical unit (marked in DOC-020 and DOC-040) is verified only when all
 
 ## 5. Pre-release confirmation run
 
-1. Check the held-back set's fingerprints against the committed manifest (DAT-002).
+1. Check the held-back set's fingerprints against the committed manifest (DAT-002), with `node packages/synth/scripts/confirm-held-back.ts <package> [--with-ai]`, which stops on any difference (TC-034).
 2. Run the acceptance and golden suites against it, with the owner present, at the release-candidate commit. No code or prompt changes during the run.
 3. Record the results, commit and fingerprints in a review record.
 4. Any failure stops the release. It is investigated under §6; the held-back set is then spent and a new one is generated before the next run.
@@ -576,6 +576,12 @@ Given covering-letter text the person has typed and not saved, when a new draft 
 
 Given meter values of 0.8999999999999999, 0.5249999999999999, 0.999, 1 and 0, then they are shown as 0.90, 0.52, 0.99, 1.00 and 0.00: never more readiness than computed, and a value a hair below a whole hundredth because of computer arithmetic is shown as that hundredth (owner, 2026-11-25).
 
+### TC-034 Confirmation-run checks
+- Product: Shared
+- Traces to: DAT-002, SYS-102, SYS-103, SYS-106, SYS-107, AIC-101
+
+Given a set of synthetic Prepped scenarios, then for every lot and trip: an expired lot is set aside; a controlled, cold-chain or short-dated lot never goes; every lot that cannot go has a reason; Go appears only when nothing stands in the way; meter values stay between 0 and 1; and only eligible lots count toward the floor. Each broken rule is reported, and a rule that throws is a failure, not a crash. Given the AI's checked reading of the donor lines, in every line the check accepts a quantity, lot number or expiry other than the label's fails the run; a name, strength or form other than the label's is counted and reported, since a person chooses the catalogue entry for every line before it becomes stock (owner, 2026-11-26; OD-068, ADR-059). A line the check flags or cannot read goes to a person and is neither. Run by `packages/synth/scripts/confirm-held-back.ts`: on the development two thirds in rehearsal, and on the held-back third only at the confirmation run (§5).
+
 ### TC-301 Alternate part found
 - Product: SpareWing
 - Traces to: SYS-301, SYS-305
@@ -805,3 +811,5 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.43 | 2026-11-25 | New TC-145 to TC-150 (sync on open screens, audit order, meter text); TC-023 screen run of 2026-11-24 and 2026-11-25 recorded. Numbered 0.43 because the device-store branch takes 0.42. | Claude, for owner review |
 | 0.45 | 2026-11-25 | TC-145 to TC-149: recorded run of the Prepped project's tests (owner, 2026-11-25, OD-067; ADR-058). Numbered 0.45 because the covering-letter branch takes 0.44. | Claude, for owner review |
 | 0.46 | 2026-11-25 | New TC-033 number words quoted from the cited rule item (owner, 2026-11-25; ADR-057). Prepared as 0.44; renumbered 0.46 after the meter-text merge took 0.43 and 0.45. | Claude, for owner review |
+| 0.47 | 2026-11-26 | New TC-034 confirmation-run checks; §5 names the runner. The AI-reading pass rule is open (OD-068). | Claude, for owner review |
+| 0.48 | 2026-11-26 | TC-034: the AI-reading pass rule decided (owner, 2026-11-26; OD-068, ADR-059). | Claude, for owner review |

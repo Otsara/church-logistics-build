@@ -15,3 +15,4 @@ Submission page: https://aiforchurch.com/hackathon. Deadline: November 27, 2026,
 ## Known issues
 
 - **picomatch advisory GHSA-fc5q-39xc-vjpf** (a slow pattern match, ReDoS). No patched version had been released by the submission; 4.0.7 is the newest. picomatch runs only inside the build and test tools, never in the app, and the weakness needs an attacker-supplied pattern. The audit exception stays, and a scheduled task checks for a fix until November 27 (owner, 2026-11-24; SEC-004, ADR-043).
+- **Long donor lists go to manual entry.** The AI's answer is limited to 4,096 tokens (`MAX_OUTPUT_TOKENS`), so a pasted list of more than about 15 lines, or of lines with long multi-ingredient strengths, is not read; the screen falls back to manual entry, as it does for any failed AI step (SYS-009). Paste a long list in parts (found in the confirmation-run rehearsal, 2026-11-26).
