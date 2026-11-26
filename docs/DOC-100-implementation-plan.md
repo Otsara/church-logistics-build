@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.25
+version: 0.26
 status: Draft
 effective_date:
 ---
@@ -127,10 +127,10 @@ One project in one track, the Open Track. The description and demo address its f
 
 ## 5. Future work after submission
 
-These ideas are not part of this build. No requirements, tests or code exist for them, and nothing in the submission claims them. Both reuse parts of the shared core and are to be revisited after the submission (owner, 2026-11-16).
+These ideas are not part of this build. No requirements, tests or code exist for them, and nothing in the submission claims them. Both reuse parts of the shared core and are to be revisited after the submission (owner, 2026-11-16). The demo video shows them once, on the slide "One tested core, more ministries", each labelled "An idea for after the hackathon", with SpareWing labelled "Rules built and tested; screens not yet built". The narration says only what they could do (owner, 2026-11-26).
 
-- **Food pantry stock sharing between churches** (owner, 2026-11-07). Reuses expiry-aware matching, the messy-list parser, offline storage, and draft messages that a person reviews.
-- **Pastoral visit scheduling** (owner, 2026-11-14), for shut-ins, hospital patients and others who need a visit outside Sunday, for a solo pastor, two pastors, or a congregation with a dedicated pastoral minister. Reuses the rule files, results that keep "unknown" apart from pass or fail, offline storage, the audit log and name replacement, and follows SpareWing's coverage model. New work it would need: stronger privacy for pastoral and health information, urgency flagged only by a person, calendar sync, and a check of church management tools that already offer care features.
+- **Food pantry stock sharing between churches**, named **Provisioned** (owner, 2026-11-07; name 2026-11-26). Logo draft: a navy chi-rho P, as in Prepped, with gold points at the P's top-left corner, the middle of its curve, where the curve meets the spine, the centre of the X and the X's four tips; the X sits clear of the curve. The name is in navy Barlow Condensed, with Psalm 103:2 beneath it, in SpareWing's colours (owner, 2026-11-26). Reuses expiry-aware matching, the messy-list parser, offline storage, and draft messages that a person reviews.
+- **Pastoral visit scheduling**, named **NotForgotten** (owner, 2026-11-14; name 2026-11-26). Logo draft: an N and F monogram sharing one upright in navy, its small open gap filled with a gold six-point star. The name is NOT in navy and FORGOTTEN in gold Barlow Condensed, with Psalm 9:18 beneath it, in SpareWing's colours (owner, 2026-11-26). It serves shut-ins, hospital patients and others who need a visit outside Sunday, for a solo pastor, two pastors, or a congregation with a dedicated pastoral minister. Reuses the rule files, results that keep "unknown" apart from pass or fail, offline storage, the audit log and name replacement, and follows SpareWing's coverage model. New work it would need: stronger privacy for pastoral and health information, urgency flagged only by a person, calendar sync, and a check of church management tools that already offer care features.
 
 ## Revision history
 
@@ -160,3 +160,4 @@ These ideas are not part of this build. No requirements, tests or code exist for
 | 0.23 | 2026-11-21 | IT-003: offline store and sync with a checkpoint on 2026-11-24; SpareWing screens after the submission unless time allows (owner, 2026-11-21; ADR-052). | Claude, for owner review |
 | 0.24 | 2026-11-23 | SUB-007 names the submitted product, Prepped, which the release gate reads (owner, 2026-11-23, D1; ADR-054). | Claude, for owner review |
 | 0.25 | 2026-11-25 | SUB-006: which repository is made public, and for how long (owner, 2026-11-25; OD-066, ADR-058). | Claude, for owner review |
+| 0.26 | 2026-11-26 | Section 5: the future-work ideas named Provisioned and NotForgotten, with their logo drafts and verses, and shown once in the demo video labelled as ideas (owner, 2026-11-26). | Claude, for owner review |
