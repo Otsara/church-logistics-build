@@ -168,15 +168,22 @@ export interface ReadingComparison {
   readonly flagged: number;
   /** Given no usable item: the person enters the line by hand. */
   readonly unread: number;
-  /** Accepted by the check but different from the label: never allowed. */
+  /** Accepted by the check but with a quantity, lot number or expiry other than the label's: never allowed. */
   readonly silentErrors: readonly string[];
+  /**
+   * Accepted by the check with a medicine name, strength or form other than the label's. Reported,
+   * not failed: a person chooses the catalogue entry for every line before it becomes stock, and
+   * that entry supplies these fields (owner, 2026-11-19 and 2026-11-26; OD-068 a).
+   */
+  readonly differences: readonly string[];
 }
 
 /**
  * Compares the AI's checked reading of donor lines with the lots the lines were written from
- * (TC-034). Line n is lot n. A line the check accepted must match the label: numbers, lot numbers
- * and expiry exactly, text without letter case. A line it flagged or could not read goes to a
- * person, so it is never an error here.
+ * (TC-034). Line n is lot n. In a line the check accepted, a quantity, lot number or expiry
+ * other than the label's is a silent error; a name, strength or form other than the label's is a
+ * difference, reported for the person's catalogue match (OD-068 a). Text is compared without
+ * letter case. A line the check flagged or could not read goes to a person, so it is neither.
  */
 export function compareReadings(
   lots: readonly PreppedData["lots"][number][],
@@ -185,6 +192,7 @@ export function compareReadings(
   let exact = 0;
   let flagged = 0;
   const silentErrors: string[] = [];
+  const differences: string[] = [];
   for (const r of reading.lines) {
     if (r.needsReview) {
       flagged += 1;
@@ -195,13 +203,14 @@ export function compareReadings(
       silentErrors.push(`line ${String(r.line)}: no such line was given`);
       continue;
     }
-    const fields: [string, unknown, unknown][] = [
-      ["medicine name", r.genericName, lot.genericName],
-      ["strength", r.strength, lot.strength],
-      ["dosage form", r.dosageForm, lot.dosageForm],
-      ["quantity", r.quantity, lot.quantity],
-      ["lot number", r.lotNumber, lot.lotNumber],
-      ["expiry", r.expiry, lot.expiry],
+    // [field, as read, on the label, used by code without a person's choice]
+    const fields: [string, unknown, unknown, boolean][] = [
+      ["medicine name", r.genericName, lot.genericName, false],
+      ["strength", r.strength, lot.strength, false],
+      ["dosage form", r.dosageForm, lot.dosageForm, false],
+      ["quantity", r.quantity, lot.quantity, true],
+      ["lot number", r.lotNumber, lot.lotNumber, true],
+      ["expiry", r.expiry, lot.expiry, true],
     ];
     // Text is compared without letter case: the check keeps a value as the line writes it, and
     // a medicine's form can appear in its name too ("Glycerin Suppository ... SUPPOSITORY").
@@ -211,8 +220,8 @@ export function compareReadings(
         : read === label;
     const wrong = fields.filter(([, read, label]) => !same(read, label));
     if (wrong.length === 0) exact += 1;
-    for (const [field, read, label] of wrong)
-      silentErrors.push(
+    for (const [field, read, label, usedByCode] of wrong)
+      (usedByCode ? silentErrors : differences).push(
         `line ${String(r.line)}: ${field} read as ${String(read)}, label says ${String(label)}`,
       );
   }
@@ -222,5 +231,6 @@ export function compareReadings(
     flagged,
     unread: reading.unread.length,
     silentErrors,
+    differences,
   };
 }

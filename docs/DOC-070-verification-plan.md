@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.47
+version: 0.48
 status: Draft
 effective_date:
 ---
@@ -580,7 +580,7 @@ Given meter values of 0.8999999999999999, 0.5249999999999999, 0.999, 1 and 0, th
 - Product: Shared
 - Traces to: DAT-002, SYS-102, SYS-103, SYS-106, SYS-107, AIC-101
 
-Given a set of synthetic Prepped scenarios, then for every lot and trip: an expired lot is set aside; a controlled, cold-chain or short-dated lot never goes; every lot that cannot go has a reason; Go appears only when nothing stands in the way; meter values stay between 0 and 1; and only eligible lots count toward the floor. Each broken rule is reported, and a rule that throws is a failure, not a crash. Given the AI's checked reading of the donor lines, every line the check accepts is compared with the label it was written from; which differences fail the run is open (OD-068). Run by `packages/synth/scripts/confirm-held-back.ts`: on the development two thirds in rehearsal, and on the held-back third only at the confirmation run (§5).
+Given a set of synthetic Prepped scenarios, then for every lot and trip: an expired lot is set aside; a controlled, cold-chain or short-dated lot never goes; every lot that cannot go has a reason; Go appears only when nothing stands in the way; meter values stay between 0 and 1; and only eligible lots count toward the floor. Each broken rule is reported, and a rule that throws is a failure, not a crash. Given the AI's checked reading of the donor lines, in every line the check accepts a quantity, lot number or expiry other than the label's fails the run; a name, strength or form other than the label's is counted and reported, since a person chooses the catalogue entry for every line before it becomes stock (owner, 2026-11-26; OD-068, ADR-059). A line the check flags or cannot read goes to a person and is neither. Run by `packages/synth/scripts/confirm-held-back.ts`: on the development two thirds in rehearsal, and on the held-back third only at the confirmation run (§5).
 
 ### TC-301 Alternate part found
 - Product: SpareWing
@@ -812,3 +812,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.45 | 2026-11-25 | TC-145 to TC-149: recorded run of the Prepped project's tests (owner, 2026-11-25, OD-067; ADR-058). Numbered 0.45 because the covering-letter branch takes 0.44. | Claude, for owner review |
 | 0.46 | 2026-11-25 | New TC-033 number words quoted from the cited rule item (owner, 2026-11-25; ADR-057). Prepared as 0.44; renumbered 0.46 after the meter-text merge took 0.43 and 0.45. | Claude, for owner review |
 | 0.47 | 2026-11-26 | New TC-034 confirmation-run checks; §5 names the runner. The AI-reading pass rule is open (OD-068). | Claude, for owner review |
+| 0.48 | 2026-11-26 | TC-034: the AI-reading pass rule decided (owner, 2026-11-26; OD-068, ADR-059). | Claude, for owner review |

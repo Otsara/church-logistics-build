@@ -8,8 +8,9 @@
  * 1. The package's SHA-256 must equal the committed manifest's, and every record its fingerprint;
  *    any difference stops the run before anything is read.
  * 2. Every Prepped scenario goes through core's rules (confirmPrepped).
- * 3. With --with-ai, the AI reads each scenario's donor lines through the gateway, and every line
- *    the check accepts must match the label (compareReadings). Sign-in comes from CONFIRM_EMAIL and
+ * 3. With --with-ai, the AI reads each scenario's donor lines through the gateway. In every line the
+ *    check accepts, quantity, lot number and expiry must match the label; name, strength and form
+ *    differences are counted (compareReadings; OD-068 a). Sign-in comes from CONFIRM_EMAIL and
  *    CONFIRM_PASSWORD, never from the command line or a file in the repository.
  * Exit code 0 only when nothing failed. The rehearsal reads the development two thirds only.
  */
@@ -138,6 +139,7 @@ if (withAi) {
     unread: 0,
     manual: 0,
     silent: 0,
+    differences: 0,
   };
   for (const s of prepped) {
     for (let i = 0; i < s.data.lots.length; i += BATCH) {
@@ -166,13 +168,14 @@ if (withAi) {
       totals.flagged += c.flagged;
       totals.unread += c.unread;
       totals.silent += c.silentErrors.length;
+      totals.differences += c.differences.length;
       for (const e of c.silentErrors)
         out(`FAIL ai ${s.id} lines from ${String(i + 1)}: ${e}`);
     }
   }
   failed += totals.silent;
   out(
-    `AI readings: ${String(totals.lines)} lines; ${String(totals.exact)} exact, ${String(totals.flagged)} flagged for a person, ${String(totals.unread)} unread, ${String(totals.manual)} sent to manual entry, ${String(totals.silent)} silent errors.`,
+    `AI readings: ${String(totals.lines)} lines; ${String(totals.exact)} exact, ${String(totals.flagged)} flagged for a person, ${String(totals.unread)} unread, ${String(totals.manual)} sent to manual entry; ${String(totals.silent)} silent errors in quantity, lot number or expiry; ${String(totals.differences)} name, strength or form differences for the person's catalogue match.`,
   );
 }
 out(failed === 0 ? "RESULT: pass" : `RESULT: fail (${String(failed)})`);

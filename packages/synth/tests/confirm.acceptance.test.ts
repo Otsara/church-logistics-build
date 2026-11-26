@@ -130,6 +130,7 @@ describe("Confirmation-run comparison of AI readings with the truth (DOC-070 §5
     const c = compareReadings(lots, result);
     expect(c).toMatchObject({ lines: 3, exact: 3, flagged: 0, unread: 0 });
     expect(c.silentErrors).toEqual([]);
+    expect(c.differences).toEqual([]);
   });
 
   it("[TC-034] Given a reading that the check accepts but that differs from the label, then it is a silent error; a flagged or unread line is not", () => {
@@ -143,10 +144,36 @@ describe("Confirmation-run comparison of AI readings with the truth (DOC-070 §5
     const result = checkDonorList({ lines }, { lots: [wrong, flagged] });
     const r = compareReadings(lots, result);
     expect(r).toMatchObject({ lines: 3, exact: 0, flagged: 1, unread: 1 });
-    expect(r.silentErrors).toHaveLength(1);
-    expect(r.silentErrors[0]?.toLowerCase()).toBe(
+    // A name is matched by a person choosing the catalogue entry: a difference, not a failure (OD-068 a).
+    expect(r.silentErrors).toEqual([]);
+    expect(r.differences).toHaveLength(1);
+    expect(r.differences[0]?.toLowerCase()).toBe(
       `line 1: medicine name read as ${firstWord}, label says ${String(lots[0]?.genericName)}`.toLowerCase(),
     );
+    // Quantity, lot number and expiry are used by code: a difference there fails the run. The
+    // check itself flags a lot number missing from the line, so this reading is built directly.
+    const first = lots[0];
+    if (first === undefined) throw new Error("no lot");
+    const lr = compareReadings(lots, {
+      lines: [
+        {
+          line: 1,
+          needsReview: false,
+          genericName: first.genericName,
+          strength: first.strength,
+          dosageForm: first.dosageForm,
+          quantity: first.quantity + 1,
+          lotNumber: first.lotNumber,
+          expiry: "2099-01-31",
+        },
+      ],
+      unread: [],
+    });
+    expect(lr.silentErrors).toEqual([
+      `line 1: quantity read as ${String(first.quantity + 1)}, label says ${String(first.quantity)}`,
+      `line 1: expiry read as 2099-01-31, label says ${first.expiry}`,
+    ]);
+    expect(lr.differences).toEqual([]);
   });
 });
 
