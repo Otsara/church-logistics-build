@@ -1,7 +1,7 @@
 ---
 id: DOC-100
 title: Implementation plan and submission requirements
-version: 0.26
+version: 0.27
 status: Draft
 effective_date:
 ---
@@ -112,18 +112,18 @@ The description and demo claim only what the tests show: placeholder rule values
 ### SUB-005 Sample data only
 - Formerly: H-5
 
-The demo, video, screenshots and live demo use synthetic data only, with no real personal information of church members, congregants, donors or pilots.
+The demo, video, screenshots and live demo use synthetic data only, with no real personal information of church members, congregants, donors or pilots. The demo screens use hand-written made-up examples; the tests and the confirmation run use `packages/synth` data with recorded seeds (owner, 2026-11-27; OD-071, ADR-062).
 
 ### SUB-006 Submission contents
 - Formerly: H-6
 
 Project name, written description, track, demo video link, and a live demo link on lovable.app (OD-018). The written description reuses a one-page executive summary; the repository is made public for judging and its link submitted, then returned to private (owner, 2026-11-12); OD-021. That is `Otsara/church-logistics-build`, public from the submission until judging ends after a secret scan; `Otsara/prepped` stays private; the video's limits card names the repository (owner, 2026-11-25; OD-066, ADR-058). Licences and terms of the open-source code and AI tools used are followed.
 
-### SUB-007 One project, Open Track
+### SUB-007 One project, Pioneer Track
 - Formerly: H-7
 - Submitted product: Prepped (owner, 2026-11-23, D1; ADR-054)
 
-One project in one track, the Open Track. The description and demo address its four criteria: a clear ministry problem and who it serves; original thinking and fresh approaches; responsible and faithful use of AI; a working demo that shows real potential. Prepped fits the track's "missions and global church tools" idea.
+One project in one track, the Pioneer Track (owner, 2026-11-27; OD-072, ADR-062; it replaces the Open Track chosen in OD-020). The description and demo address the four judging criteria: a clear ministry problem and who it serves; original thinking and fresh approaches; responsible and faithful use of AI; a working demo that shows real potential.
 
 ## 5. Future work after submission
 
@@ -161,3 +161,4 @@ These ideas are not part of this build. No requirements, tests or code exist for
 | 0.24 | 2026-11-23 | SUB-007 names the submitted product, Prepped, which the release gate reads (owner, 2026-11-23, D1; ADR-054). | Claude, for owner review |
 | 0.25 | 2026-11-25 | SUB-006: which repository is made public, and for how long (owner, 2026-11-25; OD-066, ADR-058). | Claude, for owner review |
 | 0.26 | 2026-11-26 | Section 5: the future-work ideas named Provisioned and NotForgotten, with their logo drafts and verses, and shown once in the demo video labelled as ideas (owner, 2026-11-26). | Claude, for owner review |
+| 0.27 | 2026-11-27 | SUB-005 names where the synthetic data comes from; SUB-007 the Pioneer Track (owner, 2026-11-27; OD-071, OD-072, ADR-062). | Claude, for owner review |
