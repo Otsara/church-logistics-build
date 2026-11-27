@@ -1,7 +1,7 @@
 ---
 id: DOC-003
 title: Open decisions and release blockers
-version: 0.35
+version: 0.36
 status: Draft
 effective_date:
 ---
@@ -185,7 +185,7 @@ Prepped and SpareWing are separate, stand-alone Lovable projects (owner, 2026-11
 - Status: Closed
 - Blocks: none
 - Formerly: Q-20
-- Decision: The Open Track (owner, 2026-11-09). Recorded in SUB-007.
+- Decision: The Open Track (owner, 2026-11-09). Recorded in SUB-007. Changed to the Pioneer Track (owner, 2026-11-27; OD-072).
 
 ### OD-021 Public repository and live demo link
 - Status: Closed
@@ -495,6 +495,22 @@ The confirmation run compares each donor line the check accepts with the label i
 
 With the golden answers recorded through the gateway on 2026-11-27, TC-137 and TC-311 as written (an exact match on every expected line) failed for 10 of 15 donor lists and 1 of 15 parts emails, with no wrong value accepted. Options: (a) the confirmation-run rule; (b) keep the exact match and list the failures as known issues; (c) also fix the line-number matching now.
 
+### OD-071 Evidence for sample data only
+- Status: Closed
+- Blocks: none
+- Affects: SUB-005
+- Decision: Option (a): the evidence for SUB-005 is that all data is synthetic; the demo screens use hand-written made-up examples, and the tests and confirmation run use `packages/synth` data with recorded seeds (owner, 2026-11-27). Recorded in ADR-062.
+
+The submission checklist asked for evidence that the demo data comes from `packages/synth` with a stated seed. The trip, people and donor list in the demo video were written by hand for the recording: made up, but not generated from a seed. Options: (a) state the evidence as synthetic data only, naming both sources; (b) keep the wording and leave SUB-005 unticked, so the strict gate fails.
+
+### OD-072 Submission track changed
+- Status: Closed
+- Blocks: none
+- Affects: SUB-006, SUB-007
+- Decision: The Pioneer Track, replacing the Open Track chosen in OD-020 (owner, 2026-11-27). Recorded in ADR-062.
+
+The owner chose the Pioneer Track on the submission form. The track's description and criteria on the hackathon page could not be read from this session (the site is outside its network), so SUB-007 no longer quotes the Open Track's idea list.
+
 ### OD-070 Security headers on the published app
 - Status: Closed
 - Blocks: none
@@ -612,3 +628,4 @@ A chosen comparable alternative entered as covering more than its lot holds now 
 | 0.33 | 2026-11-27 | OD-065 closed: HAZ-115 unlikely with controls (owner, 2026-11-27). | Claude, for owner review |
 | 0.34 | 2026-11-27 | New OD-069 what the golden AI tests require, closed: option (a) (owner, 2026-11-27; ADR-060). | Claude, for owner review |
 | 0.35 | 2026-11-27 | New OD-070 security headers on the published app, closed: option (a) (owner, 2026-11-27; ADR-061). | Claude, for owner review |
+| 0.36 | 2026-11-27 | New OD-071 evidence for sample data only, closed: option (a); new OD-072 submission track changed to the Pioneer Track; OD-020 notes the change (owner, 2026-11-27; ADR-062). | Claude, for owner review |
