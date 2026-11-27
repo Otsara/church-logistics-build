@@ -1,7 +1,7 @@
 ---
 id: DOC-030
 title: Risk management file
-version: 0.19
+version: 0.20
 status: Draft
 effective_date:
 ---
@@ -305,7 +305,7 @@ Lots past their expiry on the date of the check are listed for discard and can n
 - Product: Prepped
 - Traces to: IU-101
 
-Sequence: a screen keeps showing a value that another team member has since changed on another device and synced; a person clicks into the field and out again, or saves a form, and the stale value is saved over the newer one, with no conflict shown, because it is saved from the latest version. Found in the two-device test of 2026-11-24 (TC-023, step 6) on the floor-list target. Harm: a floor target, trip detail or packing amount silently returns to an old value; the team may carry less than the clinician set. Severity: serious. Probability with controls: TBD, pending the owner's two-device rerun (owner, 2026-11-25).
+Sequence: a screen keeps showing a value that another team member has since changed on another device and synced; a person clicks into the field and out again, or saves a form, and the stale value is saved over the newer one, with no conflict shown, because it is saved from the latest version. Found in the two-device test of 2026-11-24 (TC-023, step 6) on the floor-list target. Harm: a floor target, trip detail or packing amount silently returns to an old value; the team may carry less than the clinician set. Severity: serious. Probability with controls: unlikely, after the screen tests, the scripted two-window run and the owner's own two-device run, all passing (owner, 2026-11-27; OD-065).
 
 ### RC-116 Screens follow synced values unless the person is editing
 - Product: Prepped
@@ -444,3 +444,4 @@ Every result that relies on a placeholder rule file says "Placeholder rules: not
 | 0.17 | 2026-11-16 | New HAZ-309 placeholder rules taken as real, rated critical and unlikely with controls (owner, 2026-11-16; OD-061), and RC-309 (owner, 2026-11-16; ADR-034). | Claude, for owner review |
 | 0.18 | 2026-11-16 | RC-002: readers copy, code interprets, a person confirms (owner, 2026-11-16; ADR-035). | Claude, for owner review |
 | 0.19 | 2026-11-25 | New HAZ-115 stale values on an open screen and RC-116 screens follow synced values (owner, 2026-11-25; ADR-056). | Claude, for owner review |
+| 0.20 | 2026-11-27 | HAZ-115: probability with controls set to unlikely (owner, 2026-11-27; OD-065). | Claude, for owner review |
