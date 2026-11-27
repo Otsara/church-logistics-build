@@ -1,7 +1,7 @@
 ---
 id: DOC-060
 title: Security and privacy
-version: 0.7
+version: 0.8
 status: Draft
 effective_date:
 ---
@@ -28,7 +28,7 @@ The repository, tests, golden examples, demo and video contain only synthetic da
 - Product: Shared
 - Traces to: UN-002, RC-004
 
-Every connection uses HTTPS. Published apps send security headers that block framing and third-party scripts. The header set is fixed when hosting is set up on lovable.app (OD-018) in IT-003 and recorded here.
+Every connection uses HTTPS. Published apps send security headers that block framing and third-party scripts. The header set is fixed when hosting is set up on lovable.app (OD-018) in IT-003 and recorded here. Header set for this build, as lovable.app sends it (checked 2026-11-27 on https://prepped-for-anything.lovable.app): `strict-transport-security: max-age=31536000; includeSubDomains`, `x-content-type-options: nosniff` and `referrer-policy: strict-origin-when-cross-origin`. The free hosting lets no app set response headers, so nothing blocks framing or third-party scripts yet; that is a known limitation, for after the hackathon (owner, 2026-11-27; OD-070, ADR-061).
 
 ### SEC-004 Dependency vulnerabilities checked
 - Product: Shared
@@ -71,3 +71,4 @@ Sync uses Supabase Auth with one account per person. Database rules let each tea
 | 0.5 | 2026-11-21 | SEC-008: the sync tables' database rules applied to the Supabase project; the signed-in person and roles come from the membership (owner, 2026-11-21; ADR-052, ADR-053). | Claude, for owner review |
 | 0.6 | 2026-11-23 | SEC-006: data on devices protected as decided in OD-033 (owner, 2026-11-23, D3). | Claude, for owner review |
 | 0.7 | 2026-11-25 | SEC-004: picomatch exception kept through the submission as a known issue (owner, 2026-11-24); SEC-008: the two recording accounts for the demo video (owner, 2026-11-24). Numbered 0.7 because the device-store branch takes 0.6. | Claude, for owner review |
+| 0.8 | 2026-11-27 | SEC-003: header set recorded as lovable.app sends it; framing and third-party-script blocking a known limitation (owner, 2026-11-27; OD-070, ADR-061). | Claude, for owner review |

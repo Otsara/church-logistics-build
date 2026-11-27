@@ -16,16 +16,16 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-000 | Document control procedure | 0.1 | Draft | `docs/DOC-000-document-control.md` |
 | DOC-001 | Master document index | 0.1 | Draft | `docs/DOC-001-master-index.md` |
 | DOC-002 | Glossary | 0.6 | Draft | `docs/DOC-002-glossary.md` |
-| DOC-003 | Open decisions and release blockers | 0.34 | Draft | `docs/DOC-003-open-decisions.md` |
+| DOC-003 | Open decisions and release blockers | 0.35 | Draft | `docs/DOC-003-open-decisions.md` |
 | DOC-010 | Intended use, users and regulatory position | 0.4 | Draft | `docs/DOC-010-intended-use.md` |
 | DOC-020 | User needs and system requirements | 0.36 | Draft | `docs/DOC-020-requirements.md` |
 | DOC-030 | Risk management file | 0.20 | Draft | `docs/DOC-030-risk-management.md` |
 | DOC-040 | Architecture and AI step contracts | 0.39 | Draft | `docs/DOC-040-architecture.md` |
 | DOC-045 | Screen specification | 0.8 | Draft | `docs/DOC-045-screen-specification.md` |
 | DOC-050 | Decision record index | 0.1 | Draft | `docs/DOC-050-decision-records.md` |
-| DOC-060 | Security and privacy | 0.7 | Draft | `docs/DOC-060-security-privacy.md` |
+| DOC-060 | Security and privacy | 0.8 | Draft | `docs/DOC-060-security-privacy.md` |
 | DOC-065 | Data management plan | 0.11 | Draft | `docs/DOC-065-data-management.md` |
-| DOC-070 | Verification and validation plan | 0.51 | Draft | `docs/DOC-070-verification-plan.md` |
+| DOC-070 | Verification and validation plan | 0.52 | Draft | `docs/DOC-070-verification-plan.md` |
 | DOC-080 | Traceability matrix | 0.1 | Draft | `docs/DOC-080-traceability-matrix.md` |
 | DOC-090 | Third-party software, services and data register | 0.16 | Draft | `docs/DOC-090-third-party-register.md` |
 | DOC-100 | Implementation plan and submission requirements | 0.26 | Draft | `docs/DOC-100-implementation-plan.md` |
@@ -34,7 +34,7 @@ Items defined, by type:
 
 | Type | Count |
 | --- | --- |
-| OD | 69 |
+| OD | 70 |
 | IU | 9 |
 | UN | 17 |
 | SYS | 44 |
@@ -48,7 +48,7 @@ Items defined, by type:
 | SOUP | 26 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 60 |
+| ADR | 61 |
 | REV | 22 |
 <!-- END GENERATED -->
 
