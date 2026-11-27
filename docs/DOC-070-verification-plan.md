@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.48
+version: 0.50
 status: Draft
 effective_date:
 ---
@@ -193,7 +193,7 @@ Given the golden example files and the held-back manifest, then no golden exampl
 
 Given the same lot's quantity changed on two devices while offline, when both sync, then the lot is marked "Conflict: check", is not counted toward coverage until a person chooses a version, and both versions are in the audit log (OD-017).
 
-The server's part is also checked against the database with `supabase/tests/two_account_conflict.sql`, which acts as the demo team's two accounts and rolls back. Run on 2026-11-23: all six checks as expected (the lead creates version 1; the pharmacist pulls it; the lead edits to version 2; the pharmacist's edit made from version 1 is refused, and the server answers with version 2, the lead's data and editor; the pharmacist's choice is accepted as version 3; the lead pulls version 3, edited by the pharmacist). Recorded results count as verification (owner, 2026-11-23, D2; ADR-054). Run through the screens on 2026-11-24 with the two recording accounts in two browser windows, the pharmacist's offline: steps 1 to 5 and 7 as expected (the conflict card within a second of reconnecting; the pharmacist's choice saved as version 5; both versions and the choice in the audit log); step 6 failed: the lead's open floor list kept the old target until the page was reopened (HAZ-115). After the fix (TC-145), rerun on 2026-11-25: the open page showed the new target within 23 seconds. The owner's own two-device run is still to be done.
+The server's part is also checked against the database with `supabase/tests/two_account_conflict.sql`, which acts as the demo team's two accounts and rolls back. Run on 2026-11-23: all six checks as expected (the lead creates version 1; the pharmacist pulls it; the lead edits to version 2; the pharmacist's edit made from version 1 is refused, and the server answers with version 2, the lead's data and editor; the pharmacist's choice is accepted as version 3; the lead pulls version 3, edited by the pharmacist). Recorded results count as verification (owner, 2026-11-23, D2; ADR-054). Run through the screens on 2026-11-24 with the two recording accounts in two browser windows, the pharmacist's offline: steps 1 to 5 and 7 as expected (the conflict card within a second of reconnecting; the pharmacist's choice saved as version 5; both versions and the choice in the audit log); step 6 failed: the lead's open floor list kept the old target until the page was reopened (HAZ-115). After the fix (TC-145), rerun on 2026-11-25: the open page showed the new target within 23 seconds. The owner's own two-device run on 2026-11-27 (05:33 to 06:14 UTC), Chrome 157.0.8103.79 as the lead and Microsoft Edge 157.0.4341.60 as the pharmacist, through the screens: all seven steps passed, each checked against the server (version 32, by the lead, target 250; the offline edit held with nothing sent; "Conflict: check" with both versions on reconnecting; the pharmacist's choice saved as version 33, target 300; the lead's open floor list showed 300 without reopening the page, and clicking into the box and out again saved nothing; the four audit entries newest first). Two display findings: the audit log's Trip column shows "Team stock" for the conflict entries, and before-and-after shows raw record text (left until after the submission, F4).
 
 ### TC-024 Sign-in and team separation
 - Product: Shared
@@ -813,3 +813,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.46 | 2026-11-25 | New TC-033 number words quoted from the cited rule item (owner, 2026-11-25; ADR-057). Prepared as 0.44; renumbered 0.46 after the meter-text merge took 0.43 and 0.45. | Claude, for owner review |
 | 0.47 | 2026-11-26 | New TC-034 confirmation-run checks; §5 names the runner. The AI-reading pass rule is open (OD-068). | Claude, for owner review |
 | 0.48 | 2026-11-26 | TC-034: the AI-reading pass rule decided (owner, 2026-11-26; OD-068, ADR-059). | Claude, for owner review |
+| 0.50 | 2026-11-27 | TC-023: the owner's two-device run through the screens recorded, all seven steps passed. Numbered 0.50 because the held-back-run branch takes 0.49. | Claude, for owner review |
