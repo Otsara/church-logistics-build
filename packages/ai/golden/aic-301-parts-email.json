@@ -41,7 +41,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"We have 3 x SWP-1155-6 (Synthetic part Sanurul) at B03.\",\"part_number\":\"SWP-1155-6\",\"quantity\":3,\"description\":\"Synthetic part Sanurul\",\"confidence\":0.95},{\"line\":3,\"source_line\":\"P/N SWP-9506-7, qty 3\",\"part_number\":\"SWP-9506-7\",\"quantity\":3,\"description\":null,\"confidence\":0.95},{\"line\":4,\"source_line\":\"SWP-0420-8 - Synthetic part Lolo - 3 on the shelf\",\"part_number\":\"SWP-0420-8\",\"quantity\":3,\"description\":\"Synthetic part Lolo\",\"confidence\":0.95}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:37.869Z",
+        "duration_ms": 2542
+      }
     },
     {
       "id": "AIC-301-02",
@@ -82,7 +88,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"P/N SWP-6059-8, qty 2\",\"part_number\":\"SWP-6059-8\",\"quantity\":2,\"description\":null,\"confidence\":0.95},{\"line\":3,\"source_line\":\"SWP-9958-1 - Synthetic part Kadredei - 4 on the shelf\",\"part_number\":\"SWP-9958-1\",\"quantity\":4,\"description\":\"Synthetic part Kadredei\",\"confidence\":0.95},{\"line\":4,\"source_line\":\"We have 2 x SWP-7088-0 (Synthetic part Ponriqua) at B01.\",\"part_number\":\"SWP-7088-0\",\"quantity\":2,\"description\":\"Synthetic part Ponriqua\",\"confidence\":0.95}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:39.216Z",
+        "duration_ms": 1346
+      }
     },
     {
       "id": "AIC-301-03",
@@ -123,7 +135,13 @@
           "needsReview": true
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"Still waiting on SWP-3075-4, none here\",\"part_number\":\"SWP-3075-4\",\"quantity\":0,\"description\":null,\"confidence\":0.85},{\"line\":3,\"source_line\":\"We have 1 x SWP-0471-5 (Synthetic part Quamo) at B03.\",\"part_number\":\"SWP-0471-5\",\"quantity\":1,\"description\":\"Synthetic part Quamo\",\"confidence\":0.95},{\"line\":4,\"source_line\":\"Still waiting on SWP-0156-6, none here\",\"part_number\":\"SWP-0156-6\",\"quantity\":0,\"description\":null,\"confidence\":0.85}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:42.269Z",
+        "duration_ms": 3053
+      }
     },
     {
       "id": "AIC-301-04",
@@ -164,7 +182,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"We have 3 x SWP-0219-4 (Synthetic part Vexridei) at B02.\",\"part_number\":\"SWP-0219-4\",\"quantity\":3,\"description\":\"Synthetic part Vexridei\",\"confidence\":0.9},{\"line\":3,\"source_line\":\"P/N SWP-5540-0, qty 1\",\"part_number\":\"SWP-5540-0\",\"quantity\":1,\"description\":null,\"confidence\":0.9},{\"line\":4,\"source_line\":\"SWP-5191-2 - Synthetic part Dreliarul - 4 on the shelf\",\"part_number\":\"SWP-5191-2\",\"quantity\":4,\"description\":\"Synthetic part Dreliarul\",\"confidence\":0.85}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:44.874Z",
+        "duration_ms": 2603
+      }
     },
     {
       "id": "AIC-301-05",
@@ -205,7 +229,13 @@
           "needsReview": true
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"P/N SWP-6483-6, qty 1\",\"part_number\":\"SWP-6483-6\",\"quantity\":1,\"description\":null,\"confidence\":0.95},{\"line\":3,\"source_line\":\"Still waiting on SWP-9428-6, none here\",\"part_number\":\"SWP-9428-6\",\"quantity\":0,\"description\":null,\"confidence\":0.9},{\"line\":4,\"source_line\":\"Still waiting on SWP-0621-8, none here\",\"part_number\":\"SWP-0621-8\",\"quantity\":0,\"description\":null,\"confidence\":0.9}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:46.864Z",
+        "duration_ms": 1988
+      }
     },
     {
       "id": "AIC-301-06",
@@ -246,7 +276,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"2: SWP-6914-0 - Synthetic part Dregor - 3 on the shelf\",\"part_number\":\"SWP-6914-0\",\"quantity\":3,\"description\":\"Synthetic part Dregor\",\"confidence\":0.9},{\"line\":3,\"source_line\":\"3: Still waiting on SWP-8376-2, none here\",\"part_number\":\"SWP-8376-2\",\"quantity\":0,\"description\":null,\"confidence\":0.7},{\"line\":4,\"source_line\":\"4: P/N SWP-3835-4, qty 4\",\"part_number\":\"SWP-3835-4\",\"quantity\":4,\"description\":null,\"confidence\":0.9}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:49.311Z",
+        "duration_ms": 2447
+      }
     },
     {
       "id": "AIC-301-07",
@@ -287,7 +323,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"We have 3 x SWP-7811-4 (Synthetic part Rulri) at B03.\",\"part_number\":\"SWP-7811-4\",\"quantity\":3,\"description\":\"Synthetic part Rulri\",\"confidence\":0.95},{\"line\":3,\"source_line\":\"P/N SWP-7152-4, qty 2\",\"part_number\":\"SWP-7152-4\",\"quantity\":2,\"description\":null,\"confidence\":0.9},{\"line\":4,\"source_line\":\"SWP-8187-1 - Synthetic part Zensatri - 1 on the shelf\",\"part_number\":\"SWP-8187-1\",\"quantity\":1,\"description\":\"Synthetic part Zensatri\",\"confidence\":0.95}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:51.017Z",
+        "duration_ms": 1704
+      }
     },
     {
       "id": "AIC-301-08",
@@ -328,7 +370,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"P/N SWP-2904-1, qty 4\",\"part_number\":\"SWP-2904-1\",\"quantity\":4,\"description\":null,\"confidence\":0.95},{\"line\":3,\"source_line\":\"SWP-9884-0 - Synthetic part Liaqua - 4 on the shelf\",\"part_number\":\"SWP-9884-0\",\"quantity\":4,\"description\":\"Synthetic part Liaqua\",\"confidence\":0.95},{\"line\":4,\"source_line\":\"We have 3 x SWP-9729-9 (Synthetic part Gordeizen) at B03.\",\"part_number\":\"SWP-9729-9\",\"quantity\":3,\"description\":\"Synthetic part Gordeizen\",\"confidence\":0.95}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:52.464Z",
+        "duration_ms": 1447
+      }
     },
     {
       "id": "AIC-301-09",
@@ -369,7 +417,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"SWP-9543-9 - Synthetic part Moquagor - 2 on the shelf\",\"part_number\":\"SWP-9543-9\",\"quantity\":2,\"description\":\"Synthetic part Moquagor\",\"confidence\":0.95},{\"line\":3,\"source_line\":\"We have 4 x SWP-8045-7 (Synthetic part Loponzen) at B03.\",\"part_number\":\"SWP-8045-7\",\"quantity\":4,\"description\":\"Synthetic part Loponzen\",\"confidence\":0.95},{\"line\":4,\"source_line\":\"P/N SWP-2092-1, qty 3\",\"part_number\":\"SWP-2092-1\",\"quantity\":3,\"description\":null,\"confidence\":0.93}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:54.042Z",
+        "duration_ms": 1576
+      }
     },
     {
       "id": "AIC-301-10",
@@ -410,7 +464,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"We have 3 x SWP-6338-5 (Synthetic part Kakasa) at B03.\",\"part_number\":\"SWP-6338-5\",\"quantity\":3,\"description\":\"Synthetic part Kakasa\",\"confidence\":0.9},{\"line\":3,\"source_line\":\"Still waiting on SWP-5575-1, none here\",\"part_number\":\"SWP-5575-1\",\"quantity\":null,\"description\":null,\"confidence\":0.8},{\"line\":4,\"source_line\":\"SWP-8826-8 - Synthetic part Bonuish - 3 on the shelf\",\"part_number\":\"SWP-8826-8\",\"quantity\":3,\"description\":\"Synthetic part Bonuish\",\"confidence\":0.9}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:56.999Z",
+        "duration_ms": 2957
+      }
     },
     {
       "id": "AIC-301-11",
@@ -451,7 +511,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"P/N SWP-0086-1, qty 2\",\"part_number\":\"SWP-0086-1\",\"quantity\":2,\"description\":null,\"confidence\":0.97},{\"line\":3,\"source_line\":\"SWP-7161-8 - Synthetic part Vensa - 2 on the shelf\",\"part_number\":\"SWP-7161-8\",\"quantity\":2,\"description\":\"Synthetic part Vensa\",\"confidence\":0.96},{\"line\":4,\"source_line\":\"We have 3 x SWP-3980-0 (Synthetic part Triri) at B03.\",\"part_number\":\"SWP-3980-0\",\"quantity\":3,\"description\":\"Synthetic part Triri\",\"confidence\":0.96}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:58.457Z",
+        "duration_ms": 1455
+      }
     },
     {
       "id": "AIC-301-12",
@@ -492,7 +558,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"SWP-8981-9 - Synthetic part Dregortal - 2 on the shelf\",\"part_number\":\"SWP-8981-9\",\"quantity\":2,\"description\":\"Synthetic part Dregortal\",\"confidence\":0.95},{\"line\":3,\"source_line\":\"We have 2 x SWP-6627-0 (Synthetic part Nuven) at B03.\",\"part_number\":\"SWP-6627-0\",\"quantity\":2,\"description\":\"Synthetic part Nuven\",\"confidence\":0.95},{\"line\":4,\"source_line\":\"P/N SWP-4183-0, qty 1\",\"part_number\":\"SWP-4183-0\",\"quantity\":1,\"description\":null,\"confidence\":0.93}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:49:59.878Z",
+        "duration_ms": 1420
+      }
     },
     {
       "id": "AIC-301-13",
@@ -533,7 +605,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"We have 3 x SWP-4471-7 (Synthetic part Trika) at B01.\",\"part_number\":\"SWP-4471-7\",\"quantity\":3,\"description\":\"Synthetic part Trika\",\"confidence\":0.95},{\"line\":3,\"source_line\":\"P/N SWP-8654-6, qty 2\",\"part_number\":\"SWP-8654-6\",\"quantity\":2,\"description\":null,\"confidence\":0.95},{\"line\":4,\"source_line\":\"SWP-4336-7 - Synthetic part Taldei - 3 on the shelf\",\"part_number\":\"SWP-4336-7\",\"quantity\":3,\"description\":\"Synthetic part Taldei\",\"confidence\":0.95}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:50:03.287Z",
+        "duration_ms": 3408
+      }
     },
     {
       "id": "AIC-301-14",
@@ -574,7 +652,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"P/N SWP-7652-4, qty 1\",\"part_number\":\"SWP-7652-4\",\"quantity\":1,\"description\":null,\"confidence\":0.97},{\"line\":3,\"source_line\":\"SWP-0145-3 - Synthetic part Nuven - 3 on the shelf\",\"part_number\":\"SWP-0145-3\",\"quantity\":3,\"description\":\"Synthetic part Nuven\",\"confidence\":0.96},{\"line\":4,\"source_line\":\"We have 1 x SWP-2923-8 (Synthetic part Vexlo) at B03.\",\"part_number\":\"SWP-2923-8\",\"quantity\":1,\"description\":\"Synthetic part Vexlo\",\"confidence\":0.97}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:50:05.117Z",
+        "duration_ms": 1829
+      }
     },
     {
       "id": "AIC-301-15",
@@ -615,7 +699,13 @@
           "needsReview": false
         }
       ],
-      "recorded": null
+      "recorded": {
+        "text": "{\"parts\":[{\"line\":2,\"source_line\":\"SWP-7747-4 - Synthetic part Liavexgor - 2 on the shelf\",\"part_number\":\"SWP-7747-4\",\"quantity\":2,\"description\":\"Synthetic part Liavexgor\",\"confidence\":0.95},{\"line\":3,\"source_line\":\"We have 1 x SWP-6320-8 (Synthetic part Deisa) at B02.\",\"part_number\":\"SWP-6320-8\",\"quantity\":1,\"description\":\"Synthetic part Deisa\",\"confidence\":0.95},{\"line\":4,\"source_line\":\"P/N SWP-0105-6, qty 2\",\"part_number\":\"SWP-0105-6\",\"quantity\":2,\"description\":null,\"confidence\":0.93}]}",
+        "model": "claude-haiku-5-5",
+        "mode": "gateway",
+        "recorded_at": "2026-11-27T06:50:06.576Z",
+        "duration_ms": 1458
+      }
     }
   ]
 }
