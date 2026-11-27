@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.50
+version: 0.51
 status: Draft
 effective_date:
 ---
@@ -468,7 +468,7 @@ Given a floor item of 300 with 100 eligible, when the clinician chooses a compar
 - Product: Prepped
 - Traces to: AIC-101, SYS-119
 
-Given the recorded golden donor lists, then each expected line is read with its quantity, lot number, expiry and review flag, its name starting with the expected word, after the same runner and checks as in the app; an invalid recorded answer leads to manual entry.
+Given the recorded golden donor lists, run through the same runner and checks as in the app, then no line is accepted with a quantity, lot number or expiry other than expected, no line that must need review is accepted unflagged, and some lines are read exactly; a line left unread or flagged goes to a person, and an invalid recorded answer leads to manual entry (owner, 2026-11-27; OD-069, ADR-060). Recorded through the deployed gateway on 2026-11-27 from the development data: of 62 expected lines, 22 exact, 15 flagged as expected, 3 flagged where no flag was expected, 3 with a name starting differently, 17 unread, and none accepted wrongly or unflagged where a flag was expected.
 ### TC-138 Destination rule cards labelled as synthetic
 - Product: Prepped
 - Traces to: SYS-120, DAT-103
@@ -653,7 +653,7 @@ Given a disruption and a chosen candidate, then the drafted message is marked as
 - Product: SpareWing
 - Traces to: AIC-301, SYS-313
 
-Given the recorded golden parts emails, then the parsed parts match the expected results, each with its source line and confidence, and an invalid output leads to manual entry.
+Given the recorded golden parts emails, run through the same runner and checks as in the app, then no part is accepted with a part number or quantity other than expected and no part that must need review is accepted unflagged; an unread or flagged part goes to a person, and an invalid output leads to manual entry (owner, 2026-11-27; OD-069, ADR-060).
 
 ### TC-312 SpareWing data recognisably synthetic
 - Product: SpareWing
@@ -815,3 +815,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.48 | 2026-11-26 | TC-034: the AI-reading pass rule decided (owner, 2026-11-26; OD-068, ADR-059). | Claude, for owner review |
 | 0.49 | 2026-11-26 | TC-034: the confirmation run on the held-back third recorded, pass (REV-022). | Claude, for owner review |
 | 0.50 | 2026-11-27 | TC-023: the owner's two-device run through the screens recorded, all seven steps passed. Numbered 0.50 because the held-back-run branch takes 0.49. | Claude, for owner review |
+| 0.51 | 2026-11-27 | TC-137 and TC-311 test what the code relies on, as for the confirmation run; golden answers recorded (owner, 2026-11-27; OD-069, ADR-060). | Claude, for owner review |
