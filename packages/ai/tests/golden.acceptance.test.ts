@@ -104,61 +104,85 @@ describe("Golden examples", () => {
   });
 
   const recordedDonors = donors.examples.filter((e) => e.recorded !== null);
-  if (recordedDonors.length === 0) {
-    it.todo(
-      "[TC-137] Given the recorded golden donor lists, then each reads as expected (waiting for recordings)",
-    );
-  }
+  // OD-069 (a), as for the confirmation run (OD-068 a; ADR-059): a line the check accepts must
+  // carry the expected quantity, lot number and expiry, and a line that must need review must not
+  // be accepted unflagged. A line left unread or flagged goes to a person; an extra flag is safe.
   for (const e of recordedDonors) {
-    it(`[TC-137] Given recorded donor list ${e.id}, then each expected line is read with its quantity, lot number, expiry and review flag`, async () => {
+    it(`[TC-137] Given recorded donor list ${e.id}, then no line is accepted with a quantity, lot number or expiry other than expected, and none that must need review is accepted unflagged`, async () => {
       const input = { lines: e.lines };
       const outcome = await replay(
         donorListStep,
         input,
         e.recorded?.text ?? "",
       );
-      expect(outcome.kind, "the recorded answer passes the schema").toBe("ok");
+      // Manual entry sends every line to a person: nothing is accepted.
       if (outcome.kind !== "ok") return;
       const result = checkDonorList(input, outcome.value);
       for (const x of e.expected) {
         const got = result.lines.find((l) => l.line === x.line);
-        expect(got, `line ${String(x.line)}`).toBeDefined();
+        if (got === undefined || got.needsReview) continue;
+        expect(x.needsReview, `line ${String(x.line)} accepted unflagged`).toBe(
+          false,
+        );
         expect(
-          [got?.quantity, got?.lotNumber, got?.expiry, got?.needsReview],
+          [got.quantity, got.lotNumber, got.expiry],
           `line ${String(x.line)}`,
-        ).toEqual([x.quantity, x.lotNumber, x.expiry, x.needsReview]);
-        const firstWord = x.genericName.split(" ")[0]?.toLowerCase() ?? "";
-        expect(
-          got?.genericName?.toLowerCase().startsWith(firstWord),
-          `line ${String(x.line)} name`,
-        ).toBe(true);
+        ).toEqual([x.quantity, x.lotNumber, x.expiry]);
       }
     });
   }
 
-  const recordedParts = parts.examples.filter((e) => e.recorded !== null);
-  if (recordedParts.length === 0) {
-    it.todo(
-      "[TC-311] Given the recorded golden parts emails, then each reads as expected (waiting for recordings)",
-    );
+  if (recordedDonors.length > 0) {
+    it("[TC-137] Given the recorded golden donor lists, then lines are read exactly, not only sent to a person", async () => {
+      let exact = 0;
+      for (const e of recordedDonors) {
+        const input = { lines: e.lines };
+        const outcome = await replay(
+          donorListStep,
+          input,
+          e.recorded?.text ?? "",
+        );
+        if (outcome.kind !== "ok") continue;
+        const result = checkDonorList(input, outcome.value);
+        for (const x of e.expected) {
+          const got = result.lines.find((l) => l.line === x.line);
+          if (
+            got !== undefined &&
+            got.needsReview === x.needsReview &&
+            got.quantity === x.quantity &&
+            got.lotNumber === x.lotNumber &&
+            got.expiry === x.expiry
+          )
+            exact += 1;
+        }
+      }
+      expect(exact).toBeGreaterThan(0);
+    });
   }
+
+  const recordedParts = parts.examples.filter((e) => e.recorded !== null);
+  // The same rule for parts (OD-069 a): the part number and quantity of an accepted line must be
+  // the expected ones; the description helps a person and is not checked here.
   for (const e of recordedParts) {
-    it(`[TC-311] Given recorded parts email ${e.id}, then each expected part is read with its number, quantity, description and review flag`, async () => {
+    it(`[TC-311] Given recorded parts email ${e.id}, then no part is accepted with a part number or quantity other than expected, and none that must need review is accepted unflagged`, async () => {
       const input = { lines: e.lines };
       const outcome = await replay(
         partsEmailStep,
         input,
         e.recorded?.text ?? "",
       );
-      expect(outcome.kind, "the recorded answer passes the schema").toBe("ok");
       if (outcome.kind !== "ok") return;
       const result = checkPartsEmail(input, outcome.value);
       for (const x of e.expected) {
         const got = result.lines.find((l) => l.line === x.line);
+        if (got === undefined || got.needsReview) continue;
+        expect(x.needsReview, `line ${String(x.line)} accepted unflagged`).toBe(
+          false,
+        );
         expect(
-          [got?.partNumber, got?.quantity, got?.description, got?.needsReview],
+          [got.partNumber, got.quantity],
           `line ${String(x.line)}`,
-        ).toEqual([x.partNumber, x.quantity, x.description, x.needsReview]);
+        ).toEqual([x.partNumber, x.quantity]);
       }
     });
   }
