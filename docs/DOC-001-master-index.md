@@ -16,7 +16,7 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-000 | Document control procedure | 0.1 | Draft | `docs/DOC-000-document-control.md` |
 | DOC-001 | Master document index | 0.1 | Draft | `docs/DOC-001-master-index.md` |
 | DOC-002 | Glossary | 0.6 | Draft | `docs/DOC-002-glossary.md` |
-| DOC-003 | Open decisions and release blockers | 0.35 | Draft | `docs/DOC-003-open-decisions.md` |
+| DOC-003 | Open decisions and release blockers | 0.36 | Draft | `docs/DOC-003-open-decisions.md` |
 | DOC-010 | Intended use, users and regulatory position | 0.4 | Draft | `docs/DOC-010-intended-use.md` |
 | DOC-020 | User needs and system requirements | 0.36 | Draft | `docs/DOC-020-requirements.md` |
 | DOC-030 | Risk management file | 0.20 | Draft | `docs/DOC-030-risk-management.md` |
@@ -28,13 +28,13 @@ Start here. Every session reads this index and DOC-000 before any work. The tabl
 | DOC-070 | Verification and validation plan | 0.52 | Draft | `docs/DOC-070-verification-plan.md` |
 | DOC-080 | Traceability matrix | 0.1 | Draft | `docs/DOC-080-traceability-matrix.md` |
 | DOC-090 | Third-party software, services and data register | 0.16 | Draft | `docs/DOC-090-third-party-register.md` |
-| DOC-100 | Implementation plan and submission requirements | 0.26 | Draft | `docs/DOC-100-implementation-plan.md` |
+| DOC-100 | Implementation plan and submission requirements | 0.27 | Draft | `docs/DOC-100-implementation-plan.md` |
 
 Items defined, by type:
 
 | Type | Count |
 | --- | --- |
-| OD | 70 |
+| OD | 72 |
 | IU | 9 |
 | UN | 17 |
 | SYS | 44 |
@@ -48,7 +48,7 @@ Items defined, by type:
 | SOUP | 26 |
 | SUB | 7 |
 | IT | 5 |
-| ADR | 61 |
+| ADR | 62 |
 | REV | 22 |
 <!-- END GENERATED -->
 

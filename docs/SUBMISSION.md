@@ -8,9 +8,9 @@ Submission page: https://aiforchurch.com/hackathon. Deadline: November 27, 2026,
 - [ ] SUB-002 Demo video of 5 minutes or less on YouTube, Vimeo or Loom. Evidence: link and length.
 - [ ] SUB-003 AI made it and AI is in it. Evidence: the video timestamps where the AI steps run and a person reviews a draft.
 - [ ] SUB-004 Honest, kind and safe. Evidence: the description's statement about placeholder rule values and reviewer status; no "approved" anywhere (lint).
-- [ ] SUB-005 Sample data only. Evidence: the demo data comes from `packages/synth` with a stated seed.
+- [ ] SUB-005 Sample data only. Evidence: every name, lot and figure is synthetic; the demo screens use hand-written made-up examples, and the tests and the confirmation run use `packages/synth` data with recorded seeds, for example scenario P001, seed 186663368, in `data/synthetic/development/prepped.json` (OD-071).
 - [ ] SUB-006 Submission contents. Evidence: project name, description, track, video link, live demo link, repository link or the decision not to include one.
-- [ ] SUB-007 One project, Open Track. Evidence: the track chosen on the form; where the description covers each of the four criteria.
+- [ ] SUB-007 One project, Pioneer Track. Evidence: the track chosen on the form; where the description covers each of the four criteria.
 
 ## Known issues
 
