@@ -1,7 +1,7 @@
 ---
 id: DOC-070
 title: Verification and validation plan
-version: 0.51
+version: 0.52
 status: Draft
 effective_date:
 ---
@@ -140,8 +140,9 @@ Given every fixture, golden example and demo data file, then every person, donor
 ### TC-015 HTTPS and security headers
 - Product: Shared
 - Traces to: SEC-003
+- Recorded run: 2026-11-27, Otsara/prepped daebe2d published at https://prepped-for-anything.lovable.app: served over HTTPS with strict-transport-security (one year, subdomains included), x-content-type-options nosniff and referrer-policy strict-origin-when-cross-origin on /, /settings and /trips/t2
 
-Given the published apps, then they are served only over HTTPS and send the agreed security headers. Header set: TBD (OD-018).
+Given the published apps, then they are served only over HTTPS and send the agreed security headers: the set recorded in SEC-003 (owner, 2026-11-27; OD-070, ADR-061). Plain-HTTP redirection was not checked from the build environment, which reaches only HTTPS; strict-transport-security keeps browsers on HTTPS.
 
 ### TC-016 Dependency audit on every pull request
 - Product: Shared
@@ -816,3 +817,4 @@ Given a SpareWing result that relies on a placeholder rule file, then the screen
 | 0.49 | 2026-11-26 | TC-034: the confirmation run on the held-back third recorded, pass (REV-022). | Claude, for owner review |
 | 0.50 | 2026-11-27 | TC-023: the owner's two-device run through the screens recorded, all seven steps passed. Numbered 0.50 because the held-back-run branch takes 0.49. | Claude, for owner review |
 | 0.51 | 2026-11-27 | TC-137 and TC-311 test what the code relies on, as for the confirmation run; golden answers recorded (owner, 2026-11-27; OD-069, ADR-060). | Claude, for owner review |
+| 0.52 | 2026-11-27 | TC-015: the published app's HTTPS and headers recorded (owner, 2026-11-27; OD-070). | Claude, for owner review |
